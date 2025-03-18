@@ -13,7 +13,7 @@
     }
 
     body {
-      background-color: #1a1a1a;
+      background-color: #E8F4FF;
       color: #333;
       line-height: 1.5;
       min-height: 100vh;
@@ -22,48 +22,9 @@
       justify-content: center;
     }
 
-    /* 手机边框样式 */
-    .device-frame {
-      position: relative;
+    .app-container {
       width: 414px;
       height: 950px;
-      background: #1a1a1a;
-      border-radius: 54px;
-      box-shadow: 0 0 0 11px #262626, 0 0 0 13px #0d0d0d, 0 20px 40px rgba(0, 0, 0, 0.8);
-      padding: 20px;
-      margin: 40px auto;
-    }
-
-    .device-frame::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 40%;
-      height: 30px;
-      background: #1a1a1a;
-      border-radius: 0 0 20px 20px;
-      z-index: 2;
-    }
-
-    .device-frame::after {
-      content: '';
-      position: absolute;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 6px;
-      background: #0d0d0d;
-      border-radius: 3px;
-      z-index: 3;
-    }
-
-    /* 通用样式 */
-    .app-container {
-      width: 100%;
-      height: 100%;
       margin: 0 auto;
       background-color: #FFF;
       display: flex;
@@ -71,6 +32,63 @@
       position: relative;
       border-radius: 40px;
       overflow: hidden;
+    }
+
+    .status-bar {
+      height: 44px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      background: #FFF;
+      position: relative;
+    }
+
+    .time {
+      flex: 1;
+    }
+
+    .status-icons {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    /* 小程序胶囊按钮 */
+    .mini-program-capsule {
+      position: absolute;
+      top: 52px;
+      right: 16px;
+      height: 32px;
+      padding: 0 8px;
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .capsule-divider {
+      width: 1px;
+      height: 18px;
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .capsule-button {
+      height: 32px;
+      padding: 0 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFF;
+      font-size: 16px;
+      cursor: pointer;
     }
 
     .top-nav {
@@ -102,6 +120,7 @@
       border-radius: 16px;
       background-color: #F6F6F6;
       cursor: pointer;
+      margin-right: 48px; /* 添加右边距，避免被胶囊按钮遮挡 */
     }
 
     .content-area {
@@ -531,6 +550,34 @@
       margin-right: 8px;
     }
 
+    .user-avatar {
+      width: 24px;
+      height: 24px;
+      background-color: #3366FF;
+      border-radius: 12px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      margin-right: 8px;
+    }
+
+    .system-avatar {
+      width: 24px;
+      height: 24px;
+      background-color: #666666;
+      border-radius: 12px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      margin-right: 8px;
+    }
+
     .related-questions {
       margin-bottom: 24px;
     }
@@ -608,9 +655,12 @@
 
     /* 返回按钮 */
     .back-btn {
+      width: 32px;
+      height: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 20px;
       cursor: pointer;
     }
 
@@ -694,12 +744,28 @@
   </style>
 </head>
 <body>
-  <div class="device-frame">
+  <div class="app-container">
+    <div class="status-bar">
+      <div class="time">15:23</div>
+      <div class="status-icons">
+        <div>••••</div>
+        <div>📶</div>
+        <div>🔋</div>
+      </div>
+    </div>
+
+    <!-- 小程序胶囊按钮 -->
+    <div class="mini-program-capsule">
+      <div class="capsule-button">···</div>
+      <div class="capsule-divider"></div>
+      <div class="capsule-button" onclick="window.location.href='index.html'">×</div>
+    </div>
+
     <!-- 列表页 -->
-    <div id="home-page" class="page app-container active">
+    <div id="home-page" class="page active">
       <div class="top-nav">
         <h1>Today's News</h1>
-        <div class="nav-icon">🔍</div>
+        <div class="nav-icon" onclick="window.location.href='search.html'">🔍</div>
       </div>
       
       <div class="category-tabs">
@@ -839,7 +905,7 @@
     </div>
     
     <!-- Detail Page -->
-    <div id="detail-page" class="page app-container">
+    <div id="detail-page" class="page">
       <div class="top-nav">
         <div class="back-btn" onclick="navigateTo('home-page')">◀</div>
         <h1>News Details</h1>
@@ -873,14 +939,17 @@
           
           <div class="chat-container">
             <div class="chat-bubble system-bubble">
+              <div class="system-avatar">S</div>
               This article discusses the latest advances in AI code generation technology
             </div>
             
             <div class="chat-bubble user-bubble">
+              <div class="user-avatar">U</div>
               Will this technology affect programmers' jobs?
             </div>
             
             <div class="chat-bubble ai-bubble">
+              <div class="ai-response-avatar">A</div>
               According to experts, this technology is more about assisting programming and improving efficiency rather than complete replacement. Programmers' work will focus more on creativity and system design, while AI can handle repetitive coding tasks. This could actually enhance developers' value by letting them focus on higher-level work.
             </div>
           </div>
@@ -897,7 +966,7 @@
     </div>
     
     <!-- AI Search Page -->
-    <div id="ai-page" class="page app-container">
+    <div id="ai-page" class="page">
       <div class="top-nav">
         <div class="back-btn" onclick="navigateTo('detail-page')">◀</div>
         <h1>AI Assistant</h1>
@@ -913,7 +982,7 @@
           
           <div class="ai-response">
             <div class="ai-response-header">
-              <div class="ai-response-avatar">AI</div>
+              <div class="ai-response-avatar">A</div>
               <h3>AI Assistant</h3>
             </div>
             <p>AI code generation technology will significantly improve development efficiency over the next five years, primarily in: automated testing, template code generation, and API integration. According to recent research, by 2030, about 70% of basic coding work could be done by AI, allowing developers to focus on more creative system design and business logic. This won't replace programmers but will transform the development process, creating new senior development roles. Additionally, this technology will lower programming barriers, enabling more people to create software using natural language.</p>

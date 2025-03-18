@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通讯应用AI功能比较</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-radar"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --info: #4895ef;
+            --warning: #f72585;
+            --danger: #ff4d6d;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gray-light: #f1f3f5;
+            --facetime: #4cc9f0;
+            --whatsapp: #06d6a0;
+            --snapchat: #ffbe0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f9fafb;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-2px);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: var(--gray);
+            font-size: 1.25rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            color: var(--gray);
+            font-size: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .chart-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .chart-wrapper {
+            width: 100%;
+            height: 400px;
+            position: relative;
+        }
+
+        @media (min-width: 768px) {
+            .chart-wrapper {
+                width: calc(50% - 15px);
+            }
+        }
+
+        .chart-title {
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .chart-subtitle {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .feature-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+
+        .feature-table th, 
+        .feature-table td {
+            padding: 15px;
+            border: 1px solid #eaeaea;
+        }
+
+        .feature-table th {
+            background-color: var(--gray-light);
+            font-weight: 600;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .feature-table tr:hover {
+            background-color: #f9fafb;
+        }
+
+        .feature-table tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+
+        .feature-table tr:nth-child(even):hover {
+            background-color: #f3f4f6;
+        }
+
+        .feature-name {
+            font-weight: 500;
+        }
+
+        .feature-description {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .yes {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .no {
+            color: var(--danger);
+        }
+
+        .app-header {
+            text-align: center;
+            padding: 15px;
+            font-weight: 600;
+            border-bottom: 2px solid;
+        }
+
+        .facetime-header {
+            border-color: var(--facetime);
+            color: var(--facetime);
+        }
+
+        .whatsapp-header {
+            border-color: var(--whatsapp);
+            color: var(--whatsapp);
+        }
+
+        .snapchat-header {
+            border-color: var(--snapchat);
+            color: var(--snapchat);
+        }
+
+        .summary-section {
+            margin-top: 50px;
+        }
+
+        .summary-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .summary-card {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .app-summary {
+            flex: 1;
+            min-width: 250px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .facetime-summary {
+            border-left: 4px solid var(--facetime);
+        }
+
+        .whatsapp-summary {
+            border-left: 4px solid var(--whatsapp);
+        }
+
+        .snapchat-summary {
+            border-left: 4px solid var(--snapchat);
+        }
+
+        .app-summary h3 {
+            margin-bottom: 10px;
+        }
+
+        .app-summary p {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .app-summary ul {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        .app-summary li {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+            padding: 20px 0;
+            border-top: 1px solid #eaeaea;
+        }
+
+        .responsive-table {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>通讯应用AI功能比较分析</h1>
+            <div class="subtitle">深入了解主流通讯应用的AI能力对比</div>
+            <p class="description">本分析比较了FaceTime、WhatsApp和Snapchat在AI功能方面的支持情况，通过可视化图表展示各应用在人工智能技术应用上的优势和差异。</p>
+        </header>
+
+        <div class="card">
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <div class="chart-title">AI功能支持分布</div>
+                    <div class="chart-subtitle">雷达图直观展示各应用在不同功能上的覆盖情况</div>
+                    <canvas id="radarChart"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <div class="chart-title">功能支持数量对比</div>
+                    <div class="chart-subtitle">各应用支持的AI功能总数比较</div>
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="chart-title">各AI功能支持详情</div>
+            <div class="chart-subtitle">横向对比各应用在每个功能上的支持情况</div>
+            <div class="chart-wrapper" style="width: 100%; height: 500px;">
+                <canvas id="featureBarChart"></canvas>
+            </div>
+        </div>
+
+        <div class="card summary-section">
+            <div class="summary-title">应用功能特点总结</div>
+            <div class="summary-card">
+                <div class="app-summary facetime-summary">
+                    <h3>FaceTime</h3>
+                    <p>苹果的视频通话应用，专注于提供高质量的通话体验</p>
+                    <ul>
+                        <li>支持AI背景替换，保护用户隐私</li>
+                        <li>提供拟我表情(Memoji)功能，增强互动性</li>
+                        <li>具备AI降噪和实时字幕功能，提升通话质量</li>
+                        <li>总计支持4项AI功能</li>
+                    </ul>
+                </div>
+                <div class="app-summary whatsapp-summary">
+                    <h3>WhatsApp</h3>
+                    <p>全球流行的即时通讯应用，注重跨平台和多语言支持</p>
+                    <ul>
+                        <li>支持AI背景替换，适应各种场景需求</li>
+                        <li>提供AI降噪和实时字幕，增强通话体验</li>
+                        <li>独有多语言翻译功能，促进跨语言交流</li>
+                        <li>总计支持4项AI功能</li>
+                    </ul>
+                </div>
+                <div class="app-summary snapchat-summary">
+                    <h3>Snapchat</h3>
+                    <p>社交媒体应用，以创意视觉效果和短暂内容分享为特色</p>
+                    <ul>
+                        <li>支持AI背景替换，增加创意表达</li>
+                        <li>提供拟我表情替换，增强社交互动</li>
+                        <li>领先提供AI滤镜和特效，增强视觉体验</li>
+                        <li>总计支持3项AI功能</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="responsive-table">
+                <table class="feature-table">
+                    <thead>
+                        <tr>
+                            <th>功能</th>
+                            <th>描述</th>
+                            <th class="app-header facetime-header">FaceTime</th>
+                            <th class="app-header whatsapp-header">WhatsApp</th>
+                            <th class="app-header snapchat-header">Snapchat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="feature-name">AI 背景替换</td>
+                            <td class="feature-description">利用 AI 技术在视频通话或拍摄中更换背景，保护隐私或增加趣味性。</td>
+                            <td class="yes">是</td>
+                            <td class="yes">是</td>
+                            <td class="yes">是</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">拟我表情替换</td>
+                            <td class="feature-description">使用拟我表情（Memoji）等虚拟形象替代真人出镜，增强互动体验。</td>
+                            <td class="yes">是</td>
+                            <td class="no">否</td>
+                            <td class="yes">是</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">AI 滤镜和特效</td>
+                            <td class="feature-description">利用 AI 技术添加实时滤镜和特效，增强视觉体验。</td>
+                            <td class="no">否</td>
+                            <td class="no">否</td>
+                            <td class="yes">是</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">AI 降噪</td>
+                            <td class="feature-description">使用人工智能技术过滤背景噪音，提升通话音质。</td>
+                            <td class="yes">是</td>
+                            <td class="yes">是</td>
+                            <td class="no">否</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">实时字幕</td>
+                            <td class="feature-description">在通话过程中实时显示对方讲话内容的字幕，方便理解。</td>
+                            <td class="yes">是</td>
+                            <td class="yes">是</td>
+                            <td class="no">否</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">多语言翻译</td>
+                            <td class="feature-description">实时翻译不同语言的语音或文本，促进跨语言交流。</td>
+                            <td class="no">否</td>
+                            <td class="yes">是</td>
+                            <td class="no">否</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">智能 IVR</td>
+                            <td class="feature-description">基于 AI 的交互式语音应答系统，自动处理来电并提供相应服务。</td>
+                            <td class="no">否</td>
+                            <td class="no">否</td>
+                            <td class="no">否</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">情绪分析</td>
+                            <td class="feature-description">通过分析语音或文本内容，识别用户情绪状态。</td>
+                            <td class="no">否</td>
+                            <td class="no">否</td>
+                            <td class="no">否</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">AI 语音播报</td>
+                            <td class="feature-description">利用文本转语音技术，将文字内容转换为语音播放。</td>
+                            <td class="no">否</td>
+                            <td class="no">否</td>
+                            <td class="no">否</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">自动会议纪要</td>
+                            <td class="feature-description">AI 自动记录并总结会议内容，生成会议纪要。</td>
+                            <td class="no">否</td>
+                            <td class="no">否</td>
+                            <td class="no">否</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">诈骗电话识别</td>
+                            <td class="feature-description">利用 AI 技术检测并标记潜在的诈骗电话，保护用户安全。</td>
+                            <td class="no">否</td>
+                            <td class="no">否</td>
+                            <td class="no">否</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2023 通讯应用AI能力分析 | 数据截至2023年12月</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置图表颜色
+            const facetimeColor = '#4cc9f0';
+            const whatsappColor = '#06d6a0';
+            const snapchatColor = '#ffbe0b';
+            
+            // 数据准备
+            const features = [
+                'AI 背景替换', '拟我表情替换', 'AI 滤镜和特效', 'AI 降噪', 
+                '实时字幕', '多语言翻译', '智能 IVR', '情绪分析', 
+                'AI 语音播报', '自动会议纪要', '诈骗电话识别'
+            ];
+            
+            const facetimeData = [1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0];
+            const whatsappData = [1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0];
+            const snapchatData = [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0];
+            
+            // 雷达图
+            const radarCtx = document.getElementById('radarChart').getContext('2d');
+            const radarChart = new Chart(radarCtx, {
+                type: 'radar',
+                data: {
+                    labels: features,
+                    datasets: [
+                        {
+                            label: 'FaceTime',
+                            data: facetimeData,
+                            backgroundColor: `${facetimeColor}33`,
+                            borderColor: facetimeColor,
+                            pointBackgroundColor: facetimeColor,
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: facetimeColor
+                        },
+                        {
+                            label: 'WhatsApp',
+                            data: whatsappData,
+                            backgroundColor: `${whatsappColor}33`,
+                            borderColor: whatsappColor,
+                            pointBackgroundColor: whatsappColor,
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: whatsappColor
+                        },
+                        {
+                            label: 'Snapchat',
+                            data: snapchatData,
+                            backgroundColor: `${snapchatColor}33`,
+                            borderColor: snapchatColor,
+                            pointBackgroundColor: snapchatColor,
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: snapchatColor
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    elements: {
+                        line: {
+                            borderWidth: 2
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + (context.raw === 1 ? '支持' : '不支持');
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: {
+                                display: true,
+                                color: '#e0e0e0'
+                            },
+                            grid: {
+                                color: '#f0f0f0'
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 1,
+                            ticks: {
+                                stepSize: 1,
+                                backdropColor: 'transparent'
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // 条形图 - 每个应用支持的功能数量
+            const barCtx = document.getElementById('barChart').getContext('2d');
+            const barChart = new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['FaceTime', 'WhatsApp', 'Snapchat'],
+                    datasets: [{
+                        label: '支持的AI功能数量',
+                        data: [
+                            facetimeData.reduce((a, b) => a + b, 0),
+                            whatsappData.reduce((a, b) => a + b, 0),
+                            snapchatData.reduce((a, b) => a + b, 0)
+                        ],
+                        backgroundColor: [
+                            facetimeColor,
+                            whatsappColor,
+                            snapchatColor
+                        ],
+                        borderColor: [
+                            facetimeColor,
+                            whatsappColor,
+                            snapchatColor
+                        ],
+                        borderWidth: 1,
+                        borderRadius: 5,
+                        barThickness: 50
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `支持${context.raw}项AI功能`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 11,
+                            ticks: {
+                                stepSize: 1,
+                                font: {
+                                    size: 12
+                                }
+                            },
+                            grid: {
+                                color: '#f0f0f0'
+                            },
+                            title: {
+                                display: true,
+                                text: '功能数量',
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // 功能支持条形图
+            const featureBarCtx = document.getElementById('featureBarChart').getContext('2d');
+            const featureBarChart = new Chart(featureBarCtx, {
+                type: 'bar',
+                data: {
+                    labels: features,
+                    datasets: [
+                        {
+                            label: 'FaceTime',
+                            data: facetimeData,
+                            backgroundColor: facetimeColor,
+                            borderColor: facetimeColor,
+                            borderWidth: 1,
+                            borderRadius: 3
+                        },
+                        {
+                            label: 'WhatsApp',
+                            data: whatsappData,
+                            backgroundColor: whatsappColor,
+                            borderColor: whatsappColor,
+                            borderWidth: 1,
+                            borderRadius: 3
+                        },
+                        {
+                            label: 'Snapchat',
+                            data: snapchatData,
+                            backgroundColor: snapchatColor,
+                            borderColor: snapchatColor,
+                            borderWidth: 1,
+                            borderRadius: 3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + (context.raw === 1 ? '支持' : '不支持');
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                autoSkip: false,
+                                maxRotation: 45,
+                                minRotation: 45,
+                                font: {
+                                    size: 11
+                                }
+                            },
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            max: 1,
+                            ticks: {
+                                stepSize: 1,
+                                callback: function(value) {
+                                    return value === 0 ? '不支持' : '支持';
+                                },
+                                font: {
+                                    size: 12
+                                }
+                            },
+                            grid: {
+                                color: '#f0f0f0'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -13,7 +13,7 @@
       }
 
       body {
-        background-color: #1a1a1a;
+        background-color: #E8F4FF;
         color: #333;
         line-height: 1.5;
         min-height: 100vh;
@@ -23,19 +23,10 @@
         overflow: hidden;
       }
 
-      .device-frame {
-        width: 414px;
-        height: 896px;
-        background: #1a1a1a;
-        border-radius: 60px;
-        padding: 20px;
-        position: relative;
-        box-shadow: 0 0 0 11px #000000, 0 0 0 13px #1f1f1f, 0 0 0 20px #000000;
-      }
-
       .app-container {
-        width: 100%;
-        height: 100%;
+        width: 414px;
+        height: 950px;
+        margin: 0 auto;
         background-color: #FFF;
         border-radius: 40px;
         overflow: hidden;
@@ -43,96 +34,139 @@
         flex-direction: column;
       }
 
-      .search-header {
-        padding: 16px;
-        background: #F8F9FA;
+      .status-bar {
+        height: 44px;
+        padding: 0 16px;
         display: flex;
         align-items: center;
-        gap: 12px;
+        justify-content: space-between;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        background: #FFF;
+      }
+
+      .time {
+        flex: 1;
+      }
+
+      .status-icons {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+      }
+
+      .search-header {
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 16px;
+        background: #FFF;
+        border-bottom: 1px solid #EEEEEE;
         position: sticky;
         top: 0;
+        z-index: 100;
       }
 
       .back-btn {
-        font-size: 24px;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
         cursor: pointer;
-        color: #333;
+        margin-right: 8px;
       }
 
       .search-bar {
         flex: 1;
-        height: 36px;
-        background: #FFF;
-        border-radius: 18px;
+        height: 40px;
+        background: #F6F6F6;
+        border-radius: 20px;
         display: flex;
         align-items: center;
-        padding: 0 12px;
+        padding: 0 16px;
         gap: 8px;
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+        margin: 0 8px;
       }
 
       .search-icon {
         color: #999;
-        font-size: 20px;
+        font-size: 18px;
       }
 
       .search-input {
         flex: 1;
         border: none;
         background: transparent;
-        font-size: 14px;
+        font-size: 16px;
         color: #333;
         outline: none;
+        padding: 0;
+        height: 40px;
+        line-height: 40px;
+      }
+
+      .search-input::placeholder {
+        color: #999;
       }
 
       .clear-btn {
-        width: 24px;
-        height: 24px;
-        border-radius: 12px;
-        background: #E8E8E8;
+        width: 32px;
+        height: 32px;
+        border-radius: 16px;
+        background: #F6F6F6;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 16px;
+        font-size: 20px;
+        color: #999;
         cursor: pointer;
       }
 
       .ai-icon {
-        width: 36px;
-        height: 36px;
-        border-radius: 18px;
-        background: linear-gradient(135deg, #0066FF, #6C8FFF);
+        width: 32px;
+        height: 32px;
+        border-radius: 16px;
+        background: #3366FF;
         display: flex;
         align-items: center;
         justify-content: center;
         color: white;
         font-size: 14px;
         font-weight: bold;
+        box-shadow: 0 2px 4px rgba(51, 102, 255, 0.2);
       }
 
       .content-area {
         flex: 1;
+        padding: 16px;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
-        background: #F8F9FA;
-      }
-
-      .content-area::-webkit-scrollbar {
-        display: none;
+        -ms-overflow-style: none;
+        background-color: #FFF;
+        margin-top: 8px;
       }
 
       .section {
-        margin-bottom: 20px;
+        margin-bottom: 32px;
       }
 
       .section-title {
-        font-size: 16px;
-        color: #666;
-        padding: 12px 16px;
+        font-size: 18px;
+        color: #3366FF;
+        font-weight: 500;
+        margin-bottom: 16px;
       }
 
       .result-list {
         background: #FFF;
+        border-radius: 12px;
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
       }
 
       .result-item {
@@ -140,7 +174,7 @@
         align-items: center;
         padding: 12px 16px;
         gap: 12px;
-        border-bottom: 1px solid #F0F0F0;
+        border-bottom: 1px solid #EEEEEE;
       }
 
       .result-item:last-child {
@@ -148,14 +182,20 @@
       }
 
       .avatar {
-        width: 48px;
-        height: 48px;
-        border-radius: 24px;
-        background: #F5F5F5;
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+        background: #F6F6F6;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 20px;
+        overflow: hidden;
+      }
+
+      .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
 
       .result-info {
@@ -164,30 +204,37 @@
 
       .result-title {
         font-size: 16px;
+        font-weight: 500;
         color: #333;
         margin-bottom: 4px;
       }
 
       .result-subtitle {
         font-size: 14px;
-        color: #999;
+        color: #666;
       }
 
       .action-buttons {
         display: flex;
-        gap: 12px;
+        gap: 8px;
       }
 
       .action-btn {
-        width: 36px;
-        height: 36px;
-        border-radius: 18px;
-        background: #F5F7FF;
+        width: 32px;
+        height: 32px;
+        border-radius: 16px;
+        background: #F6F6F6;
         display: flex;
         align-items: center;
         justify-content: center;
         color: #3366FF;
-        font-size: 20px;
+        font-size: 18px;
+        transition: all 0.3s ease;
+      }
+
+      .action-btn:active {
+        transform: scale(0.95);
+        background: #EEEEEE;
       }
 
       .search-item {
@@ -196,14 +243,19 @@
         padding: 12px 16px;
         gap: 12px;
         background: #FFF;
-        border-bottom: 1px solid #F0F0F0;
+        border-bottom: 1px solid #EEEEEE;
+        transition: all 0.3s ease;
+      }
+
+      .search-item:active {
+        background: #F6F6F6;
       }
 
       .search-item-icon {
-        width: 36px;
-        height: 36px;
-        border-radius: 18px;
-        background: linear-gradient(135deg, #0066FF, #6C8FFF);
+        width: 32px;
+        height: 32px;
+        border-radius: 16px;
+        background: #3366FF;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -220,128 +272,127 @@
         gap: 8px;
         cursor: pointer;
         background: #FFF;
+        transition: all 0.3s ease;
+      }
+
+      .more-results:active {
+        background: #F6F6F6;
       }
 
       .arrow-icon {
-        font-size: 20px;
+        font-size: 18px;
       }
     </style>
   </head>
   <body>
-    <div class="device-frame">
-      <div class="app-container">
-        <div class="search-header">
-          <div class="back-btn">←</div>
-          <div class="search-bar">
-            <div class="search-icon">🔍</div>
-            <input type="text" class="search-input" placeholder="Search" value="junhua,J">
-            <div class="clear-btn">×</div>
+    <div class="app-container">
+      <div class="status-bar">
+        <div class="time">15:23</div>
+        <div class="status-icons">
+          <div>••••</div>
+          <div>📶</div>
+          <div>🔋</div>
+        </div>
+      </div>
+
+      <div class="search-header">
+        <div class="back-btn">←</div>
+        <div class="search-bar">
+          <div class="search-icon">🔍</div>
+          <input type="text" class="search-input" placeholder="Search" value="junhua,J">
+          <div class="clear-btn">×</div>
+        </div>
+        <div class="ai-icon">AI</div>
+      </div>
+
+      <div class="content-area">
+        <div class="section">
+          <div class="section-title">Chats & Contacts</div>
+          <div class="result-list">
+            <div class="result-item">
+              <div class="avatar">
+                <img src="https://via.placeholder.com/48" style="width: 48px; height: 48px; border-radius: 24px;">
+              </div>
+              <div class="result-info">
+                <div class="result-title">AstraTech All Hands</div>
+                <div class="result-subtitle">junhua</div>
+              </div>
+              <div class="arrow-icon">›</div>
+            </div>
+
+            <div class="result-item">
+              <div class="avatar">👥</div>
+              <div class="result-info">
+                <div class="result-title">test</div>
+                <div class="result-subtitle">junhua</div>
+              </div>
+              <div class="arrow-icon">›</div>
+            </div>
+
+            <div class="result-item">
+              <div class="avatar">
+                <img src="https://via.placeholder.com/48" style="width: 48px; height: 48px; border-radius: 24px;">
+              </div>
+              <div class="result-info">
+                <div class="result-title">junhua, Jean Yin</div>
+              </div>
+              <div class="action-buttons">
+                <div class="action-btn">📞</div>
+                <div class="action-btn">📹</div>
+              </div>
+            </div>
           </div>
-          <div class="ai-icon">AI</div>
+
+          <div class="more-results">
+            More chats & contacts
+            <span class="arrow-icon">›</span>
+          </div>
         </div>
 
-        <div class="content-area">
-          <div class="section">
-            <div class="section-title">Chats & Contacts</div>
-            <div class="result-list">
-              <div class="result-item">
-                <div class="avatar">
-                  <img src="https://via.placeholder.com/48" style="width: 48px; height: 48px; border-radius: 24px;">
-                </div>
-                <div class="result-info">
-                  <div class="result-title">AstraTech All Hands</div>
-                  <div class="result-subtitle">junhua</div>
-                </div>
-                <div class="arrow-icon">›</div>
+        <div class="section">
+          <div class="section-title">Ask Botim AI</div>
+          <div class="result-list">
+            <div class="search-item">
+              <div class="search-item-icon">AI</div>
+              <div class="result-info">
+                <div class="result-title">junhua,J</div>
               </div>
-
-              <div class="result-item">
-                <div class="avatar">👥</div>
-                <div class="result-info">
-                  <div class="result-title">test</div>
-                  <div class="result-subtitle">junhua</div>
-                </div>
-                <div class="arrow-icon">›</div>
-              </div>
-
-              <div class="result-item">
-                <div class="avatar">
-                  <img src="https://via.placeholder.com/48" style="width: 48px; height: 48px; border-radius: 24px;">
-                </div>
-                <div class="result-info">
-                  <div class="result-title">junhua, Jean Yin</div>
-                </div>
-                <div class="action-buttons">
-                  <div class="action-btn">📞</div>
-                  <div class="action-btn">📹</div>
-                </div>
-              </div>
+              <div class="arrow-icon">›</div>
             </div>
-
-            <div class="more-results">
-              More chats & contacts
-              <span class="arrow-icon">›</span>
+            <div class="search-item">
+              <div class="search-item-icon">AI</div>
+              <div class="result-info">
+                <div class="result-title">junhua,J meaning</div>
+              </div>
+              <div class="arrow-icon">›</div>
             </div>
-          </div>
-
-          <div class="section">
-            <div class="section-title">Search Item "junhua,J"</div>
-            <div class="result-list">
-              <div class="search-item">
-                <div class="search-item-icon">🔍</div>
-                <div class="result-info">
-                  <div class="result-title">Search Item "junhua,J"</div>
-                </div>
-                <div class="arrow-icon">›</div>
+            <div class="search-item">
+              <div class="search-item-icon">AI</div>
+              <div class="result-info">
+                <div class="result-title">junhua,J personality traits</div>
               </div>
+              <div class="arrow-icon">›</div>
             </div>
-          </div>
-
-          <div class="section">
-            <div class="section-title">Ask Botim AI</div>
-            <div class="result-list">
-              <div class="search-item">
-                <div class="search-item-icon">AI</div>
-                <div class="result-info">
-                  <div class="result-title">junhua,J</div>
-                </div>
-                <div class="arrow-icon">›</div>
+            <div class="search-item">
+              <div class="search-item-icon">AI</div>
+              <div class="result-info">
+                <div class="result-title">junhua,J origin and significance</div>
               </div>
-              <div class="search-item">
-                <div class="search-item-icon">AI</div>
-                <div class="result-info">
-                  <div class="result-title">junhua,J meaning</div>
-                </div>
-                <div class="arrow-icon">›</div>
+              <div class="arrow-icon">›</div>
+            </div>
+            <div class="search-item">
+              <div class="search-item-icon">AI</div>
+              <div class="result-info">
+                <div class="result-title">junhua,J in Chinese culture</div>
               </div>
-              <div class="search-item">
-                <div class="search-item-icon">AI</div>
-                <div class="result-info">
-                  <div class="result-title">junhua,J personality traits</div>
-                </div>
-                <div class="arrow-icon">›</div>
+              <div class="arrow-icon">›</div>
+            </div>
+            <div class="search-item">
+              <div class="search-item-icon">AI</div>
+              <div class="result-info">
+                <div class="result-title">junhua,J famous people</div>
               </div>
-              <div class="search-item">
-                <div class="search-item-icon">AI</div>
-                <div class="result-info">
-                  <div class="result-title">junhua,J origin and significance</div>
-                </div>
-                <div class="arrow-icon">›</div>
-              </div>
-              <div class="search-item">
-                <div class="search-item-icon">AI</div>
-                <div class="result-info">
-                  <div class="result-title">junhua,J in Chinese culture</div>
-                </div>
-                <div class="arrow-icon">›</div>
-              </div>
-              <div class="search-item">
-                <div class="search-item-icon">AI</div>
-                <div class="result-info">
-                  <div class="result-title">junhua,J famous people</div>
-                </div>
-                <div class="arrow-icon">›</div>
-              </div>
+              <div class="arrow-icon">›</div>
             </div>
           </div>
         </div>
@@ -366,6 +417,17 @@
         searchInput.value = 'junhua,J';
         searchInput.focus();
       });
+
+      // 更新时间
+      function updateTime() {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        document.querySelector('.time').textContent = `${hours}:${minutes}`;
+      }
+      
+      updateTime();
+      setInterval(updateTime, 60000);
     </script>
   </body>
 </html> 
