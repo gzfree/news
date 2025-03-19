@@ -76,426 +76,131 @@
                     justify-content: center;
                     align-items: center;
                     font-size: 80px;
-                    background-color: transparent;
+                    background-color: #333;
                     z-index: 6;
                     border-radius: 20px;
                 }
             `;
             document.head.appendChild(styleElement);
             
-            // 确保同步设置
-            applySynchronizedEffects();
-        });
-        
-        // 监听渲染完成事件，只执行一次完整的背景设置流程
-        let isFirstLoad = true;
-        
-        // 单一的背景和滤镜应用函数 - 确保只有这个函数设置背景
-        function applySynchronizedEffects() {
-            const container = document.querySelector('.local-video-container');
-            if (!container) return;
-            
-            // 读取滤镜设置
-            const savedFilter = localStorage.getItem('selectedFilter') || 'none';
-            const savedEmoji = localStorage.getItem('selectedEmoji') || 'none';
-            const savedEffect = localStorage.getItem('selectedEffect') || 'none';
-            
-            // 是否有激活的滤镜
-            const filterActive = savedFilter && savedFilter !== 'none';
-            const emojiActive = savedEmoji && savedEmoji !== 'none';
-            const effectActive = savedEffect && savedEffect !== 'none';
-            
-            // 无论如何先清除所有样式和效果
-            // 清除容器的内联样式
-            container.setAttribute('style', '');
-            container.classList.remove('with-filter');
-            
-            // 移除所有现有的滤镜效果元素
-            const oldEffects = container.querySelectorAll('.filter-effect');
-            oldEffects.forEach(el => el.remove());
-            
-            // 移除现有的emoji头像
-            const oldEmojiAvatar = document.getElementById('emoji-avatar');
-            if (oldEmojiAvatar) {
-                oldEmojiAvatar.style.display = 'none';
-                oldEmojiAvatar.remove();
-            }
-            
-            // 更新菜单图标
-            const videoFilterIcon = document.querySelector('.side-menu-item[onclick*="video-filters.html"]');
-            if (videoFilterIcon) {
-                if (filterActive || emojiActive || effectActive) {
+            // 简化的背景应用函数
+            function applyBackgroundFilter() {
+                const container = document.querySelector('.local-video-container');
+                if (!container) return;
+                
+                // 获取滤镜设置
+                const savedFilter = localStorage.getItem('selectedFilter');
+                const savedEmoji = localStorage.getItem('selectedEmoji');
+                const savedEffect = localStorage.getItem('selectedEffect');
+                
+                // 检查是否有滤镜激活
+                const filterActive = savedFilter && savedFilter !== 'none';
+                const emojiActive = savedEmoji && savedEmoji !== 'none';
+                const effectActive = savedEffect && savedEffect !== 'none';
+                
+                // 更新菜单图标
+                const videoFilterIcon = document.querySelector('.side-menu-item[onclick*="video-filters.html"]');
+                if ((filterActive || emojiActive || effectActive) && videoFilterIcon) {
                     videoFilterIcon.classList.remove('secondary');
                     videoFilterIcon.classList.add('active');
                     videoFilterIcon.innerHTML = '<i class="fas fa-video"></i><div class="noise-badge"></div><div class="item-tooltip">Video Filters</div>';
-                } else {
-                    videoFilterIcon.classList.remove('active');
-                    videoFilterIcon.classList.add('secondary');
-                    videoFilterIcon.innerHTML = '<i class="fas fa-video"></i><div class="item-tooltip">Video Filters</div>';
-                }
-            }
-            
-            // 显示前景人物（默认状态）
-            const foregroundPerson = document.getElementById('foreground-person');
-            if (foregroundPerson) {
-                foregroundPerson.style.display = emojiActive ? 'none' : 'block';
-                if (!emojiActive) foregroundPerson.style.opacity = '1';
-            }
-            
-            // 首先设置背景样式（确保在所有其他效果之前应用）
-            // 定义统一的基础样式
-            const baseStyle = 'overflow: hidden; position: absolute; top: 150px; right: 20px; width: 200px; height: 300px; border-radius: 20px; z-index: 3;';
-            const displayStyle = `${baseStyle} border: ${filterActive ? '3px solid white' : '2px solid rgba(255, 255, 255, 0.4)'};`;
-            
-            // 设置基础样式，无论是否有背景
-            if (filterActive) {
-                container.classList.add('with-filter');
-                if (savedFilter === 'flower') {
-                    container.setAttribute('style', `background: linear-gradient(135deg, #ff9a9e, #fad0c4) !important; ${displayStyle}`);
-                } else if (savedFilter === 'bug') {
-                    container.setAttribute('style', `background: linear-gradient(to right, #4facfe, #00f2fe) !important; ${displayStyle}`);
-                } else if (savedFilter === 'heart') {
-                    container.setAttribute('style', `background: linear-gradient(to right, #ff758c, #ff7eb3) !important; ${displayStyle}`);
-                } else if (savedFilter === 'profile') {
-                    container.setAttribute('style', `background: linear-gradient(to bottom, #333, #222) !important; ${displayStyle}`);
-                }
-            } else {
-                // 没有背景样式时保持默认透明
-                container.setAttribute('style', `background: transparent; ${displayStyle}`);
-            }
-            
-            // 处理Emoji头像（确保在背景之后添加）
-            if (emojiActive) {
-                let emojiAvatar = document.createElement('div');
-                emojiAvatar.id = 'emoji-avatar';
-                emojiAvatar.className = 'emoji-avatar';
-                emojiAvatar.style.display = 'flex';
-                emojiAvatar.style.backgroundColor = 'transparent'; // 确保背景透明
-                emojiAvatar.textContent = savedEmoji;
-                container.appendChild(emojiAvatar);
-            }
-            
-            // 添加滤镜效果（确保最后添加）
-            if (effectActive) {
-                const filterEffect = document.createElement('div');
-                filterEffect.className = `filter-effect filter-${savedEffect}`;
-                filterEffect.style.cssText = "position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; display: block !important; opacity: 0.8; border-radius: 20px;";
-                
-                if (savedEffect === 'sepia') {
-                    filterEffect.style.backgroundColor = "rgba(255, 233, 185, 0.6)";
-                    filterEffect.style.mixBlendMode = "soft-light";
-                } else if (savedEffect === 'coolblue') {
-                    filterEffect.style.backgroundColor = "rgba(100, 149, 237, 0.6)";
-                    filterEffect.style.mixBlendMode = "screen";
-                } else if (savedEffect === 'warmth') {
-                    filterEffect.style.backgroundColor = "rgba(255, 140, 0, 0.5)";
-                    filterEffect.style.mixBlendMode = "multiply";
-                } else if (savedEffect === 'vintage') {
-                    filterEffect.style.background = "radial-gradient(circle, rgba(160, 120, 80, 0.5) 0%, rgba(75, 50, 40, 0.5) 100%)";
-                    filterEffect.style.mixBlendMode = "darken";
-                } else if (savedEffect === 'grayscale') {
-                    filterEffect.style.backgroundColor = "rgba(0, 0, 0, 0.6)";
-                    filterEffect.style.mixBlendMode = "saturation";
                 }
                 
-                container.appendChild(filterEffect);
+                // 应用背景
+                if (filterActive) {
+                    if (savedFilter === 'flower') {
+                        container.setAttribute('style', 'background: linear-gradient(135deg, #ff9a9e, #fad0c4) !important; border: 3px solid white !important; overflow: hidden; position: absolute; top: 150px; right: 20px; width: 200px; height: 300px; border-radius: 20px;');
+                    } else if (savedFilter === 'bug') {
+                        container.setAttribute('style', 'background: linear-gradient(to right, #4facfe, #00f2fe) !important; border: 3px solid white !important; overflow: hidden; position: absolute; top: 150px; right: 20px; width: 200px; height: 300px; border-radius: 20px;');
+                    } else if (savedFilter === 'heart') {
+                        container.setAttribute('style', 'background: linear-gradient(to right, #ff758c, #ff7eb3) !important; border: 3px solid white !important; overflow: hidden; position: absolute; top: 150px; right: 20px; width: 200px; height: 300px; border-radius: 20px;');
+                    } else if (savedFilter === 'profile') {
+                        container.setAttribute('style', 'background: linear-gradient(to bottom, #333, #222) !important; border: 3px solid white !important; overflow: hidden; position: absolute; top: 150px; right: 20px; width: 200px; height: 300px; border-radius: 20px;');
+                    }
+                }
+                
+                // 应用滤镜效果
+                if (effectActive && savedEffect && savedEffect !== 'none') {
+                    // 移除旧效果
+                    const oldEffects = container.querySelectorAll('.filter-effect');
+                    oldEffects.forEach(el => el.remove());
+                    
+                    // 添加新效果
+                    const filterEffect = document.createElement('div');
+                    filterEffect.className = `filter-effect filter-${savedEffect}`;
+                    filterEffect.style.cssText = "position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; display: block !important; opacity: 0.8; border-radius: 20px;";
+                    
+                    if (savedEffect === 'sepia') {
+                        filterEffect.style.backgroundColor = "rgba(255, 233, 185, 0.6)";
+                        filterEffect.style.mixBlendMode = "soft-light";
+                    } else if (savedEffect === 'coolblue') {
+                        filterEffect.style.backgroundColor = "rgba(100, 149, 237, 0.6)";
+                        filterEffect.style.mixBlendMode = "screen";
+                    } else if (savedEffect === 'warmth') {
+                        filterEffect.style.backgroundColor = "rgba(255, 140, 0, 0.5)";
+                        filterEffect.style.mixBlendMode = "multiply";
+                    } else if (savedEffect === 'vintage') {
+                        filterEffect.style.background = "radial-gradient(circle, rgba(160, 120, 80, 0.5) 0%, rgba(75, 50, 40, 0.5) 100%)";
+                        filterEffect.style.mixBlendMode = "darken";
+                    } else if (savedEffect === 'grayscale') {
+                        filterEffect.style.backgroundColor = "rgba(0, 0, 0, 0.6)";
+                        filterEffect.style.mixBlendMode = "saturation";
+                    }
+                    
+                    container.appendChild(filterEffect);
+                }
+                
+                // 应用Emoji
+                if (emojiActive) {
+                    let emojiAvatar = document.getElementById('emoji-avatar');
+                    if (!emojiAvatar) {
+                        emojiAvatar = document.createElement('div');
+                        emojiAvatar.id = 'emoji-avatar';
+                        emojiAvatar.className = 'emoji-avatar';
+                        container.appendChild(emojiAvatar);
+                    }
+                    
+                    emojiAvatar.style.display = 'flex';
+                    emojiAvatar.textContent = savedEmoji;
+                    
+                    // 隐藏前景人物
+                    const foregroundPerson = document.getElementById('foreground-person');
+                    if (foregroundPerson) {
+                        foregroundPerson.style.display = 'none';
+                    }
+                }
             }
             
-            // 确保样式能覆盖之前的设置（但不会覆盖背景）
-            if (container.classList.contains('expanded')) {
-                const currentStyle = container.getAttribute('style');
-                container.setAttribute('style', currentStyle + ' transform: translate(50%, -50%) !important;');
-            }
-        }
+            // 立即应用一次
+            setTimeout(applyBackgroundFilter, 10);
+        });
         
-        // 仅在页面加载时执行一次
+        // 页面加载完成后应用滤镜
         window.addEventListener('load', function() {
-            if (isFirstLoad) {
-                applySynchronizedEffects();
-                isFirstLoad = false;
+            // 简化的背景应用函数
+            function applyFilter() {
+                const container = document.querySelector('.local-video-container');
+                if (!container) return;
+                
+                const savedFilter = localStorage.getItem('selectedFilter');
+                if (savedFilter && savedFilter !== 'none') {
+                    if (savedFilter === 'flower') {
+                        container.setAttribute('style', 'background: linear-gradient(135deg, #ff9a9e, #fad0c4) !important; border: 3px solid white !important; overflow: hidden; position: absolute; top: 150px; right: 20px; width: 200px; height: 300px; border-radius: 20px;');
+                    } else if (savedFilter === 'bug') {
+                        container.setAttribute('style', 'background: linear-gradient(to right, #4facfe, #00f2fe) !important; border: 3px solid white !important; overflow: hidden; position: absolute; top: 150px; right: 20px; width: 200px; height: 300px; border-radius: 20px;');
+                    } else if (savedFilter === 'heart') {
+                        container.setAttribute('style', 'background: linear-gradient(to right, #ff758c, #ff7eb3) !important; border: 3px solid white !important; overflow: hidden; position: absolute; top: 150px; right: 20px; width: 200px; height: 300px; border-radius: 20px;');
+                    } else if (savedFilter === 'profile') {
+                        container.setAttribute('style', 'background: linear-gradient(to bottom, #333, #222) !important; border: 3px solid white !important; overflow: hidden; position: absolute; top: 150px; right: 20px; width: 200px; height: 300px; border-radius: 20px;');
+                    }
+                }
             }
+            
+            // 执行并检查
+            applyFilter();
+            setTimeout(applyFilter, 500);
+            setTimeout(applyFilter, 1000);
         });
-        
-        // 在DOMContentLoaded也执行一次以确保快速应用
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(applySynchronizedEffects, 0);
-            
-            // 初始化slider track
-            const slider = document.getElementById('noiseLevelSlider');
-            if (slider) {
-                const percentage = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
-                const sliderTrack = document.getElementById('sliderTrack');
-                if (sliderTrack) {
-                    sliderTrack.style.width = percentage + '%';
-                }
-            }
-            
-            // 获取视窗尺寸变化 - 在窗口大小变化时重新应用
-            window.addEventListener('resize', applySynchronizedEffects);
-            
-            // 监听storage变化，实时同步滤镜
-            window.addEventListener('storage', function(e) {
-                // 如果是滤镜相关变化，重新应用效果
-                if (e.key && (e.key.includes('filter') || e.key.includes('emoji') || e.key.includes('effect'))) {
-                    applySynchronizedEffects();
-                }
-            });
-            
-            // 添加小窗交互功能
-            const localVideoContainer = document.querySelector('.local-video-container');
-            let isExpanded = false;
-            let clickTimer = null;
-            
-            // 双击切换放大/缩小
-            localVideoContainer.addEventListener('dblclick', function(e) {
-                e.preventDefault();
-                isExpanded = !isExpanded;
-                
-                if (isExpanded) {
-                    this.classList.add('expanded');
-                    document.querySelector('.local-video-hint').textContent = '单击进入滤镜 | 双击缩小';
-                } else {
-                    this.classList.remove('expanded');
-                    this.style.transform = '';
-                    document.querySelector('.local-video-hint').textContent = '单击进入滤镜 | 双击放大';
-                }
-                
-                if (clickTimer) {
-                    clearTimeout(clickTimer);
-                    clickTimer = null;
-                }
-                
-                // 延迟重新应用滤镜和背景，确保样式不丢失
-                setTimeout(applySynchronizedEffects, 10);
-            });
-            
-            // 单击进入视频滤镜页面
-            localVideoContainer.addEventListener('click', function(e) {
-                clickTimer = setTimeout(() => {
-                    window.location.href = 'video-filters.html';
-                }, 250);
-            });
-            
-            // Show/hide noise detail panel
-            const noiseIcon = document.getElementById('noise-cancellation-button');
-            const noiseDetail = document.querySelector('.noise-detail');
-            const closeModal = document.getElementById('closeModal');
-            const noiseParticles = document.getElementById('noiseParticles');
-            const noiseFilterVisual = document.querySelector('.noise-filter-visual');
-            const noiseBadge = document.querySelector('.noise-badge');
-            const noiseCancellationToggle = document.getElementById('noiseCancellationToggle');
-            const noiseLevelSlider = document.getElementById('noiseLevelSlider');
-            const noiseLevelValue = document.getElementById('noiseLevelValue');
-            
-            // Track noise cancellation state
-            let isNoiseCancellationActive = true;
-            
-            // Open detail panel on click
-            noiseIcon.addEventListener('click', function() {
-                noiseDetail.classList.remove('hidden');
-                this.style.backgroundColor = isNoiseCancellationActive ? 'var(--primary)' : 'rgba(255, 255, 255, 0.2)';
-            });
-            
-            // Close panel when clicking close button
-            closeModal.addEventListener('click', function() {
-                noiseDetail.classList.add('hidden');
-                noiseIcon.style.backgroundColor = isNoiseCancellationActive ? 'var(--primary)' : 'rgba(255, 255, 255, 0.2)';
-            });
-            
-            // Toggle noise cancellation
-            noiseCancellationToggle.addEventListener('change', function() {
-                isNoiseCancellationActive = this.checked;
-                
-                if (isNoiseCancellationActive) {
-                    // Enable noise cancellation
-                    noiseIcon.classList.add('active');
-                    noiseBadge.style.display = 'block';
-                    noiseIcon.style.backgroundColor = !noiseDetail.classList.contains('hidden') ? 'var(--primary)' : 'var(--success)';
-                    noiseParticles.style.display = 'block';
-                    noiseFilterVisual.style.display = 'flex';
-                    noiseLevelSlider.disabled = false;
-                } else {
-                    // Disable noise cancellation
-                    noiseIcon.classList.remove('active');
-                    noiseBadge.style.display = 'none';
-                    noiseIcon.style.backgroundColor = !noiseDetail.classList.contains('hidden') ? 'var(--primary)' : 'rgba(255, 255, 255, 0.2)';
-                    noiseParticles.style.display = 'none';
-                    noiseFilterVisual.style.display = 'none';
-                    noiseLevelSlider.disabled = true;
-                }
-            });
-            
-            // Noise level slider functionality
-            noiseLevelSlider.addEventListener('input', function() {
-                // Update slider track width
-                const percentage = ((this.value - this.min) / (this.max - this.min)) * 100;
-                document.getElementById('sliderTrack').style.width = percentage + '%';
-                
-                // Calculate the percentage value based on the slider position
-                let reductionPercentage;
-                if (this.value <= 3) { // Low (65-75%)
-                    reductionPercentage = 65 + (this.value - 1) * 5;
-                    noiseLevelValue.innerHTML = 'Low <span id="percentageValue">' + reductionPercentage + '%</span>';
-                } else if (this.value <= 7) { // Medium (75-85%)
-                    reductionPercentage = 75 + (this.value - 3) * 2.5;
-                    noiseLevelValue.innerHTML = 'Medium <span id="percentageValue">' + reductionPercentage + '%</span>';
-                } else { // High (85-95%)
-                    reductionPercentage = 85 + (this.value - 7) * 3.33;
-                    if (reductionPercentage > 95) reductionPercentage = 95;
-                    noiseLevelValue.innerHTML = 'High <span id="percentageValue">' + Math.round(reductionPercentage) + '%</span>';
-                }
-                
-                // Update the noise reduction percentages based on level
-                const noiseStats = document.querySelectorAll('.noise-stat-value');
-                
-                // Adjust values for each noise type based on the main percentage
-                let ambientReduction = Math.round(reductionPercentage);
-                let echoReduction = Math.round(reductionPercentage + 3);
-                let backgroundReduction = Math.round(reductionPercentage - 5);
-                
-                if (echoReduction > 98) echoReduction = 98;
-                
-                noiseStats[0].textContent = 'Reduced ' + ambientReduction + '%';
-                noiseStats[1].textContent = 'Reduced ' + echoReduction + '%';
-                noiseStats[2].textContent = 'Reduced ' + backgroundReduction + '%';
-            });
-        });
-        
-        // Create audio waveform animation
-        const waveform = document.querySelector('.waveform');
-        const waveBars = document.querySelectorAll('.wave-bar');
-        
-        function updateWaveform() {
-            waveBars.forEach(bar => {
-                const height = 5 + Math.random() * 25;
-                bar.style.height = `${height}px`;
-            });
-        }
-        
-        setInterval(updateWaveform, 100);
-
-        // Noise cancellation particle effect
-        const canvas = document.getElementById('noiseParticles');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-        
-        class Particle {
-            constructor() {
-                // Particles start from center of screen
-                this.x = window.innerWidth / 2 + (Math.random() * 100 - 50);
-                this.y = window.innerHeight / 2 + (Math.random() * 100 - 50);
-                this.size = Math.random() * 2 + 0.5;
-                this.speedX = Math.random() * 2 - 1;
-                this.speedY = Math.random() * 2 - 1;
-                
-                // More blue and cyan shades
-                const colors = ['#4361ee', '#4cc9f0', '#3a86ff', '#38b6ff'];
-                this.color = colors[Math.floor(Math.random() * colors.length)];
-                
-                // Particle lifetime
-                this.life = 100 + Math.random() * 100;
-                this.opacity = 0.7;
-            }
-            
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                
-                // As particles move, gradually become smaller and more transparent
-                this.life -= 1;
-                if (this.life < 50) {
-                    this.opacity = this.life / 50 * 0.7;
-                }
-                
-                // When particle goes off screen or lifetime ends, return false to remove
-                if (this.x < 0 || this.x > canvas.width || 
-                    this.y < 0 || this.y > canvas.height || 
-                    this.life <= 0) {
-                    return false;
-                }
-                return true;
-            }
-            
-            draw() {
-                ctx.globalAlpha = this.opacity;
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.closePath();
-                ctx.globalAlpha = 1;
-            }
-        }
-        
-        function createParticles() {
-            // Control particle count, reduce for mobile devices
-            if (particles.length < 70) {
-                for (let i = 0; i < 3; i++) {
-                    particles.push(new Particle());
-                }
-            }
-        }
-        
-        function animateParticles() {
-            // Create fade effect instead of completely clearing
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            particles = particles.filter(particle => {
-                return particle.update();
-            });
-            
-            particles.forEach(particle => {
-                particle.draw();
-            });
-            
-            createParticles();
-            requestAnimationFrame(animateParticles);
-        }
-        
-        // Start animation
-        animateParticles();
-        
-        // Simulate call duration
-        const durationElement = document.querySelector('.call-duration-badge');
-        let seconds = 23 * 60 + 4; // Start at 23:04
-        
-        function updateCallDuration() {
-            seconds++;
-            const minutes = Math.floor(seconds / 60);
-            const remainingSeconds = seconds % 60;
-            durationElement.innerHTML = `<i class="fas fa-signal"></i> ${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds} <span class="hd-badge">HD</span>`;
-        }
-        
-        setInterval(updateCallDuration, 1000);
-
-        // Simulate noise waveform effect
-        const noiseFilterBars = document.querySelectorAll('.noise-filter-bar');
-        const cleanAudioBars = document.querySelectorAll('.clean-audio-bar');
-        
-        function updateNoiseWaveform() {
-            noiseFilterBars.forEach(bar => {
-                // Noise waveform is smaller, showing noise being filtered
-                const height = 3 + Math.random() * 5;
-                bar.style.height = `${height}px`;
-            });
-            
-            cleanAudioBars.forEach(bar => {
-                // Clean audio waveform is larger
-                const height = 10 + Math.random() * 20;
-                bar.style.height = `${height}px`;
-            });
-        }
-        
-        setInterval(updateNoiseWaveform, 100);
     </script>
     <style>
         :root {
@@ -683,7 +388,7 @@
             text-align: center;
             color: white;
             font-size: 10px;
-            opacity: 0;
+            opacity: 0.7;
             transition: opacity 0.2s ease;
             padding: 0 5px;
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
@@ -1519,5 +1224,419 @@
 
     <!-- Home indicator -->
     <div class="home-indicator"></div>
+
+    <script>
+        // Create audio waveform animation
+        const waveform = document.querySelector('.waveform');
+        const waveBars = document.querySelectorAll('.wave-bar');
+        
+        function updateWaveform() {
+            waveBars.forEach(bar => {
+                const height = 5 + Math.random() * 25;
+                bar.style.height = `${height}px`;
+            });
+        }
+        
+        setInterval(updateWaveform, 100);
+
+        // 在页面加载时检查滤镜状态
+        document.addEventListener('DOMContentLoaded', function() {
+            const videoFilterIcon = document.querySelector('.side-menu-item[onclick*="video-filters.html"]');
+            
+            // 检查是否有任何滤镜激活
+            const filterActive = localStorage.getItem('filterActive') === 'true';
+            const emojiActive = localStorage.getItem('emojiActive') === 'true';
+            const effectActive = localStorage.getItem('effectActive') === 'true';
+            
+            const anyFilterActive = filterActive || emojiActive || effectActive;
+            
+            // 如果有任何滤镜生效，设置图标高亮
+            if (anyFilterActive && videoFilterIcon) {
+                videoFilterIcon.classList.remove('secondary');
+                videoFilterIcon.classList.add('active');
+                videoFilterIcon.innerHTML = '<i class="fas fa-video"></i><div class="noise-badge"></div><div class="item-tooltip">Video Filters</div>';
+            }
+        });
+
+        // 添加小窗交互功能
+        const localVideoContainer = document.querySelector('.local-video-container');
+        let isExpanded = false;
+        let clickTimer = null;
+        
+        // 双击切换放大/缩小
+        localVideoContainer.addEventListener('dblclick', function(e) {
+            e.preventDefault();
+            isExpanded = !isExpanded;
+            
+            if (isExpanded) {
+                this.classList.add('expanded');
+                document.querySelector('.local-video-hint').textContent = '单击进入滤镜 | 双击缩小';
+            } else {
+                this.classList.remove('expanded');
+                this.style.transform = '';
+                document.querySelector('.local-video-hint').textContent = '单击进入滤镜 | 双击放大';
+            }
+            
+            if (clickTimer) {
+                clearTimeout(clickTimer);
+                clickTimer = null;
+            }
+        });
+        
+        // 单击进入视频滤镜页面
+        localVideoContainer.addEventListener('click', function(e) {
+            clickTimer = setTimeout(() => {
+                window.location.href = 'video-filters.html';
+            }, 250);
+        });
+
+        // 简化的背景应用函数
+        function applyBackgroundFilter() {
+            const container = document.querySelector('.local-video-container');
+            const videoFilterIcon = document.querySelector('.side-menu-item[onclick*="video-filters.html"]');
+            
+            if (!container) return;
+            
+            // 获取滤镜设置
+            const savedFilter = localStorage.getItem('selectedFilter');
+            const savedEmoji = localStorage.getItem('selectedEmoji');
+            const savedEffect = localStorage.getItem('selectedEffect');
+            
+            // 检查是否有滤镜激活
+            const filterActive = savedFilter && savedFilter !== 'none';
+            const emojiActive = savedEmoji && savedEmoji !== 'none';
+            const effectActive = savedEffect && savedEffect !== 'none';
+            
+            // 更新菜单图标
+            if ((filterActive || emojiActive || effectActive) && videoFilterIcon) {
+                videoFilterIcon.classList.remove('secondary');
+                videoFilterIcon.classList.add('active');
+                videoFilterIcon.innerHTML = '<i class="fas fa-video"></i><div class="noise-badge"></div><div class="item-tooltip">Video Filters</div>';
+            }
+            
+            // 应用背景
+            if (filterActive) {
+                // 直接设置内联样式
+                if (savedFilter === 'flower') {
+                    container.setAttribute('style', 'background: linear-gradient(135deg, #ff9a9e, #fad0c4) !important; border: 3px solid white !important; overflow: hidden; position: absolute; top: 150px; right: 20px; width: 200px; height: 300px; border-radius: 20px;');
+                } else if (savedFilter === 'bug') {
+                    container.setAttribute('style', 'background: linear-gradient(to right, #4facfe, #00f2fe) !important; border: 3px solid white !important; overflow: hidden; position: absolute; top: 150px; right: 20px; width: 200px; height: 300px; border-radius: 20px;');
+                } else if (savedFilter === 'heart') {
+                    container.setAttribute('style', 'background: linear-gradient(to right, #ff758c, #ff7eb3) !important; border: 3px solid white !important; overflow: hidden; position: absolute; top: 150px; right: 20px; width: 200px; height: 300px; border-radius: 20px;');
+                } else if (savedFilter === 'profile') {
+                    container.setAttribute('style', 'background: linear-gradient(to bottom, #333, #222) !important; border: 3px solid white !important; overflow: hidden; position: absolute; top: 150px; right: 20px; width: 200px; height: 300px; border-radius: 20px;');
+                }
+            }
+            
+            // 应用滤镜效果
+            if (effectActive && savedEffect && savedEffect !== 'none') {
+                // 移除旧效果
+                const oldEffects = container.querySelectorAll('.filter-effect');
+                oldEffects.forEach(el => el.remove());
+                
+                // 添加新效果
+                const filterEffect = document.createElement('div');
+                filterEffect.className = `filter-effect filter-${savedEffect}`;
+                filterEffect.style.cssText = "position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; display: block !important; opacity: 0.8; border-radius: 20px;";
+                
+                if (savedEffect === 'sepia') {
+                    filterEffect.style.backgroundColor = "rgba(255, 233, 185, 0.6)";
+                    filterEffect.style.mixBlendMode = "soft-light";
+                } else if (savedEffect === 'coolblue') {
+                    filterEffect.style.backgroundColor = "rgba(100, 149, 237, 0.6)";
+                    filterEffect.style.mixBlendMode = "screen";
+                } else if (savedEffect === 'warmth') {
+                    filterEffect.style.backgroundColor = "rgba(255, 140, 0, 0.5)";
+                    filterEffect.style.mixBlendMode = "multiply";
+                } else if (savedEffect === 'vintage') {
+                    filterEffect.style.background = "radial-gradient(circle, rgba(160, 120, 80, 0.5) 0%, rgba(75, 50, 40, 0.5) 100%)";
+                    filterEffect.style.mixBlendMode = "darken";
+                } else if (savedEffect === 'grayscale') {
+                    filterEffect.style.backgroundColor = "rgba(0, 0, 0, 0.6)";
+                    filterEffect.style.mixBlendMode = "saturation";
+                }
+                
+                container.appendChild(filterEffect);
+            }
+            
+            // 应用Emoji
+            if (emojiActive) {
+                let emojiAvatar = document.getElementById('emoji-avatar');
+                if (!emojiAvatar) {
+                    emojiAvatar = document.createElement('div');
+                    emojiAvatar.id = 'emoji-avatar';
+                    emojiAvatar.className = 'emoji-avatar';
+                    container.appendChild(emojiAvatar);
+                }
+                
+                emojiAvatar.style.display = 'flex';
+                emojiAvatar.textContent = savedEmoji;
+                
+                // 隐藏前景人物
+                const foregroundPerson = document.getElementById('foreground-person');
+                if (foregroundPerson) {
+                    foregroundPerson.style.display = 'none';
+                }
+            }
+        }
+
+        // 页面加载和GUI渲染完成后应用滤镜
+        window.addEventListener('load', function() {
+            applyBackgroundFilter();
+            
+            // 定时检查和应用，以防背景丢失
+            setTimeout(applyBackgroundFilter, 500);
+            setTimeout(applyBackgroundFilter, 1000);
+        });
+
+        // Noise cancellation particle effect
+        const canvas = document.getElementById('noiseParticles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
+        class Particle {
+            constructor() {
+                // Particles start from center of screen
+                this.x = window.innerWidth / 2 + (Math.random() * 100 - 50);
+                this.y = window.innerHeight / 2 + (Math.random() * 100 - 50);
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 2 - 1;
+                this.speedY = Math.random() * 2 - 1;
+                
+                // More blue and cyan shades
+                const colors = ['#4361ee', '#4cc9f0', '#3a86ff', '#38b6ff'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Particle lifetime
+                this.life = 100 + Math.random() * 100;
+                this.opacity = 0.7;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                // As particles move, gradually become smaller and more transparent
+                this.life -= 1;
+                if (this.life < 50) {
+                    this.opacity = this.life / 50 * 0.7;
+                }
+                
+                // When particle goes off screen or lifetime ends, return false to remove
+                if (this.x < 0 || this.x > canvas.width || 
+                    this.y < 0 || this.y > canvas.height || 
+                    this.life <= 0) {
+                    return false;
+                }
+                return true;
+            }
+            
+            draw() {
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.closePath();
+                ctx.globalAlpha = 1;
+            }
+        }
+        
+        function createParticles() {
+            // Control particle count, reduce for mobile devices
+            if (particles.length < 70) {
+                for (let i = 0; i < 3; i++) {
+                    particles.push(new Particle());
+                }
+            }
+        }
+        
+        function animateParticles() {
+            // Create fade effect instead of completely clearing
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            particles = particles.filter(particle => {
+                return particle.update();
+            });
+            
+            particles.forEach(particle => {
+                particle.draw();
+            });
+            
+            createParticles();
+            requestAnimationFrame(animateParticles);
+        }
+        
+        // Show/hide noise detail panel
+        const noiseIcon = document.getElementById('noise-cancellation-button');
+        const noiseDetail = document.querySelector('.noise-detail');
+        const closeModal = document.getElementById('closeModal');
+        const noiseParticles = document.getElementById('noiseParticles');
+        const noiseFilterVisual = document.querySelector('.noise-filter-visual');
+        const noiseBadge = document.querySelector('.noise-badge');
+        const noiseCancellationToggle = document.getElementById('noiseCancellationToggle');
+        const noiseLevelSlider = document.getElementById('noiseLevelSlider');
+        const noiseLevelValue = document.getElementById('noiseLevelValue');
+        
+        // Track noise cancellation state
+        let isNoiseCancellationActive = true;
+        
+        // Open detail panel on click
+        noiseIcon.addEventListener('click', function() {
+            noiseDetail.classList.remove('hidden');
+            this.style.backgroundColor = isNoiseCancellationActive ? 'var(--primary)' : 'rgba(255, 255, 255, 0.2)';
+        });
+        
+        // Close panel when clicking close button
+        closeModal.addEventListener('click', function() {
+            noiseDetail.classList.add('hidden');
+            noiseIcon.style.backgroundColor = isNoiseCancellationActive ? 'var(--primary)' : 'rgba(255, 255, 255, 0.2)';
+        });
+        
+        // Toggle noise cancellation
+        noiseCancellationToggle.addEventListener('change', function() {
+            isNoiseCancellationActive = this.checked;
+            
+            if (isNoiseCancellationActive) {
+                // Enable noise cancellation
+                noiseIcon.classList.add('active');
+                noiseBadge.style.display = 'block';
+                noiseIcon.style.backgroundColor = !noiseDetail.classList.contains('hidden') ? 'var(--primary)' : 'var(--success)';
+                noiseParticles.style.display = 'block';
+                noiseFilterVisual.style.display = 'flex';
+                noiseLevelSlider.disabled = false;
+            } else {
+                // Disable noise cancellation
+                noiseIcon.classList.remove('active');
+                noiseBadge.style.display = 'none';
+                noiseIcon.style.backgroundColor = !noiseDetail.classList.contains('hidden') ? 'var(--primary)' : 'rgba(255, 255, 255, 0.2)';
+                noiseParticles.style.display = 'none';
+                noiseFilterVisual.style.display = 'none';
+                noiseLevelSlider.disabled = true;
+            }
+        });
+        
+        // Noise level slider functionality
+        noiseLevelSlider.addEventListener('input', function() {
+            // Update slider track width
+            const percentage = ((this.value - this.min) / (this.max - this.min)) * 100;
+            document.getElementById('sliderTrack').style.width = percentage + '%';
+            
+            // Calculate the percentage value based on the slider position
+            let reductionPercentage;
+            if (this.value <= 3) { // Low (65-75%)
+                reductionPercentage = 65 + (this.value - 1) * 5;
+                noiseLevelValue.innerHTML = 'Low <span id="percentageValue">' + reductionPercentage + '%</span>';
+            } else if (this.value <= 7) { // Medium (75-85%)
+                reductionPercentage = 75 + (this.value - 3) * 2.5;
+                noiseLevelValue.innerHTML = 'Medium <span id="percentageValue">' + reductionPercentage + '%</span>';
+            } else { // High (85-95%)
+                reductionPercentage = 85 + (this.value - 7) * 3.33;
+                if (reductionPercentage > 95) reductionPercentage = 95;
+                noiseLevelValue.innerHTML = 'High <span id="percentageValue">' + Math.round(reductionPercentage) + '%</span>';
+            }
+            
+            // Update the noise reduction percentages based on level
+            const noiseStats = document.querySelectorAll('.noise-stat-value');
+            
+            // Adjust values for each noise type based on the main percentage
+            let ambientReduction = Math.round(reductionPercentage);
+            let echoReduction = Math.round(reductionPercentage + 3);
+            let backgroundReduction = Math.round(reductionPercentage - 5);
+            
+            if (echoReduction > 98) echoReduction = 98;
+            
+            noiseStats[0].textContent = 'Reduced ' + ambientReduction + '%';
+            noiseStats[1].textContent = 'Reduced ' + echoReduction + '%';
+            noiseStats[2].textContent = 'Reduced ' + backgroundReduction + '%';
+        });
+        
+        // Initialize slider track
+        document.addEventListener('DOMContentLoaded', function() {
+            const slider = document.getElementById('noiseLevelSlider');
+            const percentage = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
+            document.getElementById('sliderTrack').style.width = percentage + '%';
+        });
+        
+        // Start animation
+        animateParticles();
+        
+        // Simulate call duration
+        const durationElement = document.querySelector('.call-duration-badge');
+        let seconds = 23 * 60 + 4; // Start at 23:04
+        
+        function updateCallDuration() {
+            seconds++;
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            durationElement.innerHTML = `<i class="fas fa-signal"></i> ${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds} <span class="hd-badge">HD</span>`;
+        }
+        
+        setInterval(updateCallDuration, 1000);
+
+        // Simulate noise waveform effect
+        const noiseFilterBars = document.querySelectorAll('.noise-filter-bar');
+        const cleanAudioBars = document.querySelectorAll('.clean-audio-bar');
+        
+        function updateNoiseWaveform() {
+            noiseFilterBars.forEach(bar => {
+                // Noise waveform is smaller, showing noise being filtered
+                const height = 3 + Math.random() * 5;
+                bar.style.height = `${height}px`;
+            });
+            
+            cleanAudioBars.forEach(bar => {
+                // Clean audio waveform is larger
+                const height = 10 + Math.random() * 20;
+                bar.style.height = `${height}px`;
+            });
+        }
+        
+        setInterval(updateNoiseWaveform, 100);
+    </script>
+    
+    <!-- 最后使用内联脚本强制应用背景 -->
+    <script>
+        // 页面所有内容加载完毕后最后一次强制应用背景
+        (function() {
+            var applyBackground = function() {
+                var container = document.querySelector('.local-video-container');
+                if (container) {
+                    var savedFilter = localStorage.getItem('selectedFilter');
+                    if (savedFilter && savedFilter !== 'none') {
+                        // 强制使用内联样式应用背景
+                        if (savedFilter === 'flower') {
+                            container.setAttribute('style', 'background: linear-gradient(135deg, #ff9a9e, #fad0c4) !important; border: 3px solid white !important; overflow: hidden; position: absolute; top: 150px; right: 20px; width: 200px; height: 300px; border-radius: 20px;');
+                        } else if (savedFilter === 'bug') {
+                            container.setAttribute('style', 'background: linear-gradient(to right, #4facfe, #00f2fe) !important; border: 3px solid white !important; overflow: hidden; position: absolute; top: 150px; right: 20px; width: 200px; height: 300px; border-radius: 20px;');
+                        } else if (savedFilter === 'heart') {
+                            container.setAttribute('style', 'background: linear-gradient(to right, #ff758c, #ff7eb3) !important; border: 3px solid white !important; overflow: hidden; position: absolute; top: 150px; right: 20px; width: 200px; height: 300px; border-radius: 20px;');
+                        } else if (savedFilter === 'profile') {
+                            container.setAttribute('style', 'background: linear-gradient(to bottom, #333, #222) !important; border: 3px solid white !important; overflow: hidden; position: absolute; top: 150px; right: 20px; width: 200px; height: 300px; border-radius: 20px;');
+                        }
+                        console.log('最终强制设置背景完成:', savedFilter);
+                    }
+                }
+            };
+            
+            // 立即执行
+            applyBackground();
+            
+            // 100ms后再次执行确保应用
+            setTimeout(applyBackground, 100);
+            
+            // 500ms后再次执行确保应用
+            setTimeout(applyBackground, 500);
+        })();
+    </script>
 </body>
 </html> 
