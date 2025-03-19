@@ -374,95 +374,107 @@
         
         setInterval(updateWaveform, 100);
 
-        // Noise cancellation particle effect
-        const canvas = document.getElementById('noiseParticles');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
+        // 定义窗口滚动更新动画效果
+        window.addEventListener('scroll', function() {
+            updateWaveform();
+        });
         
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-        
-        class Particle {
-            constructor() {
-                // Particles start from center of screen
-                this.x = window.innerWidth / 2 + (Math.random() * 100 - 50);
-                this.y = window.innerHeight / 2 + (Math.random() * 100 - 50);
-                this.size = Math.random() * 2 + 0.5;
-                this.speedX = Math.random() * 2 - 1;
-                this.speedY = Math.random() * 2 - 1;
-                
-                // More blue and cyan shades
-                const colors = ['#4361ee', '#4cc9f0', '#3a86ff', '#38b6ff'];
-                this.color = colors[Math.floor(Math.random() * colors.length)];
-                
-                // Particle lifetime
-                this.life = 100 + Math.random() * 100;
-                this.opacity = 0.7;
+        setInterval(updateWaveform, 100);
+
+        // 将粒子效果代码移动到DOMContentLoaded事件处理程序中
+        document.addEventListener('DOMContentLoaded', function() {
+            // Noise cancellation particle effect
+            const canvas = document.getElementById('noiseParticles');
+            if (!canvas) return; // 安全检查，如果没有找到canvas则退出
+            
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
             }
             
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                
-                // As particles move, gradually become smaller and more transparent
-                this.life -= 1;
-                if (this.life < 50) {
-                    this.opacity = this.life / 50 * 0.7;
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+            
+            class Particle {
+                constructor() {
+                    // Particles start from center of screen
+                    this.x = window.innerWidth / 2 + (Math.random() * 100 - 50);
+                    this.y = window.innerHeight / 2 + (Math.random() * 100 - 50);
+                    this.size = Math.random() * 2 + 0.5;
+                    this.speedX = Math.random() * 2 - 1;
+                    this.speedY = Math.random() * 2 - 1;
+                    
+                    // More blue and cyan shades
+                    const colors = ['#4361ee', '#4cc9f0', '#3a86ff', '#38b6ff'];
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    // Particle lifetime
+                    this.life = 100 + Math.random() * 100;
+                    this.opacity = 0.7;
                 }
                 
-                // When particle goes off screen or lifetime ends, return false to remove
-                if (this.x < 0 || this.x > canvas.width || 
-                    this.y < 0 || this.y > canvas.height || 
-                    this.life <= 0) {
-                    return false;
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    
+                    // As particles move, gradually become smaller and more transparent
+                    this.life -= 1;
+                    if (this.life < 50) {
+                        this.opacity = this.life / 50 * 0.7;
+                    }
+                    
+                    // When particle goes off screen or lifetime ends, return false to remove
+                    if (this.x < 0 || this.x > canvas.width || 
+                        this.y < 0 || this.y > canvas.height || 
+                        this.life <= 0) {
+                        return false;
+                    }
+                    return true;
                 }
-                return true;
-            }
-            
-            draw() {
-                ctx.globalAlpha = this.opacity;
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.closePath();
-                ctx.globalAlpha = 1;
-            }
-        }
-        
-        function createParticles() {
-            // Control particle count, reduce for mobile devices
-            if (particles.length < 70) {
-                for (let i = 0; i < 3; i++) {
-                    particles.push(new Particle());
+                
+                draw() {
+                    ctx.globalAlpha = this.opacity;
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.closePath();
+                    ctx.globalAlpha = 1;
                 }
             }
-        }
-        
-        function animateParticles() {
-            // Create fade effect instead of completely clearing
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            particles = particles.filter(particle => {
-                return particle.update();
-            });
+            function createParticles() {
+                // Control particle count, reduce for mobile devices
+                if (particles.length < 70) {
+                    for (let i = 0; i < 3; i++) {
+                        particles.push(new Particle());
+                    }
+                }
+            }
             
-            particles.forEach(particle => {
-                particle.draw();
-            });
+            function animateParticles() {
+                // Create fade effect instead of completely clearing
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                particles = particles.filter(particle => {
+                    return particle.update();
+                });
+                
+                particles.forEach(particle => {
+                    particle.draw();
+                });
+                
+                createParticles();
+                requestAnimationFrame(animateParticles);
+            }
             
-            createParticles();
-            requestAnimationFrame(animateParticles);
-        }
-        
-        // Start animation
-        animateParticles();
+            // Start animation
+            animateParticles();
+        });
         
         // Simulate call duration
         const durationElement = document.querySelector('.call-duration-badge');
