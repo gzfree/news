@@ -205,6 +205,124 @@
             color: var(--primary);
         }
 
+        .call-summary {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .call-summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .call-info {
+            display: flex;
+            gap: 20px;
+        }
+
+        .call-info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray);
+        }
+
+        .call-info-item i {
+            color: var(--primary);
+        }
+
+        .call-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: var(--gray-light);
+            color: var(--gray);
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .summary-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .summary-block {
+            background-color: var(--gray-light);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .summary-block h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .summary-block ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .summary-block li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .summary-block li::before {
+            content: "•";
+            color: var(--primary);
+            position: absolute;
+            left: 0;
+        }
+
+        .action-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .action-checkbox {
+            margin-top: 3px;
+        }
+
+        .action-content {
+            flex: 1;
+        }
+
+        .action-date {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+
         .summary-card {
             display: flex;
             flex-wrap: wrap;
