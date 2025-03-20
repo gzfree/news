@@ -308,11 +308,11 @@
     <div class="summary-stats">
         <div class="stat-card">
             <div class="stat-value">$49.5M</div>
-            <div class="stat-label">Botim3 Daily Income</div>
+            <div class="stat-label">Botim3 <span class="time-period-text">Daily</span> Income</div>
         </div>
         <div class="stat-card">
             <div class="stat-value">$49.2M</div>
-            <div class="stat-label">Botim4 Daily Income</div>
+            <div class="stat-label">Botim4 <span class="time-period-text">Daily</span> Income</div>
             <div class="stat-trend trend-down">-$309.7K (-0.6%)</div>
         </div>
         <div class="stat-card desktop-only" style="display: block;">
@@ -338,7 +338,7 @@
                         <i class="fas fa-arrow-down"></i>
                     </div>
                     <div class="impact-text">
-                        <span class="impact-value">-$1,382.00</span> revenue loss from Main Page Chat feature redesign in Botim4
+                        <span class="impact-value">-$1,382.00</span> revenue loss from Main Page Chat feature redesign in Botim4 (<span class="time-period-text">daily</span>)
                     </div>
                 </div>
                 <div class="impact-item">
@@ -346,7 +346,7 @@
                         <i class="fas fa-arrow-down"></i>
                     </div>
                     <div class="impact-text">
-                        <span class="impact-value">-$2,500.00</span> revenue impact from hiding ads for all KYC users
+                        <span class="impact-value">-$2,500.00</span> revenue impact from hiding ads for all KYC users (<span class="time-period-text">daily</span>)
                     </div>
                 </div>
                 <div class="impact-item">
@@ -354,7 +354,7 @@
                         <i class="fas fa-arrow-up"></i>
                     </div>
                     <div class="impact-text">
-                        <span class="impact-value">+$564.28</span> revenue increase from improved Call End experience
+                        <span class="impact-value">+$564.28</span> revenue increase from improved Call End experience (<span class="time-period-text">daily</span>)
                     </div>
                 </div>
                 <div class="impact-item">
@@ -362,7 +362,7 @@
                         <i class="fas fa-arrow-up"></i>
                     </div>
                     <div class="impact-text">
-                        <span class="impact-value">+$2,733.00</span> new revenue from Call End Fullscreen for Non-UAE users
+                        <span class="impact-value">+$2,733.00</span> new revenue from Call End Fullscreen for Non-UAE users (<span class="time-period-text">daily</span>)
                     </div>
                 </div>
                 <div class="impact-item">
@@ -370,7 +370,7 @@
                         <i class="fas fa-arrow-up"></i>
                     </div>
                     <div class="impact-text">
-                        <span class="impact-value">+$275.00</span> additional revenue from new ad placements (Search & Profile pages)
+                        <span class="impact-value">+$275.00</span> additional revenue from new ad placements (Search & Profile pages) (<span class="time-period-text">daily</span>)
                     </div>
                 </div>
                 <div class="impact-item">
@@ -378,7 +378,7 @@
                         <i class="fas fa-equals"></i>
                     </div>
                     <div class="impact-text">
-                        <span class="impact-value">-$309.72</span> total revenue difference (Botim4 vs Botim3)
+                        <span class="impact-value">-$309.72</span> total revenue difference (Botim4 vs Botim3) (<span class="time-period-text">daily</span>)
                     </div>
                 </div>
             </div>
@@ -401,7 +401,7 @@
                 <canvas id="incomeDistributionChart"></canvas>
             </div>
             <div class="chart-title">
-                Botim4 Revenue Distribution by Source
+                Botim4 <span class="time-period-text">Daily</span> Revenue Distribution by Source
             </div>
         </div>
 
@@ -602,6 +602,50 @@
                 formatNumber(currentData.botim4Total);
             document.querySelectorAll('.summary-stats .stat-card')[1].querySelector('.stat-trend').textContent = 
                 formatNumber(currentData.difference) + ' (' + currentData.percentChange + '%)';
+                
+            // Update time period text in labels
+            let periodText = 'Daily';
+            if (currentData === weeklyData) {
+                periodText = 'Weekly';
+            } else if (currentData === monthlyData) {
+                periodText = 'Monthly';
+            }
+            document.querySelectorAll('.time-period-text').forEach(el => {
+                el.textContent = periodText.toLowerCase();
+            });
+            
+            // Update impact values based on period
+            const multiplier = currentData === weeklyData ? 7 : (currentData === monthlyData ? 30 : 1);
+            
+            // Main Page Chat loss
+            document.querySelector('.impact-item:nth-child(1) .impact-value').textContent = 
+                formatNumber(-1382 * multiplier);
+                
+            // KYC users impact
+            document.querySelector('.impact-item:nth-child(2) .impact-value').textContent = 
+                formatNumber(-2500 * multiplier);
+                
+            // Call End experience increase
+            document.querySelector('.impact-item:nth-child(3) .impact-value').textContent = 
+                formatNumber(564.28 * multiplier);
+                
+            // Non-UAE users revenue
+            document.querySelector('.impact-item:nth-child(4) .impact-value').textContent = 
+                formatNumber(2733 * multiplier);
+                
+            // Ad placements additional revenue
+            document.querySelector('.impact-item:nth-child(5) .impact-value').textContent = 
+                formatNumber(275 * multiplier);
+                
+            // Total revenue difference
+            document.querySelector('.impact-item:nth-child(6) .impact-value').textContent = 
+                formatNumber(-309.72 * multiplier);
+            
+            // Update chart titles with time period
+            if (comparisonChart && comparisonChart.options && comparisonChart.options.plugins && comparisonChart.options.plugins.title) {
+                comparisonChart.options.plugins.title.text = `Impact of UI Changes on ${periodText} Revenue by Category`;
+                comparisonChart.update('none');
+            }
             
             // Update charts
             updateComparisonChart();
