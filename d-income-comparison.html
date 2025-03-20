@@ -401,7 +401,7 @@
                 <canvas id="incomeDistributionChart"></canvas>
             </div>
             <div class="chart-title">
-                Botim4 <span class="time-period-text">Daily</span> Revenue Distribution by Source
+                Botim4 Revenue Distribution by Source
             </div>
         </div>
 
@@ -646,6 +646,9 @@
                 comparisonChart.options.plugins.title.text = `Impact of UI Changes on ${periodText} Revenue by Category`;
                 comparisonChart.update('none');
             }
+            
+            // Update pie chart title
+            document.querySelector('.chart-title').innerHTML = `Botim4 <span class="time-period-text">${periodText.toLowerCase()}</span> Revenue Distribution by Source`;
             
             // Update charts
             updateComparisonChart();
@@ -920,6 +923,14 @@
             createComparisonChart();
             createDistributionChart();
             adjustChartLegends();
+            
+            // Update all fields on initial load
+            updateDashboard();
+            
+            // Simulate Daily button click after a short delay
+            setTimeout(() => {
+                document.querySelector('.header-controls button:first-child').click();
+            }, 300);
         });
     </script>
 </body>
