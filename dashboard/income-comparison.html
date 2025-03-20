@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=430, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" id="viewportMeta">
+    <title>Botim Income Comparison Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <style>
+        :root {
+            --primary: #3366FF;
+            --secondary: #3F37C9;
+            --success: #4CC9F0;
+            --info: #4895EF;
+            --warning: #F72585;
+            --danger: #FF4D6D;
+            --light: #F8F9FA;
+            --dark: #212529;
+            --gray: #6C757D;
+            --gray-light: #F1F3F5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #F7F9FC;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        /* Mobile layout */
+        body.mobile-layout {
+            max-width: 430px;
+            margin: 0 auto;
+            height: 932px;
+        }
+        
+        /* Desktop layout */
+        body.desktop-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            height: auto;
+        }
+        
+        body.desktop-layout .card-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        body.desktop-layout .full-width {
+            grid-column: 1 / 3;
+        }
+        
+        /* Layout toggle button */
+        .layout-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .layout-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #E5E9F2;
+        }
+
+        header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-controls button {
+            background-color: #FFF;
+            border: 1px solid #E5E9F2;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .header-controls button.active {
+            background-color: var(--primary);
+            color: #FFF;
+            border-color: var(--primary);
+        }
+
+        .card {
+            background-color: #FFF;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        body.desktop-layout .summary-stats {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .stat-card {
+            background-color: #FFF;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #6C757D;
+        }
+
+        .stat-trend {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .trend-up {
+            color: #30CF6D;
+        }
+
+        .trend-down {
+            color: #FF3B30;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 250px;
+            margin-bottom: 20px;
+        }
+        
+        body.desktop-layout .chart-container {
+            height: 350px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #E5E9F2;
+        }
+
+        table th {
+            font-weight: 600;
+            color: #4F566B;
+            background-color: #F9FAFC;
+        }
+
+        table td {
+            color: #333;
+        }
+
+        .positive-change {
+            color: #30CF6D;
+        }
+
+        .negative-change {
+            color: #FF3B30;
+        }
+
+        .chart-title {
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #6C757D;
+            font-size: 12px;
+            padding-top: 10px;
+            border-top: 1px solid #E5E9F2;
+        }
+        
+        .impact-analysis {
+            margin-top: 20px;
+        }
+        
+        .impact-item {
+            display: flex;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        
+        .impact-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        
+        .impact-up {
+            background-color: rgba(48, 207, 109, 0.1);
+            color: #30CF6D;
+        }
+        
+        .impact-down {
+            background-color: rgba(255, 59, 48, 0.1);
+            color: #FF3B30;
+        }
+        
+        .impact-neutral {
+            background-color: rgba(142, 142, 147, 0.1);
+            color: #8E8E93;
+        }
+        
+        .impact-text {
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        
+        .impact-value {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="desktop-layout">
+    <button class="layout-toggle" id="layoutToggle" title="Toggle Layout">
+        <i class="fas fa-desktop"></i>
+    </button>
+
+    <header>
+        <h1>Botim Income Dashboard</h1>
+        <div class="header-controls">
+            <button class="active">Daily</button>
+            <button>Weekly</button>
+            <button>Monthly</button>
+        </div>
+    </header>
+
+    <div class="summary-stats">
+        <div class="stat-card">
+            <div class="stat-value">$49.5M</div>
+            <div class="stat-label">Botim3 Daily Income</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">$49.2M</div>
+            <div class="stat-label">Botim4 Daily Income</div>
+            <div class="stat-trend trend-down">-$309.7K (-0.6%)</div>
+        </div>
+        <div class="stat-card desktop-only" style="display: block;">
+            <div class="stat-value">87.9%</div>
+            <div class="stat-label">VOIP Call Revenue</div>
+            <div class="stat-trend">Main Revenue Source</div>
+        </div>
+        <div class="stat-card desktop-only" style="display: block;">
+            <div class="stat-value">$3.0M</div>
+            <div class="stat-label">New Experiments</div>
+            <div class="stat-trend trend-up">Newly Added Revenue</div>
+        </div>
+    </div>
+
+    <div class="card-container">
+        <div class="card full-width">
+            <div class="card-header">
+                <h2 class="card-title">Key Revenue Changes (Botim3 vs Botim4)</h2>
+            </div>
+            <div class="impact-analysis">
+                <div class="impact-item">
+                    <div class="impact-icon impact-down">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <div class="impact-text">
+                        <span class="impact-value">-$1,382.00</span> revenue loss from Main Page Chat feature redesign in Botim4
+                    </div>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-icon impact-down">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <div class="impact-text">
+                        <span class="impact-value">-$2,500.00</span> revenue impact from hiding ads for all KYC users
+                    </div>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-icon impact-up">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="impact-text">
+                        <span class="impact-value">+$564.28</span> revenue increase from improved Call End experience
+                    </div>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-icon impact-up">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="impact-text">
+                        <span class="impact-value">+$2,733.00</span> new revenue from Call End Fullscreen for Non-UAE users
+                    </div>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-icon impact-up">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="impact-text">
+                        <span class="impact-value">+$275.00</span> additional revenue from new ad placements (Search & Profile pages)
+                    </div>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-icon impact-down">
+                        <i class="fas fa-equals"></i>
+                    </div>
+                    <div class="impact-text">
+                        <span class="impact-value">-$309.72</span> total revenue difference (Botim4 vs Botim3)
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card full-width">
+            <div class="card-header">
+                <h2 class="card-title">Income Comparison by Placement</h2>
+            </div>
+            <div class="chart-container">
+                <canvas id="incomeComparisonChart"></canvas>
+            </div>
+        </div>
+
+        <div class="card full-width">
+            <div class="card-header">
+                <h2 class="card-title">Income Distribution</h2>
+            </div>
+            <div class="chart-container">
+                <canvas id="incomeDistributionChart"></canvas>
+            </div>
+            <div class="chart-title">
+                Botim4 Revenue Distribution by Source
+            </div>
+        </div>
+
+        <div class="card full-width">
+            <div class="card-header">
+                <h2 class="card-title">Detailed Income Analysis</h2>
+            </div>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Placement</th>
+                            <th>Botim3 Feature</th>
+                            <th>Botim3 Income</th>
+                            <th>Botim4 Feature</th>
+                            <th>Botim4 Income</th>
+                            <th>Change</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="7">Main page</td>
+                            <td>Call</td>
+                            <td>$69.00</td>
+                            <td>Calls</td>
+                            <td>$69.00</td>
+                            <td>$0.00</td>
+                        </tr>
+                        <tr>
+                            <td>Chat (default)</td>
+                            <td>$2,073.00</td>
+                            <td>Chats</td>
+                            <td>$691.00</td>
+                            <td class="negative-change">-$1,382.00</td>
+                        </tr>
+                        <tr>
+                            <td>Contacts</td>
+                            <td>$69.00</td>
+                            <td>N/A</td>
+                            <td>$0.00</td>
+                            <td class="negative-change">-$69.00</td>
+                        </tr>
+                        <tr>
+                            <td>Explore</td>
+                            <td>$0.00</td>
+                            <td>N/A</td>
+                            <td>$0.00</td>
+                            <td>$0.00</td>
+                        </tr>
+                        <tr>
+                            <td>N/A</td>
+                            <td>$0.00</td>
+                            <td>Money</td>
+                            <td>$0.00</td>
+                            <td>$0.00</td>
+                        </tr>
+                        <tr>
+                            <td>N/A</td>
+                            <td>$0.00</td>
+                            <td>All</td>
+                            <td>$0.00</td>
+                            <td>$0.00</td>
+                        </tr>
+                        <tr>
+                            <td>N/A</td>
+                            <td>$0.00</td>
+                            <td>Home (default)</td>
+                            <td>$69.00</td>
+                            <td class="positive-change">+$69.00</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">VOIP Call</td>
+                            <td>Calling</td>
+                            <td>$43,394.65</td>
+                            <td>Calling</td>
+                            <td>$43,394.65</td>
+                            <td>$0.00</td>
+                        </tr>
+                        <tr>
+                            <td>Call End</td>
+                            <td>$3,939.54</td>
+                            <td>Call End</td>
+                            <td>$4,503.82</td>
+                            <td class="positive-change">+$564.28</td>
+                        </tr>
+                        <tr>
+                            <td>KYC Users</td>
+                            <td>Hide ads for all KYC users</td>
+                            <td>$0.00</td>
+                            <td>Same</td>
+                            <td>-$2,500.00</td>
+                            <td class="negative-change">-$2,500.00</td>
+                        </tr>
+                        <tr class="total-row" style="font-weight: bold; background-color: #F0F7FF;">
+                            <td colspan="2">Original Total</td>
+                            <td>$49,545.19</td>
+                            <td></td>
+                            <td>$46,227.47</td>
+                            <td class="negative-change">-$3,317.72</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="3">New Experiments</td>
+                            <td>N/A</td>
+                            <td>$0.00</td>
+                            <td>Call End - Fullscreen Non-UAE</td>
+                            <td>$2,733.00</td>
+                            <td class="positive-change">+$2,733.00</td>
+                        </tr>
+                        <tr>
+                            <td>N/A</td>
+                            <td>$0.00</td>
+                            <td>Search Page</td>
+                            <td>$106.00</td>
+                            <td class="positive-change">+$106.00</td>
+                        </tr>
+                        <tr>
+                            <td>N/A</td>
+                            <td>$0.00</td>
+                            <td>Profile Page</td>
+                            <td>$169.00</td>
+                            <td class="positive-change">+$169.00</td>
+                        </tr>
+                        <tr class="total-row" style="font-weight: bold; background-color: #E3F7EB;">
+                            <td colspan="2">Final Total</td>
+                            <td>$49,545.19</td>
+                            <td></td>
+                            <td>$49,235.47</td>
+                            <td class="negative-change">-$309.72</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Data updated: July 2023 | Dashboard v1.0</p>
+    </div>
+
+    <script>
+        // Register ChartDataLabels plugin
+        Chart.register(ChartDataLabels);
+        
+        // Data for all time periods
+        const dailyData = {
+            botim3Total: 49545.19,
+            botim4Total: 49235.47,
+            difference: -309.72,
+            percentChange: -0.6,
+            placementLabels: ['Main Page', 'VOIP Call', 'KYC Users', 'New Experiments'],
+            botim3Data: [2211, 47334.19, 0, 0],
+            botim4Data: [829, 47898.47, -2500, 3008],
+            pieData: [829, 43394.65, 4503.82, 3008, -2500]
+        };
+        
+        const weeklyData = {
+            botim3Total: 346816.33,
+            botim4Total: 344648.29,
+            difference: -2168.04,
+            percentChange: -0.6,
+            placementLabels: ['Main Page', 'VOIP Call', 'KYC Users', 'New Experiments'],
+            botim3Data: [15477, 331339.33, 0, 0],
+            botim4Data: [5803, 335289.29, -17500, 21056],
+            pieData: [5803, 303762.55, 31526.74, 21056, -17500]
+        };
+        
+        const monthlyData = {
+            botim3Total: 1486355.70,
+            botim4Total: 1477064.10,
+            difference: -9291.60,
+            percentChange: -0.6,
+            placementLabels: ['Main Page', 'VOIP Call', 'KYC Users', 'New Experiments'],
+            botim3Data: [66330, 1420025.70, 0, 0],
+            botim4Data: [24870, 1436953.90, -75000, 90240],
+            pieData: [24870, 1301839.50, 135114.60, 90240, -75000]
+        };
+        
+        // Current data set (default to daily)
+        let currentData = dailyData;
+        
+        // Format number with K and M
+        function formatNumber(value) {
+            if (Math.abs(value) >= 1000000) {
+                return '$' + (value / 1000000).toFixed(1) + 'M';
+            } else if (Math.abs(value) >= 1000) {
+                return '$' + (value / 1000).toFixed(1) + 'K';
+            } else {
+                return '$' + value.toFixed(2);
+            }
+        }
+        
+        // Function to update dashboard with current dataset
+        function updateDashboard() {
+            // Update summary stats
+            document.querySelectorAll('.summary-stats .stat-card')[0].querySelector('.stat-value').textContent = 
+                formatNumber(currentData.botim3Total);
+            document.querySelectorAll('.summary-stats .stat-card')[1].querySelector('.stat-value').textContent = 
+                formatNumber(currentData.botim4Total);
+            document.querySelectorAll('.summary-stats .stat-card')[1].querySelector('.stat-trend').textContent = 
+                formatNumber(currentData.difference) + ' (' + currentData.percentChange + '%)';
+            
+            // Update charts
+            updateComparisonChart();
+            updateDistributionChart();
+        }
+        
+        // Income Comparison Chart
+        let comparisonChart;
+        function createComparisonChart() {
+            const comparisonCtx = document.getElementById('incomeComparisonChart').getContext('2d');
+            comparisonChart = new Chart(comparisonCtx, {
+                type: 'bar',
+                data: {
+                    labels: currentData.placementLabels,
+                    datasets: [{
+                        label: 'Botim3',
+                        data: currentData.botim3Data,
+                        backgroundColor: 'rgba(51, 102, 255, 0.7)',
+                        borderColor: 'rgba(51, 102, 255, 1)',
+                        borderWidth: 1,
+                        datalabels: {
+                            color: 'rgba(51, 102, 255, 1)'
+                        }
+                    }, {
+                        label: 'Botim4',
+                        data: currentData.botim4Data,
+                        backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        datalabels: {
+                            color: 'rgba(75, 192, 192, 1)'
+                        }
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return formatNumber(value);
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Impact of UI Changes on Revenue by Category',
+                            font: {
+                                size: 14
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + formatNumber(context.raw);
+                                }
+                            }
+                        },
+                        datalabels: {
+                            display: true,
+                            font: {
+                                weight: 'bold',
+                                size: 11
+                            },
+                            formatter: function(value) {
+                                if (value === 0) return '$0';
+                                return formatNumber(value);
+                            },
+                            anchor: 'end',
+                            align: 'top',
+                            offset: 4
+                        }
+                    }
+                }
+            });
+        }
+        
+        function updateComparisonChart() {
+            if (!comparisonChart) return;
+            
+            comparisonChart.data.datasets[0].data = currentData.botim3Data;
+            comparisonChart.data.datasets[1].data = currentData.botim4Data;
+            comparisonChart.update();
+        }
+        
+        // Income Distribution Chart
+        let distributionChart;
+        function createDistributionChart() {
+            const distributionCtx = document.getElementById('incomeDistributionChart').getContext('2d');
+            distributionChart = new Chart(distributionCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Main Page', 'VOIP Calling', 'VOIP Call End', 'New Experiments', 'KYC Users Impact'],
+                    datasets: [{
+                        label: 'Botim4 Income Distribution',
+                        data: currentData.pieData,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                font: {
+                                    size: 12
+                                },
+                                generateLabels: function(chart) {
+                                    const data = chart.data;
+                                    if (data.labels.length && data.datasets.length) {
+                                        return data.labels.map(function(label, i) {
+                                            const value = data.datasets[0].data[i];
+                                            const total = data.datasets[0].data.reduce((a, b) => Math.abs(a) + Math.abs(b), 0);
+                                            const percentage = Math.abs(value) / total * 100;
+                                            const sign = value < 0 ? '-' : '';
+                                            
+                                            return {
+                                                text: `${label}: ${sign}${formatNumber(Math.abs(value)).substring(1)} (${percentage.toFixed(1)}%)`,
+                                                fillStyle: data.datasets[0].backgroundColor[i],
+                                                strokeStyle: data.datasets[0].borderColor[i],
+                                                lineWidth: 1,
+                                                hidden: false,
+                                                index: i
+                                            };
+                                        });
+                                    }
+                                    return [];
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.raw;
+                                    const total = context.dataset.data.reduce((a, b) => Math.abs(a) + Math.abs(b), 0);
+                                    const percentage = Math.abs(value) / total * 100;
+                                    const sign = value < 0 ? '-' : '';
+                                    return context.label + ': ' + sign + formatNumber(Math.abs(value)).substring(1) + 
+                                           ' (' + percentage.toFixed(1) + '%)';
+                                }
+                            }
+                        },
+                        datalabels: {
+                            display: function(context) {
+                                // Only show labels for segments with percentage > 3%
+                                const value = context.dataset.data[context.dataIndex];
+                                const total = context.dataset.data.reduce((a, b) => Math.abs(a) + Math.abs(b), 0);
+                                const percentage = Math.abs(value) / total * 100;
+                                return percentage > 3;
+                            },
+                            color: '#fff',
+                            font: {
+                                weight: 'bold',
+                                size: 12
+                            },
+                            formatter: function(value, context) {
+                                const total = context.dataset.data.reduce((a, b) => Math.abs(a) + Math.abs(b), 0);
+                                const percentage = Math.abs(value) / total * 100;
+                                return percentage.toFixed(1) + '%';
+                            },
+                            textAlign: 'center'
+                        }
+                    }
+                }
+            });
+        }
+        
+        function updateDistributionChart() {
+            if (!distributionChart) return;
+            
+            distributionChart.data.datasets[0].data = currentData.pieData;
+            distributionChart.update();
+        }
+        
+        // Function to adjust chart legends based on layout
+        function adjustChartLegends() {
+            const isMobile = document.body.classList.contains('mobile-layout');
+            
+            // Get pie chart instance and update config
+            if (distributionChart) {
+                distributionChart.options.plugins.legend.position = isMobile ? 'bottom' : 'right';
+                distributionChart.update();
+            }
+        }
+        
+        // Layout toggle logic
+        document.getElementById('layoutToggle').addEventListener('click', function() {
+            const body = document.body;
+            const viewportMeta = document.getElementById('viewportMeta');
+            const layoutIcon = this.querySelector('i');
+            const desktopOnlyElements = document.querySelectorAll('.desktop-only');
+            
+            if (body.classList.contains('mobile-layout')) {
+                // Switch to desktop layout
+                body.classList.remove('mobile-layout');
+                body.classList.add('desktop-layout');
+                viewportMeta.content = "width=device-width, initial-scale=1.0";
+                layoutIcon.className = 'fas fa-mobile-alt';
+                
+                // Show desktop-only elements
+                desktopOnlyElements.forEach(el => el.style.display = 'block');
+                
+                // Re-render charts to fit new size
+                window.setTimeout(() => {
+                    window.dispatchEvent(new Event('resize'));
+                    adjustChartLegends();
+                }, 300);
+            } else {
+                // Switch to mobile layout
+                body.classList.remove('desktop-layout');
+                body.classList.add('mobile-layout');
+                viewportMeta.content = "width=430, initial-scale=1.0, maximum-scale=1.0, user-scalable=no";
+                layoutIcon.className = 'fas fa-desktop';
+                
+                // Hide desktop-only elements
+                desktopOnlyElements.forEach(el => el.style.display = 'none');
+                
+                // Re-render charts to fit new size
+                window.setTimeout(() => {
+                    window.dispatchEvent(new Event('resize'));
+                    adjustChartLegends();
+                }, 300);
+            }
+        });
+
+        // Handle time period tabs
+        document.querySelectorAll('.header-controls button').forEach((button, index) => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.header-controls button').forEach(btn => 
+                    btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Update current data based on selected period
+                if (index === 0) { // Daily
+                    currentData = dailyData;
+                } else if (index === 1) { // Weekly
+                    currentData = weeklyData;
+                } else if (index === 2) { // Monthly
+                    currentData = monthlyData;
+                }
+                
+                // Update dashboard with new data
+                updateDashboard();
+            });
+        });
+        
+        // Initialize on page load
+        window.addEventListener('load', function() {
+            createComparisonChart();
+            createDistributionChart();
+            adjustChartLegends();
+        });
+    </script>
+</body>
+</html> 
