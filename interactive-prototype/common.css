@@ -19,34 +19,40 @@
   padding: 0;
   box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* 基础布局 */
+/* 设置移动端基础布局 */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: fixed;
+  touch-action: manipulation;
+}
+
 body {
-  background-color: var(--background);
+  background-color: var(--container-bg);
   color: var(--text-color);
   line-height: 1.5;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  font-size: 16px;
 }
 
-/* 应用容器 */
+/* 移除应用容器的固定宽度，使用100%视口宽度 */
 .app-container {
-  width: 414px;
-  height: 950px;
-  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  margin: 0;
   background-color: var(--container-bg);
   display: flex;
   flex-direction: column;
   position: relative;
-  border-radius: 40px;
   overflow: hidden;
+  border-radius: 0;
 }
 
-/* 状态栏 */
+/* 状态栏调整为移动设备的标准高度 */
 .status-bar {
   height: 44px;
   padding: 0 16px;
@@ -57,25 +63,47 @@ body {
   font-weight: 600;
   color: var(--text-color);
   background: var(--container-bg);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
-/* 底部导航 */
+/* 内容区域 */
+.content-area {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding: 8px 16px;
+  width: 100%;
+}
+
+/* 底部导航调整为移动设备标准 */
 .bottom-nav {
-  height: 84px;
-  padding: 8px 0 32px;
+  height: 58px;
+  padding: 0;
   background: var(--container-bg);
-  border-top: 1px solid #EEEEEE;
+  border-top: 1px solid rgba(0,0,0,0.1);
   display: flex;
   justify-content: space-around;
   align-items: center;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  z-index: 100;
 }
 
 .nav-item {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  height: 100%;
   gap: 4px;
   color: var(--gray);
+  flex: 1;
+  padding: 6px 0;
 }
 
 .nav-item.active {
@@ -90,10 +118,35 @@ body {
   font-size: 12px;
 }
 
+/* 改进触摸目标大小，确保按钮有足够大小 */
+button, 
+.btn,
+[role="button"],
+.chat-action,
+.nav-item {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* 表格和列表项 */
+.chat-item {
+  padding: 12px 0;
+  min-height: 60px;
+}
+
+/* 改进Touch UI元素大小 */
+input[type="text"],
+input[type="search"],
+.search-bar,
+.search-input {
+  height: 44px;
+  font-size: 16px; /* 防止iOS缩小字体 */
+}
+
 /* Toast 样式 */
 .toast {
   position: fixed;
-  bottom: 30px;
+  bottom: 80px; /* 确保在底部导航上方 */
   left: 50%;
   transform: translateX(-50%);
   background-color: rgba(0, 0, 0, 0.7);
@@ -105,9 +158,40 @@ body {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s, visibility 0.3s;
+  width: auto;
+  max-width: 90%;
+  text-align: center;
 }
 
 .toast.show {
   opacity: 1;
   visibility: visible;
+}
+
+/* 移动优化的响应式媒体查询 */
+@media (max-width: 360px) {
+  body {
+    font-size: 14px;
+  }
+  
+  .chat-title {
+    font-size: 15px;
+  }
+  
+  .chat-subtitle {
+    font-size: 13px;
+  }
+}
+
+/* 确保安全区域 - 支持iPhone X及以上刘海屏 */
+@supports (padding: max(0px)) {
+  .bottom-nav {
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
+    height: calc(58px + env(safe-area-inset-bottom));
+  }
+  
+  .status-bar {
+    padding-top: max(0px, env(safe-area-inset-top));
+    height: calc(44px + env(safe-area-inset-top));
+  }
 } 
