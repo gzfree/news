@@ -434,8 +434,8 @@
                             <td>Chat (default)</td>
                             <td>$2,073.00</td>
                             <td>Chats</td>
-                            <td>$691.00</td>
-                            <td class="negative-change">-$1,382.00</td>
+                            <td>$876.49</td>
+                            <td class="negative-change">-$1,196.51</td>
                         </tr>
                         <tr>
                             <td>Contacts</td>
@@ -499,8 +499,8 @@
                             <td colspan="2">Original Total</td>
                             <td>$49,545.19</td>
                             <td></td>
-                            <td>$46,227.47</td>
-                            <td class="negative-change">-$3,317.72</td>
+                            <td>$46,412.96</td>
+                            <td class="negative-change">-$3,132.23</td>
                         </tr>
                         <tr>
                             <td rowspan="3">New Experiments</td>
@@ -528,8 +528,8 @@
                             <td colspan="2">Final Total</td>
                             <td>$49,545.19</td>
                             <td></td>
-                            <td>$49,235.47</td>
-                            <td class="negative-change">-$309.72</td>
+                            <td>$49,420.96</td>
+                            <td class="negative-change">-$124.23</td>
                         </tr>
                     </tbody>
                 </table>
@@ -538,7 +538,7 @@
     </div>
 
     <div class="footer">
-        <p>Data updated: July 2023 | Dashboard v1.0</p>
+        <p>Data updated: March 2024 | Dashboard v1.1</p>
     </div>
 
     <script>
@@ -548,35 +548,35 @@
         // Data for all time periods
         const dailyData = {
             botim3Total: 49545.19,
-            botim4Total: 49235.47,
-            difference: -309.72,
-            percentChange: -0.6,
+            botim4Total: 49420.96,
+            difference: -124.23,
+            percentChange: -0.25,
             placementLabels: ['Main Page', 'VOIP Call', 'KYC Users', 'New Experiments'],
             botim3Data: [2211, 47334.19, 0, 0],
-            botim4Data: [829, 47898.47, -2500, 3008],
-            pieData: [829, 43394.65, 4503.82, 3008, -2500]
+            botim4Data: [1014.49, 47898.47, -2500, 3008],
+            pieData: [1014.49, 43394.65, 4503.82, 3008, -2500]
         };
         
         const weeklyData = {
             botim3Total: 346816.33,
-            botim4Total: 344648.29,
-            difference: -2168.04,
-            percentChange: -0.6,
+            botim4Total: 345946.72,
+            difference: -869.61,
+            percentChange: -0.25,
             placementLabels: ['Main Page', 'VOIP Call', 'KYC Users', 'New Experiments'],
             botim3Data: [15477, 331339.33, 0, 0],
-            botim4Data: [5803, 335289.29, -17500, 21056],
-            pieData: [5803, 303762.55, 31526.74, 21056, -17500]
+            botim4Data: [7101.43, 335289.29, -17500, 21056],
+            pieData: [7101.43, 303762.55, 31526.74, 21056, -17500]
         };
         
         const monthlyData = {
             botim3Total: 1486355.70,
-            botim4Total: 1477064.10,
-            difference: -9291.60,
-            percentChange: -0.6,
+            botim4Total: 1482628.80,
+            difference: -3726.90,
+            percentChange: -0.25,
             placementLabels: ['Main Page', 'VOIP Call', 'KYC Users', 'New Experiments'],
             botim3Data: [66330, 1420025.70, 0, 0],
-            botim4Data: [24870, 1436953.90, -75000, 90240],
-            pieData: [24870, 1301839.50, 135114.60, 90240, -75000]
+            botim4Data: [30434.70, 1436953.90, -75000, 90240],
+            pieData: [30434.70, 1301839.50, 135114.60, 90240, -75000]
         };
         
         // Current data set (default to daily)
@@ -619,7 +619,7 @@
             
             // Main Page Chat loss
             document.querySelector('.impact-item:nth-child(1) .impact-value').textContent = 
-                formatNumber(-1382 * multiplier);
+                formatNumber(-1196.51 * multiplier);
                 
             // KYC users impact
             document.querySelector('.impact-item:nth-child(2) .impact-value').textContent = 
@@ -639,7 +639,7 @@
                 
             // Total revenue difference
             document.querySelector('.impact-item:nth-child(6) .impact-value').textContent = 
-                formatNumber(-309.72 * multiplier);
+                formatNumber(-124.23 * multiplier);
             
             // Update chart titles with time period
             if (comparisonChart && comparisonChart.options && comparisonChart.options.plugins && comparisonChart.options.plugins.title) {
