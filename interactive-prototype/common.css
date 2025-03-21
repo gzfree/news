@@ -52,7 +52,7 @@ body {
   border-radius: 0;
 }
 
-/* 状态栏调整为移动设备的标准高度 */
+/* 统一状态栏样式 */
 .status-bar {
   height: 44px;
   padding: 0 16px;
@@ -67,6 +67,21 @@ body {
   top: 0;
   z-index: 100;
   border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.status-time {
+  flex: 1;
+}
+
+.status-icons {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.status-icon {
+  width: 16px;
+  height: 16px;
 }
 
 /* 内容区域 */
@@ -194,4 +209,4 @@ input[type="search"],
     padding-top: max(0px, env(safe-area-inset-top));
     height: calc(44px + env(safe-area-inset-top));
   }
-} 
+}

@@ -478,11 +478,49 @@
       justify-content: center;
       cursor: pointer;
     }
+
+    .status-bar {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      background-color: #FFF;
+      border-bottom: 1px solid #EEEEEE;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .status-time {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .status-icons {
+      display: flex;
+      align-items: center;
+    }
+
+    .status-icon {
+      width: 24px;
+      height: 24px;
+      margin-left: 8px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <!-- List page -->
   <div id="home-page" class="page app-container active">
+    <div class="status-bar">
+      <div class="status-time">10:20</div>
+      <div class="status-icons">
+        <div class="status-icon">•••</div>
+        <div class="status-icon">📶</div>
+        <div class="status-icon">🔋</div>
+      </div>
+    </div>
     <div class="top-nav">
       <h1>Today's News</h1>
       <div class="nav-icon">🔍</div>
@@ -589,6 +627,14 @@
   
   <!-- Detail page -->
   <div id="detail-page" class="page app-container">
+    <div class="status-bar">
+      <div class="status-time">10:20</div>
+      <div class="status-icons">
+        <div class="status-icon">•••</div>
+        <div class="status-icon">📶</div>
+        <div class="status-icon">🔋</div>
+      </div>
+    </div>
     <div class="top-nav">
       <div class="back-btn" onclick="navigateTo('home-page')">◀</div>
       <h1>News Detail</h1>
@@ -641,6 +687,14 @@
   
   <!-- AI search page -->
   <div id="ai-page" class="page app-container">
+    <div class="status-bar">
+      <div class="status-time">10:20</div>
+      <div class="status-icons">
+        <div class="status-icon">•••</div>
+        <div class="status-icon">📶</div>
+        <div class="status-icon">🔋</div>
+      </div>
+    </div>
     <div class="top-nav">
       <div class="back-btn" onclick="navigateTo('detail-page')">◀</div>
       <h1>AI Assistant</h1>
