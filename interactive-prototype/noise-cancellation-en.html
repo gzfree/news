@@ -296,10 +296,9 @@
                 this.style.backgroundColor = isNoiseCancellationActive ? 'var(--primary)' : 'rgba(255, 255, 255, 0.2)';
             });
             
-            // Close panel when clicking close button
+            // Close panel when clicking close button - 现在改为跳转到首页
             closeModal.addEventListener('click', function() {
-                noiseDetail.classList.add('hidden');
-                noiseIcon.style.backgroundColor = isNoiseCancellationActive ? 'var(--primary)' : 'rgba(255, 255, 255, 0.2)';
+                window.location.href = 'index.html';
             });
             
             // Toggle noise cancellation
@@ -476,38 +475,54 @@
             animateParticles();
         });
         
-        // Simulate call duration
-        const durationElement = document.querySelector('.call-duration-badge');
-        let seconds = 23 * 60 + 4; // Start at 23:04
-        
-        function updateCallDuration() {
-            seconds++;
-            const minutes = Math.floor(seconds / 60);
-            const remainingSeconds = seconds % 60;
-            durationElement.innerHTML = `<i class="fas fa-signal"></i> ${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds} <span class="hd-badge">HD</span>`;
-        }
-        
-        setInterval(updateCallDuration, 1000);
+        // Simulate call duration - 确保在DOM加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            const durationElement = document.querySelector('.call-duration-badge');
+            if (durationElement) {
+                let seconds = 23 * 60 + 4; // Start at 23:04
+                
+                function updateCallDuration() {
+                    seconds++;
+                    const minutes = Math.floor(seconds / 60);
+                    const remainingSeconds = seconds % 60;
+                    durationElement.innerHTML = `<i class="fas fa-signal"></i> ${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds} <span class="hd-badge">HD</span>`;
+                }
+                
+                // 初始化显示
+                updateCallDuration();
+                
+                // 设置定时器
+                setInterval(updateCallDuration, 1000);
+            }
+        });
 
-        // Simulate noise waveform effect
-        const noiseFilterBars = document.querySelectorAll('.noise-filter-bar');
-        const cleanAudioBars = document.querySelectorAll('.clean-audio-bar');
-        
-        function updateNoiseWaveform() {
-            noiseFilterBars.forEach(bar => {
-                // Noise waveform is smaller, showing noise being filtered
-                const height = 3 + Math.random() * 5;
-                bar.style.height = `${height}px`;
-            });
+        // Simulate noise waveform effect - 同样确保在DOM加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            const noiseFilterBars = document.querySelectorAll('.noise-filter-bar');
+            const cleanAudioBars = document.querySelectorAll('.clean-audio-bar');
             
-            cleanAudioBars.forEach(bar => {
-                // Clean audio waveform is larger
-                const height = 10 + Math.random() * 20;
-                bar.style.height = `${height}px`;
-            });
-        }
-        
-        setInterval(updateNoiseWaveform, 100);
+            if (noiseFilterBars.length > 0 && cleanAudioBars.length > 0) {
+                function updateNoiseWaveform() {
+                    noiseFilterBars.forEach(bar => {
+                        // Noise waveform is smaller, showing noise being filtered
+                        const height = 3 + Math.random() * 5;
+                        bar.style.height = `${height}px`;
+                    });
+                    
+                    cleanAudioBars.forEach(bar => {
+                        // Clean audio waveform is larger
+                        const height = 10 + Math.random() * 20;
+                        bar.style.height = `${height}px`;
+                    });
+                }
+                
+                // 初始化执行一次
+                updateNoiseWaveform();
+                
+                // 设置定时器
+                setInterval(updateNoiseWaveform, 100);
+            }
+        });
     </script>
     <style>
         :root {
@@ -578,6 +593,15 @@
             font-size: 24px;
             z-index: 100;
             cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .back-button:hover {
+            transform: scale(1.1);
+        }
+        
+        .back-button:active {
+            transform: scale(0.95);
         }
 
         /* Main content area */
@@ -733,6 +757,15 @@
 
         .footer-btn.end-call {
             background-color: #FF3B30;
+            transition: transform 0.2s ease;
+        }
+        
+        .footer-btn.end-call:hover {
+            transform: scale(1.1);
+        }
+        
+        .footer-btn.end-call:active {
+            transform: scale(0.95);
         }
 
         .footer-btn.regular {
@@ -1356,7 +1389,7 @@
         </div>
 
         <!-- Back button -->
-        <button class="back-button">
+        <button class="back-button" onclick="window.location.href='index.html'">
             <i class="fas fa-chevron-left"></i>
         </button>
 
@@ -1436,7 +1469,7 @@
 
             <!-- Noise details panel -->
             <div class="noise-detail hidden">
-                <button class="modal-close" id="closeModal">
+                <button class="modal-close" id="closeModal" onclick="window.location.href='index.html'">
                     <i class="fas fa-times"></i>
                 </button>
                 
@@ -1517,7 +1550,7 @@
             <button class="footer-btn regular">
                 <i class="fas fa-volume-up"></i>
             </button>
-            <button class="footer-btn end-call">
+            <button class="footer-btn end-call" onclick="window.location.href='index.html'">
                 <i class="fas fa-phone-slash"></i>
             </button>
             <button class="footer-btn regular">
