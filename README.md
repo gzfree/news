@@ -1,55 +1,91 @@
-# News Application
+# 新闻应用原型
 
-A responsive mobile web application with news features, video filters, and data visualization dashboards.
+一个响应式移动端Web应用，包含新闻展示、视频通话滤镜、数据可视化和AI噪声消除等功能。
 
-## Features
+## 功能特点
 
-- News feed and article details
-- Video filters with background effects
-- Noise cancellation during video calls
-- Data visualization dashboard for Botim income comparison
-- Search functionality
+- 新闻信息流与文章详情页
+- 视频通话滤镜与背景特效
+- 通话过程中的AI降噪功能
+- Botim通讯应用界面模拟
+- 搜索功能与搜索结果展示
+- 数据可视化仪表盘
 
-## Deployment
+## 在线访问
 
-This project is automatically deployed to Vercel through GitHub Actions.
+本项目通过GitHub Actions自动部署到Vercel平台。
 
-### URL
-- Production: https://news-kappa-henna.vercel.app/
+### 访问链接
+- 生产环境: https://news-kappa-henna.vercel.app/
 
-### Quick Access URLs
-- News: https://news-kappa-henna.vercel.app/news.html
-- Dashboard: https://news-kappa-henna.vercel.app/d-income-comparison.html
-- Video Filters: https://news-kappa-henna.vercel.app/video-filters.html
-- Search: https://news-kappa-henna.vercel.app/search.html
+### 快速访问链接
+- 新闻页面: https://news-kappa-henna.vercel.app/news.html
+- 视频滤镜: https://news-kappa-henna.vercel.app/video-filters.html
+- 搜索页面: https://news-kappa-henna.vercel.app/search.html
+- Botim主页: https://news-kappa-henna.vercel.app/index.html
+- 降噪通话: https://news-kappa-henna.vercel.app/noise-cancellation-en.html
 
-## GitHub MCP (Managed Continuous Publishing)
+## 项目结构
 
-### Setup Instructions
+```
+├── interactive-prototype/     # 交互原型目录
+│   ├── index.html             # Botim通讯应用主页
+│   ├── news.html              # 新闻应用主页
+│   ├── news-app-html.html     # 新闻应用备选版本
+│   ├── noise-cancellation-en.html  # 英文版AI降噪通话页面
+│   ├── noise-simplified.html  # 简化版AI降噪通话页面
+│   ├── search.html            # 搜索页面
+│   ├── search-result.html     # 搜索结果页面
+│   └── video-filters.html     # 视频滤镜页面
+│
+├── data-analysis/             # 数据分析与可视化组件
+│   ├── d-income-comparison.html  # 收入对比仪表盘
+│   └── d-voip.html            # VoIP通讯数据仪表盘
+│
+├── requirements/              # 需求文档
+│   └── PRD_Template.md        # 产品需求文档模板
+│
+├── news-react/                # React版本(开发中)
+│
+└── .github/                   # GitHub工作流配置
+    └── workflows/deploy.yml   # 自动部署工作流配置
+```
 
-1. Create Vercel secrets in your GitHub repository:
-   - Go to Settings > Secrets and Variables > Actions
-   - Add these repository secrets:
-     - `VERCEL_TOKEN`: Your Vercel API token
-     - `VERCEL_PROJECT_ID`: Your Vercel project ID
-     - `VERCEL_ORG_ID`: Your Vercel organization ID
+## 技术实现
 
-2. Push changes to the main branch to trigger automatic deployment
+- 使用纯HTML、CSS和JavaScript实现，无需构建步骤
+- 使用CSS Flexbox和Grid实现响应式布局
+- 使用CSS动画和过渡效果增强用户体验
+- JavaScript实现交互功能和页面跳转
+- 使用localStorage实现简单的状态持久化
 
-3. View deployment status in the Actions tab of your GitHub repository
+## 主要功能流程
 
-### Manual Deployment
+1. 从Botim主页(index.html)点击联系人的电话图标
+2. 跳转到AI降噪通话页面(noise-cancellation-en.html)
+3. 可以点击右侧视频窗口进入视频滤镜页面(video-filters.html)
+4. 通过左侧导航菜单或底部控制栏进行操作
+5. 点击返回按钮或挂断按钮回到主页
 
-If needed, you can manually trigger a deployment from the Actions tab in GitHub.
+## 本地开发
 
-## Development
+无需安装任何依赖，直接在浏览器中打开HTML文件即可。
 
-To run the project locally, simply open any HTML file in your browser. No build steps required.
+## GitHub自动部署
 
-## File Structure
+### 设置说明
 
-- `news.html` - News application main page
-- `video-filters.html` - Video filters and effects page
-- `d-income-comparison.html` - Data visualization dashboard
-- `search.html` - Search interface
-- `.github/workflows/deploy.yml` - GitHub Actions workflow for automatic deployment
+1. 在GitHub仓库中创建Vercel密钥:
+   - 进入Settings > Secrets and Variables > Actions
+   - 添加以下仓库密钥:
+     - `VERCEL_TOKEN`: Vercel API令牌
+     - `VERCEL_PROJECT_ID`: Vercel项目ID
+     - `VERCEL_ORG_ID`: Vercel组织ID
+
+2. 向main分支推送更改会触发自动部署
+
+3. 在GitHub仓库的Actions标签页查看部署状态
+
+### 手动部署
+
+如有需要，可以在GitHub的Actions标签页手动触发部署。
