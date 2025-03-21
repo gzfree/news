@@ -8,7 +8,6 @@ echo "开始清理重复文件..."
 HTML_FILES=(
   "index.html"
   "news.html"
-  "news-app-html.html"
   "noise-cancellation-en.html"
   "noise-simplified.html"
   "search.html"
@@ -40,5 +39,16 @@ if [ -f "temp.html" ]; then
   echo "删除临时文件: temp.html"
   rm "temp.html"
 fi
+
+# 需要删除的文件列表
+duplicates=(
+"call-simplified.html"
+"dashboard-simplified.html"
+"filters-simplified.html"
+"news-simplified.html"
+"search-simplified.html"
+"video-simplified.html"
+"detail-simplified.html"
+)
 
 echo "清理完成!" 

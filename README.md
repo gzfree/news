@@ -31,7 +31,6 @@
 ├── interactive-prototype/     # 交互原型目录
 │   ├── index.html             # Botim通讯应用主页
 │   ├── news.html              # 新闻应用主页
-│   ├── news-app-html.html     # 新闻应用备选版本
 │   ├── noise-cancellation-en.html  # 英文版AI降噪通话页面
 │   ├── noise-simplified.html  # 简化版AI降噪通话页面
 │   ├── search.html            # 搜索页面
