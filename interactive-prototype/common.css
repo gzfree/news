@@ -248,6 +248,7 @@ input[type="search"],
 }
 
 .global-nav-item {
+  position: relative;
   color: white;
   padding: 8px 12px;
   font-size: 14px;
@@ -263,6 +264,54 @@ input[type="search"],
   background: rgba(255, 255, 255, 0.2);
 }
 
+.global-nav-item .submenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 12px;
+  padding: 8px 0;
+  margin-top: 8px;
+  min-width: 180px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 10001;
+}
+
+.global-nav-item:hover .submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.submenu-item {
+  display: block;
+  padding: 8px 16px;
+  color: white;
+  font-size: 13px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.submenu-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.global-nav-item .nav-arrow {
+  display: inline-block;
+  margin-left: 4px;
+  transition: transform 0.2s ease;
+}
+
+.global-nav-item:hover .nav-arrow {
+  transform: rotate(180deg);
+}
+
 /* 在窄屏幕上调整导航栏样式 */
 @media (max-width: 768px) {
   .global-nav {
@@ -273,6 +322,11 @@ input[type="search"],
   
   .global-nav-item {
     padding: 6px 10px;
+    font-size: 12px;
+  }
+  
+  .submenu-item {
+    padding: 6px 12px;
     font-size: 12px;
   }
 }
