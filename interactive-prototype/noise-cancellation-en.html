@@ -297,9 +297,9 @@
                 this.style.backgroundColor = isNoiseCancellationActive ? 'var(--primary)' : 'rgba(255, 255, 255, 0.2)';
             });
             
-            // Close panel when clicking close button - 现在改为跳转到首页
+            // Close panel when clicking close button - 修改为只关闭弹窗，不跳转页面
             closeModal.addEventListener('click', function() {
-                window.location.href = 'index.html';
+                noiseDetail.classList.add('hidden');
             });
             
             // Toggle noise cancellation
@@ -524,6 +524,185 @@
                 setInterval(updateNoiseWaveform, 100);
             }
         });
+
+        // 礼物特效功能
+        const giftButton = document.getElementById('gift-effect-button');
+        if (giftButton) {
+            giftButton.addEventListener('click', function() {
+                // 高亮按钮
+                giftButton.classList.remove('secondary');
+                giftButton.classList.add('active');
+                
+                // 显示随机礼物动画
+                showRandomGiftAnimation();
+                
+                // 随机选择特效并应用到小窗口
+                const effectTypes = ['heartsEffect', 'starsEffect', 'rainbowEffect'];
+                const randomIndex = Math.floor(Math.random() * effectTypes.length);
+                const effectType = effectTypes[randomIndex];
+                
+                // 关闭所有特效
+                toggleEffectAnimation('heartsEffect', false);
+                toggleEffectAnimation('starsEffect', false);
+                toggleEffectAnimation('rainbowEffect', false);
+                
+                // 显示选定的特效
+                toggleEffectAnimation(effectType, true);
+                
+                // 3秒后自动关闭特效
+                setTimeout(() => {
+                    toggleEffectAnimation(effectType, false);
+                    
+                    // 恢复按钮样式
+                    giftButton.classList.remove('active');
+                    giftButton.classList.add('secondary');
+                }, 3000);
+            });
+        }
+        
+        // 礼物图片数组
+        const giftImages = [
+            "https://cdn-icons-png.flaticon.com/512/4213/4213958.png", // 礼物盒
+            "https://cdn-icons-png.flaticon.com/512/1404/1404945.png", // 钻石
+            "https://cdn-icons-png.flaticon.com/512/2058/2058181.png", // 皇冠
+            "https://cdn-icons-png.flaticon.com/512/3152/3152142.png", // 星星
+            "https://cdn-icons-png.flaticon.com/512/1029/1029131.png"  // 爱心
+        ];
+        
+        // 随机礼物动画显示
+        function showRandomGiftAnimation() {
+            const container = document.querySelector('.call-main');
+            
+            // 生成3-6个随机礼物
+            const giftCount = 3 + Math.floor(Math.random() * 4);
+            
+            for (let i = 0; i < giftCount; i++) {
+                // 随机选择礼物图片
+                const randomImageIndex = Math.floor(Math.random() * giftImages.length);
+                const randomImage = giftImages[randomImageIndex];
+                
+                // 创建新礼物元素
+                const giftElement = document.createElement('img');
+                giftElement.src = randomImage;
+                giftElement.className = 'gift-animation';
+                
+                // 随机位置和大小
+                const randomSize = 60 + Math.floor(Math.random() * 60); // 60-120px
+                const randomLeftPos = 20 + Math.floor(Math.random() * 60); // 20-80%
+                
+                // 随机选择动画路径
+                const paths = ['gift-path-1', 'gift-path-2', 'gift-path-3', ''];
+                const randomPathIndex = Math.floor(Math.random() * paths.length);
+                if (paths[randomPathIndex]) {
+                    giftElement.classList.add(paths[randomPathIndex]);
+                }
+                
+                giftElement.style.width = `${randomSize}px`;
+                giftElement.style.height = `${randomSize}px`;
+                giftElement.style.left = `${randomLeftPos}%`;
+                giftElement.style.bottom = '200px';
+                
+                // 如果没有使用自定义路径，则使用默认的transform
+                if (randomPathIndex === 3) {
+                    giftElement.style.transform = 'translateX(-50%)';
+                }
+                
+                // 随机旋转角度
+                const randomRotation = Math.floor(Math.random() * 40) - 20; // -20到20度
+                if (randomPathIndex === 3) { // 只给默认路径添加随机旋转
+                    giftElement.style.transform += ` rotate(${randomRotation}deg)`;
+                }
+                
+                // 随机延迟动画开始时间
+                const delay = Math.random() * 0.7;
+                giftElement.style.animationDelay = `${delay}s`;
+                
+                // 添加到容器
+                container.appendChild(giftElement);
+                
+                // 显示礼物
+                setTimeout(() => {
+                    giftElement.classList.add('visible');
+                }, delay * 1000);
+                
+                // 动画持续时间
+                const duration = 2500 + Math.random() * 1000;
+                setTimeout(() => {
+                    giftElement.classList.remove('visible');
+                    // 完全移除元素
+                    setTimeout(() => {
+                        giftElement.remove();
+                    }, 500);
+                }, duration);
+            }
+        }
+        
+        // 原始礼物动画显示（保留但实际不使用）
+        function showGiftAnimation() {
+            const giftAnim = document.getElementById('giftAnimation');
+            if (giftAnim) {
+                giftAnim.classList.add('visible');
+                
+                // 2秒后隐藏动画
+                setTimeout(() => {
+                    giftAnim.classList.remove('visible');
+                }, 2000);
+            }
+        }
+        
+        // 特效动画切换
+        function toggleEffectAnimation(effectId, show) {
+            const effect = document.getElementById(effectId);
+            if (effect) {
+                if (show) {
+                    effect.classList.add('visible');
+                } else {
+                    effect.classList.remove('visible');
+                }
+            }
+        }
+
+        // 修改tooltip显示逻辑
+        document.addEventListener('DOMContentLoaded', function() {
+            // 添加触摸设备检测
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            
+            // 针对触摸设备优化侧边菜单交互
+            if (isTouchDevice) {
+                const menuItems = document.querySelectorAll('.side-menu-item');
+                const tooltips = document.querySelectorAll('.item-tooltip');
+                
+                // 先隐藏所有tooltip
+                tooltips.forEach(tooltip => {
+                    tooltip.style.opacity = '0';
+                    tooltip.style.pointerEvents = 'none';
+                });
+                
+                // 长按显示tooltip
+                menuItems.forEach(item => {
+                    let pressTimer;
+                    
+                    item.addEventListener('touchstart', function() {
+                        const tooltip = this.querySelector('.item-tooltip');
+                        tooltip.style.right = '-85px'; // 确保在屏幕内显示
+                        pressTimer = setTimeout(() => {
+                            tooltip.style.opacity = '1';
+                            setTimeout(() => {
+                                tooltip.style.opacity = '0';
+                            }, 1500);
+                        }, 500);
+                    });
+                    
+                    item.addEventListener('touchend', function() {
+                        clearTimeout(pressTimer);
+                    });
+                    
+                    item.addEventListener('touchmove', function() {
+                        clearTimeout(pressTimer);
+                    });
+                });
+            }
+        });
     </script>
     <style>
         :root {
@@ -605,7 +784,7 @@
 
         .back-button {
             position: absolute;
-            top: 60px;
+            top: 20px;
             left: 20px;
             color: white;
             background: none;
@@ -706,11 +885,11 @@
         /* Local video */
         .local-video-container {
             position: absolute;
-            top: 150px;
-            right: 20px;
-            width: 130px;
-            height: 200px;
-            border-radius: 20px;
+            right: 15px;
+            bottom: 120px;
+            width: 110px;
+            height: 180px;
+            border-radius: 15px;
             overflow: hidden;
             z-index: 3;
             border: 2px solid rgba(255, 255, 255, 0.4);
@@ -795,18 +974,18 @@
         /* Side buttons menu */
         .side-menu {
             position: absolute;
-            left: 20px;
+            left: 15px;
             top: 50%;
             transform: translateY(-50%);
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             z-index: 10;
         }
 
         .side-menu-item {
-            width: 44px;
-            height: 44px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -839,7 +1018,7 @@
 
         .item-tooltip {
             position: absolute;
-            left: 55px;
+            right: -85px;
             background-color: rgba(0, 0, 0, 0.7);
             color: white;
             padding: 5px 10px;
@@ -849,6 +1028,8 @@
             pointer-events: none;
             opacity: 0;
             transition: opacity 0.2s ease;
+            text-align: center;
+            width: 60px;
         }
 
         .side-menu-item:hover .item-tooltip {
@@ -1394,6 +1575,177 @@
             50% { height: 20px; }
             75% { height: 25px; }
         }
+
+        /* 礼物按钮样式 */
+        .gift-indicator {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #ff3b30;
+            animation: gift-pulse 1.5s infinite;
+        }
+
+        @keyframes gift-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        /* 礼物动画 */
+        .gift-animation {
+            position: absolute;
+            bottom: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px; /* 稍微减小尺寸 */
+            height: 100px;
+            z-index: 70;
+            display: none;
+            animation: gift-float 2s ease-out;
+        }
+        
+        .gift-animation.visible {
+            display: block;
+        }
+        
+        @keyframes gift-float {
+            0% { transform: translateX(-50%) scale(0); opacity: 0; }
+            20% { transform: translateX(-50%) scale(1.2); opacity: 1; }
+            80% { transform: translateX(-50%) translateY(-100px) scale(1); opacity: 1; }
+            100% { transform: translateX(-50%) translateY(-150px) scale(0.8); opacity: 0; }
+        }
+
+        /* 新增礼物路径动画 */
+        .gift-path-1 {
+            animation: gift-path-1 2.5s ease-out forwards;
+        }
+        
+        .gift-path-2 {
+            animation: gift-path-2 2.8s ease-out forwards;
+        }
+        
+        .gift-path-3 {
+            animation: gift-path-3 3s ease-out forwards;
+        }
+        
+        @keyframes gift-path-1 {
+            0% { transform: translateX(-50%) scale(0); opacity: 0; }
+            20% { transform: translateX(-50%) scale(1.2); opacity: 1; }
+            70% { transform: translateX(-30%) translateY(-150px) rotate(20deg) scale(1); opacity: 1; }
+            100% { transform: translateX(-20%) translateY(-200px) rotate(40deg) scale(0.8); opacity: 0; }
+        }
+        
+        @keyframes gift-path-2 {
+            0% { transform: translateX(-50%) scale(0); opacity: 0; }
+            20% { transform: translateX(-50%) scale(1.2); opacity: 1; }
+            70% { transform: translateX(-60%) translateY(-180px) rotate(-30deg) scale(1); opacity: 1; }
+            100% { transform: translateX(-70%) translateY(-250px) rotate(-50deg) scale(0.8); opacity: 0; }
+        }
+        
+        @keyframes gift-path-3 {
+            0% { transform: translateX(-50%) scale(0); opacity: 0; }
+            20% { transform: translateX(-50%) scale(1.1); opacity: 1; }
+            80% { transform: translateX(-50%) translateY(-200px) scale(1); opacity: 1; }
+            100% { transform: translateX(-50%) translateY(-300px) scale(0.7); opacity: 0; }
+        }
+
+        /* 特效动画 */
+        .effect-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 15;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 15px;
+        }
+        
+        .effect-animation.visible {
+            opacity: 1;
+        }
+        
+        .hearts-effect {
+            background: radial-gradient(circle, rgba(255, 0, 89, 0.5) 0%, rgba(0, 0, 0, 0) 70%), 
+                         url('https://cdn-icons-png.flaticon.com/512/535/535183.png') no-repeat center;
+            background-size: 80% 80%;
+            mix-blend-mode: screen;
+            animation: float 5s infinite ease-in-out;
+        }
+        
+        .stars-effect {
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.5) 0%, rgba(0, 0, 0, 0) 70%), 
+                         url('https://cdn-icons-png.flaticon.com/512/3082/3082383.png') no-repeat center;
+            background-size: 80% 80%;
+            mix-blend-mode: screen;
+            animation: spin 8s infinite linear;
+        }
+        
+        /* 新增彩虹特效 */
+        .rainbow-effect {
+            background: linear-gradient(45deg, 
+                rgba(255, 0, 0, 0.3), 
+                rgba(255, 165, 0, 0.3), 
+                rgba(255, 255, 0, 0.3), 
+                rgba(0, 128, 0, 0.3), 
+                rgba(0, 0, 255, 0.3), 
+                rgba(75, 0, 130, 0.3), 
+                rgba(238, 130, 238, 0.3));
+            animation: rainbow-spin 6s linear infinite;
+        }
+        
+        @keyframes rainbow-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(0.8); }
+            50% { transform: translateY(-20px) scale(1); }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 针对小屏设备的调整 */
+        @media (max-height: 700px) {
+            .side-menu {
+                gap: 10px;
+                left: 10px;
+            }
+            
+            .side-menu-item {
+                width: 38px;
+                height: 38px;
+            }
+            
+            .side-menu-item i {
+                font-size: 16px;
+            }
+        }
+
+        /* 针对超小屏设备的调整 */
+        @media (max-width: 360px), (max-height: 640px) {
+            .side-menu {
+                left: 8px;
+                gap: 8px;
+            }
+            
+            .side-menu-item {
+                width: 34px;
+                height: 34px;
+            }
+            
+            .side-menu-item i {
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1449,21 +1801,26 @@
                 <!-- Side menu with effects, noise cancellation and contacts -->
                 <div class="side-menu">
                     <div class="side-menu-item primary" id="noise-cancellation-button">
-                        <i class="fas fa-bolt"></i>
+                        <i class="fas fa-microphone-slash"></i>
                         <div class="noise-badge"></div>
-                        <div class="item-tooltip">AI Noise Cancellation</div>
+                        <div class="item-tooltip">降噪</div>
                     </div>
-                    <div class="side-menu-item secondary" id="contacts-button">
-                        <i class="fas fa-user"></i>
-                        <div class="item-tooltip">Contacts</div>
-                    </div>
-                    <div class="side-menu-item secondary" id="settings-button">
-                        <i class="fas fa-cog"></i>
-                        <div class="item-tooltip">Settings</div>
+                    <div class="side-menu-item secondary" id="gift-effect-button">
+                        <i class="fas fa-gift"></i>
+                        <div class="gift-indicator"></div>
+                        <div class="item-tooltip">礼物</div>
                     </div>
                     <div class="side-menu-item secondary" onclick="window.location.href='filters.html'">
                         <i class="fas fa-video"></i>
-                        <div class="item-tooltip">Video Filters</div>
+                        <div class="item-tooltip">滤镜</div>
+                    </div>
+                    <div class="side-menu-item secondary" id="contacts-button">
+                        <i class="fas fa-user"></i>
+                        <div class="item-tooltip">联系人</div>
+                    </div>
+                    <div class="side-menu-item secondary" id="settings-button">
+                        <i class="fas fa-cog"></i>
+                        <div class="item-tooltip">设置</div>
                     </div>
                 </div>
 
@@ -1484,8 +1841,12 @@
 
                 <!-- Local video window -->
                 <div class="local-video-container" id="localVideoContainer" style="overflow: hidden; position: relative;">
+                    <div class="effect-animation hearts-effect" id="heartsEffect"></div>
+                    <div class="effect-animation stars-effect" id="starsEffect"></div>
+                    <div class="effect-animation rainbow-effect" id="rainbowEffect"></div>
+                    
                     <video class="local-video" autoplay muted loop>
-                        <source src="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_2mb.mp4" type="video/mp4">
+                        <source src="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_5mb.mp4" type="video/mp4">
                         Your browser does not support the video tag
                     </video>
                     
@@ -1515,7 +1876,7 @@
 
                 <!-- Noise details panel -->
                 <div class="noise-detail hidden">
-                    <button class="modal-close" id="closeModal" onclick="window.location.href='index.html'">
+                    <button class="modal-close" id="closeModal">
                         <i class="fas fa-times"></i>
                     </button>
                     
@@ -1611,5 +1972,8 @@
         <!-- Home indicator -->
         <div class="home-indicator"></div>
     </div>
+
+    <!-- 礼物动画 -->
+    <img src="https://cdn-icons-png.flaticon.com/512/4213/4213958.png" class="gift-animation" id="giftAnimation">
 </body>
 </html> 
