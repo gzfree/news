@@ -320,7 +320,7 @@
     .detail-container {
       padding: 16px;
       padding-top: 32px; /* 确保详情页标题有足够的空间 */
-      padding-bottom: 120px;
+      padding-bottom: 80px; /* 从120px减少到80px，减少底部空白 */
       position: relative;
       height: 100%;
       overflow-y: auto;
@@ -470,7 +470,7 @@
       border-radius: 8px;
       padding: 16px;
       position: fixed;
-      bottom: 76px;
+      bottom: 16px;
       left: 50%;
       transform: translateX(-50%);
       width: 90%;
@@ -1425,7 +1425,7 @@
           <!-- 展开按钮改为处于内容之外 -->
           <button class="expand-btn">Show full article</button>
             
-          <!-- 互动功能区 -->
+          <!-- 互动功能区 - 移除评论和收藏入口 -->
           <div class="interaction-bar">
             <div class="interaction-item upvote-btn">
               <div class="up-icon">👍</div>
@@ -1434,14 +1434,6 @@
             <div class="interaction-item downvote-btn">
               <div class="down-icon">👎</div>
               <div class="count downvote-count">12</div>
-            </div>
-            <div class="interaction-item">
-              <div>💬</div>
-              <div class="count">45</div>
-            </div>
-            <div class="interaction-item">
-              <div>🔖</div>
-              <div class="count">23</div>
             </div>
             <div class="interaction-item share-btn">
               <div>↗️</div>
@@ -1500,8 +1492,8 @@
               </div>
             </div>
           
-            <!-- Want to know more 移到页面底部 -->
-            <div class="ai-search-cta" style="position: relative; bottom: 0; margin-top: 20px; margin-bottom: 20px; transform: none; width: auto;">
+            <!-- Want to know more 移到页面固定在底部 -->
+            <div class="ai-search-cta">
               <div class="ai-search-header">
                 <div class="ai-icon">D</div>
                 <h3>Want to know more?</h3>
@@ -1846,77 +1838,15 @@
     }
     
     // 互动功能处理
-    let isUpvoted = false;
-    let isDownvoted = false;
-    let upCount = 428;
-    let downCount = 36;
-    
-    // 使用事件委托处理互动区域的点击事件
     document.addEventListener('click', function(e) {
       // 处理点赞按钮
       if (e.target.closest('#detail-page .interaction-item:nth-child(1)')) {
-        const upIcon = document.querySelector('#detail-page .up-icon');
-        const upCountElem = document.querySelector('#detail-page .interaction-item:nth-child(1) .interaction-count');
-        
-        if (isDownvoted) {
-          // 如果已经踩了，先取消踩
-          isDownvoted = false;
-          document.querySelector('#detail-page .down-icon').style.color = '';
-          document.querySelector('#detail-page .interaction-item:nth-child(2) .interaction-count').textContent = --downCount;
-        }
-        
-        if (!isUpvoted) {
-          // 点赞
-          isUpvoted = true;
-          upIcon.style.color = '#3366FF';
-          upIcon.style.transform = 'scale(1.2)';
-          upCountElem.textContent = ++upCount;
-          
-          // 添加点赞动画
-          upIcon.classList.add('pulse-animation');
-          setTimeout(() => {
-            upIcon.classList.remove('pulse-animation');
-            upIcon.style.transform = '';
-          }, 300);
-        } else {
-          // 取消点赞
-          isUpvoted = false;
-          upIcon.style.color = '';
-          upCountElem.textContent = --upCount;
-        }
+        // 处理点赞逻辑
       }
       
       // 处理踩按钮
       if (e.target.closest('#detail-page .interaction-item:nth-child(2)')) {
-        const downIcon = document.querySelector('#detail-page .down-icon');
-        const downCountElem = document.querySelector('#detail-page .interaction-item:nth-child(2) .interaction-count');
-        
-        if (isUpvoted) {
-          // 如果已经点赞了，先取消点赞
-          isUpvoted = false;
-          document.querySelector('#detail-page .up-icon').style.color = '';
-          document.querySelector('#detail-page .interaction-item:nth-child(1) .interaction-count').textContent = --upCount;
-        }
-        
-        if (!isDownvoted) {
-          // 踩
-          isDownvoted = true;
-          downIcon.style.color = '#FF3333';
-          downIcon.style.transform = 'scale(1.2)';
-          downCountElem.textContent = ++downCount;
-          
-          // 添加踩动画
-          downIcon.classList.add('pulse-animation');
-          setTimeout(() => {
-            downIcon.classList.remove('pulse-animation');
-            downIcon.style.transform = '';
-          }, 300);
-        } else {
-          // 取消踩
-          isDownvoted = false;
-          downIcon.style.color = '';
-          downCountElem.textContent = --downCount;
-        }
+        // 处理踩逻辑
       }
       
       // 处理分享按钮
