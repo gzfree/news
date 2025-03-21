@@ -347,6 +347,7 @@
       font-weight: bold;
       margin-bottom: 12px;
       line-height: 1.3;
+      color: #222;
     }
 
     .detail-info {
@@ -354,10 +355,12 @@
       font-size: 14px;
       color: #666;
       margin-bottom: 16px;
+      align-items: center;
     }
 
     .detail-source {
       margin-right: 16px;
+      font-weight: 500;
     }
 
     .detail-time {
@@ -399,37 +402,27 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      padding: 8px;
-      color: #3366FF;
+      padding: 10px;
+      color: #4d69fa;
       font-size: 14px;
+      font-weight: 500;
       cursor: pointer;
       background: #FFF;
       border: none;
       position: relative;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
       z-index: 10;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      transition: background-color 0.2s, transform 0.1s;
     }
 
-    .expand-btn.expanded {
-      position: relative;
-      bottom: auto;
-      left: auto;
-      right: auto;
-      margin-top: 16px;
-      box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+    .expand-btn:hover {
+      background-color: #f8f9ff;
     }
 
-    .expand-btn::after {
-      content: '▼';
-      margin-left: 4px;
-      font-size: 12px;
-      transition: transform 0.3s ease;
-    }
-
-    .expand-btn.expanded::after {
-      transform: rotate(180deg);
+    .expand-btn:active {
+      transform: translateY(1px);
     }
 
     .divider {
@@ -476,16 +469,16 @@
     .ai-search-cta {
       background-color: #ffffff;
       border: 1px solid #e8e9ed;
-      border-radius: 8px;
+      border-radius: 12px;
       padding: 16px;
       position: fixed;
-      bottom: 16px;
+      bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      width: 90%;
+      width: calc(100% - 40px);
       max-width: 374px;
       z-index: 100;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
       transition: transform 0.3s ease, bottom 0.3s ease;
     }
 
@@ -535,10 +528,11 @@
 
     .ai-response {
       background-color: #ffffff;
-      border-radius: 8px;
+      border-radius: 12px;
       padding: 20px;
       margin-bottom: 24px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(0, 0, 0, 0.03);
     }
 
     .ai-response-header {
@@ -548,64 +542,72 @@
     }
 
     .ai-response-avatar {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       background-color: #4d69fa;
       border-radius: 8px;
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 600;
       margin-right: 12px;
     }
 
     .ai-response p {
       font-size: 15px;
-      line-height: 1.6;
+      line-height: 1.7;
       color: #1a1c21;
+      letter-spacing: 0.01em;
     }
 
     .related-questions {
       margin-bottom: 24px;
       background-color: #ffffff;
-      border-radius: 8px;
+      border-radius: 12px;
       padding: 20px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(0, 0, 0, 0.03);
     }
 
     .related-questions h3 {
       font-size: 16px;
       font-weight: 600;
       margin-bottom: 16px;
-      color: #1a1c21;
+      color: #222;
     }
 
     .question-item {
-      padding: 12px 16px;
-      background-color: #f5f5f8;
-      border-radius: 6px;
+      padding: 14px 16px;
+      background-color: #f5f7ff;
+      border-radius: 10px;
       font-size: 14px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       cursor: pointer;
       color: #4d69fa;
-      transition: background-color 0.2s;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+    
+    .question-item:last-child {
+      margin-bottom: 0;
     }
 
     .question-item:hover {
       background-color: #eef0ff;
+      transform: translateY(-1px);
     }
 
     .bottom-input-container {
       position: fixed;
-      bottom: 16px;
-      left: 20px;
-      right: 20px;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
       padding: 0;
       display: flex;
       align-items: center;
       max-width: 374px;
+      width: calc(100% - 40px);
       margin: 0 auto;
       z-index: 10;
     }
@@ -613,20 +615,20 @@
     .bottom-input {
       flex: 1;
       height: 48px;
-      border-radius: 8px;
+      border-radius: 10px;
       background-color: #ffffff;
       border: 1px solid #e8e9ed;
       padding: 0 16px;
       font-size: 15px;
       outline: none;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
     }
 
     .bottom-send-btn {
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       background-color: #4d69fa;
-      border-radius: 8px;
+      border-radius: 10px;
       color: white;
       display: flex;
       align-items: center;
@@ -634,7 +636,7 @@
       margin-left: 8px;
       font-size: 18px;
       cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 8px rgba(77, 105, 250, 0.35);
     }
 
     /* 页面切换动画 */
@@ -793,18 +795,20 @@
       margin-bottom: 12px;
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid rgba(0, 0, 0, 0.03);
     }
 
     .topic-card:active {
       transform: scale(0.98);
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      background-color: #f0f2f5;
     }
 
     .topic-icon {
       width: 40px;
       height: 40px;
       background-color: #E8EFFF;
-      border-radius: 20px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -821,7 +825,7 @@
     .topic-title {
       font-size: 16px;
       font-weight: 600;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
       color: #333;
       white-space: nowrap;
       overflow: hidden;
@@ -829,7 +833,7 @@
     }
 
     .topic-info {
-      font-size: 12px;
+      font-size: 13px;
       color: #666;
     }
 
@@ -844,7 +848,10 @@
     .interaction-bar {
       display: flex;
       justify-content: space-around;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
+      background-color: #f8f9fa;
+      padding: 14px 16px;
+      border-radius: 12px;
     }
 
     .interaction-item {
@@ -853,10 +860,13 @@
       align-items: center;
       cursor: pointer;
       transition: transform 0.2s;
+      padding: 8px 12px;
+      border-radius: 8px;
     }
     
     .interaction-item:hover {
       transform: translateY(-2px);
+      background-color: rgba(0, 0, 0, 0.03);
     }
 
     .interaction-icon {
@@ -867,6 +877,7 @@
     .interaction-count {
       font-size: 12px;
       color: #666;
+      font-weight: 500;
     }
     
     .up-icon {
@@ -1076,7 +1087,7 @@
 
     /* AI搜索页样式 - DeepSeek风格 */
     .search-container {
-      padding: 16px;
+      padding: 16px 16px 24px;
       background-color: #f9f9fb;
     }
 
@@ -1085,9 +1096,10 @@
       align-items: center;
       margin-bottom: 24px;
       background-color: #ffffff;
-      border-radius: 8px;
+      border-radius: 10px;
       padding: 8px 16px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(0, 0, 0, 0.04);
     }
 
     .search-input {
@@ -1101,10 +1113,10 @@
     }
 
     .search-btn {
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       background-color: #4d69fa;
-      border-radius: 6px;
+      border-radius: 8px;
       color: white;
       display: flex;
       align-items: center;
@@ -1112,12 +1124,13 @@
       margin-left: 8px;
       cursor: pointer;
       font-size: 14px;
+      box-shadow: 0 2px 4px rgba(77, 105, 250, 0.3);
     }
 
     /* 确保详情页布局正确 */
     .detail-views {
       font-size: 14px;
-      color: #666;
+      color: #888;
       margin-top: 4px;
       margin-bottom: 16px;
     }
@@ -1151,6 +1164,211 @@
 
     #ai-page .content-area::-webkit-scrollbar {
       display: none;
+    }
+
+    /* Hot Topics 微调 */
+    .hot-topics {
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(0, 0, 0, 0.03);
+      margin-bottom: 90px; /* 为底部输入框留出空间 */
+    }
+    
+    .hot-topics h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #222;
+    }
+    
+    .topic-card {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      background-color: #F8F9FA;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid rgba(0, 0, 0, 0.03);
+    }
+    
+    .topic-card:last-child {
+      margin-bottom: 0;
+    }
+
+    .topic-card:active {
+      transform: scale(0.98);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      background-color: #f0f2f5;
+    }
+
+    .topic-icon {
+      width: 40px;
+      height: 40px;
+      background-color: #E8EFFF;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    .topic-content {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .topic-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .topic-info {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .topic-arrow {
+      margin-left: 12px;
+      color: #3366FF;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    
+    /* 互动区域微调 */
+    .interaction-bar {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+      background-color: #f8f9fa;
+      padding: 14px 16px;
+      border-radius: 12px;
+    }
+
+    .interaction-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+    
+    .interaction-item:hover {
+      transform: translateY(-2px);
+      background-color: rgba(0, 0, 0, 0.03);
+    }
+
+    .interaction-icon {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .interaction-count {
+      font-size: 12px;
+      color: #666;
+      font-weight: 500;
+    }
+    
+    .up-icon {
+      color: #3366FF;
+    }
+    
+    .down-icon {
+      color: #FF3333;
+    }
+    
+    /* 相关问题微调 */
+    .related-questions {
+      margin-bottom: 24px;
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(0, 0, 0, 0.03);
+    }
+
+    .related-questions h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #222;
+    }
+
+    .question-item {
+      padding: 14px 16px;
+      background-color: #f5f7ff;
+      border-radius: 10px;
+      font-size: 14px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      color: #4d69fa;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+    
+    .question-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .question-item:hover {
+      background-color: #eef0ff;
+      transform: translateY(-1px);
+    }
+
+    .ai-search-cta {
+      background-color: #ffffff;
+      border: 1px solid #e8e9ed;
+      border-radius: 12px;
+      padding: 16px;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 40px);
+      max-width: 374px;
+      z-index: 100;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+      transition: transform 0.3s ease, bottom 0.3s ease;
+    }
+    
+    /* 展开按钮微调 */
+    .expand-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 10px;
+      color: #4d69fa;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      background: #FFF;
+      border: none;
+      position: relative;
+      margin-bottom: 20px;
+      z-index: 10;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      transition: background-color 0.2s, transform 0.1s;
+    }
+    
+    .expand-btn:hover {
+      background-color: #f8f9ff;
+    }
+    
+    .expand-btn:active {
+      transform: translateY(1px);
     }
   </style>
 </head>
@@ -1732,9 +1950,11 @@
       if (isExpanded) {
         content.style.maxHeight = 'none';
         this.textContent = 'Show less';
+        this.innerHTML = 'Show less <span style="margin-left:4px;display:inline-block;transform:rotate(180deg)">▼</span>';
       } else {
         content.style.maxHeight = '102px';
         this.textContent = 'Show full article';
+        this.innerHTML = 'Show full article <span style="margin-left:4px;display:inline-block;">▼</span>';
       }
     });
 
@@ -1858,6 +2078,12 @@
       if (detailContent) {
         // 默认显示收起状态
         detailContent.style.maxHeight = '102px';
+        
+        // 初始化展开按钮文本
+        const expandBtn = document.querySelector('.expand-btn');
+        if (expandBtn) {
+          expandBtn.innerHTML = 'Show full article <span style="margin-left:4px;display:inline-block;">▼</span>';
+        }
       }
       
       // 确保广告正确显示
@@ -1880,10 +2106,140 @@
         viewsElement.textContent = formattedViews + ' views';
         detailInfo.parentNode.insertBefore(viewsElement, detailInfo.nextSibling);
       }
+      
+      // 初始化点赞/踩UI状态
+      initInteractionState();
+      
+      // 添加交互动画效果
+      document.addEventListener('click', function(e) {
+        // 处理点赞按钮
+        if (e.target.closest('.upvote-btn')) {
+          handleVote('.upvote-btn', '.up-icon', '.upvote-count');
+        }
+        
+        // 处理踩按钮
+        if (e.target.closest('.downvote-btn')) {
+          handleVote('.downvote-btn', '.down-icon', '.downvote-count');
+        }
+      });
+      
+      // 为AI页面搜索按钮添加点击效果
+      const searchBtn = document.querySelector('.search-btn');
+      if (searchBtn) {
+        searchBtn.addEventListener('click', function() {
+          this.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            this.style.transform = 'scale(1)';
+          }, 150);
+        });
+      }
+      
+      // 为底部发送按钮添加点击效果
+      const sendBtn = document.querySelector('.bottom-send-btn');
+      if (sendBtn) {
+        sendBtn.addEventListener('click', function() {
+          this.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            this.style.transform = 'scale(1)';
+          }, 150);
+        });
+      }
     }
     
-    // 页面加载后执行初始化
-    document.addEventListener('DOMContentLoaded', initializeApp);
+    // 初始化交互状态
+    function initInteractionState() {
+      // 从本地存储获取状态
+      const isUpvoted = localStorage.getItem('isUpvoted') === 'true';
+      const isDownvoted = localStorage.getItem('isDownvoted') === 'true';
+      const upCount = localStorage.getItem('upCount') || 128;
+      const downCount = localStorage.getItem('downCount') || 12;
+      
+      // 更新UI
+      document.querySelector('.upvote-count').textContent = upCount;
+      document.querySelector('.downvote-count').textContent = downCount;
+      
+      // 应用激活状态
+      if (isUpvoted) {
+        document.querySelector('.upvote-btn').classList.add('active');
+        document.querySelector('.up-icon').style.color = '#3366FF';
+      }
+      
+      if (isDownvoted) {
+        document.querySelector('.downvote-btn').classList.add('active');
+        document.querySelector('.down-icon').style.color = '#FF3333';
+      }
+    }
+    
+    // 处理投票
+    function handleVote(buttonSelector, iconSelector, countSelector) {
+      const button = document.querySelector(buttonSelector);
+      const icon = document.querySelector(iconSelector);
+      const countElement = document.querySelector(countSelector);
+      
+      // 移除现有动画类以便重新添加
+      icon.classList.remove('pulse-animation');
+      
+      // 添加动画效果 (使用重绘触发)
+      void icon.offsetWidth;
+      icon.classList.add('pulse-animation');
+      
+      // 获取当前状态
+      const isActive = button.classList.contains('active');
+      const currentCount = parseInt(countElement.textContent);
+      
+      // 更新状态和数字
+      if (isActive) {
+        button.classList.remove('active');
+        countElement.textContent = currentCount - 1;
+        
+        if (buttonSelector === '.upvote-btn') {
+          icon.style.color = '';
+          localStorage.setItem('isUpvoted', 'false');
+          localStorage.setItem('upCount', currentCount - 1);
+        } else {
+          icon.style.color = '';
+          localStorage.setItem('isDownvoted', 'false');
+          localStorage.setItem('downCount', currentCount - 1);
+        }
+      } else {
+        button.classList.add('active');
+        countElement.textContent = currentCount + 1;
+        
+        if (buttonSelector === '.upvote-btn') {
+          icon.style.color = '#3366FF';
+          localStorage.setItem('isUpvoted', 'true');
+          localStorage.setItem('upCount', currentCount + 1);
+          
+          // 如果点赞，取消踩
+          const downButton = document.querySelector('.downvote-btn');
+          if (downButton.classList.contains('active')) {
+            downButton.classList.remove('active');
+            const downIcon = document.querySelector('.down-icon');
+            downIcon.style.color = '';
+            const downCount = document.querySelector('.downvote-count');
+            downCount.textContent = parseInt(downCount.textContent) - 1;
+            localStorage.setItem('isDownvoted', 'false');
+            localStorage.setItem('downCount', parseInt(downCount.textContent));
+          }
+        } else {
+          icon.style.color = '#FF3333';
+          localStorage.setItem('isDownvoted', 'true');
+          localStorage.setItem('downCount', currentCount + 1);
+          
+          // 如果踩，取消点赞
+          const upButton = document.querySelector('.upvote-btn');
+          if (upButton.classList.contains('active')) {
+            upButton.classList.remove('active');
+            const upIcon = document.querySelector('.up-icon');
+            upIcon.style.color = '';
+            const upCount = document.querySelector('.upvote-count');
+            upCount.textContent = parseInt(upCount.textContent) - 1;
+            localStorage.setItem('isUpvoted', 'false');
+            localStorage.setItem('upCount', parseInt(upCount.textContent));
+          }
+        }
+      }
+    }
 
     // 导航到AI页面并填充问题
     function navigateToAIWithQuestion(question) {
@@ -1892,6 +2248,9 @@
         document.querySelector('.search-input').value = question;
       }, 100);
     }
+    
+    // 页面加载后执行初始化
+    document.addEventListener('DOMContentLoaded', initializeApp);
   </script>
 </body>
 </html>
