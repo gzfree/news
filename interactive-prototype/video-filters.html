@@ -584,163 +584,172 @@
     </style>
 </head>
 <body>
-    <div class="call-container">
-        <div class="status-bar" style="background-color: #000; color: #fff; border-bottom: none;">
-            <div class="status-time">10:20</div>
-            <div class="status-icons">
-                <div class="status-icon">•••</div>
-                <div class="status-icon">📶</div>
-                <div class="status-icon">🔋</div>
-            </div>
-        </div>
-
-        <!-- Back button -->
-        <button class="back-button" onclick="window.location.href='/call'">
-            <i class="fas fa-chevron-left"></i>
-        </button>
-
-        <div class="call-main">
-            <!-- 视频和蒙层 -->
-            <video class="remote-video" id="mainVideo" autoplay muted loop>
-                <source src="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" type="video/mp4">
-                Your browser does not support the video tag
-            </video>
-            
-            <!-- 添加背景蒙层 -->
-            <div class="background-overlay"></div>
-
-            <!-- Filter selector (now organized in tabs) -->
-            <div class="filters-menu" style="position: absolute; bottom: 180px; left: 0; width: 100%; z-index: 100; display: flex !important; flex-direction: column; align-items: center; background-color: rgba(0, 0, 0, 0.3); padding: 10px 0;">
-                <!-- Tabs for different filter types -->
-                <div class="filter-tabs">
-                    <div class="filter-tab active" data-tab="backgrounds">Backgrounds</div>
-                    <div class="filter-tab" data-tab="emoji">Emoji Avatar</div>
-                    <div class="filter-tab" data-tab="effects">Filters</div>
-                </div>
-
-                <!-- Background options -->
-                <div class="filter-selector" id="backgrounds-selector">
-                    <div class="filter-option filter-none active" data-filter="none">
-                        <i class="fas fa-ban"></i>
-                    </div>
-                    <div class="filter-option profile-bg" data-filter="profile">
-                        <i class="fas fa-user" style="color: white;"></i>
-                    </div>
-                    <div class="filter-option flower-bg" data-filter="flower">
-                        <i class="fas fa-sun" style="color: white;"></i>
-                    </div>
-                    <div class="filter-option bug-bg" data-filter="bug">
-                        <i class="fas fa-water" style="color: white;"></i>
-                    </div>
-                    <div class="filter-option heart-bg" data-filter="heart">
-                        <i class="fas fa-heart" style="color: white;"></i>
-                    </div>
-                </div>
-
-                <!-- Emoji avatar options -->
-                <div class="emoji-selector" id="emoji-selector">
-                    <div class="emoji-option" data-emoji="none">
-                        <i class="fas fa-ban"></i>
-                    </div>
-                    <div class="emoji-option" data-emoji="😊">😊</div>
-                    <div class="emoji-option" data-emoji="🤖">🤖</div>
-                    <div class="emoji-option" data-emoji="👽">👽</div>
-                    <div class="emoji-option" data-emoji="🦊">🦊</div>
-                </div>
-
-                <!-- Filter effects options -->
-                <div class="effects-selector" id="effects-selector">
-                    <div class="effect-option" data-effect="none">
-                        <i class="fas fa-ban"></i>
-                    </div>
-                    <div class="effect-option" data-effect="sepia">
-                        <i class="fas fa-sun" style="color: #e2c496;"></i>
-                    </div>
-                    <div class="effect-option" data-effect="coolblue">
-                        <i class="fas fa-snowflake" style="color: #7ba6de;"></i>
-                    </div>
-                    <div class="effect-option" data-effect="warmth">
-                        <i class="fas fa-fire" style="color: #ffa500;"></i>
-                    </div>
-                    <div class="effect-option" data-effect="vintage">
-                        <i class="fas fa-film" style="color: #a07850;"></i>
-                    </div>
-                </div>
-
-                <!-- Filter intensity slider -->
-                <div class="filter-intensity" id="filter-intensity">
-                    <input type="range" min="0" max="100" value="50" class="intensity-slider" id="intensity-slider">
-                </div>
-            </div>
-
-            <!-- Local video window -->
-            <div class="local-video-container" id="localVideoContainer">
-                <!-- 背景样式容器 -->
-                <div class="background-container">
-                    <div class="background-style background-flower" id="bg-flower"></div>
-                    <div class="background-style background-bug" id="bg-bug"></div>
-                    <div class="background-style background-heart" id="bg-heart"></div>
-                </div>
-                
-                <!-- 滤镜效果容器 -->
-                <div class="filter-container with-foreground" id="filterContainer">
-                    <!-- 顶部装饰 - 可选 -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/6002/6002310.png" alt="Flower effect" class="filter-avatar" id="flower-avatar">
-                    <img src="https://cdn-icons-png.flaticon.com/512/6011/6011435.png" alt="Heart glasses effect" class="filter-avatar" id="heart-avatar">
-                    <img src="https://cdn-icons-png.flaticon.com/512/7309/7309035.png" alt="Bug effect" class="filter-avatar" id="bug-avatar">
-                </div>
-                
-                <video class="local-video" autoplay muted loop>
-                    <source src="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_5mb.mp4" type="video/mp4">
-                    Your browser does not support the video tag
-                </video>
-
-                <!-- 提示文字 -->
-                <div class="local-video-hint">双击放大/缩小窗口</div>
-
-                <!-- 背景遮罩 - 始终显示 -->
-                <div class="person-background"></div>
-
-                <!-- 完整人物形象 - 始终显示，使用SVG -->
-                <svg class="foreground-person" id="foreground-person" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="50" cy="30" r="16" fill="#fff"/>
-                    <path d="M38,60 Q50,80 62,60" stroke="#fff" stroke-width="25" fill="none"/>
-                </svg>
-
-                <!-- Emoji头像 -->
-                <div class="emoji-avatar" id="emoji-avatar"></div>
-
-                <!-- 滤镜效果层 -->
-                <div class="filter-effect filter-sepia" id="filter-sepia"></div>
-                <div class="filter-effect filter-coolblue" id="filter-coolblue"></div>
-                <div class="filter-effect filter-warmth" id="filter-warmth"></div>
-                <div class="filter-effect filter-vintage" id="filter-vintage"></div>
-                <div class="filter-effect filter-grayscale" id="filter-grayscale"></div>
-            </div>
-        </div>
-
-        <!-- Bottom control buttons -->
-        <div class="call-footer">
-            <button class="footer-btn regular">
-                <i class="fas fa-retweet"></i>
-            </button>
-            <button class="footer-btn regular">
-                <i class="fas fa-volume-up"></i>
-            </button>
-            <button class="footer-btn end-call">
-                <i class="fas fa-phone-slash"></i>
-            </button>
-            <button class="footer-btn regular">
-                <i class="fas fa-video"></i>
-            </button>
-            <button class="footer-btn regular">
-                <i class="fas fa-microphone"></i>
-            </button>
-        </div>
+    <!-- 全局导航 -->
+    <div class="global-nav">
+        <a href="/dashboard" class="global-nav-item">数据分析</a>
+        <a href="/" class="global-nav-item active">原型</a>
+        <a href="/docs" class="global-nav-item">需求文档</a>
     </div>
 
-    <!-- Home indicator -->
-    <div class="home-indicator"></div>
+    <div class="app-container">
+        <div class="call-container">
+            <div class="status-bar" style="background-color: #000; color: #fff; border-bottom: none;">
+                <div class="status-time">10:20</div>
+                <div class="status-icons">
+                    <div class="status-icon">•••</div>
+                    <div class="status-icon">📶</div>
+                    <div class="status-icon">🔋</div>
+                </div>
+            </div>
+
+            <!-- Back button -->
+            <button class="back-button" onclick="window.location.href='/call'">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <div class="call-main">
+                <!-- 视频和蒙层 -->
+                <video class="remote-video" id="mainVideo" autoplay muted loop>
+                    <source src="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" type="video/mp4">
+                    Your browser does not support the video tag
+                </video>
+                
+                <!-- 添加背景蒙层 -->
+                <div class="background-overlay"></div>
+
+                <!-- Filter selector (now organized in tabs) -->
+                <div class="filters-menu" style="position: absolute; bottom: 180px; left: 0; width: 100%; z-index: 100; display: flex !important; flex-direction: column; align-items: center; background-color: rgba(0, 0, 0, 0.3); padding: 10px 0;">
+                    <!-- Tabs for different filter types -->
+                    <div class="filter-tabs">
+                        <div class="filter-tab active" data-tab="backgrounds">Backgrounds</div>
+                        <div class="filter-tab" data-tab="emoji">Emoji Avatar</div>
+                        <div class="filter-tab" data-tab="effects">Filters</div>
+                    </div>
+
+                    <!-- Background options -->
+                    <div class="filter-selector" id="backgrounds-selector">
+                        <div class="filter-option filter-none active" data-filter="none">
+                            <i class="fas fa-ban"></i>
+                        </div>
+                        <div class="filter-option profile-bg" data-filter="profile">
+                            <i class="fas fa-user" style="color: white;"></i>
+                        </div>
+                        <div class="filter-option flower-bg" data-filter="flower">
+                            <i class="fas fa-sun" style="color: white;"></i>
+                        </div>
+                        <div class="filter-option bug-bg" data-filter="bug">
+                            <i class="fas fa-water" style="color: white;"></i>
+                        </div>
+                        <div class="filter-option heart-bg" data-filter="heart">
+                            <i class="fas fa-heart" style="color: white;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Emoji avatar options -->
+                    <div class="emoji-selector" id="emoji-selector">
+                        <div class="emoji-option" data-emoji="none">
+                            <i class="fas fa-ban"></i>
+                        </div>
+                        <div class="emoji-option" data-emoji="😊">😊</div>
+                        <div class="emoji-option" data-emoji="🤖">🤖</div>
+                        <div class="emoji-option" data-emoji="👽">👽</div>
+                        <div class="emoji-option" data-emoji="🦊">🦊</div>
+                    </div>
+
+                    <!-- Filter effects options -->
+                    <div class="effects-selector" id="effects-selector">
+                        <div class="effect-option" data-effect="none">
+                            <i class="fas fa-ban"></i>
+                        </div>
+                        <div class="effect-option" data-effect="sepia">
+                            <i class="fas fa-sun" style="color: #e2c496;"></i>
+                        </div>
+                        <div class="effect-option" data-effect="coolblue">
+                            <i class="fas fa-snowflake" style="color: #7ba6de;"></i>
+                        </div>
+                        <div class="effect-option" data-effect="warmth">
+                            <i class="fas fa-fire" style="color: #ffa500;"></i>
+                        </div>
+                        <div class="effect-option" data-effect="vintage">
+                            <i class="fas fa-film" style="color: #a07850;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Filter intensity slider -->
+                    <div class="filter-intensity" id="filter-intensity">
+                        <input type="range" min="0" max="100" value="50" class="intensity-slider" id="intensity-slider">
+                    </div>
+                </div>
+
+                <!-- Local video window -->
+                <div class="local-video-container" id="localVideoContainer">
+                    <!-- 背景样式容器 -->
+                    <div class="background-container">
+                        <div class="background-style background-flower" id="bg-flower"></div>
+                        <div class="background-style background-bug" id="bg-bug"></div>
+                        <div class="background-style background-heart" id="bg-heart"></div>
+                    </div>
+                    
+                    <!-- 滤镜效果容器 -->
+                    <div class="filter-container with-foreground" id="filterContainer">
+                        <!-- 顶部装饰 - 可选 -->
+                        <img src="https://cdn-icons-png.flaticon.com/512/6002/6002310.png" alt="Flower effect" class="filter-avatar" id="flower-avatar">
+                        <img src="https://cdn-icons-png.flaticon.com/512/6011/6011435.png" alt="Heart glasses effect" class="filter-avatar" id="heart-avatar">
+                        <img src="https://cdn-icons-png.flaticon.com/512/7309/7309035.png" alt="Bug effect" class="filter-avatar" id="bug-avatar">
+                    </div>
+                    
+                    <video class="local-video" autoplay muted loop>
+                        <source src="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_5mb.mp4" type="video/mp4">
+                        Your browser does not support the video tag
+                    </video>
+
+                    <!-- 提示文字 -->
+                    <div class="local-video-hint">双击放大/缩小窗口</div>
+
+                    <!-- 背景遮罩 - 始终显示 -->
+                    <div class="person-background"></div>
+
+                    <!-- 完整人物形象 - 始终显示，使用SVG -->
+                    <svg class="foreground-person" id="foreground-person" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="30" r="16" fill="#fff"/>
+                        <path d="M38,60 Q50,80 62,60" stroke="#fff" stroke-width="25" fill="none"/>
+                    </svg>
+
+                    <!-- Emoji头像 -->
+                    <div class="emoji-avatar" id="emoji-avatar"></div>
+
+                    <!-- 滤镜效果层 -->
+                    <div class="filter-effect filter-sepia" id="filter-sepia"></div>
+                    <div class="filter-effect filter-coolblue" id="filter-coolblue"></div>
+                    <div class="filter-effect filter-warmth" id="filter-warmth"></div>
+                    <div class="filter-effect filter-vintage" id="filter-vintage"></div>
+                    <div class="filter-effect filter-grayscale" id="filter-grayscale"></div>
+                </div>
+            </div>
+
+            <!-- Bottom control buttons -->
+            <div class="call-footer">
+                <button class="footer-btn regular">
+                    <i class="fas fa-retweet"></i>
+                </button>
+                <button class="footer-btn regular">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+                <button class="footer-btn end-call">
+                    <i class="fas fa-phone-slash"></i>
+                </button>
+                <button class="footer-btn regular">
+                    <i class="fas fa-video"></i>
+                </button>
+                <button class="footer-btn regular">
+                    <i class="fas fa-microphone"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Home indicator -->
+        <div class="home-indicator"></div>
+    </div>
 
     <script>
         // DOM加载完成后的初始化
