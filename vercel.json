@@ -8,6 +8,7 @@
     { "src": "/dashboard", "dest": "/data-analysis/d-income-comparison.html" },
     { "src": "/voip", "dest": "/data-analysis/d-voip.html" },
     { "src": "/", "dest": "/interactive-prototype/index.html" },
+    { "src": "/index.html", "dest": "/interactive-prototype/index.html" },
     { "src": "/news", "dest": "/interactive-prototype/news.html" },
     { "src": "/news.html", "dest": "/interactive-prototype/news.html" },
     { "src": "/search", "dest": "/interactive-prototype/search.html" },
