@@ -241,6 +241,36 @@
         font-size: 16px;
         color: #333;
       }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
+      }
+
+      body {
+        background-color: var(--background);
+        color: #333;
+        line-height: 1.5;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .app-container {
+        width: 414px;
+        height: 950px;
+        margin: 0 auto;
+        background-color: #FFF;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        border-radius: 40px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
     </style>
   </head>
   <body>

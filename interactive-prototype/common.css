@@ -8,12 +8,13 @@
   --danger: #DC3545;
   --gray: #6C757D;
   --gray-light: #F8F9FA;
-  --background: #E8F4FF;
+  --background: #E1EEFA;
   --container-bg: #FFF;
   --text-color: #333;
   --app-width: 414px;
   --app-height: 950px;
   --app-border-radius: 40px;
+  --app-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 /* 全局重置 */
@@ -56,6 +57,7 @@ body {
   position: relative;
   overflow: hidden;
   border-radius: var(--app-border-radius);
+  box-shadow: var(--app-shadow);
 }
 
 /* 统一状态栏样式 */
