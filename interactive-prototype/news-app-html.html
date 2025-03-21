@@ -320,14 +320,19 @@
       border: 1px solid #D6E4FF;
       border-radius: 12px 12px 0 0;
       padding: 16px;
-      position: absolute;
-      bottom: 250px;
-      left: 20px;
-      right: 20px;
-      z-index: 10;
+      position: fixed;
+      bottom: 76px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 374px;
+      z-index: 100;
       box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
-      transition: transform 0.3s ease;
-      transform: translateY(0);
+      transition: transform 0.3s ease, bottom 0.3s ease;
+    }
+
+    .ai-search-cta.hidden {
+      bottom: -100px;
     }
 
     .ai-search-header {
@@ -841,6 +846,40 @@
         document.querySelector('.search-input').value = topicTitle;
       });
     });
+    
+    // AI搜索区域显示/隐藏
+    const aiSearchCta = document.querySelector('.ai-search-cta');
+    const detailContent = document.querySelector('#detail-page .content-area');
+    
+    if (detailContent) {
+      let lastScrollTop = 0;
+      
+      detailContent.addEventListener('scroll', function(e) {
+        const st = e.target.scrollTop;
+        const threshold = 100;
+        
+        // 显示条件：向下滚动超过阈值，或滚动到底部附近
+        if ((st > lastScrollTop && st > threshold) || 
+            (st + e.target.clientHeight > e.target.scrollHeight - 200)) {
+          aiSearchCta.classList.remove('hidden');
+        } else if (st < threshold) {
+          // 在顶部区域时隐藏
+          aiSearchCta.classList.add('hidden');
+        }
+        
+        lastScrollTop = st;
+      });
+    }
+
+    // 初始隐藏
+    if (aiSearchCta) {
+      aiSearchCta.classList.add('hidden');
+      
+      // 页面加载后延迟显示
+      setTimeout(() => {
+        aiSearchCta.classList.remove('hidden');
+      }, 1000);
+    }
   </script>
 <script src="global-nav.js"></script>
 </body>
