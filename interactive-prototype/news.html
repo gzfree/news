@@ -156,7 +156,20 @@
     }
 
     .bottom-nav {
-      display: none; /* 隐藏底部导航栏 */
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      background-color: #FFF;
+      border-top: 1px solid #EEEEEE;
+      z-index: 1000;
+      max-width: var(--app-width);
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .nav-item {
@@ -222,12 +235,12 @@
     }
 
     .news-list {
-      padding: 8px 12px;
+      padding: 12px;
     }
 
     .news-card {
       display: flex;
-      padding: 12px 14px;
+      padding: 12px 16px;
       background-color: #FFF;
       border-radius: 8px;
       margin-bottom: 8px;
@@ -833,59 +846,46 @@
 
     /* 互动操作区域样式 */
     .interaction-bar {
-      position: relative;
       display: flex;
       justify-content: space-around;
       margin-bottom: 20px;
-      background-color: transparent;
+      background-color: #f8f9fa;
       padding: 14px 16px;
       border-radius: 12px;
     }
 
     .interaction-item {
-      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: transform 0.2s;
       padding: 8px 12px;
-      border-radius: 16px;
+      border-radius: 8px;
     }
     
+    .interaction-item:hover {
+      transform: translateY(-2px);
+      background-color: rgba(0, 0, 0, 0.03);
+    }
+
     .interaction-icon {
-      font-size: 22px;
-      margin-bottom: 5px;
-      transition: all 0.2s ease;
+      font-size: 20px;
+      margin-bottom: 4px;
     }
-    
+
     .interaction-count {
-      font-size: 13px;
-      color: #888;
+      font-size: 12px;
+      color: #666;
       font-weight: 500;
-      transition: all 0.2s ease;
-    }
-    
-    .interaction-item.active .interaction-count {
-      color: #ff3c5f;
     }
     
     .up-icon {
-      color: #888;
-      transition: color 0.2s;
-    }
-    
-    .up-icon.active {
-      color: #ff3c5f;
+      color: #3366FF;
     }
     
     .down-icon {
-      color: #888;
-      transition: color 0.2s;
-    }
-    
-    .down-icon.active {
-      color: #ff3c5f;
+      color: #FF3333;
     }
     
     /* 点赞/踩动画效果 */
@@ -1247,59 +1247,46 @@
     
     /* 互动区域微调 */
     .interaction-bar {
-      position: relative;
       display: flex;
       justify-content: space-around;
       margin-bottom: 20px;
-      background-color: transparent;
+      background-color: #f8f9fa;
       padding: 14px 16px;
       border-radius: 12px;
     }
 
     .interaction-item {
-      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: transform 0.2s;
       padding: 8px 12px;
-      border-radius: 16px;
+      border-radius: 8px;
     }
     
+    .interaction-item:hover {
+      transform: translateY(-2px);
+      background-color: rgba(0, 0, 0, 0.03);
+    }
+
     .interaction-icon {
-      font-size: 22px;
-      margin-bottom: 5px;
-      transition: all 0.2s ease;
+      font-size: 20px;
+      margin-bottom: 4px;
     }
-    
+
     .interaction-count {
-      font-size: 13px;
-      color: #888;
+      font-size: 12px;
+      color: #666;
       font-weight: 500;
-      transition: all 0.2s ease;
-    }
-    
-    .interaction-item.active .interaction-count {
-      color: #ff3c5f;
     }
     
     .up-icon {
-      color: #888;
-      transition: color 0.2s;
-    }
-    
-    .up-icon.active {
-      color: #ff3c5f;
+      color: #3366FF;
     }
     
     .down-icon {
-      color: #888;
-      transition: color 0.2s;
-    }
-    
-    .down-icon.active {
-      color: #ff3c5f;
+      color: #FF3333;
     }
     
     /* 相关问题微调 */
@@ -1382,51 +1369,6 @@
     
     .expand-btn:active {
       transform: translateY(1px);
-    }
-
-    /* 点赞心形飘动动画 */
-    @keyframes floatingHearts {
-      0% {
-        transform: translateY(0) scale(0.5);
-        opacity: 0.8;
-      }
-      50% {
-        opacity: 0.9;
-      }
-      100% {
-        transform: translateY(-60px) scale(1.2);
-        opacity: 0;
-      }
-    }
-    
-    .floating-heart {
-      position: absolute;
-      color: #ff3c5f;
-      font-size: 16px;
-      animation: floatingHearts 1s ease-out forwards;
-      z-index: 10;
-      pointer-events: none;
-    }
-    
-    /* 收藏闪光动画 */
-    @keyframes sparkle {
-      0% { transform: scale(1); opacity: 0.5; }
-      50% { transform: scale(1.5); opacity: 1; }
-      100% { transform: scale(1); opacity: 0.5; }
-    }
-    
-    .sparkle {
-      position: absolute;
-      background-color: #ffdf3c;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 10;
-    }
-    
-    .sparkle-animation {
-      animation: sparkle 0.6s ease-out forwards;
     }
   </style>
 </head>
@@ -1676,22 +1618,18 @@
           <!-- 展开按钮改为处于内容之外 -->
           <button class="expand-btn">Show full article</button>
             
-          <!-- 互动功能区 - 更新为小红书风格 -->
+          <!-- 互动功能区 - 移除评论和收藏入口 -->
           <div class="interaction-bar">
             <div class="interaction-item upvote-btn">
-              <div class="interaction-icon up-icon">❤️</div>
+              <div class="up-icon">👍</div>
               <div class="count upvote-count">128</div>
             </div>
-            <div class="interaction-item comment-btn">
-              <div class="interaction-icon">💬</div>
-              <div class="count">36</div>
-            </div>
-            <div class="interaction-item collect-btn">
-              <div class="interaction-icon">📑</div>
-              <div class="count">24</div>
+            <div class="interaction-item downvote-btn">
+              <div class="down-icon">👎</div>
+              <div class="count downvote-count">12</div>
             </div>
             <div class="interaction-item share-btn">
-              <div class="interaction-icon">↗️</div>
+              <div>↗️</div>
               <div class="count">16</div>
             </div>
           </div>
@@ -2077,34 +2015,13 @@
         // 处理点赞逻辑
       }
       
-      // 处理评论按钮
+      // 处理踩按钮
       if (e.target.closest('#detail-page .interaction-item:nth-child(2)')) {
-        // 处理评论逻辑
-      }
-      
-      // 处理收藏按钮
-      if (e.target.closest('#detail-page .interaction-item:nth-child(3)')) {
-        const collectBtn = e.target.closest('.collect-btn');
-        const collectIcon = collectBtn.querySelector('.interaction-icon');
-        
-        if (collectBtn.classList.contains('active')) {
-          collectBtn.classList.remove('active');
-          collectIcon.classList.remove('active');
-          collectIcon.textContent = '📑';
-        } else {
-          collectBtn.classList.add('active');
-          collectIcon.classList.add('active');
-          collectIcon.textContent = '📘';
-          
-          // 添加动画效果
-          collectIcon.classList.remove('pulse-animation');
-          void collectIcon.offsetWidth;
-          collectIcon.classList.add('pulse-animation');
-        }
+        // 处理踩逻辑
       }
       
       // 处理分享按钮
-      if (e.target.closest('#detail-page .interaction-item:nth-child(4)')) {
+      if (e.target.closest('#detail-page .interaction-item:nth-child(3)')) {
         document.querySelector('.backdrop').classList.add('active');
         document.querySelector('.share-overlay').classList.add('active');
       }
@@ -2201,36 +2118,9 @@
           handleVote('.upvote-btn', '.up-icon', '.upvote-count');
         }
         
-        // 处理评论按钮
-        if (e.target.closest('.comment-btn')) {
-          alert('评论功能即将推出');
-        }
-        
-        // 处理收藏按钮
-        if (e.target.closest('.collect-btn')) {
-          const collectBtn = e.target.closest('.collect-btn');
-          const collectIcon = collectBtn.querySelector('.interaction-icon');
-          
-          if (collectBtn.classList.contains('active')) {
-            collectBtn.classList.remove('active');
-            collectIcon.classList.remove('active');
-            collectIcon.textContent = '📑';
-          } else {
-            collectBtn.classList.add('active');
-            collectIcon.classList.add('active');
-            collectIcon.textContent = '📘';
-            
-            // 添加动画效果
-            collectIcon.classList.remove('pulse-animation');
-            void collectIcon.offsetWidth;
-            collectIcon.classList.add('pulse-animation');
-          }
-        }
-        
-        // 处理分享按钮
-        if (e.target.closest('.share-btn')) {
-          document.querySelector('.backdrop').classList.add('active');
-          document.querySelector('.share-overlay').classList.add('active');
+        // 处理踩按钮
+        if (e.target.closest('.downvote-btn')) {
+          handleVote('.downvote-btn', '.down-icon', '.downvote-count');
         }
       });
       
@@ -2267,52 +2157,18 @@
       
       // 更新UI
       document.querySelector('.upvote-count').textContent = upCount;
+      document.querySelector('.downvote-count').textContent = downCount;
       
       // 应用激活状态
       if (isUpvoted) {
         document.querySelector('.upvote-btn').classList.add('active');
-        document.querySelector('.up-icon').classList.add('active');
+        document.querySelector('.up-icon').style.color = '#3366FF';
       }
       
-      // 注册点击事件
-      document.addEventListener('click', function(e) {
-        // 处理点赞按钮
-        if (e.target.closest('.upvote-btn')) {
-          handleVote('.upvote-btn', '.up-icon', '.upvote-count');
-        }
-        
-        // 处理评论按钮
-        if (e.target.closest('.comment-btn')) {
-          alert('评论功能即将推出');
-        }
-        
-        // 处理收藏按钮
-        if (e.target.closest('.collect-btn')) {
-          const collectBtn = e.target.closest('.collect-btn');
-          const collectIcon = collectBtn.querySelector('.interaction-icon');
-          
-          if (collectBtn.classList.contains('active')) {
-            collectBtn.classList.remove('active');
-            collectIcon.classList.remove('active');
-            collectIcon.textContent = '📑';
-          } else {
-            collectBtn.classList.add('active');
-            collectIcon.classList.add('active');
-            collectIcon.textContent = '📘';
-            
-            // 添加动画效果
-            collectIcon.classList.remove('pulse-animation');
-            void collectIcon.offsetWidth;
-            collectIcon.classList.add('pulse-animation');
-          }
-        }
-        
-        // 处理分享按钮
-        if (e.target.closest('.share-btn')) {
-          document.querySelector('.backdrop').classList.add('active');
-          document.querySelector('.share-overlay').classList.add('active');
-        }
-      });
+      if (isDownvoted) {
+        document.querySelector('.downvote-btn').classList.add('active');
+        document.querySelector('.down-icon').style.color = '#FF3333';
+      }
     }
     
     // 处理投票
@@ -2335,27 +2191,53 @@
       // 更新状态和数字
       if (isActive) {
         button.classList.remove('active');
-        icon.classList.remove('active');
         countElement.textContent = currentCount - 1;
         
         if (buttonSelector === '.upvote-btn') {
+          icon.style.color = '';
           localStorage.setItem('isUpvoted', 'false');
           localStorage.setItem('upCount', currentCount - 1);
-        } else if (buttonSelector === '.downvote-btn') {
+        } else {
+          icon.style.color = '';
           localStorage.setItem('isDownvoted', 'false');
           localStorage.setItem('downCount', currentCount - 1);
         }
       } else {
         button.classList.add('active');
-        icon.classList.add('active');
         countElement.textContent = currentCount + 1;
         
         if (buttonSelector === '.upvote-btn') {
+          icon.style.color = '#3366FF';
           localStorage.setItem('isUpvoted', 'true');
           localStorage.setItem('upCount', currentCount + 1);
-        } else if (buttonSelector === '.downvote-btn') {
+          
+          // 如果点赞，取消踩
+          const downButton = document.querySelector('.downvote-btn');
+          if (downButton.classList.contains('active')) {
+            downButton.classList.remove('active');
+            const downIcon = document.querySelector('.down-icon');
+            downIcon.style.color = '';
+            const downCount = document.querySelector('.downvote-count');
+            downCount.textContent = parseInt(downCount.textContent) - 1;
+            localStorage.setItem('isDownvoted', 'false');
+            localStorage.setItem('downCount', parseInt(downCount.textContent));
+          }
+        } else {
+          icon.style.color = '#FF3333';
           localStorage.setItem('isDownvoted', 'true');
           localStorage.setItem('downCount', currentCount + 1);
+          
+          // 如果踩，取消点赞
+          const upButton = document.querySelector('.upvote-btn');
+          if (upButton.classList.contains('active')) {
+            upButton.classList.remove('active');
+            const upIcon = document.querySelector('.up-icon');
+            upIcon.style.color = '';
+            const upCount = document.querySelector('.upvote-count');
+            upCount.textContent = parseInt(upCount.textContent) - 1;
+            localStorage.setItem('isUpvoted', 'false');
+            localStorage.setItem('upCount', parseInt(upCount.textContent));
+          }
         }
       }
     }
@@ -2370,144 +2252,6 @@
     
     // 页面加载后执行初始化
     document.addEventListener('DOMContentLoaded', initializeApp);
-
-    // 处理互动功能
-    document.addEventListener('DOMContentLoaded', function() {
-      // 初始化交互状态
-      initInteractionState();
-      
-      // 点赞按钮处理
-      document.querySelector('.upvote-btn').addEventListener('click', function(e) {
-        const button = this;
-        const icon = button.querySelector('.up-icon');
-        const countElement = button.querySelector('.upvote-count');
-        const isActive = button.classList.contains('active');
-        const currentCount = parseInt(countElement.textContent);
-        
-        // 动画效果
-        icon.classList.remove('pulse-animation');
-        void icon.offsetWidth;
-        icon.classList.add('pulse-animation');
-        
-        // 创建浮动爱心效果
-        if (!isActive) {
-          // 在点击位置创建3-5个浮动的心
-          const numHearts = Math.floor(Math.random() * 3) + 3;
-          for (let i = 0; i < numHearts; i++) {
-            createFloatingHeart(e.clientX, e.clientY);
-          }
-        }
-        
-        // 更新状态
-        if (isActive) {
-          button.classList.remove('active');
-          icon.classList.remove('active');
-          countElement.textContent = currentCount - 1;
-          localStorage.setItem('isUpvoted', 'false');
-          localStorage.setItem('upCount', currentCount - 1);
-        } else {
-          button.classList.add('active');
-          icon.classList.add('active');
-          countElement.textContent = currentCount + 1;
-          localStorage.setItem('isUpvoted', 'true');
-          localStorage.setItem('upCount', currentCount + 1);
-        }
-      });
-      
-      // 评论按钮处理
-      document.querySelector('.comment-btn').addEventListener('click', function() {
-        alert('评论功能即将推出');
-      });
-      
-      // 收藏按钮处理
-      document.querySelector('.collect-btn').addEventListener('click', function(e) {
-        const button = this;
-        const icon = button.querySelector('.interaction-icon');
-        const isActive = button.classList.contains('active');
-        
-        // 动画效果
-        icon.classList.remove('pulse-animation');
-        void icon.offsetWidth;
-        icon.classList.add('pulse-animation');
-        
-        if (!isActive) {
-          // 添加闪光效果
-          createSparkleEffect(e.clientX, e.clientY);
-        }
-        
-        // 更新状态
-        if (isActive) {
-          button.classList.remove('active');
-          icon.classList.remove('active');
-          icon.textContent = '📑';
-        } else {
-          button.classList.add('active');
-          icon.classList.add('active');
-          icon.textContent = '📘';
-        }
-      });
-      
-      // 分享按钮处理
-      document.querySelector('.share-btn').addEventListener('click', function() {
-        document.querySelector('.backdrop').classList.add('active');
-        document.querySelector('.share-overlay').classList.add('active');
-      });
-    });
-    
-    // 创建浮动爱心
-    function createFloatingHeart(x, y) {
-      const heart = document.createElement('div');
-      heart.className = 'floating-heart';
-      heart.textContent = '❤️';
-      heart.style.left = `${x - 10 + (Math.random() * 20)}px`;
-      heart.style.top = `${y - 10 + (Math.random() * 10)}px`;
-      document.body.appendChild(heart);
-      
-      // 移除元素
-      setTimeout(() => {
-        heart.remove();
-      }, 1000);
-    }
-    
-    // 创建收藏闪光效果
-    function createSparkleEffect(x, y) {
-      const numSparkles = 8;
-      const radius = 30;
-      
-      for (let i = 0; i < numSparkles; i++) {
-        const angle = (Math.PI * 2 / numSparkles) * i;
-        const sparkle = document.createElement('div');
-        sparkle.className = 'sparkle sparkle-animation';
-        
-        const sparkleX = x + Math.cos(angle) * radius;
-        const sparkleY = y + Math.sin(angle) * radius;
-        
-        sparkle.style.left = `${sparkleX}px`;
-        sparkle.style.top = `${sparkleY}px`;
-        document.body.appendChild(sparkle);
-        
-        // 移除元素
-        setTimeout(() => {
-          sparkle.remove();
-        }, 600);
-      }
-    }
-
-    // 初始化交互状态
-    function initInteractionState() {
-      // 从本地存储获取状态
-      const isUpvoted = localStorage.getItem('isUpvoted') === 'true';
-      const upCount = localStorage.getItem('upCount') || 128;
-      
-      // 更新UI
-      document.querySelector('.upvote-count').textContent = upCount;
-      
-      // 应用激活状态
-      if (isUpvoted) {
-        document.querySelector('.upvote-btn').classList.add('active');
-        document.querySelector('.up-icon').classList.add('active');
-      }
-    }
   </script>
 </body>
 </html>

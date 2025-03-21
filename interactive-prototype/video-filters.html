@@ -17,6 +17,8 @@
             --danger: #DC3545;
             --gray: #6C757D;
             --gray-light: #F8F9FA;
+            --safe-bottom: env(safe-area-inset-bottom, 20px);
+            --safe-top: env(safe-area-inset-top, 20px);
         }
 
         * {
@@ -36,6 +38,7 @@
             align-items: center;
             justify-content: center;
             background-color: var(--background);
+            -webkit-overflow-scrolling: touch;
         }
 
         body {
@@ -62,6 +65,8 @@
                 width: 100%;
                 height: 100%;
                 border-radius: 0;
+                padding-bottom: var(--safe-bottom);
+                padding-top: var(--safe-top);
             }
         }
 
@@ -70,11 +75,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
+            padding: max(10px, var(--safe-top)) 20px;
             background-color: transparent;
             color: white;
             font-weight: 500;
-            z-index: 10;
+            z-index: 100;
         }
 
         .status-bar-time {
@@ -88,14 +93,21 @@
 
         .back-button {
             position: absolute;
-            top: 60px;
-            left: 20px;
+            top: max(60px, calc(var(--safe-top) + 30px));
+            left: 15px;
             color: white;
             background: none;
             border: none;
             font-size: 24px;
             z-index: 100;
             cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.5);
         }
 
         /* Main content area */
@@ -144,7 +156,7 @@
             z-index: 2;
         }
 
-        /* 更大的小窗 */
+        /* 恢复原始小窗位置和大小 */
         .local-video-container {
             position: absolute;
             top: 40%;
@@ -161,20 +173,20 @@
             cursor: pointer;
         }
 
-        /* 应用滤镜效果时更大 */
-        .local-video-container.with-filter {
-            width: 320px;
-            height: 520px;
-            border-color: white;
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.7);
-        }
-
         /* 放大小窗样式 */
         .local-video-container.expanded {
             width: 380px;
             height: 580px;
             border-color: white;
             box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
+        }
+
+        /* 应用滤镜效果时更大 */
+        .local-video-container.with-filter {
+            width: 320px;
+            height: 520px;
+            border-color: white;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.7);
         }
 
         /* 小窗提示文字 */
@@ -320,16 +332,19 @@
             object-fit: contain;
         }
 
-        /* Bottom control buttons */
+        /* 恢复底部控制按钮样式 */
         .call-footer {
-            padding: 15px 0 35px;
+            padding: 15px 0 max(35px, var(--safe-bottom));
             display: flex;
             justify-content: space-evenly;
             background-color: transparent;
-            z-index: 5;
+            z-index: 100; /* 增加z-index确保在最上层 */
             position: absolute;
-            bottom: 5px;
+            bottom: 0;
+            left: 0;
+            right: 0;
             width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.4), transparent);
         }
 
         .footer-btn {
@@ -343,6 +358,7 @@
             border: none;
             cursor: pointer;
             font-size: 24px;
+            margin-bottom: 5px;
         }
 
         .footer-btn.end-call {
@@ -350,13 +366,13 @@
         }
 
         .footer-btn.regular {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(0, 0, 0, 0.6);
         }
 
         /* Home indicator */
         .home-indicator {
             position: absolute;
-            bottom: 8px;
+            bottom: max(8px, calc(var(--safe-bottom) - 5px));
             left: 50%;
             transform: translateX(-50%);
             width: 30%;
@@ -516,43 +532,236 @@
         /* 修改菜单选项组结构 */
         .filters-menu {
             position: absolute;
-            bottom: 180px;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            display: flex !important;
-            flex-direction: column;
-            align-items: center;
-            background-color: rgba(0, 0, 0, 0.3);
-            padding: 10px 0;
+            bottom: 100px; /* 增加距离，避免遮挡底部按钮 */
+            left: 5px;
+            right: 5px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            padding: 12px 10px;
+            margin: 0;
+            max-height: 40vh;
+            overflow-y: auto;
+            z-index: 90;
+            backdrop-filter: blur(8px);
         }
 
-        /* 菜单切换tabs */
         .filter-tabs {
             display: flex;
-            margin-bottom: 12px;
-            background-color: rgba(0, 0, 0, 0.4);
-            border-radius: 20px;
-            padding: 5px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 15px;
         }
 
         .filter-tab {
             padding: 8px 15px;
-            border-radius: 15px;
             font-size: 14px;
-            font-weight: 500;
-            color: white;
+            border-radius: 30px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            min-width: auto;
+            text-align: center;
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
         .filter-tab.active {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.3);
+            transform: scale(1.05);
         }
 
-        /* 滤镜强度滑块样式 */
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .filter-option {
+            width: 70px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .filter-preview {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+
+        /* 美颜控制区域优化 */
+        .beauty-selector {
+            padding: 8px 0;
+        }
+
+        .beauty-slider-container {
+            width: 90%;
+            max-width: 300px;
+            margin: 0 auto 20px auto;
+            padding: 10px;
+            background-color: transparent;
+            border-radius: 12px;
+        }
+        
+        .beauty-slider-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: white;
+            font-size: 16px;
+        }
+        
+        .beauty-value {
+            background: rgba(50,50,50,0.7);
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: white;
+        }
+        
+        .beauty-slider {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            background: linear-gradient(to right, #ff5f6d, #ff8a65);
+            outline: none;
+            border-radius: 10px;
+        }
+        
+        .beauty-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+        }
+
+        /* 美颜选项图标 */
+        .beauty-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        
+        .beauty-option i {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(30,30,30,0.7);
+            border-radius: 50%;
+            font-size: 20px;
+            color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        
+        .beauty-option.active i {
+            border: 2px solid #3366FF;
+            background-color: #3366FF;
+        }
+        
+        .beauty-option-label {
+            font-size: 14px;
+            color: white;
+        }
+
+        /* 过滤器选项优化 */
+        .filter-option, 
+        .emoji-option, 
+        .effect-option {
+            transition: transform 0.2s ease;
+        }
+        
+        .filter-option:active, 
+        .emoji-option:active, 
+        .effect-option:active,
+        .beauty-option:active {
+            transform: scale(0.95);
+        }
+
+        /* 横屏适配调整 */
+        @media (orientation: landscape) {
+            .local-video-container {
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 240px;
+                height: 380px;
+            }
+            
+            .filters-menu {
+                bottom: 80px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%;
+                max-width: 500px;
+            }
+            
+            .filter-options, 
+            .beauty-options {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+                gap: 10px;
+            }
+        }
+
+        /* 恢复美颜选项选择器 */
+        .beauty-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        /* 美颜选择器容器 */
+        .beauty-selector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding: 8px 0;
+        }
+        
+        .beauty-slider-container {
+            width: 90%;
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 10px;
+            background-color: rgba(0,0,0,0.3);
+            border-radius: 12px;
+        }
+
+        /* 确保选择器正确显示 */
+        .beauty-selector, 
+        .filter-selector, 
+        .emoji-selector, 
+        .effects-selector {
+            display: none;
+        }
+
+        .beauty-selector.visible, 
+        .emoji-selector.visible, 
+        .effects-selector.visible {
+            display: flex;
+        }
+
+        #backgrounds-selector {
+            display: flex;
+        }
+
+        /* 修复滑块显示问题 */
         .filter-intensity {
-            width: 80%;
+            width: 90%;
+            max-width: 300px;
             margin: 10px auto;
             padding: 8px;
             background-color: rgba(0, 0, 0, 0.4);
@@ -580,6 +789,25 @@
             border-radius: 50%;
             background: white;
             cursor: pointer;
+        }
+
+        /* 确保底部安全区域适配 */
+        .home-indicator {
+            position: absolute;
+            bottom: max(8px, calc(var(--safe-bottom) - 5px));
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30%;
+            height: 5px;
+            background-color: white;
+            border-radius: 3px;
+            z-index: 10;
+        }
+
+        /* 确保菜单可见 */
+        .filters-menu {
+            display: flex;
+            flex-direction: column;
         }
     </style>
 </head>
@@ -637,12 +865,13 @@
                 <div class="background-overlay"></div>
 
                 <!-- Filter selector (now organized in tabs) -->
-                <div class="filters-menu" style="position: absolute; bottom: 180px; left: 0; width: 100%; z-index: 100; display: flex !important; flex-direction: column; align-items: center; background-color: rgba(0, 0, 0, 0.3); padding: 10px 0;">
+                <div class="filters-menu">
                     <!-- Tabs for different filter types -->
                     <div class="filter-tabs">
-                        <div class="filter-tab active" data-tab="backgrounds">Backgrounds</div>
-                        <div class="filter-tab" data-tab="emoji">Emoji Avatar</div>
-                        <div class="filter-tab" data-tab="effects">Filters</div>
+                        <div class="filter-tab active" data-tab="backgrounds">背景</div>
+                        <div class="filter-tab" data-tab="emoji">表情</div>
+                        <div class="filter-tab" data-tab="effects">滤镜</div>
+                        <div class="filter-tab beauty-btn" data-tab="beauty">美颜</div>
                     </div>
 
                     <!-- Background options -->
@@ -665,7 +894,7 @@
                     </div>
 
                     <!-- Emoji avatar options -->
-                    <div class="emoji-selector" id="emoji-selector">
+                    <div class="emoji-selector" id="emoji-selector" style="display: none;">
                         <div class="emoji-option" data-emoji="none">
                             <i class="fas fa-ban"></i>
                         </div>
@@ -676,7 +905,7 @@
                     </div>
 
                     <!-- Filter effects options -->
-                    <div class="effects-selector" id="effects-selector">
+                    <div class="effects-selector" id="effects-selector" style="display: none;">
                         <div class="effect-option" data-effect="none">
                             <i class="fas fa-ban"></i>
                         </div>
@@ -697,6 +926,36 @@
                     <!-- Filter intensity slider -->
                     <div class="filter-intensity" id="filter-intensity">
                         <input type="range" min="0" max="100" value="50" class="intensity-slider" id="intensity-slider">
+                    </div>
+                    
+                    <!-- 添加美颜选择器到菜单内部 -->
+                    <div class="beauty-selector" id="beauty-selector" style="display: none;">
+                        <div class="beauty-slider-container">
+                            <div class="beauty-slider-title">
+                                <span>美颜强度</span>
+                                <span class="beauty-value">50%</span>
+                            </div>
+                            <input type="range" min="0" max="100" value="50" class="beauty-slider" id="beautyLevel">
+                        </div>
+                        
+                        <div class="beauty-options">
+                            <div class="beauty-option active" data-beauty="natural">
+                                <i class="fas fa-leaf"></i>
+                                <div class="beauty-option-label">自然</div>
+                            </div>
+                            <div class="beauty-option" data-beauty="smooth">
+                                <i class="fas fa-tint"></i>
+                                <div class="beauty-option-label">光滑</div>
+                            </div>
+                            <div class="beauty-option" data-beauty="bright">
+                                <i class="fas fa-sun"></i>
+                                <div class="beauty-option-label">美白</div>
+                            </div>
+                            <div class="beauty-option" data-beauty="thin">
+                                <i class="fas fa-compress"></i>
+                                <div class="beauty-option-label">瘦脸</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -798,35 +1057,197 @@
             // 确保菜单可见
             if (filtersMenu) {
                 filtersMenu.style.display = 'flex';
-                filtersMenu.style.zIndex = '999';
-                filtersMenu.style.bottom = '180px';
-                filtersMenu.style.position = 'absolute';
-                filtersMenu.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-                filtersMenu.style.width = '100%';
-                filtersMenu.style.padding = '10px 0';
-            } else {
-                console.log("找不到菜单元素");
             }
             
-            // 延迟检查菜单是否可见
-            setTimeout(function() {
-                const computedStyle = window.getComputedStyle(filtersMenu);
-                
-                // 强制显示
-                if (computedStyle.display === 'none') {
-                    filtersMenu.style.display = 'flex !important';
-                }
-            }, 1000);
+            // 标签切换功能
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // 移除所有标签的active类
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    
+                    // 为当前标签添加active类
+                    this.classList.add('active');
+                    
+                    // 获取标签类型
+                    const tabType = this.getAttribute('data-tab');
+                    
+                    // 隐藏所有选择器
+                    if (backgroundsSelector) backgroundsSelector.style.display = 'none';
+                    if (emojiSelector) emojiSelector.style.display = 'none';
+                    if (effectsSelector) effectsSelector.style.display = 'none';
+                    if (document.querySelector('.beauty-selector')) 
+                        document.querySelector('.beauty-selector').style.display = 'none';
+                    if (filterIntensity) filterIntensity.style.display = 'none';
+                    
+                    // 显示相应的选择器
+                    if (tabType === 'backgrounds' && backgroundsSelector) {
+                        backgroundsSelector.style.display = 'flex';
+                    } else if (tabType === 'emoji' && emojiSelector) {
+                        emojiSelector.style.display = 'flex';
+                    } else if (tabType === 'effects' && effectsSelector) {
+                        effectsSelector.style.display = 'flex';
+                        if (filterIntensity) filterIntensity.style.display = 'block';
+                    } else if (tabType === 'beauty' && document.querySelector('.beauty-selector')) {
+                        document.querySelector('.beauty-selector').style.display = 'flex';
+                    }
+                    
+                    // 保存当前标签到localStorage
+                    localStorage.setItem('activeFilterTab', tabType);
+                });
+            });
             
             // Emoji头像功能
             const emojiOptions = document.querySelectorAll('.emoji-option');
             const emojiAvatar = document.getElementById('emoji-avatar');
+            
+            // 添加Emoji点击功能
+            emojiOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // 获取emoji类型
+                    const emojiType = this.getAttribute('data-emoji');
+                    
+                    // 检查是否点击了已激活的emoji（实现切换功能）
+                    const isCurrentlyActive = this.classList.contains('active');
+                    
+                    // 移除所有选项的active类
+                    emojiOptions.forEach(opt => opt.classList.remove('active'));
+                    
+                    // 如果点击的不是当前激活的emoji，则激活它；否则将其设为none（切换关闭）
+                    if (!isCurrentlyActive) {
+                        // 为当前选项添加active类
+                        this.classList.add('active');
+                        
+                        // 保存选择到localStorage
+                        localStorage.setItem('selectedEmoji', emojiType);
+                        
+                        // 应用emoji效果
+                        if (emojiType !== 'none') {
+                            if (emojiAvatar) {
+                                emojiAvatar.style.display = 'flex';
+                                emojiAvatar.classList.add('visible');
+                                emojiAvatar.textContent = emojiType;
+                                if (foregroundPerson) foregroundPerson.style.display = 'none';
+                            }
+                            localStorage.setItem('emojiActive', 'true');
+                        } else {
+                            if (emojiAvatar) {
+                                emojiAvatar.style.display = 'none';
+                                emojiAvatar.classList.remove('visible');
+                                emojiAvatar.textContent = '';
+                                if (foregroundPerson) {
+                                    foregroundPerson.style.display = 'block';
+                                    foregroundPerson.style.opacity = '1';
+                                }
+                            }
+                            localStorage.setItem('emojiActive', 'false');
+                        }
+                    } else {
+                        // 切换关闭 - 设置为none
+                        localStorage.setItem('selectedEmoji', 'none');
+                        localStorage.setItem('emojiActive', 'false');
+                        
+                        // 激活none选项
+                        const noneOption = document.querySelector('.emoji-option[data-emoji="none"]');
+                        if (noneOption) noneOption.classList.add('active');
+                        
+                        // 恢复默认显示
+                        if (emojiAvatar) {
+                            emojiAvatar.style.display = 'none';
+                            emojiAvatar.classList.remove('visible');
+                            emojiAvatar.textContent = '';
+                        }
+                        if (foregroundPerson) {
+                            foregroundPerson.style.display = 'block';
+                            foregroundPerson.style.opacity = '1';
+                        }
+                    }
+                });
+            });
             
             // 滤镜效果功能
             const effectOptions = document.querySelectorAll('.effect-option');
             const filterEffects = document.querySelectorAll('.filter-effect');
             const intensitySlider = document.getElementById('intensity-slider');
             let currentEffect = null;
+            
+            // 添加滤镜效果点击功能
+            effectOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // 获取效果类型
+                    const effectType = this.getAttribute('data-effect');
+                    
+                    // 检查是否点击了已激活的效果（实现切换功能）
+                    const isCurrentlyActive = this.classList.contains('active');
+                    
+                    // 移除所有选项的active类
+                    effectOptions.forEach(opt => opt.classList.remove('active'));
+                    
+                    // 重置所有滤镜效果
+                    filterEffects.forEach(effect => {
+                        effect.classList.remove('visible');
+                        effect.style.opacity = '0';
+                    });
+                    
+                    // 如果点击的不是当前激活的效果，则激活它；否则将其设为none（切换关闭）
+                    if (!isCurrentlyActive) {
+                        // 为当前选项添加active类
+                        this.classList.add('active');
+                        
+                        // 保存选择到localStorage
+                        localStorage.setItem('selectedEffect', effectType);
+                        currentEffect = effectType;
+                        
+                        // 应用滤镜效果
+                        if (effectType !== 'none') {
+                            const effect = document.getElementById(`filter-${effectType}`);
+                            if (effect) {
+                                effect.classList.add('visible');
+                                
+                                // 设置透明度
+                                const savedOpacity = localStorage.getItem('filterOpacity') || 0.5;
+                                if (intensitySlider) {
+                                    intensitySlider.value = savedOpacity * 100;
+                                    effect.style.opacity = savedOpacity * 1.5;
+                                    
+                                    // 根据不同滤镜类型和强度应用不同混合模式
+                                    if (savedOpacity > 0.7) {
+                                        if (effectType === 'sepia') {
+                                            effect.style.mixBlendMode = 'soft-light';
+                                        } else if (effectType === 'coolblue') {
+                                            effect.style.mixBlendMode = 'screen';
+                                        } else if (effectType === 'warmth') {
+                                            effect.style.mixBlendMode = 'multiply';
+                                        } else if (effectType === 'vintage') {
+                                            effect.style.mixBlendMode = 'darken';
+                                        } else if (effectType === 'grayscale') {
+                                            effect.style.mixBlendMode = 'luminosity';
+                                        }
+                                    } else {
+                                        effect.style.mixBlendMode = 'overlay';
+                                    }
+                                }
+                            }
+                            localStorage.setItem('effectActive', 'true');
+                            if (filterIntensity) filterIntensity.classList.add('visible');
+                        } else {
+                            localStorage.setItem('effectActive', 'false');
+                            if (filterIntensity) filterIntensity.classList.remove('visible');
+                        }
+                    } else {
+                        // 切换关闭 - 设置为none
+                        localStorage.setItem('selectedEffect', 'none');
+                        localStorage.setItem('effectActive', 'false');
+                        currentEffect = null;
+                        
+                        // 激活none选项
+                        const noneOption = document.querySelector('.effect-option[data-effect="none"]');
+                        if (noneOption) noneOption.classList.add('active');
+                        
+                        // 隐藏强度滑块
+                        if (filterIntensity) filterIntensity.classList.remove('visible');
+                    }
+                });
+            });
             
             // 双击放大/缩小功能
             let isExpanded = false;
@@ -861,18 +1282,26 @@
             
             // 添加双击放大/缩小功能
             if (localVideoContainer) {
-                localVideoContainer.addEventListener('dblclick', function(e) {
-                    e.preventDefault();
-                    isExpanded = !isExpanded;
+                let lastTap = 0;
+                localVideoContainer.addEventListener('touchend', function(e) {
+                    const currentTime = new Date().getTime();
+                    const tapLength = currentTime - lastTap;
                     
-                    if (isExpanded) {
-                        this.classList.add('expanded');
-                        document.querySelector('.local-video-hint').textContent = '双击缩小窗口';
-                    } else {
-                        this.classList.remove('expanded');
-                        document.querySelector('.local-video-hint').textContent = '双击放大窗口';
+                    if (tapLength < 500 && tapLength > 0) {
+                        // 双击
+                        e.preventDefault();
+                        isExpanded = !isExpanded;
+                        
+                        if (isExpanded) {
+                            this.classList.add('expanded');
+                            document.querySelector('.local-video-hint').textContent = '双击缩小窗口';
+                        } else {
+                            this.classList.remove('expanded');
+                            document.querySelector('.local-video-hint').textContent = '双击放大窗口';
+                        }
                     }
-                });
+                    lastTap = currentTime;
+                }, { passive: false });
             }
             
             // 分离背景效果应用功能
@@ -924,193 +1353,6 @@
                     }
                 }
             }
-            
-            // 标签切换功能
-            filterTabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    // 移除所有标签的active类
-                    filterTabs.forEach(t => t.classList.remove('active'));
-                    
-                    // 为当前标签添加active类
-                    this.classList.add('active');
-                    
-                    // 获取标签类型
-                    const tabType = this.getAttribute('data-tab');
-                    
-                    // 隐藏所有选择器
-                    if (backgroundsSelector) backgroundsSelector.style.display = 'none';
-                    if (emojiSelector) emojiSelector.style.display = 'none';
-                    if (effectsSelector) effectsSelector.style.display = 'none';
-                    if (filterIntensity) filterIntensity.classList.remove('visible');
-                    
-                    // 显示相应的选择器
-                    if (tabType === 'backgrounds' && backgroundsSelector) {
-                        backgroundsSelector.style.display = 'flex';
-                    } else if (tabType === 'emoji' && emojiSelector) {
-                        emojiSelector.style.display = 'flex';
-                    } else if (tabType === 'effects' && effectsSelector) {
-                        effectsSelector.style.display = 'flex';
-                        if (filterIntensity) filterIntensity.classList.add('visible');
-                    }
-                    
-                    // 保存当前标签到localStorage
-                    localStorage.setItem('activeFilterTab', tabType);
-                });
-            });
-            
-            // Emoji头像功能
-            emojiOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    // 获取emoji类型
-                    const emojiType = this.getAttribute('data-emoji');
-                    
-                    // 检查是否点击了已激活的emoji（实现切换功能）
-                    const isCurrentlyActive = this.classList.contains('active');
-                    
-                    // 移除所有emoji选项的active类
-                    emojiOptions.forEach(opt => opt.classList.remove('active'));
-                    
-                    // 如果点击的不是当前激活的emoji，则激活它；否则将其设为none（切换关闭）
-                    if (!isCurrentlyActive) {
-                        // 为当前选项添加active类
-                        this.classList.add('active');
-                        
-                        // 保存emoji选择到localStorage
-                        localStorage.setItem('selectedEmoji', emojiType);
-                        
-                        // 应用emoji头像
-                        if (emojiType === 'none') {
-                            emojiAvatar.classList.remove('visible');
-                            emojiAvatar.style.display = 'none';
-                            emojiAvatar.textContent = '';
-                            
-                            // 显示前景人物
-                            if (foregroundPerson) {
-                                foregroundPerson.style.display = 'block';
-                                foregroundPerson.style.opacity = '1';
-                            }
-                            
-                            // 更新菜单状态
-                            localStorage.setItem('emojiActive', 'false');
-                        } else {
-                            emojiAvatar.classList.add('visible');
-                            emojiAvatar.style.display = 'flex';
-                            emojiAvatar.textContent = emojiType;
-                            
-                            // 隐藏前景人物, 但保持背景可见
-                            if (foregroundPerson) {
-                                foregroundPerson.style.display = 'none';
-                            }
-                            
-                            // 更新菜单状态
-                            localStorage.setItem('emojiActive', 'true');
-                        }
-                    } else {
-                        // 切换关闭 - 设置为none
-                        localStorage.setItem('selectedEmoji', 'none');
-                        localStorage.setItem('emojiActive', 'false');
-                        
-                        // 激活none选项
-                        const noneOption = document.querySelector('.emoji-option[data-emoji="none"]');
-                        if (noneOption) noneOption.classList.add('active');
-                        
-                        // 应用none emoji
-                        emojiAvatar.classList.remove('visible');
-                        emojiAvatar.style.display = 'none';
-                        emojiAvatar.textContent = '';
-                        
-                        // 显示前景人物
-                        if (foregroundPerson) {
-                            foregroundPerson.style.display = 'block';
-                            foregroundPerson.style.opacity = '1';
-                        }
-                    }
-                });
-            });
-            
-            // 滤镜效果功能
-            effectOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    // 获取效果类型
-                    const effectType = this.getAttribute('data-effect');
-                    
-                    // 检查是否点击了已激活的效果（实现切换功能）
-                    const isCurrentlyActive = this.classList.contains('active');
-                    
-                    // 移除所有效果选项的active类
-                    effectOptions.forEach(opt => opt.classList.remove('active'));
-                    
-                    // 先清除所有滤镜效果
-                    filterEffects.forEach(effect => {
-                        effect.classList.remove('visible');
-                        effect.style.opacity = '0';
-                        effect.style.mixBlendMode = '';
-                    });
-                    
-                    // 如果点击的不是当前激活的效果，则激活它；否则将其设为none（切换关闭）
-                    if (!isCurrentlyActive) {
-                        // 为当前选项添加active类
-                        this.classList.add('active');
-                        
-                        // 保存效果选择到localStorage
-                        localStorage.setItem('selectedEffect', effectType);
-                        currentEffect = effectType;
-                        
-                        // 应用滤镜效果
-                        if (effectType !== 'none') {
-                            const effect = document.getElementById(`filter-${effectType}`);
-                            if (effect) {
-                                effect.classList.add('visible');
-                                // 设置透明度为当前滑块值
-                                if (intensitySlider) {
-                                    const opacity = intensitySlider.value / 100;
-                                    effect.style.opacity = opacity * 1.5;
-                                    
-                                    // 根据不同滤镜类型和强度应用不同混合模式
-                                    if (opacity > 0.7) {
-                                        if (effectType === 'sepia') {
-                                            effect.style.mixBlendMode = 'soft-light';
-                                        } else if (effectType === 'coolblue') {
-                                            effect.style.mixBlendMode = 'screen';
-                                        } else if (effectType === 'warmth') {
-                                            effect.style.mixBlendMode = 'multiply';
-                                        } else if (effectType === 'vintage') {
-                                            effect.style.mixBlendMode = 'darken';
-                                        } else if (effectType === 'grayscale') {
-                                            effect.style.mixBlendMode = 'luminosity';
-                                        }
-                                    } else {
-                                        effect.style.mixBlendMode = 'overlay';
-                                    }
-                                    
-                                    // 保存滤镜透明度到localStorage
-                                    localStorage.setItem('filterOpacity', opacity);
-                                }
-                                
-                                // 设置滤镜效果的z-index确保它在所有元素之上
-                                effect.style.zIndex = '20';
-                            }
-                            
-                            localStorage.setItem('effectActive', 'true');
-                            if (filterIntensity) filterIntensity.classList.add('visible');
-                        } else {
-                            localStorage.setItem('effectActive', 'false');
-                            if (filterIntensity) filterIntensity.classList.remove('visible');
-                        }
-                    } else {
-                        // 切换关闭 - 设置为none
-                        localStorage.setItem('selectedEffect', 'none');
-                        localStorage.setItem('effectActive', 'false');
-                        currentEffect = 'none';
-                        
-                        // 激活none选项
-                        const noneOption = document.querySelector('.effect-option[data-effect="none"]');
-                        if (noneOption) noneOption.classList.add('active');
-                        
-                        if (filterIntensity) filterIntensity.classList.remove('visible');
-                    }
-                });
-            });
             
             // 应用背景效果
             filterOptions.forEach(option => {
@@ -1375,7 +1617,170 @@
                 emojiAvatar.style.zIndex = '10'; // 确保emoji在背景上方
                 emojiAvatar.style.backgroundColor = 'transparent'; // 背景透明以显示下层背景
             }
+
+            // 美颜功能
+            const beautySlider = document.getElementById('beautyLevel');
+            const beautyOptions = document.querySelectorAll('.beauty-option');
+            const beautyValue = document.querySelector('.beauty-value');
+            
+            if (beautySlider) {
+                beautySlider.addEventListener('input', function() {
+                    // 更新显示值
+                    beautyValue.textContent = `${this.value}%`;
+                    
+                    // 应用美颜效果
+                    applyBeautyEffect(this.value);
+                    
+                    // 保存设置
+                    localStorage.setItem('beautyLevel', this.value);
+                });
+            }
+            
+            // 美颜模式选择
+            if (beautyOptions) {
+                beautyOptions.forEach(option => {
+                    option.addEventListener('click', function() {
+                        // 移除所有选项的active类
+                        beautyOptions.forEach(opt => opt.classList.remove('active'));
+                        
+                        // 为当前选项添加active类
+                        this.classList.add('active');
+                        
+                        // 获取美颜类型
+                        const beautyType = this.getAttribute('data-beauty');
+                        
+                        // 应用美颜模式
+                        applyBeautyMode(beautyType);
+                        
+                        // 保存设置
+                        localStorage.setItem('beautyType', beautyType);
+                    });
+                });
+            }
+            
+            // 加载保存的美颜设置
+            const savedBeautyLevel = localStorage.getItem('beautyLevel');
+            const savedBeautyType = localStorage.getItem('beautyType');
+            
+            if (savedBeautyLevel && beautySlider) {
+                beautySlider.value = savedBeautyLevel;
+                beautyValue.textContent = `${savedBeautyLevel}%`;
+                applyBeautyEffect(savedBeautyLevel);
+            }
+            
+            if (savedBeautyType) {
+                const option = document.querySelector(`.beauty-option[data-beauty="${savedBeautyType}"]`);
+                if (option) {
+                    beautyOptions.forEach(opt => opt.classList.remove('active'));
+                    option.classList.add('active');
+                    applyBeautyMode(savedBeautyType);
+                }
+            }
+
+            // 添加移动端优化逻辑
+            document.querySelectorAll('.filter-tab, .beauty-option, .filter-option, .emoji-option, .effect-option').forEach(element => {
+                element.addEventListener('touchstart', function() {
+                    this.style.opacity = '0.7';
+                    this.style.transform = 'scale(0.95)';
+                }, { passive: true });
+                
+                element.addEventListener('touchend', function() {
+                    this.style.opacity = '1';
+                    this.style.transform = '';
+                }, { passive: true });
+            });
+            
+            // 过滤器菜单滚动优化 - 使用已经声明的filtersMenu变量，避免重复声明
+            if (filtersMenu) {
+                filtersMenu.addEventListener('touchmove', function(e) {
+                    e.stopPropagation();
+                }, { passive: true });
+            }
+            
+            // 检测设备类型
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                // 对slider进行触摸优化
+                const beautySlider = document.getElementById('beauty-slider');
+                if (beautySlider) {
+                    beautySlider.addEventListener('touchstart', function() {
+                        document.body.style.overflow = 'hidden'; // 避免页面滚动
+                    }, { passive: true });
+                    
+                    beautySlider.addEventListener('touchend', function() {
+                        document.body.style.overflow = '';
+                    }, { passive: true });
+                }
+            }
+
+            // 安全区域检测
+            function updateSafeAreas() {
+                document.documentElement.style.setProperty('--safe-bottom', `${window.innerHeight - document.documentElement.clientHeight}px`);
+                document.documentElement.style.setProperty('--safe-top', `${window.screenTop}px`);
+            }
+            
+            // 屏幕旋转处理
+            window.addEventListener('resize', function() {
+                updateSafeAreas();
+                
+                // 横屏模式下自动隐藏菜单
+                if (window.innerWidth > window.innerHeight && filtersMenu) {
+                    if (filtersMenu.style.display !== 'none') {
+                        const activeTab = document.querySelector('.filter-tab.active');
+                        if (activeTab) {
+                            activeTab.click(); // 再次点击当前标签收起菜单
+                        }
+                    }
+                }
+            });
+            
+            // 初始化更新安全区域
+            updateSafeAreas();
         });
+
+        // 应用美颜效果
+        function applyBeautyEffect(level) {
+            const localVideo = document.querySelector('.local-video');
+            if (localVideo) {
+                // 基础美颜效果
+                const intensity = level / 100;
+                localVideo.style.filter = `brightness(${1 + intensity * 0.1}) contrast(${1 - intensity * 0.1}) saturate(${1 + intensity * 0.2})`;
+            }
+        }
+        
+        // 应用不同美颜模式
+        function applyBeautyMode(mode) {
+            const localVideo = document.querySelector('.local-video');
+            if (localVideo) {
+                // 获取当前滤镜
+                const currentFilter = localVideo.style.filter || '';
+                
+                // 添加特定模式效果
+                switch(mode) {
+                    case 'natural':
+                        // 自然模式 - 轻微调整
+                        localVideo.style.filter = currentFilter.replace(/sepia\([^)]+\)|hue-rotate\([^)]+\)|blur\([^)]+\)/g, '') + '';
+                        break;
+                    case 'smooth':
+                        // 光滑模式 - 增加模糊效果
+                        localVideo.style.filter = currentFilter.replace(/blur\([^)]+\)/g, '') + ' blur(1px)';
+                        break;
+                    case 'bright':
+                        // 美白模式 - 增加亮度和对比度
+                        localVideo.style.filter = currentFilter.replace(/sepia\([^)]+\)/g, '') + ' sepia(0.2)';
+                        break;
+                    case 'thin':
+                        // 瘦脸模式
+                        // 注意：CSS滤镜无法实现真正的瘦脸效果，这里只是视觉近似
+                        localVideo.style.transform = 'scale(1.05, 1)';
+                        break;
+                    default:
+                        localVideo.style.filter = currentFilter.replace(/sepia\([^)]+\)|hue-rotate\([^)]+\)|blur\([^)]+\)/g, '');
+                        localVideo.style.transform = '';
+                }
+            }
+        }
     </script>
 </body>
 </html> 
+
