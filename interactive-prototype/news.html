@@ -1311,6 +1311,14 @@
       const isExpanded = content.classList.toggle('expanded');
       this.classList.toggle('expanded');
       this.textContent = isExpanded ? 'Show Less' : 'Show More';
+      
+      // 内容展开时隐藏"Want to know more"部分，收起时显示
+      const aiSearchCta = document.querySelector('.ai-search-cta');
+      if (isExpanded) {
+        aiSearchCta.style.display = 'none';
+      } else {
+        aiSearchCta.style.display = '';
+      }
     });
 
     // 为相关话题卡片添加点击事件
