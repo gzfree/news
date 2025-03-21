@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>News App</title>
+  <title>News App HTML</title>
+  <link rel="stylesheet" href="common.css">
   <style>
     * {
       margin: 0;
@@ -13,22 +14,27 @@
     }
 
     body {
-      background-color: #F5F5F5;
+      background-color: #E8F4FF;
       color: #333;
       line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
 
     /* General styles */
     .app-container {
-      width: 100%;
-      max-width: 414px;
+      width: 414px;
+      height: 950px;
       margin: 0 auto;
       background-color: #FFF;
-      height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
       position: relative;
+      border-radius: 40px;
+      overflow: hidden;
     }
 
     .top-nav {

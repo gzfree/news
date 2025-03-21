@@ -4,59 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Botim</title>
+    <link rel="stylesheet" href="common.css">
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
-      }
-
-      body {
-        background-color: #E8F4FF;
-        color: #333;
-        line-height: 1.5;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-      }
-
-      .app-container {
-        width: 414px;
-        height: 950px;
-        margin: 0 auto;
-        background-color: #FFF;
-        border-radius: 40px;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        position: relative;
-      }
-
-      .status-bar {
-        height: 44px;
-        padding: 0 16px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 14px;
-        font-weight: 600;
-        color: #333;
-        background: #FFF;
-      }
-
-      .time {
-        flex: 1;
-      }
-
-      .status-icons {
-        display: flex;
-        gap: 4px;
-        align-items: center;
-      }
-
+      /* 页面特定样式 */
       .search-header {
         padding: 12px 16px;
         display: flex;
@@ -265,36 +215,6 @@
         cursor: pointer;
       }
 
-      .bottom-nav {
-        height: 84px;
-        padding: 8px 0 32px;
-        background: #FFF;
-        border-top: 1px solid #EEEEEE;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-      }
-
-      .nav-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 4px;
-        color: #999;
-      }
-
-      .nav-item.active {
-        color: #3366FF;
-      }
-
-      .nav-icon {
-        font-size: 24px;
-      }
-
-      .nav-label {
-        font-size: 12px;
-      }
-
       .badge {
         position: absolute;
         top: -4px;
@@ -333,28 +253,6 @@
       .menu-text {
         font-size: 16px;
         color: #333;
-      }
-
-      /* Toast 样式 */
-      .toast {
-        position: fixed;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: rgba(0, 0, 0, 0.7);
-        color: white;
-        padding: 12px 20px;
-        border-radius: 20px;
-        font-size: 14px;
-        z-index: 1000;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s, visibility 0.3s;
-      }
-
-      .toast.show {
-        opacity: 1;
-        visibility: visible;
       }
     </style>
   </head>
