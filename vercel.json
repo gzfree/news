@@ -1,7 +1,8 @@
 {
   "version": 2,
   "builds": [
-    { "src": "**/*.html", "use": "@vercel/static" }
+    { "src": "**/*.html", "use": "@vercel/static" },
+    { "src": "**/*.css", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/dashboard", "dest": "/data-analysis/d-income-comparison.html" },
@@ -9,8 +10,10 @@
     { "src": "/", "dest": "/interactive-prototype/index.html" },
     { "src": "/news", "dest": "/interactive-prototype/news.html" },
     { "src": "/search", "dest": "/interactive-prototype/search.html" },
+    { "src": "/search-result", "dest": "/interactive-prototype/search-result.html" },
     { "src": "/call", "dest": "/interactive-prototype/noise-cancellation-en.html" },
     { "src": "/filters", "dest": "/interactive-prototype/video-filters.html" },
+    { "src": "/common.css", "dest": "/interactive-prototype/common.css" },
     { "src": "/(.*)", "dest": "/$1" }
   ],
   "github": {
