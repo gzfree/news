@@ -1035,6 +1035,71 @@
       font-size: 12px;
       color: #666;
     }
+
+    /* 详情页广告样式 */
+    .detail-ad-container {
+      background-color: #f8f9fa;
+      border-radius: 12px;
+      margin: 20px 0;
+      padding: 16px;
+      border: 1px solid #e9ecef;
+    }
+    
+    .detail-ad-label {
+      font-size: 12px;
+      color: #6c757d;
+      margin-bottom: 8px;
+      display: inline-block;
+      padding: 2px 6px;
+      background-color: #e9ecef;
+      border-radius: 4px;
+    }
+    
+    .detail-ad-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .detail-ad-image {
+      width: 80px;
+      height: 80px;
+      background-color: #dee2e6;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6c757d;
+      font-size: 20px;
+    }
+    
+    .detail-ad-text {
+      flex: 1;
+    }
+    
+    .detail-ad-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #212529;
+    }
+    
+    .detail-ad-description {
+      font-size: 14px;
+      color: #495057;
+      margin-bottom: 8px;
+    }
+    
+    .detail-ad-button {
+      display: inline-block;
+      padding: 6px 12px;
+      background-color: #3366FF;
+      color: white;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
@@ -1250,63 +1315,143 @@
           </div>
           
           <div class="detail-content">
-            <p>According to the latest research report, AI has made a major breakthrough in code generation. The new generation of models can understand complex requirements and automatically generate high-quality code suitable for production environments. This technology has attracted widespread attention in the tech industry.</p>
-            <p>The research team states that the latest AI code generation model can not only understand functional requirements described in natural language but also comprehend the business logic based on context, generating code that follows best practices. Compared to previous code assistance tools, the new technology has improved accuracy by about 40% and reduced error rates by nearly 60%.</p>
-            <p>Several tech giants have already begun integrating this technology into their development tools. Industry analysts predict this will bring revolutionary improvements to software development efficiency while transforming how programmers work.</p>
-            <p>"Future programmers may focus more on requirement analysis and system design, leaving specific coding tasks to AI assistants," a senior developer notes, "This doesn't mean programmers will be replaced, but rather that we'll focus on more creative work."</p>
-          </div>
-          <button class="expand-btn">Show More</button>
-          
-          <!-- 互动操作区域 -->
-          <div class="interaction-bar">
-            <div class="interaction-item">
-              <div class="interaction-icon up-icon">👍</div>
-              <div class="interaction-count">428</div>
-            </div>
-            <div class="interaction-item">
-              <div class="interaction-icon down-icon">👎</div>
-              <div class="interaction-count">36</div>
-            </div>
-            <div class="interaction-item">
-              <div class="interaction-icon">↗️</div>
-              <div class="interaction-count">Share</div>
-            </div>
-          </div>
-          
-          <div class="divider"></div>
-          
-          <h3 class="discussion-title">Related Topics</h3>
-          
-          <div class="related-topics-container">
-            <div class="topic-card">
-              <div class="topic-icon">🤖</div>
-              <div class="topic-content">
-                <div class="topic-title">Future of AI Technology</div>
-                <div class="topic-info">382K reads · 31K discussions</div>
+            <p>The world of programming is undergoing a major transformation with the rise of AI-powered code generation. These breakthroughs promise to reshape how software is built and who can participate in the development process.</p>
+            
+            <p>Recent advancements in machine learning models have enabled AI systems to understand programming contexts, generate relevant code snippets, and even complete entire functions based on natural language descriptions.</p>
+            
+            <p>"This technology represents a fundamental shift in how we approach programming," says Dr. Sarah Chen, AI research lead at CodeFuture. "Rather than writing every line of code manually, developers can focus on higher-level design while AI handles repetitive implementation details."</p>
+            
+            <h2>Impact on Development Teams</h2>
+            <p>For professional development teams, the benefits are already becoming apparent:</p>
+            <ul>
+              <li>Reduced time spent on boilerplate code</li>
+              <li>Faster prototyping and iteration</li>
+              <li>Accessibility to newcomers with less technical experience</li>
+              <li>More time for complex problem-solving and architecture</li>
+            </ul>
+            
+            <p>Initial studies show productivity improvements ranging from 15% to 35% depending on the task complexity and domain.</p>
+            
+            <!-- 详情页广告 -->
+            <div class="detail-ad-container">
+              <span class="detail-ad-label">Sponsored</span>
+              <div class="detail-ad-content">
+                <div class="detail-ad-image">📱</div>
+                <div class="detail-ad-text">
+                  <div class="detail-ad-title">Learn AI Programming Today</div>
+                  <div class="detail-ad-description">Master the latest AI techniques with our online courses. Special 30% discount for new students!</div>
+                  <a href="#" class="detail-ad-button">Get Started</a>
+                </div>
               </div>
-              <div class="topic-arrow">→</div>
             </div>
             
-            <div class="topic-card">
-              <div class="topic-icon">💼</div>
-              <div class="topic-content">
-                <div class="topic-title">Programming Career Prospects & AI</div>
-                <div class="topic-info">225K reads · 18K discussions</div>
-              </div>
-              <div class="topic-arrow">→</div>
+            <h2>Democratizing Development</h2>
+            <p>Perhaps the most significant impact is how AI code generation could democratize software development, making it accessible to people without traditional programming backgrounds.</p>
+            
+            <p>"We're approaching an era where domain experts can directly translate their knowledge into working software," explains Alex Johnson, product manager at DevAI. "A medical researcher could build a specialized data analysis tool without becoming a Python expert first."</p>
+            
+            <p>This potential shift has implications for education, career paths, and how organizations structure their technical teams.</p>
+            
+            <h2>Challenges and Limitations</h2>
+            <p>Despite the promising advances, significant challenges remain:</p>
+            <ul>
+              <li>Code quality and security concerns</li>
+              <li>Integration with existing codebases and practices</li>
+              <li>Appropriate levels of human oversight and review</li>
+              <li>Potential intellectual property and licensing issues</li>
+            </ul>
+            
+            <p>Industry experts caution that while AI can generate functional code, human judgment remains essential for creating robust, maintainable software systems.</p>
+            
+            <h2>The Road Ahead</h2>
+            <p>As these technologies mature, the relationship between developers and AI tools will continue to evolve. Rather than replacing programmers, these systems are creating new collaboration models where human creativity and AI capabilities complement each other.</p>
+            
+            <p>"The most successful teams will be those that effectively combine human insight with AI assistance," says Dr. Chen. "It's not about replacing developers—it's about amplifying what they can accomplish."</p>
+            
+            <p>For students and professionals alike, the message is clear: the future of programming involves working alongside increasingly capable AI partners.</p>
+            
+            <div class="expand-container">
+              <button class="expand-btn">Show full article</button>
             </div>
             
-            <div class="topic-card">
-              <div class="topic-icon">📊</div>
-              <div class="topic-content">
-                <div class="topic-title">Automated Coding Tools Ranking</div>
-                <div class="topic-info">157K reads · 9K discussions</div>
+            <!-- 互动功能区 -->
+            <div class="interaction-bar">
+              <div class="interaction-item upvote-btn">
+                <div class="up-icon">👍</div>
+                <div class="count upvote-count">128</div>
               </div>
-              <div class="topic-arrow">→</div>
+              <div class="interaction-item downvote-btn">
+                <div class="down-icon">👎</div>
+                <div class="count downvote-count">12</div>
+              </div>
+              <div class="interaction-item">
+                <div>💬</div>
+                <div class="count">45</div>
+              </div>
+              <div class="interaction-item">
+                <div>🔖</div>
+                <div class="count">23</div>
+              </div>
+              <div class="interaction-item share-btn">
+                <div>↗️</div>
+                <div class="count">16</div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+            
+            <div class="discussion-title">Discussion (45)</div>
+            <div class="chat-container">
+              <div class="chat-bubble system-bubble">
+                <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                  <div class="system-avatar">S</div>
+                  <div style="font-weight: 500;">System</div>
+                </div>
+                Welcome to the discussion! Please keep conversations respectful and on-topic.
+              </div>
+              
+              <div class="chat-bubble user-bubble">
+                <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                  <div class="user-avatar">U</div>
+                  <div style="font-weight: 500;">JohnDev</div>
+                </div>
+                I've been testing some of these AI code generation tools, and the results are impressive but still need a lot of human refinement. Anyone else having similar experiences?
+              </div>
+              
+              <div class="chat-bubble ai-bubble">
+                <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                  <div class="ai-response-avatar">A</div>
+                  <div style="font-weight: 500;">TechExpert</div>
+                </div>
+                Absolutely. I work with GitHub Copilot daily, and while it saves time on boilerplate, the real value is still in understanding the architecture and making key design decisions. AI is a great assistant but not ready to replace thoughtful development.
+              </div>
+            </div>
+            
+            <div class="hot-topics">
+              <h3>Hot Topics</h3>
+              
+              <div class="topic-card" onclick="navigateTo('detail-page')">
+                <div class="topic-icon">🚀</div>
+                <div class="topic-content">
+                  <div class="topic-title">The Future of No-Code Development</div>
+                  <div class="topic-info">234K reads · 15K discussions</div>
+                </div>
+                <div class="topic-arrow">→</div>
+              </div>
+              
+              <div class="topic-card" onclick="navigateTo('detail-page')">
+                <div class="topic-icon">📊</div>
+                <div class="topic-content">
+                  <div class="topic-title">Automated Coding Tools Ranking</div>
+                  <div class="topic-info">157K reads · 9K discussions</div>
+                </div>
+                <div class="topic-arrow">→</div>
+              </div>
             </div>
           </div>
           
-          <div class="ai-search-cta">
+          <!-- Want to know more 移到页面底部 -->
+          <div class="ai-search-cta" style="position: relative; bottom: 0; margin-top: 20px; margin-bottom: 20px; transform: none; width: auto;">
             <div class="ai-search-header">
               <div class="ai-icon">AI</div>
               <h3>Want to know more?</h3>
@@ -1501,19 +1646,37 @@
     }
 
     function navigateTo(pageId) {
-      // 隐藏所有页面
       document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
       });
-      
-      // 显示目标页面
       document.getElementById(pageId).classList.add('active');
-
-      // 如果是详情页，更新标签
+      
+      // 如果是详情页，3秒后显示 AI Search CTA
       if (pageId === 'detail-page') {
-        const firstNewsCard = document.querySelector('.news-card');
-        const tags = firstNewsCard.querySelector('.news-tags').innerHTML;
-        document.querySelector('#detail-page .news-tags').innerHTML = tags;
+        setTimeout(() => {
+          const detailContainer = document.querySelector('.detail-container');
+          if (detailContainer) {
+            detailContainer.scrollTop = 0;
+          }
+          
+          const viewsElement = document.querySelector('.detail-views');
+          if (viewsElement) {
+            // 增加浏览量
+            const currentViews = localStorage.getItem('articleViews') || 3500;
+            const newViews = parseInt(currentViews) + 1;
+            localStorage.setItem('articleViews', newViews);
+            
+            // 格式化浏览量显示
+            let formattedViews;
+            if (newViews >= 1000) {
+              formattedViews = (newViews / 1000).toFixed(1) + 'K';
+            } else {
+              formattedViews = newViews;
+            }
+            
+            viewsElement.textContent = formattedViews + ' views';
+          }
+        }, 500);
       }
     }
     
