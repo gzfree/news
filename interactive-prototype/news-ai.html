@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>AI Assistant</title>
+  <link rel="stylesheet" href="common.css">
+  <style>
+    /* 页面特定样式 */
+    .top-nav {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      background-color: #FFF;
+      border-bottom: 1px solid #EEEEEE;
+      position: fixed;
+      top: 44px;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      max-width: var(--app-width);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .top-nav h1 {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .app-container {
+      width: var(--app-width);
+      height: var(--app-height);
+      margin: 0 auto;
+      background-color: var(--container-bg);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border-radius: var(--app-border-radius);
+      overflow: hidden;
+      box-shadow: var(--app-shadow);
+    }
+
+    /* Chat content area */
+    .chat-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 70px 0 80px;
+      -webkit-overflow-scrolling: touch;
+      background-color: #F6F8FA;
+    }
+
+    /* Message bubbles */
+    .message {
+      display: flex;
+      margin: 16px;
+      align-items: flex-start;
+    }
+
+    .message-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 18px;
+      overflow: hidden;
+      margin-right: 12px;
+      flex-shrink: 0;
+      background-color: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .user-avatar {
+      background-color: #3366FF;
+      color: white;
+    }
+
+    .ai-avatar {
+      background-color: #FF6633;
+      color: white;
+    }
+
+    .message-content {
+      flex: 1;
+      max-width: 80%;
+    }
+
+    .message-bubble {
+      padding: 12px 16px;
+      border-radius: 18px;
+      font-size: 15px;
+      line-height: 1.4;
+      margin-bottom: 6px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .user-message .message-bubble {
+      background-color: #3366FF;
+      color: white;
+      border-top-right-radius: 4px;
+    }
+
+    .ai-message .message-bubble {
+      background-color: white;
+      color: #333;
+      border-top-left-radius: 4px;
+    }
+
+    .message-time {
+      font-size: 12px;
+      color: #999;
+      margin-top: 4px;
+    }
+
+    /* AI is typing indicator */
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      margin: 0 16px;
+    }
+
+    .typing-indicator span {
+      height: 8px;
+      width: 8px;
+      background-color: #ddd;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 4px;
+      animation: typing 1.4s infinite ease-in-out;
+    }
+
+    .typing-indicator span:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    .typing-indicator span:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-indicator span:nth-child(3) {
+      animation-delay: 0.4s;
+      margin-right: 0;
+    }
+
+    @keyframes typing {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.5); }
+      100% { transform: scale(1); }
+    }
+
+    /* Input area */
+    .input-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 12px 16px;
+      background-color: white;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+      display: flex;
+      align-items: center;
+      max-width: var(--app-width);
+      margin: 0 auto;
+      border-bottom-right-radius: var(--app-border-radius);
+      border-bottom-left-radius: var(--app-border-radius);
+    }
+
+    .input-field {
+      flex: 1;
+      border: 1px solid #EEEEEE;
+      border-radius: 20px;
+      padding: 10px 16px;
+      font-size: 15px;
+      outline: none;
+      background-color: #F5F7FA;
+      margin-right: 8px;
+    }
+
+    .send-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 20px;
+      background-color: #3366FF;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+    }
+
+    .topic-suggestions {
+      display: flex;
+      overflow-x: auto;
+      padding: 12px 16px;
+      background-color: white;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      border-bottom: 1px solid #EEEEEE;
+      margin-top: 56px;
+    }
+
+    .topic-suggestions::-webkit-scrollbar {
+      display: none;
+    }
+
+    .topic-chip {
+      padding: 8px 16px;
+      border-radius: 16px;
+      background-color: #F0F7FF;
+      color: #3366FF;
+      font-size: 14px;
+      margin-right: 12px;
+      white-space: nowrap;
+      cursor: pointer;
+      border: 1px solid #D6E4FF;
+    }
+
+    .topic-chip:hover {
+      background-color: #D6E4FF;
+    }
+
+    /* Quick AI actions */
+    .ai-actions {
+      padding: 16px;
+      background-color: white;
+      border-bottom: 1px solid #EEEEEE;
+    }
+
+    .ai-actions-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #666;
+      margin-bottom: 12px;
+    }
+
+    .ai-action-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .ai-action-card {
+      padding: 16px;
+      background-color: #F8F9FA;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .ai-action-card:hover {
+      background-color: #F0F7FF;
+    }
+
+    .ai-action-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .ai-action-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .ai-action-desc {
+      font-size: 12px;
+      color: #666;
+    }
+
+    /* Source citation */
+    .ai-sources {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .source-link {
+      display: inline-block;
+      margin-right: 8px;
+      color: #3366FF;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- 全局导航 -->
+  <div class="global-nav">
+    <a href="index.html" class="global-nav-item active">P <span class="nav-arrow">▾</span>
+      <div class="submenu">
+        <a href="index.html" class="submenu-item">Home</a>
+        <a href="news-list.html" class="submenu-item">News</a>
+        <a href="search.html" class="submenu-item">Search</a>
+        <a href="call.html" class="submenu-item">Call</a>
+        <a href="filters.html" class="submenu-item">Filters</a>
+      </div>
+    </a>
+    <a href="docs.html" class="global-nav-item">D <span class="nav-arrow">▾</span>
+      <div class="submenu">
+        <a href="docs.html" class="submenu-item">Requirements</a>
+        <a href="docs/api.html" class="submenu-item">API Docs</a>
+        <a href="docs/design.html" class="submenu-item">Design System</a>
+      </div>
+    </a>
+  </div>
+
+  <!-- App container -->
+  <div class="app-container">
+    <div class="status-bar">
+      <div class="status-time">10:20</div>
+      <div class="status-icons">
+        <div class="status-icon">•••</div>
+        <div class="status-icon">📶</div>
+        <div class="status-icon">🔋</div>
+      </div>
+    </div>
+    
+    <div class="top-nav">
+      <div class="back-btn" onclick="location.href='news-detail.html'">◀</div>
+      <h1>AI Assistant</h1>
+      <div class="nav-icon">⚙️</div>
+    </div>
+    
+    <div class="topic-suggestions">
+      <div class="topic-chip">AI code generation</div>
+      <div class="topic-chip">Impact on developers</div>
+      <div class="topic-chip">Future of programming</div>
+      <div class="topic-chip">Latest AI models</div>
+      <div class="topic-chip">Tech industry trends</div>
+      <div class="topic-chip">Job market changes</div>
+    </div>
+    
+    <div class="ai-actions">
+      <div class="ai-actions-title">What can I help you with?</div>
+      <div class="ai-action-cards">
+        <div class="ai-action-card">
+          <div class="ai-action-icon">🔍</div>
+          <div class="ai-action-title">Explain this news</div>
+          <div class="ai-action-desc">Get more context about the article</div>
+        </div>
+        <div class="ai-action-card">
+          <div class="ai-action-icon">📊</div>
+          <div class="ai-action-title">Get statistics</div>
+          <div class="ai-action-desc">Find relevant data and trends</div>
+        </div>
+        <div class="ai-action-card">
+          <div class="ai-action-icon">🗣️</div>
+          <div class="ai-action-title">Related opinions</div>
+          <div class="ai-action-desc">See what experts are saying</div>
+        </div>
+        <div class="ai-action-card">
+          <div class="ai-action-icon">📚</div>
+          <div class="ai-action-title">Learn more</div>
+          <div class="ai-action-desc">Dive deeper into this topic</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="chat-container" id="chat-container">
+      <!-- Initial welcome message -->
+      <div class="message ai-message">
+        <div class="message-avatar ai-avatar">AI</div>
+        <div class="message-content">
+          <div class="message-bubble">
+            Hello! I'm your AI news assistant. I can help you understand more about the recent AI code generation breakthrough. What would you like to know?
+          </div>
+          <div class="message-time">10:20 AM</div>
+        </div>
+      </div>
+      
+      <!-- User's first question -->
+      <div class="message user-message">
+        <div class="message-content">
+          <div class="message-bubble">
+            What are the practical applications of this AI code generation technology?
+          </div>
+          <div class="message-time">10:21 AM</div>
+        </div>
+        <div class="message-avatar user-avatar">U</div>
+      </div>
+      
+      <!-- AI's response with sources -->
+      <div class="message ai-message">
+        <div class="message-avatar ai-avatar">AI</div>
+        <div class="message-content">
+          <div class="message-bubble">
+            The practical applications of AI code generation technology are quite extensive:
+            
+            1. Faster software development: Developers can describe features in natural language and get working code instantly.
+            
+            2. Automated testing: AI can generate comprehensive test cases to ensure code quality.
+            
+            3. Legacy code modernization: Converting outdated codebases to modern languages and frameworks.
+            
+            4. Prototyping: Quickly building functional prototypes to test ideas.
+            
+            5. Learning tool: Helping new programmers understand programming concepts through explanation and examples.
+            
+            6. Productivity tools: Integrating into IDEs to suggest code completions, refactorings, and optimizations.
+            
+            7. Accessibility: Making programming more accessible to non-technical professionals who can describe what they need in plain language.
+          </div>
+          <div class="ai-sources">
+            Sources: <a href="#" class="source-link">Tech Report 2023</a> <a href="#" class="source-link">Dev Conference</a>
+          </div>
+          <div class="message-time">10:22 AM</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="input-container">
+      <input type="text" class="input-field" placeholder="Ask something about this news..." id="user-input">
+      <button class="send-btn" id="send-btn">➤</button>
+    </div>
+  </div>
+
+  <script src="global-nav.js"></script>
+  <script>
+    // Elements
+    const chatContainer = document.getElementById('chat-container');
+    const userInput = document.getElementById('user-input');
+    const sendButton = document.getElementById('send-btn');
+    const topicChips = document.querySelectorAll('.topic-chip');
+    const aiActionCards = document.querySelectorAll('.ai-action-card');
+    
+    // Sample responses for demo
+    const aiResponses = {
+      'ai code generation': "AI code generation uses machine learning to translate natural language descriptions into functional code. Current models are trained on billions of code samples and can generate code in multiple programming languages. The most advanced systems can understand context, follow complex requirements, and adhere to best practices in software development.",
+      'impact on developers': "The impact on developers is likely to be transformative rather than replacing them. Developers will likely shift focus to higher-level tasks like system architecture, requirement analysis, and quality assurance. Junior developers may use these tools to learn and increase productivity, while senior developers might leverage them for rapid prototyping and automating repetitive tasks.",
+      'future of programming': "The future of programming with AI assistance could involve more natural language interfaces, automatic documentation generation, and intelligent debugging. We might see a shift where more people without formal programming education can create software by describing what they want. Traditional programming won't disappear but will evolve to be more collaborative with AI systems.",
+      'latest ai models': "The latest AI code generation models can understand context across thousands of lines of code, generate entire functions or classes from descriptions, and even explain the reasoning behind the generated code. Some models can also refactor existing code, suggest optimizations, and identify potential bugs or security vulnerabilities before the code is deployed.",
+      'tech industry trends': "The tech industry is rapidly adopting AI code generation tools, with major companies integrating them into development workflows. This is part of a broader trend toward AI-augmented software development. Companies report significant productivity gains, with some seeing development time reduced by up to 40% for certain tasks.",
+      'job market changes': "The job market is adapting to these new tools. There's growing demand for 'AI-augmented developers' who can effectively collaborate with AI coding assistants. Rather than reducing jobs, we're seeing a shift in required skills, with more emphasis on prompt engineering, system design, and quality assurance of AI-generated code."
+    };
+    
+    // Predefined actions responses
+    const actionResponses = {
+      'Explain this news': "This news article discusses a significant advancement in AI technology for code generation. The breakthrough involves AI systems that can now understand complex requirements described in natural language and generate production-ready code that follows best practices. The technology has shown a 40% increase in accuracy and 60% decrease in errors compared to previous tools. Major tech companies are already implementing this technology in their development environments.",
+      'Get statistics': "According to recent surveys:\n- 45% of developers are already using some form of AI code assistance\n- Companies using AI coding tools report 30-40% faster development cycles\n- The market for AI coding assistance tools is projected to grow by 25% annually over the next five years\n- Early adopters report an average 22% reduction in bugs found during testing phases",
+      'Related opinions': "Expert opinions are varied:\n\nPositive views:\n- \"This technology will free programmers to focus on creative problem-solving\" - Maria Chen, CTO at DevTech\n- \"AI code generation democratizes software development\" - Dr. James Wilson, AI Researcher\n\nCautious perspectives:\n- \"We need to ensure developers understand the code AI generates\" - Sophia Rodriguez, Security Expert\n- \"There are concerns about intellectual property and code originality\" - Michael Lee, Software Patent Attorney",
+      'Learn more': "To learn more about AI code generation:\n\n1. Key technologies: Transformer models, fine-tuned on code repositories\n2. Leading platforms: GitHub Copilot, Amazon CodeWhisperer, Tabnine\n3. Limitations: Still struggles with highly specialized domains, complex algorithmic challenges\n4. Ethics: Questions about code ownership, attribution, and potential bias\n5. Future developments: Multi-modal models that can incorporate diagrams and specifications"
+    };
+    
+    // Add a user message to the chat
+    function addUserMessage(text) {
+      const currentTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      const messageHTML = `
+        <div class="message user-message">
+          <div class="message-content">
+            <div class="message-bubble">
+              ${text}
+            </div>
+            <div class="message-time">${currentTime}</div>
+          </div>
+          <div class="message-avatar user-avatar">U</div>
+        </div>
+      `;
+      chatContainer.insertAdjacentHTML('beforeend', messageHTML);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+    
+    // Add an AI message to the chat
+    function addAIMessage(text, sources = null) {
+      const currentTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      let sourcesHTML = '';
+      
+      if (sources) {
+        sourcesHTML = `
+          <div class="ai-sources">
+            Sources: ${sources.map(s => `<a href="#" class="source-link">${s}</a>`).join(' ')}
+          </div>
+        `;
+      }
+      
+      const messageHTML = `
+        <div class="message ai-message">
+          <div class="message-avatar ai-avatar">AI</div>
+          <div class="message-content">
+            <div class="message-bubble">
+              ${text}
+            </div>
+            ${sourcesHTML}
+            <div class="message-time">${currentTime}</div>
+          </div>
+        </div>
+      `;
+      chatContainer.insertAdjacentHTML('beforeend', messageHTML);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+    
+    // Show typing indicator
+    function showTypingIndicator() {
+      const indicatorHTML = `
+        <div class="message ai-message" id="typing-indicator">
+          <div class="message-avatar ai-avatar">AI</div>
+          <div class="message-content">
+            <div class="typing-indicator">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+      `;
+      chatContainer.insertAdjacentHTML('beforeend', indicatorHTML);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+    
+    // Remove typing indicator
+    function removeTypingIndicator() {
+      const indicator = document.getElementById('typing-indicator');
+      if (indicator) {
+        indicator.remove();
+      }
+    }
+    
+    // Process user input
+    function processUserInput() {
+      const userText = userInput.value.trim();
+      
+      if (userText === '') {
+        return;
+      }
+      
+      // Add user message to chat
+      addUserMessage(userText);
+      userInput.value = '';
+      
+      // Show typing indicator
+      showTypingIndicator();
+      
+      // Simulate AI thinking time
+      setTimeout(() => {
+        removeTypingIndicator();
+        
+        // Generate a response based on the input
+        let response = "I don't have specific information about that. Would you like me to search for more details?";
+        let sources = null;
+        
+        // Check for keywords in user input
+        const lcUserText = userText.toLowerCase();
+        for (const [keyword, resp] of Object.entries(aiResponses)) {
+          if (lcUserText.includes(keyword)) {
+            response = resp;
+            sources = ['Tech Report 2023', 'AI News Weekly'];
+            break;
+          }
+        }
+        
+        // Add AI response
+        addAIMessage(response, sources);
+      }, 1500);
+    }
+    
+    // Event listeners
+    sendButton.addEventListener('click', processUserInput);
+    
+    userInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        processUserInput();
+      }
+    });
+    
+    // Topic chip click handler
+    topicChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const chipText = chip.textContent.toLowerCase();
+        addUserMessage(`Tell me about ${chipText}`);
+        
+        // Show typing indicator
+        showTypingIndicator();
+        
+        // Simulate AI thinking time
+        setTimeout(() => {
+          removeTypingIndicator();
+          
+          // Find response for this topic
+          let response = aiResponses[chipText] || 
+            "I don't have specific information about that topic yet. Would you like me to research it for you?";
+          
+          // Add AI response
+          addAIMessage(response, ['Tech Report 2023', 'Industry Analysis']);
+        }, 1500);
+      });
+    });
+    
+    // AI action card click handler
+    aiActionCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const actionTitle = card.querySelector('.ai-action-title').textContent;
+        addUserMessage(actionTitle);
+        
+        // Show typing indicator
+        showTypingIndicator();
+        
+        // Simulate AI thinking time
+        setTimeout(() => {
+          removeTypingIndicator();
+          
+          // Find response for this action
+          let response = actionResponses[actionTitle] || 
+            "I'll look into that for you. Please give me a moment.";
+          
+          // Add AI response
+          addAIMessage(response, ['Tech Report 2023', 'Industry Analysis']);
+        }, 1500);
+      });
+    });
+    
+    // Auto-scroll to bottom of chat on page load
+    window.addEventListener('load', () => {
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    });
+  </script>
+</body>
+</html> 
