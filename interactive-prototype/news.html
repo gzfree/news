@@ -323,6 +323,14 @@
       padding-bottom: 120px;
       position: relative;
       height: 100%;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+    }
+
+    .detail-container::-webkit-scrollbar {
+      display: none; /* Chrome, Safari and Opera */
     }
 
     .detail-title {
@@ -1111,6 +1119,37 @@
       color: #666;
       margin-top: 4px;
       margin-bottom: 16px;
+    }
+
+    #detail-page .content-area {
+      flex: 1;
+      overflow-y: auto;
+      padding-top: 60px; /* 从76px减少到60px，避免内容下移过多 */
+      padding-bottom: 76px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      height: calc(100% - 100px); /* 确保有足够的高度可滚动 */
+    }
+
+    #detail-page .content-area::-webkit-scrollbar {
+      display: none;
+    }
+
+    #ai-page .content-area {
+      flex: 1;
+      overflow-y: auto;
+      padding-top: 60px;
+      padding-bottom: 76px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      height: calc(100% - 100px); /* 确保有足够的高度可滚动 */
+      background-color: #f9f9fb;
+    }
+
+    #ai-page .content-area::-webkit-scrollbar {
+      display: none;
     }
   </style>
 </head>
