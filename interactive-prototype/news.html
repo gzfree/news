@@ -797,6 +797,67 @@
     .dashboard-button:hover .dashboard-tooltip {
       opacity: 1;
     }
+
+    /* 相关话题样式 */
+    .related-topics-container {
+      margin-bottom: 24px;
+    }
+
+    .topic-card {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      background-color: #F8F9FA;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .topic-card:active {
+      transform: scale(0.98);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .topic-icon {
+      width: 40px;
+      height: 40px;
+      background-color: #E8EFFF;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    .topic-content {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .topic-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .topic-info {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .topic-arrow {
+      margin-left: 12px;
+      color: #3366FF;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
@@ -1021,22 +1082,34 @@
           
           <div class="divider"></div>
           
-          <h3 class="discussion-title">More Discussions</h3>
+          <h3 class="discussion-title">相关话题</h3>
           
-          <div class="chat-container">
-            <div class="chat-bubble system-bubble">
-              <div class="system-avatar">S</div>
-              This article discusses the latest advances in AI code generation technology
+          <div class="related-topics-container">
+            <div class="topic-card">
+              <div class="topic-icon">🤖</div>
+              <div class="topic-content">
+                <div class="topic-title">AI技术发展前景</div>
+                <div class="topic-info">38.2万阅读 · 3.1万讨论</div>
+              </div>
+              <div class="topic-arrow">→</div>
             </div>
             
-            <div class="chat-bubble user-bubble">
-              <div class="user-avatar">U</div>
-              Will this technology affect programmers' jobs?
+            <div class="topic-card">
+              <div class="topic-icon">💼</div>
+              <div class="topic-content">
+                <div class="topic-title">程序员职业前景与AI的关系</div>
+                <div class="topic-info">22.5万阅读 · 1.8万讨论</div>
+              </div>
+              <div class="topic-arrow">→</div>
             </div>
             
-            <div class="chat-bubble ai-bubble">
-              <div class="ai-response-avatar">A</div>
-              According to experts, this technology is more about assisting programming and improving efficiency rather than complete replacement. Programmers' work will focus more on creativity and system design, while AI can handle repetitive coding tasks. This could actually enhance developers' value by letting them focus on higher-level work.
+            <div class="topic-card">
+              <div class="topic-icon">📊</div>
+              <div class="topic-content">
+                <div class="topic-title">自动编码工具排行榜</div>
+                <div class="topic-info">15.7万阅读 · 0.9万讨论</div>
+              </div>
+              <div class="topic-arrow">→</div>
             </div>
           </div>
           
@@ -1236,6 +1309,22 @@
       const isExpanded = content.classList.toggle('expanded');
       this.classList.toggle('expanded');
       this.textContent = isExpanded ? 'Show Less' : 'Show More';
+    });
+
+    // 为相关话题卡片添加点击事件
+    document.querySelectorAll('.topic-card').forEach(card => {
+      card.addEventListener('click', function() {
+        // 获取话题标题
+        const topicTitle = this.querySelector('.topic-title').textContent;
+        
+        // 导航到AI页面
+        navigateTo('ai-page');
+        
+        // 设置搜索输入框的值为话题标题
+        document.querySelector('.search-input').value = topicTitle;
+        
+        // 可以在这里添加触发搜索的代码，如果需要自动搜索
+      });
     });
 
     // 滚动方向检测和AI搜索区域显示/隐藏

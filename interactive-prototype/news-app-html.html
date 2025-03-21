@@ -254,6 +254,67 @@
       border-radius: 12px 12px 12px 0;
     }
 
+    /* 相关话题样式 */
+    .related-topics-container {
+      margin-bottom: 24px;
+    }
+
+    .topic-card {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      background-color: #F8F9FA;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .topic-card:active {
+      transform: scale(0.98);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .topic-icon {
+      width: 40px;
+      height: 40px;
+      background-color: #E8EFFF;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    .topic-content {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .topic-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .topic-info {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .topic-arrow {
+      margin-left: 12px;
+      color: #3366FF;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
     .ai-search-cta {
       background-color: #F0F7FF;
       border: 1px solid #D6E4FF;
@@ -474,226 +535,265 @@
   </style>
 </head>
 <body>
-  <div class="app-container">
-    <!-- List page -->
-    <div id="home-page" class="page app-container active">
-      <div class="status-bar">
-        <div class="status-time">10:20</div>
-        <div class="status-icons">
-          <div class="status-icon">•••</div>
-          <div class="status-icon">📶</div>
-          <div class="status-icon">🔋</div>
+  <!-- 全局导航 -->
+      </a>
+      <a href="index.html" class="global-nav-item active">P <span class="nav-arrow">▾</span>
+        <div class="submenu">
+          <a href="index.html" class="submenu-item">Home</a>
+          <a href="news.html" class="submenu-item">News</a>
+          <a href="search.html" class="submenu-item">Search</a>
+          <a href="call.html" class="submenu-item">Call</a>
+          <a href="filters.html" class="submenu-item">Filters</a>
         </div>
+      </a>
+      <a href="docs.html" class="global-nav-item">D <span class="nav-arrow">▾</span>
+        <div class="submenu">
+          <a href="docs.html" class="submenu-item">Requirements</a>
+          <a href="docs/api.html" class="submenu-item">API Docs</a>
+          <a href="docs/design.html" class="submenu-item">Design System</a>
+        </div>
+      </a>
+      <div class="submenu">
+        <a href="docs.html" class="submenu-item">Requirements</a>
+        <a href="docs/api.html" class="submenu-item">API Docs</a>
+        <a href="docs/design.html" class="submenu-item">Design System</a>
       </div>
-      <div class="top-nav">
-        <h1>Today's News</h1>
-        <div class="nav-icon">🔍</div>
-      </div>
-      
-      <div class="category-tabs">
-        <div class="category-tab active">Recommended</div>
-        <div class="category-tab">Technology</div>
-        <div class="category-tab">Finance</div>
-        <div class="category-tab">Sports</div>
-        <div class="category-tab">Health</div>
-        <div class="category-tab">Education</div>
-      </div>
-      
-      <div class="content-area">
-        <div class="news-list">
-          <div class="news-card" onclick="navigateTo('detail-page')">
-            <div class="news-image">
-              <img src="/api/placeholder/100/70" alt="AI Code Generation Technology">
-            </div>
-            <div class="news-content">
-              <div class="news-title">New Breakthrough in AI Technology: Automatic Code Generation Draws Industry Attention</div>
-              <div class="news-info">
-                <div class="news-source">Technology Daily</div>
-                <div class="news-time">2 hours ago</div>
-              </div>
-              <div class="news-summary">The latest AI research has made significant breakthroughs in code generation, enabling the direct generation of production-ready code.</div>
-            </div>
-          </div>
-          
-          <div class="news-card">
-            <div class="news-image">
-              <img src="/api/placeholder/100/70" alt="Global Economic Outlook">
-            </div>
-            <div class="news-content">
-              <div class="news-title">Global Economic Outlook: Digital Transformation to Be the Main Growth Driver</div>
-              <div class="news-info">
-                <div class="news-source">Finance Weekly</div>
-                <div class="news-time">4 hours ago</div>
-              </div>
-              <div class="news-summary">The digital economy is expected to be the main driver of global economic growth in the next five years, with an estimated annual growth rate of 15%.</div>
-            </div>
-          </div>
-          
-          <div class="news-card">
-            <div class="news-image">
-              <img src="/api/placeholder/100/70" alt="New Trends in Healthy Diet">
-            </div>
-            <div class="news-content">
-              <div class="news-title">New Trends in Healthy Diet: Plant-based Proteins Become the New Market Favorite</div>
-              <div class="news-info">
-                <div class="news-source">Health Times</div>
-                <div class="news-time">6 hours ago</div>
-              </div>
-              <div class="news-summary">With the increasing health awareness of people, the market for plant-based protein foods is expanding rapidly, with an annual growth rate of over 20%.</div>
-            </div>
-          </div>
-          
-          <div class="news-card">
-            <div class="news-image">
-              <img src="/api/placeholder/100/70" alt="Education Technology">
-            </div>
-            <div class="news-content">
-              <div class="news-title">Education Technology Boosts Personalized Learning, Significantly Improving Student Performance</div>
-              <div class="news-info">
-                <div class="news-source">Education Observer</div>
-                <div class="news-time">8 hours ago</div>
-              </div>
-              <div class="news-summary">Schools using AI-powered personalized learning systems report an average 15% improvement in student grades and a significant increase in engagement.</div>
-            </div>
-          </div>
-          
-          <div class="news-card">
-            <div class="news-image">
-              <img src="/api/placeholder/100/70" alt="Sustainable Fashion">
-            </div>
-            <div class="news-content">
-              <div class="news-title">Sustainable Fashion Is No Longer Just a Slogan: Eco-friendly Fabrics Are Widely Used</div>
-              <div class="news-info">
-                <div class="news-source">Fashion Weekly</div>
-                <div class="news-time">10 hours ago</div>
-              </div>
-              <div class="news-summary">More and more fashion brands are starting to use recycled materials and eco-friendly processes, making sustainable fashion the new industry standard.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="bottom-nav">
-        <div class="nav-item active">
-          <div class="icon">🏠</div>
-          <div>Home</div>
-        </div>
-        <div class="nav-item">
-          <div class="icon">🔍</div>
-          <div>Discover</div>
-        </div>
-        <div class="nav-item">
-          <div class="icon">👤</div>
-          <div>My</div>
-        </div>
+    </a>
+  </div>
+
+  <!-- List page -->
+  <div id="home-page" class="page app-container active">
+    <div class="status-bar">
+      <div class="status-time">10:20</div>
+      <div class="status-icons">
+        <div class="status-icon">•••</div>
+        <div class="status-icon">📶</div>
+        <div class="status-icon">🔋</div>
       </div>
     </div>
+    <div class="top-nav">
+      <h1>Today's News</h1>
+      <div class="nav-icon">🔍</div>
+    </div>
     
-    <!-- Detail page -->
-    <div id="detail-page" class="page app-container">
-      <div class="status-bar">
-        <div class="status-time">10:20</div>
-        <div class="status-icons">
-          <div class="status-icon">•••</div>
-          <div class="status-icon">📶</div>
-          <div class="status-icon">🔋</div>
+    <div class="category-tabs">
+      <div class="category-tab active">Recommended</div>
+      <div class="category-tab">Technology</div>
+      <div class="category-tab">Finance</div>
+      <div class="category-tab">Sports</div>
+      <div class="category-tab">Health</div>
+      <div class="category-tab">Education</div>
+    </div>
+    
+    <div class="content-area">
+      <div class="news-list">
+        <div class="news-card" onclick="navigateTo('detail-page')">
+          <div class="news-image">
+            <img src="/api/placeholder/100/70" alt="AI Code Generation Technology">
+          </div>
+          <div class="news-content">
+            <div class="news-title">New Breakthrough in AI Technology: Automatic Code Generation Draws Industry Attention</div>
+            <div class="news-info">
+              <div class="news-source">Technology Daily</div>
+              <div class="news-time">2 hours ago</div>
+            </div>
+            <div class="news-summary">The latest AI research has made significant breakthroughs in code generation, enabling the direct generation of production-ready code.</div>
+          </div>
         </div>
-      </div>
-      <div class="top-nav">
-        <div class="back-btn" onclick="navigateTo('home-page')">◀</div>
-        <h1>News Detail</h1>
-        <div class="nav-icon">⋮</div>
-      </div>
-      
-      <div class="content-area">
-        <div class="detail-container">
-          <h2 class="detail-title">New Breakthrough in AI Technology: Automatic Code Generation Draws Industry Attention</h2>
-          <div class="detail-info">
-            <div class="detail-source">Technology Daily</div>
-            <div class="detail-time">2 hours ago</div>
+        
+        <div class="news-card">
+          <div class="news-image">
+            <img src="/api/placeholder/100/70" alt="Global Economic Outlook">
           </div>
-          
-          <div class="detail-content">
-            <p>According to the latest research report, AI has made significant breakthroughs in the field of code generation. The new generation of models can understand complex requirements and automatically generate high-quality, production-ready code. This technology has attracted wide attention in the technology industry.</p>
-            <p>The research team said that the latest AI code generation model can not only understand the functional requirements described in natural language but also understand the business logic to be implemented based on the context and generate code that meets best practices. Compared with previous code assistance tools, the accuracy of the new technology has increased by about 40%, and the error rate has decreased by nearly 60%.</p>
-            <p>Several technology giants have begun to integrate this technology into their development tools. Industry analysts predict that this will bring a revolutionary improvement in software development efficiency and also change the way programmers work.</p>
-            <p>"In the future, programmers may shift more of their work to requirements analysis and system design, leaving the specific coding work to AI assistants," said a senior developer. "This doesn't mean that programmers will be replaced, but rather that it will allow us to focus on more creative work."</p>
+          <div class="news-content">
+            <div class="news-title">Global Economic Outlook: Digital Transformation to Be the Main Growth Driver</div>
+            <div class="news-info">
+              <div class="news-source">Finance Weekly</div>
+              <div class="news-time">4 hours ago</div>
+            </div>
+            <div class="news-summary">The digital economy is expected to be the main driver of global economic growth in the next five years, with an estimated annual growth rate of 15%.</div>
           </div>
-          
-          <div class="divider"></div>
-          
-          <h3 class="discussion-title">More Discussions</h3>
-          
-          <div class="chat-container">
-            <div class="chat-bubble system-bubble">
-              This article discusses the latest progress in AI code generation technology.
-            </div>
-            
-            <div class="chat-bubble user-bubble">
-              Will this technology affect programmers' jobs?
-            </div>
-            
-            <div class="chat-bubble ai-bubble">
-              According to experts, this technology is more of an aid to programming, improving efficiency rather than completely replacing programmers. Programmers will focus more on creativity and system design, while the code implementation part can be handed over to AI for repetitive work. This may actually enhance the value of developers, allowing them to focus on higher-level work.
-            </div>
+        </div>
+        
+        <div class="news-card">
+          <div class="news-image">
+            <img src="/api/placeholder/100/70" alt="New Trends in Healthy Diet">
           </div>
-          
-          <div class="ai-search-cta">
-            <div class="ai-search-header">
-              <div class="ai-icon">AI</div>
-              <h3>Want to know more?</h3>
+          <div class="news-content">
+            <div class="news-title">New Trends in Healthy Diet: Plant-based Proteins Become the New Market Favorite</div>
+            <div class="news-info">
+              <div class="news-source">Health Times</div>
+              <div class="news-time">6 hours ago</div>
             </div>
-            <button class="ai-search-btn" onclick="navigateTo('ai-page')">Try AI Search ➔</button>
+            <div class="news-summary">With the increasing health awareness of people, the market for plant-based protein foods is expanding rapidly, with an annual growth rate of over 20%.</div>
+          </div>
+        </div>
+        
+        <div class="news-card">
+          <div class="news-image">
+            <img src="/api/placeholder/100/70" alt="Education Technology">
+          </div>
+          <div class="news-content">
+            <div class="news-title">Education Technology Boosts Personalized Learning, Significantly Improving Student Performance</div>
+            <div class="news-info">
+              <div class="news-source">Education Observer</div>
+              <div class="news-time">8 hours ago</div>
+            </div>
+            <div class="news-summary">Schools using AI-powered personalized learning systems report an average 15% improvement in student grades and a significant increase in engagement.</div>
+          </div>
+        </div>
+        
+        <div class="news-card">
+          <div class="news-image">
+            <img src="/api/placeholder/100/70" alt="Sustainable Fashion">
+          </div>
+          <div class="news-content">
+            <div class="news-title">Sustainable Fashion Is No Longer Just a Slogan: Eco-friendly Fabrics Are Widely Used</div>
+            <div class="news-info">
+              <div class="news-source">Fashion Weekly</div>
+              <div class="news-time">10 hours ago</div>
+            </div>
+            <div class="news-summary">More and more fashion brands are starting to use recycled materials and eco-friendly processes, making sustainable fashion the new industry standard.</div>
           </div>
         </div>
       </div>
     </div>
     
-    <!-- AI search page -->
-    <div id="ai-page" class="page app-container">
-      <div class="status-bar">
-        <div class="status-time">10:20</div>
-        <div class="status-icons">
-          <div class="status-icon">•••</div>
-          <div class="status-icon">📶</div>
-          <div class="status-icon">🔋</div>
+    <div class="bottom-nav">
+      <div class="nav-item active">
+        <div class="icon">🏠</div>
+        <div>Home</div>
+      </div>
+      <div class="nav-item">
+        <div class="icon">🔍</div>
+        <div>Discover</div>
+      </div>
+      <div class="nav-item">
+        <div class="icon">👤</div>
+        <div>My</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Detail page -->
+  <div id="detail-page" class="page app-container">
+    <div class="status-bar">
+      <div class="status-time">10:20</div>
+      <div class="status-icons">
+        <div class="status-icon">•••</div>
+        <div class="status-icon">📶</div>
+        <div class="status-icon">🔋</div>
+      </div>
+    </div>
+    <div class="top-nav">
+      <div class="back-btn" onclick="navigateTo('home-page')">◀</div>
+      <h1>News Detail</h1>
+      <div class="nav-icon">⋮</div>
+    </div>
+    
+    <div class="content-area">
+      <div class="detail-container">
+        <h2 class="detail-title">New Breakthrough in AI Technology: Automatic Code Generation Draws Industry Attention</h2>
+        <div class="detail-info">
+          <div class="detail-source">Technology Daily</div>
+          <div class="detail-time">2 hours ago</div>
         </div>
-      </div>
-      <div class="top-nav">
-        <div class="back-btn" onclick="navigateTo('detail-page')">◀</div>
-        <h1>AI Assistant</h1>
-        <div></div>
-      </div>
-      
-      <div class="content-area">
-        <div class="search-container">
-          <div class="search-input-container">
-            <input type="text" class="search-input" placeholder="Development Prospects of AI Code Generation Technology" value="Development Prospects of AI Code Generation Technology">
-            <div class="search-btn">➔</div>
-          </div>
-          
-          <div class="ai-response">
-            <div class="ai-response-header">
-              <div class="ai-response-avatar">AI</div>
-              <h3>AI Assistant</h3>
+        
+        <div class="detail-content">
+          <p>According to the latest research report, AI has made significant breakthroughs in the field of code generation. The new generation of models can understand complex requirements and automatically generate high-quality, production-ready code. This technology has attracted wide attention in the technology industry.</p>
+          <p>The research team said that the latest AI code generation model can not only understand the functional requirements described in natural language but also understand the business logic to be implemented based on the context and generate code that meets best practices. Compared with previous code assistance tools, the accuracy of the new technology has increased by about 40%, and the error rate has decreased by nearly 60%.</p>
+          <p>Several technology giants have begun to integrate this technology into their development tools. Industry analysts predict that this will bring a revolutionary improvement in software development efficiency and also change the way programmers work.</p>
+          <p>"In the future, programmers may shift more of their work to requirements analysis and system design, leaving the specific coding work to AI assistants," said a senior developer. "This doesn't mean that programmers will be replaced, but rather that it will allow us to focus on more creative work."</p>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <h3 class="discussion-title">相关话题</h3>
+        
+        <div class="related-topics-container">
+          <div class="topic-card">
+            <div class="topic-icon">🤖</div>
+            <div class="topic-content">
+              <div class="topic-title">AI技术发展前景</div>
+              <div class="topic-info">38.2万阅读 · 3.1万讨论</div>
             </div>
-            <p>The AI code generation technology will significantly improve development efficiency in the next five years and will be mainly applied in areas such as automated testing, template code generation, and API integration. According to the latest research, by 2030, about 70% of basic code work may be completed by AI, allowing developers to focus on more creative system design and business logic. This will not replace programmers but will change the development process and create new high-level development roles. At the same time, this technology will also lower the threshold for programming, enabling more people to create software through natural language.</p>
+            <div class="topic-arrow">→</div>
           </div>
           
-          <div class="related-questions">
-            <h3>You may also want to know</h3>
-            <div class="question-item">Will AI programming completely replace manual programming?</div>
-            <div class="question-item">Is it still necessary to learn programming?</div>
-            <div class="question-item">What are the most powerful AI code generation tools currently?</div>
-            <div class="question-item">How secure is the code generated by AI?</div>
+          <div class="topic-card">
+            <div class="topic-icon">💼</div>
+            <div class="topic-content">
+              <div class="topic-title">程序员职业前景与AI的关系</div>
+              <div class="topic-info">22.5万阅读 · 1.8万讨论</div>
+            </div>
+            <div class="topic-arrow">→</div>
+          </div>
+          
+          <div class="topic-card">
+            <div class="topic-icon">📊</div>
+            <div class="topic-content">
+              <div class="topic-title">自动编码工具排行榜</div>
+              <div class="topic-info">15.7万阅读 · 0.9万讨论</div>
+            </div>
+            <div class="topic-arrow">→</div>
           </div>
         </div>
+        
+        <div class="ai-search-cta">
+          <div class="ai-search-header">
+            <div class="ai-icon">AI</div>
+            <h3>Want to know more?</h3>
+          </div>
+          <button class="ai-search-btn" onclick="navigateTo('ai-page')">Try AI Search ➔</button>
+        </div>
       </div>
-      
-      <div class="bottom-input-container">
-        <input type="text" class="bottom-input" placeholder="Continue to ask questions...">
-        <div class="bottom-send-btn">+</div>
+    </div>
+  </div>
+  
+  <!-- AI search page -->
+  <div id="ai-page" class="page app-container">
+    <div class="status-bar">
+      <div class="status-time">10:20</div>
+      <div class="status-icons">
+        <div class="status-icon">•••</div>
+        <div class="status-icon">📶</div>
+        <div class="status-icon">🔋</div>
       </div>
+    </div>
+    <div class="top-nav">
+      <div class="back-btn" onclick="navigateTo('detail-page')">◀</div>
+      <h1>AI Assistant</h1>
+      <div></div>
+    </div>
+    
+    <div class="content-area">
+      <div class="search-container">
+        <div class="search-input-container">
+          <input type="text" class="search-input" placeholder="Development Prospects of AI Code Generation Technology" value="Development Prospects of AI Code Generation Technology">
+          <div class="search-btn">➔</div>
+        </div>
+        
+        <div class="ai-response">
+          <div class="ai-response-header">
+            <div class="ai-response-avatar">AI</div>
+            <h3>AI Assistant</h3>
+          </div>
+          <p>The AI code generation technology will significantly improve development efficiency in the next five years and will be mainly applied in areas such as automated testing, template code generation, and API integration. According to the latest research, by 2030, about 70% of basic code work may be completed by AI, allowing developers to focus on more creative system design and business logic. This will not replace programmers but will change the development process and create new high-level development roles. At the same time, this technology will also lower the threshold for programming, enabling more people to create software through natural language.</p>
+        </div>
+        
+        <div class="related-questions">
+          <h3>You may also want to know</h3>
+          <div class="question-item">Will AI programming completely replace manual programming?</div>
+          <div class="question-item">Is it still necessary to learn programming?</div>
+          <div class="question-item">What are the most powerful AI code generation tools currently?</div>
+          <div class="question-item">How secure is the code generated by AI?</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="bottom-input-container">
+      <input type="text" class="bottom-input" placeholder="Continue to ask questions...">
+      <div class="bottom-send-btn">+</div>
     </div>
   </div>
 
@@ -727,6 +827,23 @@
         this.classList.add('active');
       });
     });
+    
+    // 为相关话题卡片添加点击事件
+    document.querySelectorAll('.topic-card').forEach(card => {
+      card.addEventListener('click', function() {
+        // 获取话题标题
+        const topicTitle = this.querySelector('.topic-title').textContent;
+        
+        // 导航到AI页面
+        navigateTo('ai-page');
+        
+        // 设置搜索输入框的值为话题标题
+        document.querySelector('.search-input').value = topicTitle;
+      });
+    });
   </script>
+<script src="global-nav.js"></script>
 </body>
 </html>
+
+
