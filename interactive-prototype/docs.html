@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Documentation</title>
+    <link rel="stylesheet" href="/common.css">
+    <style>
+      /* 页面特定样式 */
+      .docs-header {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        background: #fcfcfc;
+      }
+
+      .docs-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #333;
+      }
+
+      .docs-subtitle {
+        font-size: 14px;
+        color: #666;
+        max-width: 90%;
+        line-height: 1.6;
+      }
+
+      .docs-search {
+        margin-top: 8px;
+        position: relative;
+      }
+
+      .docs-search-input {
+        width: 100%;
+        height: 42px;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        padding: 0 42px 0 16px;
+        font-size: 15px;
+        background: white;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+      }
+
+      .docs-search-icon {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+        font-size: 18px;
+      }
+
+      .section {
+        padding: 16px;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .section-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .section-content {
+        color: #555;
+        font-size: 15px;
+        line-height: 1.5;
+      }
+
+      .doc-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 8px;
+      }
+
+      .doc-item {
+        display: flex;
+        padding: 12px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        gap: 12px;
+        border: 1px solid #eee;
+        transition: all 0.2s ease;
+      }
+
+      .doc-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .doc-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: #f5f9ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        color: #3366FF;
+      }
+
+      .doc-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .doc-title {
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
+      }
+
+      .doc-desc {
+        font-size: 14px;
+        color: #666;
+        line-height: 1.4;
+      }
+
+      .doc-meta {
+        margin-top: 4px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .doc-tag {
+        font-size: 12px;
+        color: #6a6a6a;
+        background: #f0f0f0;
+        padding: 2px 8px;
+        border-radius: 4px;
+      }
+
+      .doc-date {
+        font-size: 12px;
+        color: #999;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 全局导航 -->
+    <div class="global-nav">
+      <a href="/dashboard" class="global-nav-item">A <span class="nav-arrow">▾</span>
+        <div class="submenu">
+          <a href="/dashboard" class="submenu-item">Dashboard</a>
+          <a href="/income-comparison" class="submenu-item">Income Comparison</a>
+          <a href="/voip" class="submenu-item">VOIP Metrics</a>
+        </div>
+      </a>
+      <a href="/" class="global-nav-item">P <span class="nav-arrow">▾</span>
+        <div class="submenu">
+          <a href="/" class="submenu-item">Home</a>
+          <a href="/news" class="submenu-item">News</a>
+          <a href="/search" class="submenu-item">Search</a>
+          <a href="/call" class="submenu-item">Call</a>
+          <a href="/filters" class="submenu-item">Filters</a>
+        </div>
+      </a>
+      <a href="/docs" class="global-nav-item active">D <span class="nav-arrow">▾</span>
+        <div class="submenu">
+          <a href="/docs" class="submenu-item">Requirements</a>
+          <a href="/docs/api" class="submenu-item">API Docs</a>
+          <a href="/docs/design" class="submenu-item">Design System</a>
+        </div>
+      </a>
+    </div>
+
+    <div class="app-container">
+      <div class="status-bar">
+        <div class="status-time">10:20</div>
+        <div class="status-icons">
+          <div class="status-icon">•••</div>
+          <div class="status-icon">📶</div>
+          <div class="status-icon">🔋</div>
+        </div>
+      </div>
+
+      <div class="docs-header">
+        <div class="docs-title">Project Documentation</div>
+        <div class="docs-subtitle">Find all project requirements, API documentation, design guidelines and technical specifications.</div>
+        <div class="docs-search">
+          <input type="text" class="docs-search-input" placeholder="Search documentation...">
+          <div class="docs-search-icon">🔍</div>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <div class="section">
+          <div class="section-title">📋 Requirements</div>
+          <div class="doc-list">
+            <div class="doc-item">
+              <div class="doc-icon">📝</div>
+              <div class="doc-info">
+                <div class="doc-title">Product Requirements Document</div>
+                <div class="doc-desc">Detailed product specifications, user stories, and acceptance criteria.</div>
+                <div class="doc-meta">
+                  <div class="doc-tag">PDF</div>
+                  <div class="doc-date">Updated: Jul 20, 2025</div>
+                </div>
+              </div>
+            </div>
+            <div class="doc-item">
+              <div class="doc-icon">📱</div>
+              <div class="doc-info">
+                <div class="doc-title">Mobile App Requirements</div>
+                <div class="doc-desc">Platform-specific requirements and guidelines for iOS and Android implementations.</div>
+                <div class="doc-meta">
+                  <div class="doc-tag">Word</div>
+                  <div class="doc-date">Updated: Jul 15, 2025</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">🖥️ Design Guidelines</div>
+          <div class="doc-list">
+            <div class="doc-item">
+              <div class="doc-icon">🎨</div>
+              <div class="doc-info">
+                <div class="doc-title">UI Design System</div>
+                <div class="doc-desc">Complete design system including colors, typography, components, and patterns.</div>
+                <div class="doc-meta">
+                  <div class="doc-tag">Figma</div>
+                  <div class="doc-date">Updated: Jul 18, 2025</div>
+                </div>
+              </div>
+            </div>
+            <div class="doc-item">
+              <div class="doc-icon">📐</div>
+              <div class="doc-info">
+                <div class="doc-title">Layout Guidelines</div>
+                <div class="doc-desc">Responsive layouts, spacing systems, and grid specifications.</div>
+                <div class="doc-meta">
+                  <div class="doc-tag">PDF</div>
+                  <div class="doc-date">Updated: Jul 10, 2025</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">🔌 API Documentation</div>
+          <div class="doc-list">
+            <div class="doc-item">
+              <div class="doc-icon">📘</div>
+              <div class="doc-info">
+                <div class="doc-title">REST API Reference</div>
+                <div class="doc-desc">Complete API endpoints, parameters, authorization, and response formats.</div>
+                <div class="doc-meta">
+                  <div class="doc-tag">Swagger</div>
+                  <div class="doc-date">Updated: Jul 19, 2025</div>
+                </div>
+              </div>
+            </div>
+            <div class="doc-item">
+              <div class="doc-icon">📡</div>
+              <div class="doc-info">
+                <div class="doc-title">WebSocket API Guide</div>
+                <div class="doc-desc">Real-time communication protocols, events, and message formats.</div>
+                <div class="doc-meta">
+                  <div class="doc-tag">HTML</div>
+                  <div class="doc-date">Updated: Jul 12, 2025</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">📊 Analytics</div>
+          <div class="doc-list">
+            <div class="doc-item">
+              <div class="doc-icon">📈</div>
+              <div class="doc-info">
+                <div class="doc-title">Analytics Implementation Guide</div>
+                <div class="doc-desc">Event tracking specifications and data collection methodologies.</div>
+                <div class="doc-meta">
+                  <div class="doc-tag">PDF</div>
+                  <div class="doc-date">Updated: Jul 5, 2025</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom navigation -->
+      <div class="bottom-nav">
+        <div class="nav-item active">
+          <div class="nav-icon">📋</div>
+          <div class="nav-label">Docs</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast 元素 -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+      // 更新时间
+      function updateTime() {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        document.querySelector('.status-time').textContent = `${hours}:${minutes}`;
+      }
+      
+      updateTime();
+      setInterval(updateTime, 60000);
+
+      // 显示 Toast 消息
+      function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        
+        // 3秒后隐藏
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3000);
+      }
+
+      // 文档项点击事件
+      document.querySelectorAll('.doc-item').forEach(item => {
+        item.addEventListener('click', () => {
+          showToast('正在加载文档...');
+        });
+      });
+    </script>
+  </body>
+</html> 
