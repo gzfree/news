@@ -1418,31 +1418,12 @@
 
             <div class="divider"></div>
             
-            <div class="discussion-title">Discussion (45)</div>
-            <div class="chat-container">
-              <div class="chat-bubble system-bubble">
-                <div style="display: flex; align-items: center; margin-bottom: 8px;">
-                  <div class="system-avatar">S</div>
-                  <div style="font-weight: 500;">System</div>
-                </div>
-                Welcome to the discussion! Please keep conversations respectful and on-topic.
-              </div>
-              
-              <div class="chat-bubble user-bubble">
-                <div style="display: flex; align-items: center; margin-bottom: 8px;">
-                  <div class="user-avatar">U</div>
-                  <div style="font-weight: 500;">JohnDev</div>
-                </div>
-                I've been testing some of these AI code generation tools, and the results are impressive but still need a lot of human refinement. Anyone else having similar experiences?
-              </div>
-              
-              <div class="chat-bubble ai-bubble">
-                <div style="display: flex; align-items: center; margin-bottom: 8px;">
-                  <div class="ai-response-avatar">A</div>
-                  <div style="font-weight: 500;">TechExpert</div>
-                </div>
-                Absolutely. I work with GitHub Copilot daily, and while it saves time on boilerplate, the real value is still in understanding the architecture and making key design decisions. AI is a great assistant but not ready to replace thoughtful development.
-              </div>
+            <div class="related-questions">
+              <h3>You might also want to know</h3>
+              <div class="question-item" onclick="navigateToAIWithQuestion('Will AI programming completely replace human programming?')">Will AI programming completely replace human programming?</div>
+              <div class="question-item" onclick="navigateToAIWithQuestion('Is learning programming still necessary?')">Is learning programming still necessary?</div>
+              <div class="question-item" onclick="navigateToAIWithQuestion('What are the most powerful AI code generation tools currently?')">What are the most powerful AI code generation tools currently?</div>
+              <div class="question-item" onclick="navigateToAIWithQuestion('How secure is AI-generated code?')">How secure is AI-generated code?</div>
             </div>
             
             <div class="hot-topics">
@@ -1502,13 +1483,7 @@
             <p>AI code generation technology will significantly improve development efficiency over the next five years, primarily in: automated testing, template code generation, and API integration. According to recent research, by 2030, about 70% of basic coding work could be done by AI, allowing developers to focus on more creative system design and business logic. This won't replace programmers but will transform the development process, creating new senior development roles. Additionally, this technology will lower programming barriers, enabling more people to create software using natural language.</p>
           </div>
           
-          <div class="related-questions">
-            <h3>You might also want to know</h3>
-            <div class="question-item">Will AI programming completely replace human programming?</div>
-            <div class="question-item">Is learning programming still necessary?</div>
-            <div class="question-item">What are the most powerful AI code generation tools currently?</div>
-            <div class="question-item">How secure is AI-generated code?</div>
-          </div>
+          <!-- 已将此区域移至详情页面 -->
         </div>
       </div>
       
@@ -1909,6 +1884,14 @@
     
     // 页面加载后执行初始化
     document.addEventListener('DOMContentLoaded', initializeApp);
+
+    // 导航到AI页面并填充问题
+    function navigateToAIWithQuestion(question) {
+      navigateTo('ai-page');
+      setTimeout(() => {
+        document.querySelector('.search-input').value = question;
+      }, 100);
+    }
   </script>
 </body>
 </html>
