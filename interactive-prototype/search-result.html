@@ -6,68 +6,7 @@
     <title>Search Results</title>
     <link rel="stylesheet" href="/common.css">
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
-      }
-
-      body {
-        background-color: #E8F4FF;
-        color: #333;
-        line-height: 1.5;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-      }
-
-      .app-container {
-        width: 414px;
-        height: 950px;
-        margin: 0 auto;
-        background-color: #FFF;
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        border-radius: 40px;
-        overflow: hidden;
-      }
-
-      .status-bar {
-        height: 44px;
-        padding: 0 16px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 14px;
-        font-weight: 600;
-        color: #333;
-        background: #FFF;
-      }
-
-      .status-time {
-        flex: 1;
-      }
-
-      .status-icons {
-        display: flex;
-        gap: 4px;
-        align-items: center;
-      }
-
-      .status-icon {
-        width: 20px;
-        height: 20px;
-        border-radius: 4px;
-        background: #999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
+      /* 页面特定样式 */
       .search-header {
         height: 56px;
         display: flex;
@@ -151,17 +90,6 @@
         font-size: 14px;
         font-weight: bold;
         box-shadow: 0 2px 4px rgba(51, 102, 255, 0.2);
-      }
-
-      .content-area {
-        flex: 1;
-        padding: 16px;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        background-color: #FFF;
-        margin-top: 8px;
       }
 
       .section {

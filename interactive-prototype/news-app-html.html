@@ -6,37 +6,8 @@
   <title>News App HTML</title>
   <link rel="stylesheet" href="/common.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
-    }
-
-    body {
-      background-color: #E8F4FF;
-      color: #333;
-      line-height: 1.5;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
+    /* 页面特定样式 */
     /* General styles */
-    .app-container {
-      width: 414px;
-      height: 950px;
-      margin: 0 auto;
-      background-color: #FFF;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      border-radius: 40px;
-      overflow: hidden;
-    }
-
     .top-nav {
       height: 56px;
       display: flex;
@@ -64,12 +35,6 @@
       border-radius: 16px;
       background-color: #F6F6F6;
       cursor: pointer;
-    }
-
-    .content-area {
-      flex: 1;
-      overflow-y: auto;
-      padding-bottom: 70px;
     }
 
     .bottom-nav {
@@ -476,36 +441,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-    }
-
-    .status-bar {
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 16px;
-      background-color: #FFF;
-      border-bottom: 1px solid #EEEEEE;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .status-time {
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .status-icons {
-      display: flex;
-      align-items: center;
-    }
-
-    .status-icon {
-      width: 24px;
-      height: 24px;
-      margin-left: 8px;
       cursor: pointer;
     }
   </style>
