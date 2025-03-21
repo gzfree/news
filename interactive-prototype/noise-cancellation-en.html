@@ -272,7 +272,7 @@
             // 单击进入视频滤镜页面
             localVideoContainer.addEventListener('click', function(e) {
                 clickTimer = setTimeout(() => {
-                    window.location.href = 'video-filters.html';
+                    window.location.href = '/filters';
                 }, 250);
             });
             
@@ -298,7 +298,7 @@
             
             // Close panel when clicking close button - 现在改为跳转到首页
             closeModal.addEventListener('click', function() {
-                window.location.href = 'index.html';
+                window.location.href = '/';
             });
             
             // Toggle noise cancellation
@@ -1389,7 +1389,7 @@
         </div>
 
         <!-- Back button -->
-        <button class="back-button" onclick="window.location.href='index.html'">
+        <button class="back-button" onclick="window.location.href='/'">
             <i class="fas fa-chevron-left"></i>
         </button>
 
@@ -1415,7 +1415,7 @@
                     <i class="fas fa-cog"></i>
                     <div class="item-tooltip">Settings</div>
                 </div>
-                <div class="side-menu-item secondary" onclick="window.location.href='video-filters.html'">
+                <div class="side-menu-item secondary" onclick="window.location.href='/filters'">
                     <i class="fas fa-video"></i>
                     <div class="item-tooltip">Video Filters</div>
                 </div>
@@ -1469,7 +1469,7 @@
 
             <!-- Noise details panel -->
             <div class="noise-detail hidden">
-                <button class="modal-close" id="closeModal" onclick="window.location.href='index.html'">
+                <button class="modal-close" id="closeModal" onclick="window.location.href='/'">
                     <i class="fas fa-times"></i>
                 </button>
                 
@@ -1550,7 +1550,7 @@
             <button class="footer-btn regular">
                 <i class="fas fa-volume-up"></i>
             </button>
-            <button class="footer-btn end-call" onclick="window.location.href='index.html'">
+            <button class="footer-btn end-call" onclick="window.location.href='/'">
                 <i class="fas fa-phone-slash"></i>
             </button>
             <button class="footer-btn regular">

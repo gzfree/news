@@ -1075,7 +1075,7 @@
                     <i class="fas fa-cog"></i>
                     <div class="item-tooltip">Settings</div>
                 </div>
-                <div class="side-menu-item secondary" onclick="window.location.href='video-filters.html'">
+                <div class="side-menu-item secondary" onclick="window.location.href='/filters'">
                     <i class="fas fa-video"></i>
                     <div class="item-tooltip">Video Filters</div>
                 </div>
@@ -1286,7 +1286,7 @@
         // 单击进入视频滤镜页面
         localVideoContainer.addEventListener('click', function(e) {
             clickTimer = setTimeout(() => {
-                window.location.href = 'video-filters.html';
+                window.location.href = '/filters';
             }, 250);
         });
 
