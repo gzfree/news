@@ -391,15 +391,17 @@
       position: relative;
       margin-bottom: 16px;
       z-index: 10;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
 
     .expand-btn.expanded {
-      position: fixed;
-      bottom: 76px;
-      left: 0;
-      right: 0;
-      background: #FFF;
-      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+      position: relative;
+      bottom: auto;
+      left: auto;
+      right: auto;
+      margin-top: 16px;
+      box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
     }
 
     .expand-btn::after {
@@ -1308,7 +1310,7 @@
       <div class="top-nav">
         <div class="back-btn" onclick="navigateTo('home-page')">◀</div>
         <h1>News Details</h1>
-        <div class="nav-icon">⋮</div>
+        <div class="nav-icon" style="margin-right: 0;">•••</div>
       </div>
       
       <div class="content-area">
@@ -1379,34 +1381,34 @@
             <p>"The most successful teams will be those that effectively combine human insight with AI assistance," says Dr. Chen. "It's not about replacing developers—it's about amplifying what they can accomplish."</p>
             
             <p>For students and professionals alike, the message is clear: the future of programming involves working alongside increasingly capable AI partners.</p>
+          </div>
+          
+          <!-- 展开按钮改为处于内容之外 -->
+          <button class="expand-btn">Show full article</button>
             
-            <div class="expand-container">
-              <button class="expand-btn">Show full article</button>
+          <!-- 互动功能区 -->
+          <div class="interaction-bar">
+            <div class="interaction-item upvote-btn">
+              <div class="up-icon">👍</div>
+              <div class="count upvote-count">128</div>
             </div>
-            
-            <!-- 互动功能区 -->
-            <div class="interaction-bar">
-              <div class="interaction-item upvote-btn">
-                <div class="up-icon">👍</div>
-                <div class="count upvote-count">128</div>
-              </div>
-              <div class="interaction-item downvote-btn">
-                <div class="down-icon">👎</div>
-                <div class="count downvote-count">12</div>
-              </div>
-              <div class="interaction-item">
-                <div>💬</div>
-                <div class="count">45</div>
-              </div>
-              <div class="interaction-item">
-                <div>🔖</div>
-                <div class="count">23</div>
-              </div>
-              <div class="interaction-item share-btn">
-                <div>↗️</div>
-                <div class="count">16</div>
-              </div>
+            <div class="interaction-item downvote-btn">
+              <div class="down-icon">👎</div>
+              <div class="count downvote-count">12</div>
             </div>
+            <div class="interaction-item">
+              <div>💬</div>
+              <div class="count">45</div>
+            </div>
+            <div class="interaction-item">
+              <div>🔖</div>
+              <div class="count">23</div>
+            </div>
+            <div class="interaction-item share-btn">
+              <div>↗️</div>
+              <div class="count">16</div>
+            </div>
+          </div>
 
             <div class="divider"></div>
             
@@ -1458,16 +1460,15 @@
                 <div class="topic-arrow">→</div>
               </div>
             </div>
-          </div>
           
-          <!-- Want to know more 移到页面底部 -->
-          <div class="ai-search-cta" style="position: relative; bottom: 0; margin-top: 20px; margin-bottom: 20px; transform: none; width: auto;">
-            <div class="ai-search-header">
-              <div class="ai-icon">D</div>
-              <h3>Want to know more?</h3>
+            <!-- Want to know more 移到页面底部 -->
+            <div class="ai-search-cta" style="position: relative; bottom: 0; margin-top: 20px; margin-bottom: 20px; transform: none; width: auto;">
+              <div class="ai-search-header">
+                <div class="ai-icon">D</div>
+                <h3>Want to know more?</h3>
+              </div>
+              <button class="ai-search-btn" onclick="navigateTo('ai-page')">Ask DeepSeek AI ➔</button>
             </div>
-            <button class="ai-search-btn" onclick="navigateTo('ai-page')">Ask DeepSeek AI ➔</button>
-          </div>
         </div>
       </div>
     </div>
@@ -1661,17 +1662,28 @@
       });
       document.getElementById(pageId).classList.add('active');
       
-      // 如果是详情页，3秒后显示 AI Search CTA
+      // 如果是详情页，调整布局确保内容正确显示
       if (pageId === 'detail-page') {
         setTimeout(() => {
-          const detailContainer = document.querySelector('.detail-container');
-          if (detailContainer) {
-            detailContainer.scrollTop = 0;
+          // 重置滚动位置
+          const contentArea = document.querySelector('#detail-page .content-area');
+          if (contentArea) {
+            contentArea.scrollTop = 0;
           }
           
-          const viewsElement = document.querySelector('.detail-views');
-          if (viewsElement) {
-            // 增加浏览量
+          // 确保详情页广告正确显示
+          const adContainer = document.querySelector('.detail-ad-container');
+          if (adContainer) {
+            adContainer.style.display = 'block';
+          }
+          
+          // 显示浏览量
+          const detailInfo = document.querySelector('.detail-info');
+          if (detailInfo && !document.querySelector('.detail-views')) {
+            const viewsElement = document.createElement('div');
+            viewsElement.className = 'detail-views';
+            
+            // 获取或设置初始浏览量
             const currentViews = localStorage.getItem('articleViews') || 3500;
             const newViews = parseInt(currentViews) + 1;
             localStorage.setItem('articleViews', newViews);
@@ -1685,8 +1697,26 @@
             }
             
             viewsElement.textContent = formattedViews + ' views';
+            detailInfo.parentNode.insertBefore(viewsElement, detailInfo.nextSibling);
           }
-        }, 500);
+          
+          // 确保内容正确展开
+          const detailContent = document.querySelector('.detail-content');
+          if (detailContent) {
+            if (detailContent.scrollHeight > 102) {
+              detailContent.style.maxHeight = '102px';
+            } else {
+              detailContent.style.maxHeight = 'none';
+            }
+          }
+          
+          // 确保"Want to know more"区域显示
+          const aiSearchCta = document.querySelector('.ai-search-cta');
+          if (aiSearchCta) {
+            aiSearchCta.classList.remove('hidden');
+            aiSearchCta.style.display = 'block';
+          }
+        }, 100);
       }
     }
     
@@ -1717,14 +1747,13 @@
       const content = document.querySelector('.detail-content');
       const isExpanded = content.classList.toggle('expanded');
       this.classList.toggle('expanded');
-      this.textContent = isExpanded ? 'Show Less' : 'Show More';
       
-      // 内容展开时隐藏"Want to know more"部分，收起时显示
-      const aiSearchCta = document.querySelector('.ai-search-cta');
       if (isExpanded) {
-        aiSearchCta.style.display = 'none';
+        content.style.maxHeight = 'none';
+        this.textContent = 'Show less';
       } else {
-        aiSearchCta.style.display = '';
+        content.style.maxHeight = '102px';
+        this.textContent = 'Show full article';
       }
     });
 
@@ -1902,6 +1931,40 @@
         document.querySelector('.share-overlay').classList.remove('active');
       });
     });
+
+    // 初始化函数 - 在页面加载完成后执行
+    function initializeApp() {
+      // 确保详情页内容显示正常
+      const detailContent = document.querySelector('.detail-content');
+      if (detailContent) {
+        // 默认显示收起状态
+        detailContent.style.maxHeight = '102px';
+      }
+      
+      // 确保广告正确显示
+      const adContainer = document.querySelector('.detail-ad-container');
+      if (adContainer) {
+        adContainer.style.display = 'block';
+      }
+      
+      // 添加浏览量计数到详情页
+      const detailInfo = document.querySelector('.detail-info');
+      if (detailInfo && !document.querySelector('.detail-views')) {
+        const viewsElement = document.createElement('div');
+        viewsElement.className = 'detail-views';
+        
+        // 获取初始浏览量
+        const views = localStorage.getItem('articleViews') || 3500;
+        const formattedViews = parseInt(views) >= 1000 ? 
+          (parseInt(views) / 1000).toFixed(1) + 'K' : views;
+        
+        viewsElement.textContent = formattedViews + ' views';
+        detailInfo.parentNode.insertBefore(viewsElement, detailInfo.nextSibling);
+      }
+    }
+    
+    // 页面加载后执行初始化
+    document.addEventListener('DOMContentLoaded', initializeApp);
   </script>
 </body>
 </html>
