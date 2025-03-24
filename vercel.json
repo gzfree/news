@@ -8,6 +8,7 @@
     { "src": "**/*.png", "use": "@vercel/static" }
   ],
   "routes": [
+    { "src": "/march-data", "dest": "/data-analysis/March-Data-Analysis.html" },
     { "src": "/dashboard", "dest": "/data-analysis/d-income-comparison.html" },
     { "src": "/voip", "dest": "/data-analysis/d-voip.html" },
     { "src": "/", "dest": "/interactive-prototype/index.html" },

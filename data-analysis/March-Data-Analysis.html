@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Data Analysis Report for March 2025">
+    <title>March Data Analysis - Search & VoIP</title>
+    <style>
+        /* Base styles - PPT friendly */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        h1, h2, h3 {
+            color: #2b579a; /* Microsoft blue */
+            margin-top: 30px;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            font-size: 28px;
+            border-bottom: 2px solid #4472c4;
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            font-size: 22px;
+            margin-top: 20px;
+        }
+        
+        /* Language switcher */
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 8px 15px;
+            border-radius: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .language-option {
+            margin: 0 8px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .language-option:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .language-option.active {
+            background-color: #4472c4;
+            color: white;
+        }
+        
+        /* Side-by-side layout */
+        .ppt-row {
+            display: flex;
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .chart-container {
+            flex: 1;
+            padding: 20px;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .text-container {
+            flex: 1;
+            padding: 30px;
+            background: #f9f9f9;
+            border-left: 1px solid #eee;
+        }
+        
+        /* RTL support for Arabic */
+        [dir="rtl"] .text-container {
+            border-left: none;
+            border-right: 1px solid #eee;
+        }
+        
+        /* Reverse layout */
+        .ppt-row.reverse {
+            flex-direction: row-reverse;
+        }
+        
+        .ppt-row.reverse .text-container {
+            border-left: none;
+            border-right: 1px solid #eee;
+        }
+        
+        [dir="rtl"] .ppt-row.reverse .text-container {
+            border-right: none;
+            border-left: 1px solid #eee;
+        }
+        
+        /* Chart styles */
+        .chart {
+            width: 100%;
+            height: 360px;
+            margin: 0 auto;
+            background: white;
+            position: relative;
+        }
+        
+        /* Table styles */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+        }
+        
+        .data-table th {
+            background-color: #4472c4;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .data-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background-color: #f2f7ff;
+        }
+        
+        /* Key metrics blocks */
+        .metrics-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .metric-box {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px;
+            padding: 20px;
+            text-align: center;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        
+        .metric-value {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #4472c4;
+        }
+        
+        .metric-label {
+            font-size: 16px;
+            color: #666;
+        }
+        
+        /* Chart markers and legends */
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 0 15px;
+        }
+        
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            border-radius: 3px;
+        }
+        
+        [dir="rtl"] .legend-color {
+            margin-right: 0;
+            margin-left: 8px;
+        }
+        
+        .ramadan {
+            background-color: #4472c4; /* Blue for Ramadan */
+        }
+        
+        .ai-service {
+            background-color: #ed7d31; /* Orange for AI service */
+        }
+        
+        /* SVG chart styles */
+        .svg-chart {
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        /* Tag classes */
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        [dir="rtl"] .tag {
+            margin-right: 0;
+            margin-left: 10px;
+        }
+        
+        .tag-ramadan {
+            background-color: #dae3f3;
+            color: #2b579a;
+        }
+        
+        .tag-ai {
+            background-color: #fbe5d6;
+            color: #c55a11;
+        }
+        
+        /* Language-specific content */
+        .lang-content {
+            display: none;
+        }
+        
+        .lang-en {
+            display: block;
+        }
+
+        /* Tab navigation */
+        .tabs-container {
+            width: 100%;
+            margin: 30px 0;
+        }
+        
+        .tabs-navigation {
+            display: flex;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 30px;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+            transition: all 0.3s ease;
+        }
+        
+        .tab:hover {
+            background: #e9e9e9;
+        }
+        
+        .tab.active {
+            background: #4472c4;
+            color: white;
+            border-color: #4472c4;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* RTL support for tabs */
+        [dir="rtl"] .tab {
+            margin-right: 0;
+            margin-left: 5px;
+        }
+
+        /* Positive/negative values */
+        .positive-value {
+            color: #70ad47 !important; /* Green */
+        }
+        
+        .negative-value {
+            color: #c1504d !important; /* Red */
+        }
+    </style>
+</head>
+<body>
+    <div class="language-switcher">
+        <div class="language-option active" data-lang="en">English</div>
+        <div class="language-option" data-lang="zh">中文</div>
+        <div class="language-option" data-lang="ar">العربية</div>
+    </div>
+    
+    <!-- Page Title -->
+    <h1 class="lang-en">March Data Analysis - Search & VoIP</h1>
+    <h1 class="lang-zh" style="display:none;">3月数据分析 - 搜索和VoIP</h1>
+    <h1 class="lang-ar" style="display:none;">تحليل بيانات شهر مارس - البحث و VoIP</h1>
+    
+    
+    <!-- Tab Navigation -->
+    <div class="tabs-container">
+        <div class="tabs-navigation">
+            <div class="tab active" data-tab="overview">
+                <span class="lang-en">Overview</span>
+                <span class="lang-zh" style="display:none;">概览</span>
+                <span class="lang-ar" style="display:none;">نظرة عامة</span>
+            </div>
+            <div class="tab" data-tab="search">
+                <span class="lang-en">Search Analysis</span>
+                <span class="lang-zh" style="display:none;">搜索分析</span>
+                <span class="lang-ar" style="display:none;">تحليل البحث</span>
+            </div>
+            <div class="tab" data-tab="voip">
+                <span class="lang-en">VoIP Analysis</span>
+                <span class="lang-zh" style="display:none;">通话分析</span>
+                <span class="lang-ar" style="display:none;">تحليل المكالمات</span>
+            </div>
+        </div>
+        
+        <!-- Overview Tab (visible by default) -->
+        <div class="tab-content active" id="overview-content">
+            <section>
+                <h2 class="lang-en">Analysis Overview</h2>
+                <h2 class="lang-zh" style="display:none;">分析概述</h2>
+                <h2 class="lang-ar" style="display:none;">نظرة عامة على التحليل</h2>
+                
+                <div class="metrics-container">
+                    <div class="metric-box">
+                        <span class="metric-label lang-en">Botim Total Daily Active Users</span>
+                        <span class="metric-label lang-zh" style="display:none;">Botim总日活跃用户</span>
+                        <span class="metric-label lang-ar" style="display:none;">إجمالي المستخدمين النشطين يوميًا لـ Botim</span>
+                        <div class="metric-value negative-value">-7.2%</div>
+                        <span class="metric-change lang-en">8.35M -> 7.75M</span>
+                        <span class="metric-change lang-zh" style="display:none;">8.35M -> 7.75M</span>
+                        <span class="metric-change lang-ar" style="display:none;">8.35M -> 7.75M</span>
+                        <span class="metric-label lang-en">Global DAU Change During Ramadan</span>
+                        <span class="metric-label lang-zh" style="display:none;">斋月期间全球日活变化</span>
+                        <span class="metric-label lang-ar" style="display:none;">تغيير DAU العالمي خلال رمضان</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-label lang-en">p2p Users Change During Ramadan</span>
+                        <span class="metric-label lang-zh" style="display:none;">斋月期间p2p用户变化</span>
+                        <span class="metric-label lang-ar" style="display:none;">تغيير مستخدمي p2p خلال رمضان</span>
+                        <div class="metric-value negative-value">-7.9%</div>
+                        <span class="metric-change lang-en">6.61M -> 6.08M</span>
+                        <span class="metric-change lang-zh" style="display:none;">6.61M -> 6.08M</span>
+                        <span class="metric-change lang-ar" style="display:none;">6.61M -> 6.08M</span>
+                        <span class="metric-label lang-en">p2p Communication Decline</span>
+                        <span class="metric-label lang-zh" style="display:none;">p2p通信下降</span>
+                        <span class="metric-label lang-ar" style="display:none;">انخفاض اتصالات p2p</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-label lang-en">Meeting Users Change During Ramadan</span>
+                        <span class="metric-label lang-zh" style="display:none;">斋月期间会议用户变化</span>
+                        <span class="metric-label lang-ar" style="display:none;">تغيير مستخدمي الاجتماعات خلال رمضان</span>
+                        <div class="metric-value negative-value">-2.2%</div>
+                        <span class="metric-change lang-en">269K -> 264K</span>
+                        <span class="metric-change lang-zh" style="display:none;">269K -> 264K</span>
+                        <span class="metric-change lang-ar" style="display:none;">269K -> 264K</span>
+                        <span class="metric-label lang-en">Group Communication Resilience</span>
+                        <span class="metric-label lang-zh" style="display:none;">群组通信韧性</span>
+                        <span class="metric-label lang-ar" style="display:none;">مرونة الاتصالات الجماعية</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-label lang-en">UAE Search Volume Change During Ramadan</span>
+                        <span class="metric-label lang-zh" style="display:none;">斋月期间阿联酋搜索量变化</span>
+                        <span class="metric-label lang-ar" style="display:none;">تغير حجم البحث في الإمارات خلال رمضان</span>
+                        <div class="metric-value negative-value">-6.4%</div>
+                        <span class="metric-change lang-en">688K -> 644K</span>
+                        <span class="metric-change lang-zh" style="display:none;">688K -> 644K</span>
+                        <span class="metric-change lang-ar" style="display:none;">688K -> 644K</span>
+                        <span class="metric-label lang-en">Daily Volume Initial Decline</span>
+                        <span class="metric-label lang-zh" style="display:none;">日均搜索量初期下降</span>
+                        <span class="metric-label lang-ar" style="display:none;">انخفاض الحجم اليومي الأولي</span>
+                    </div>
+                </div>
+
+                <div class="metrics-container">
+                    <div class="metric-box">
+                        <span class="metric-label lang-en">UAE Average Searches Per User</span>
+                        <span class="metric-label lang-zh" style="display:none;">阿联酋用户平均搜索次数</span>
+                        <span class="metric-label lang-ar" style="display:none;">متوسط عمليات البحث للمستخدم في الإمارات</span>
+                        <div class="metric-value positive-value">+2.9%</div>
+                        <span class="metric-change lang-en">1.72 -> 1.77</span>
+                        <span class="metric-change lang-zh" style="display:none;">1.72 -> 1.77</span>
+                        <span class="metric-change lang-ar" style="display:none;">1.72 -> 1.77</span>
+                        <span class="metric-label lang-en">Daily Usage Frequency Increase</span>
+                        <span class="metric-label lang-zh" style="display:none;">日均使用频率增加</span>
+                        <span class="metric-label lang-ar" style="display:none;">زيادة معدل الاستخدام اليومي</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-label lang-en">Total Service Growth</span>
+                        <span class="metric-label lang-zh" style="display:none;">总服务增长</span>
+                        <span class="metric-label lang-ar" style="display:none;">نمو الخدمة الإجمالي</span>
+                        <div class="metric-value positive-value">+247.3%</div>
+                        <span class="metric-change lang-en">13.8K -> 47.9K</span>
+                        <span class="metric-change lang-zh" style="display:none;">13.8K -> 47.9K</span>
+                        <span class="metric-change lang-ar" style="display:none;">13.8K -> 47.9K</span>
+                        <span class="metric-label lang-en">100% attributed to AI Services</span>
+                        <span class="metric-label lang-zh" style="display:none;">100%归因于AI服务</span>
+                        <span class="metric-label lang-ar" style="display:none;">100٪ تعزى إلى خدمات الذكاء الاصطناعي</span>
+                    </div>
+                </div>
+            </section>
+            
+            <section>
+                <h2 class="lang-en">Key Events in March</h2>
+                <h2 class="lang-zh" style="display:none;">3月重要事件</h2>
+                <h2 class="lang-ar" style="display:none;">أحداث مهمة في مارس</h2>
+                
+                <div class="ppt-row reverse">
+                    <div class="chart-container">
+                        <div style="text-align: center;">
+                            <h3 class="lang-en">Timeline of Major Events</h3>
+                            <h3 class="lang-zh" style="display:none;">主要事件时间线</h3>
+                            <h3 class="lang-ar" style="display:none;">الجدول الزمني للأحداث الرئيسية</h3>
+                            
+                            <svg class="svg-chart" viewBox="0 0 500 240">
+                                <!-- Timeline Line -->
+                                <line x1="50" y1="120" x2="450" y2="120" stroke="#333" stroke-width="2"/>
+                                
+                                <!-- Event Points -->
+                                <circle cx="100" cy="120" r="8" fill="#4472c4"/>
+                                <circle cx="200" cy="120" r="8" fill="#70ad47"/>
+                                <circle cx="300" cy="120" r="8" fill="#ed7d31"/>
+                                <circle cx="400" cy="120" r="8" fill="#7030a0"/>
+                                
+                                <!-- Date Labels -->
+                                <text x="100" y="85" text-anchor="middle" font-size="11" font-weight="bold" class="lang-en">March 1</text>
+                                <text x="100" y="85" text-anchor="middle" font-size="11" font-weight="bold" class="lang-zh" style="display:none;">3月1日</text>
+                                <text x="100" y="85" text-anchor="middle" font-size="11" font-weight="bold" class="lang-ar" style="display:none;">1 مارس</text>
+                                
+                                <text x="200" y="85" text-anchor="middle" font-size="11" font-weight="bold" class="lang-en">March 2</text>
+                                <text x="200" y="85" text-anchor="middle" font-size="11" font-weight="bold" class="lang-zh" style="display:none;">3月2日</text>
+                                <text x="200" y="85" text-anchor="middle" font-size="11" font-weight="bold" class="lang-ar" style="display:none;">2 مارس</text>
+                                
+                                <text x="300" y="85" text-anchor="middle" font-size="11" font-weight="bold" class="lang-en">March 12</text>
+                                <text x="300" y="85" text-anchor="middle" font-size="11" font-weight="bold" class="lang-zh" style="display:none;">3月12日</text>
+                                <text x="300" y="85" text-anchor="middle" font-size="11" font-weight="bold" class="lang-ar" style="display:none;">12 مارس</text>
+                                
+                                <text x="400" y="85" text-anchor="middle" font-size="11" font-weight="bold" class="lang-en">March 18</text>
+                                <text x="400" y="85" text-anchor="middle" font-size="11" font-weight="bold" class="lang-zh" style="display:none;">3月18日</text>
+                                <text x="400" y="85" text-anchor="middle" font-size="11" font-weight="bold" class="lang-ar" style="display:none;">18 مارس</text>
+                                
+                                <!-- Event Description Labels -->
+                                <!-- English Labels -->
+                                <text x="100" y="155" text-anchor="middle" font-size="10" class="lang-en">Ramadan</text>
+                                <text x="100" y="170" text-anchor="middle" font-size="10" class="lang-en">Begins</text>
+                                
+                                <text x="200" y="155" text-anchor="middle" font-size="10" class="lang-en">AI Entry Point</text>
+                                <text x="200" y="170" text-anchor="middle" font-size="10" class="lang-en">Grayscale Start</text>
+                                
+                                <text x="300" y="155" text-anchor="middle" font-size="10" class="lang-en">Search Suggestion</text>
+                                <text x="300" y="170" text-anchor="middle" font-size="10" class="lang-en">Feature Live</text>
+                                
+                                <text x="400" y="155" text-anchor="middle" font-size="10" class="lang-en">Android</text>
+                                <text x="400" y="170" text-anchor="middle" font-size="10" class="lang-en">Grayscale Complete</text>
+                                
+                                <!-- Chinese Labels -->
+                                <text x="100" y="155" text-anchor="middle" font-size="10" class="lang-zh" style="display:none;">斋月</text>
+                                <text x="100" y="170" text-anchor="middle" font-size="10" class="lang-zh" style="display:none;">开始</text>
+                                
+                                <text x="200" y="155" text-anchor="middle" font-size="10" class="lang-zh" style="display:none;">AI入口</text>
+                                <text x="200" y="170" text-anchor="middle" font-size="10" class="lang-zh" style="display:none;">开始灰度</text>
+                                
+                                <text x="300" y="155" text-anchor="middle" font-size="10" class="lang-zh" style="display:none;">搜索建议</text>
+                                <text x="300" y="170" text-anchor="middle" font-size="10" class="lang-zh" style="display:none;">功能上线</text>
+                                
+                                <text x="400" y="155" text-anchor="middle" font-size="10" class="lang-zh" style="display:none;">Android</text>
+                                <text x="400" y="170" text-anchor="middle" font-size="10" class="lang-zh" style="display:none;">灰度完成</text>
+                                
+                                <!-- Arabic Labels -->
+                                <text x="100" y="155" text-anchor="middle" font-size="10" class="lang-ar" style="display:none;">بداية</text>
+                                <text x="100" y="170" text-anchor="middle" font-size="10" class="lang-ar" style="display:none;">رمضان</text>
+                                
+                                <text x="200" y="155" text-anchor="middle" font-size="10" class="lang-ar" style="display:none;">نقطة دخول</text>
+                                <text x="200" y="170" text-anchor="middle" font-size="10" class="lang-ar" style="display:none;">الذكاء الاصطناعي</text>
+                                
+                                <text x="300" y="155" text-anchor="middle" font-size="10" class="lang-ar" style="display:none;">ميزة</text>
+                                <text x="300" y="170" text-anchor="middle" font-size="10" class="lang-ar" style="display:none;">اقتراحات البحث</text>
+                                
+                                <text x="400" y="155" text-anchor="middle" font-size="10" class="lang-ar" style="display:none;">اكتمال</text>
+                                <text x="400" y="170" text-anchor="middle" font-size="10" class="lang-ar" style="display:none;">أندرويد</text>
+                                
+                                <!-- Connecting Lines -->
+                                <line x1="100" y1="92" x2="100" y2="110" stroke="#4472c4" stroke-width="1.5"/>
+                                <line x1="200" y1="92" x2="200" y2="110" stroke="#70ad47" stroke-width="1.5"/>
+                                <line x1="300" y1="92" x2="300" y2="110" stroke="#ed7d31" stroke-width="1.5"/>
+                                <line x1="400" y1="92" x2="400" y2="110" stroke="#7030a0" stroke-width="1.5"/>
+                                
+                                <line x1="100" y1="130" x2="100" y2="148" stroke="#4472c4" stroke-width="1.5"/>
+                                <line x1="200" y1="130" x2="200" y2="148" stroke="#70ad47" stroke-width="1.5"/>
+                                <line x1="300" y1="130" x2="300" y2="148" stroke="#ed7d31" stroke-width="1.5"/>
+                                <line x1="400" y1="130" x2="400" y2="148" stroke="#7030a0" stroke-width="1.5"/>
+                                
+                                <!-- Month Progress Background -->
+                                <rect x="50" y="200" width="400" height="8" rx="4" fill="#eee"/>
+                                
+                                <!-- Month Progress Indicator (March is 31 days, showing progress through month) -->
+                                <rect x="50" y="200" width="400" height="8" rx="4" fill="url(#marchGradient)"/>
+                                
+                                <!-- Gradient for month progress -->
+                                <defs>
+                                    <linearGradient id="marchGradient" x1="0%" y1="0%" x2="100%" y1="0%">
+                                        <stop offset="0%" style="stop-color:#4472c4;stop-opacity:0.7"/>
+                                        <stop offset="100%" style="stop-color:#4472c4;stop-opacity:0.1"/>
+                                    </linearGradient>
+                                </defs>
+                                
+                                <!-- Month Label -->
+                                <text x="250" y="225" text-anchor="middle" font-size="12" fill="#666" class="lang-en">March 2025 Timeline</text>
+                                <text x="250" y="225" text-anchor="middle" font-size="12" fill="#666" class="lang-zh" style="display:none;">2025年3月时间线</text>
+                                <text x="250" y="225" text-anchor="middle" font-size="12" fill="#666" class="lang-ar" style="display:none;">الجدول الزمني لمارس 2025</text>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="text-container">
+                        <h3 class="lang-en">What Happened in March</h3>
+                        <h3 class="lang-zh" style="display:none;">3月发生的事件</h3>
+                        <h3 class="lang-ar" style="display:none;">ما حدث في مارس</h3>
+                        
+                        <p class="lang-en"><strong>Key events timeline in March:</strong></p>
+                        <p class="lang-zh" style="display:none;"><strong>3月关键事件时间线：</strong></p>
+                        <p class="lang-ar" style="display:none;"><strong>الجدول الزمني للأحداث الرئيسية في مارس:</strong></p>
+                        
+                        <ul class="lang-en">
+                            <li><strong>March 1:</strong> Ramadan began in Muslim regions including UAE</li>
+                            <li><strong>March 2:</strong> AI entry point grayscale release started</li>
+                            <li><strong>March 12:</strong> Search suggestion feature went live</li>
+                            <li><strong>March 18:</strong> Android platform grayscale release completed</li>
+                        </ul>
+                        
+                        <ul class="lang-zh" style="display:none;">
+                            <li><strong>3月1日：</strong>穆斯林地区（包括阿联酋）斋月开始</li>
+                            <li><strong>3月2日：</strong>AI入口开始灰度发布</li>
+                            <li><strong>3月12日：</strong>搜索建议功能上线</li>
+                            <li><strong>3月18日：</strong>完成Android平台的灰度发布</li>
+                        </ul>
+                        
+                        <ul class="lang-ar" style="display:none;">
+                            <li><strong>1 مارس:</strong> بدأ شهر رمضان في المناطق الإسلامية بما في ذلك الإمارات</li>
+                            <li><strong>2 مارس:</strong> بدأ الإطلاق التدريجي لنقطة دخول الذكاء الاصطناعي</li>
+                            <li><strong>12 مارس:</strong> تم إطلاق ميزة اقتراحات البحث</li>
+                            <li><strong>18 مارس:</strong> اكتمل الإطلاق التدريجي لمنصة أندرويد</li>
+                        </ul>
+                        
+                        <p class="lang-en">This phased rollout of AI features coinciding with Ramadan created a unique opportunity to observe how user behavior adapts to new technology during a significant lifestyle change period.</p>
+                        <p class="lang-zh" style="display:none;">AI功能的分阶段推出与斋月同时进行，创造了一个独特的机会，可以观察用户行为如何在生活方式显著变化的时期适应新技术。</p>
+                        <p class="lang-ar" style="display:none;">أتاح هذا الطرح المرحلي لميزات الذكاء الاصطناعي المتزامن مع شهر رمضان فرصة فريدة لمراقبة كيفية تكيف سلوك المستخدم مع التكنولوجيا الجديدة خلال فترة تغيير نمط الحياة بشكل كبير.</p>
+                        
+                        <p class="lang-en"><strong>Key Changes Observed:</strong></p>
+                        <p class="lang-zh" style="display:none;"><strong>观察到的主要变化：</strong></p>
+                        <p class="lang-ar" style="display:none;"><strong>التغييرات الرئيسية الملاحظة:</strong></p>
+                        
+                        <ul class="lang-en">
+                            <li>UAE search volume decreased by 6.4% during the first week after Ramadan began (March 1)</li>
+                            <li>Search volume (PV) decreased from 688K to 644K, while active users (UV) decreased from 399K to 376K</li>
+                            <li>Average searches per user increased from 1.72 to 1.77 (2.9% increase)</li>
+                            <li>Search volume began to recover from the second week of Ramadan, returning to 656K by March 23</li>
+                            <li>India (non-Ramadan region) data remained stable with no significant fluctuations</li>
+                        </ul>
+                        
+                        <ul class="lang-zh" style="display:none;">
+                            <li>斋月开始后第一周内（3月1日后），阿联酋搜索量下降了6.4%</li>
+                            <li>搜索量(PV)从688K下降到644K，活跃用户(UV)从399K下降到376K</li>
+                            <li>每用户平均搜索次数从1.72增加到1.77（增加2.9%）</li>
+                            <li>搜索量从斋月第二周开始恢复，到3月23日恢复到656K</li>
+                            <li>印度（非斋月地区）数据保持稳定，没有显著波动</li>
+                        </ul>
+                        
+                        <ul class="lang-ar" style="display:none;">
+                            <li>انخفض حجم البحث في الإمارات بنسبة 6.4٪ خلال الأسبوع الأول بعد بداية رمضان (1 مارس)</li>
+                            <li>انخفض حجم البحث (PV) من 688 ألف إلى 644 ألف، بينما انخفض عدد المستخدمين النشطين (UV) من 399 ألف إلى 376 ألف</li>
+                            <li>زادت عمليات البحث لكل مستخدم من 1.72 إلى 1.77 (زيادة 2.9٪)</li>
+                            <li>بدأ حجم البحث في التعافي من الأسبوع الثاني من رمضان، ليعود إلى 656 ألف بحلول 23 مارس</li>
+                            <li>ظلت بيانات الهند (منطقة غير رمضانية) مستقرة دون تقلبات كبيرة</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- Search Tab (initially hidden) -->
+        <div class="tab-content" id="search-content">
+            <!-- Search Data: Ramadan Impact -->
+            <section>
+                <h2 class="lang-en">Search Data Analysis <span class="tag tag-ramadan">Ramadan Impact</span></h2>
+                <h2 class="lang-zh" style="display:none;">搜索数据分析 <span class="tag tag-ramadan">斋月影响</span></h2>
+                <h2 class="lang-ar" style="display:none;">تحليل بيانات البحث <span class="tag tag-ramadan">تأثير رمضان</span></h2>
+                
+                <div class="ppt-row reverse">
+                    <div class="chart-container">
+                        <h3 class="lang-en">Search Active Users Trend</h3>
+                        <h3 class="lang-zh" style="display:none;">搜索活跃用户趋势</h3>
+                        <h3 class="lang-ar" style="display:none;">اتجاه المستخدمين النشطين للبحث</h3>
+                        <div class="chart">
+                            <svg class="svg-chart" viewBox="0 0 500 300">
+                                <!-- X axis -->
+                                <line x1="50" y1="250" x2="450" y2="250" stroke="#333" stroke-width="2"/>
+                                <!-- Y axis -->
+                                <line x1="50" y1="50" x2="50" y2="250" stroke="#333" stroke-width="2"/>
+                                
+                                <!-- X axis labels -->
+                                <text x="100" y="270" text-anchor="middle" font-size="12">Early Feb</text>
+                                <text x="200" y="270" text-anchor="middle" font-size="12">Late Feb</text>
+                                <text x="300" y="270" text-anchor="middle" font-size="12">Early Mar</text>
+                                <text x="400" y="270" text-anchor="middle" font-size="12">Late Mar</text>
+                                
+                                <!-- Y axis labels -->
+                                <text x="40" y="250" text-anchor="end" font-size="12">0</text>
+                                <text x="40" y="200" text-anchor="end" font-size="12">25%</text>
+                                <text x="40" y="150" text-anchor="end" font-size="12">50%</text>
+                                <text x="40" y="100" text-anchor="end" font-size="12">75%</text>
+                                <text x="40" y="50" text-anchor="end" font-size="12">100%</text>
+                                
+                                <!-- UAE data line -->
+                                <polyline points="100,120 200,110 300,180 400,130" 
+                                        fill="none" stroke="#4472c4" stroke-width="3"/>
+                                
+                                <!-- India data line -->
+                                <polyline points="100,140 200,135 300,130 400,125" 
+                                        fill="none" stroke="#70ad47" stroke-width="3"/>
+                                
+                                <!-- Data points - UAE -->
+                                <circle cx="100" cy="120" r="5" fill="#4472c4"/>
+                                <circle cx="200" cy="110" r="5" fill="#4472c4"/>
+                                <circle cx="300" cy="180" r="5" fill="#4472c4"/>
+                                <circle cx="400" cy="130" r="5" fill="#4472c4"/>
+                                
+                                <!-- Data points - India -->
+                                <circle cx="100" cy="140" r="5" fill="#70ad47"/>
+                                <circle cx="200" cy="135" r="5" fill="#70ad47"/>
+                                <circle cx="300" cy="130" r="5" fill="#70ad47"/>
+                                <circle cx="400" cy="125" r="5" fill="#70ad47"/>
+                                
+                                <!-- Ramadan start marker -->
+                                <line x1="240" y1="50" x2="240" y2="250" stroke="#ff9999" stroke-width="2" stroke-dasharray="5,5"/>
+                                <text x="240" y="40" text-anchor="middle" font-size="12" fill="#c00000">Ramadan Start</text>
+                            </svg>
+                        </div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: #4472c4;"></div>
+                                <span class="lang-en">UAE</span>
+                                <span class="lang-zh" style="display:none;">阿联酋</span>
+                                <span class="lang-ar" style="display:none;">الإمارات</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: #70ad47;"></div>
+                                <span class="lang-en">India</span>
+                                <span class="lang-zh" style="display:none;">印度</span>
+                                <span class="lang-ar" style="display:none;">الهند</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-container">
+                        <h3 class="lang-en">Ramadan Impact on Search Data</h3>
+                        <h3 class="lang-zh" style="display:none;">斋月对搜索数据的影响</h3>
+                        <h3 class="lang-ar" style="display:none;">تأثير رمضان على بيانات البحث</h3>
+                        
+                        <p class="lang-en"><strong>Key Findings:</strong></p>
+                        <p class="lang-zh" style="display:none;"><strong>主要发现：</strong></p>
+                        <p class="lang-ar" style="display:none;"><strong>النتائج الرئيسية:</strong></p>
+                        
+                        <ul class="lang-en">
+                            <li>UAE search volume decreased by 6.4% during the first week after Ramadan began (March 1)</li>
+                            <li>Search volume (PV) decreased from 688K to 644K, while active users (UV) decreased from 399K to 376K</li>
+                            <li>Average searches per user increased from 1.72 to 1.77 (2.9% increase)</li>
+                            <li>Search volume began to recover from the second week of Ramadan, returning to 656K by March 23</li>
+                            <li>India (non-Ramadan region) data remained stable with no significant fluctuations</li>
+                        </ul>
+                        
+                        <ul class="lang-zh" style="display:none;">
+                            <li>斋月开始后第一周内（3月1日后），阿联酋搜索量下降了6.4%</li>
+                            <li>搜索量(PV)从688K下降到644K，活跃用户(UV)从399K下降到376K</li>
+                            <li>每用户平均搜索次数从1.72增加到1.77（增加2.9%）</li>
+                            <li>搜索量从斋月第二周开始恢复，到3月23日恢复到656K</li>
+                            <li>印度（非斋月地区）数据保持稳定，没有显著波动</li>
+                        </ul>
+                        
+                        <ul class="lang-ar" style="display:none;">
+                            <li>انخفض حجم البحث في الإمارات بنسبة 6.4٪ خلال الأسبوع الأول بعد بداية رمضان (1 مارس)</li>
+                            <li>انخفض حجم البحث (PV) من 688 ألف إلى 644 ألف، بينما انخفض عدد المستخدمين النشطين (UV) من 399 ألف إلى 376 ألف</li>
+                            <li>زادت عمليات البحث لكل مستخدم من 1.72 إلى 1.77 (زيادة 2.9٪)</li>
+                            <li>بدأ حجم البحث في التعافي من الأسبوع الثاني من رمضان، ليعود إلى 656 ألف بحلول 23 مارس</li>
+                            <li>ظلت بيانات الهند (منطقة غير رمضانية) مستقرة دون تقلبات كبيرة</li>
+                        </ul>
+                        
+                        <p class="lang-en"><strong>Analysis Conclusion:</strong></p>
+                        <p class="lang-zh" style="display:none;"><strong>分析结论：</strong></p>
+                        <p class="lang-ar" style="display:none;"><strong>استنتاج التحليل:</strong></p>
+                        
+                        <p class="lang-en">Data shows that the initial adaptation period during early Ramadan significantly affected search activity, but after adaptation, users increased their per-capita usage frequency. This suggests that users concentrated their search activities during limited available time during Ramadan.</p>
+                        <p class="lang-zh" style="display:none;">数据显示，斋月初期的适应期显著影响了搜索活动，但适应后，用户增加了人均使用频率。这表明用户在斋月期间将搜索活动集中在有限的可用时间内。</p>
+                        <p class="lang-ar" style="display:none;">تُظهر البيانات أن فترة التكيف الأولية خلال أوائل رمضان أثرت بشكل كبير على نشاط البحث، ولكن بعد التكيف، زاد المستخدمون من تكرار استخدامهم للفرد. هذا يشير إلى أن المستخدمين ركزوا أنشطة البحث الخاصة بهم خلال الوقت المحدود المتاح خلال رمضان.</p>
+                        
+                        <p class="lang-en">The comparison between UAE and India data confirms that these fluctuations were indeed caused by Ramadan, not other seasonal factors.</p>
+                        <p class="lang-zh" style="display:none;">阿联酋和印度数据的对比证实，这些波动确实是由斋月引起的，而非其他季节性因素。</p>
+                        <p class="lang-ar" style="display:none;">تؤكد المقارنة بين بيانات الإمارات والهند أن هذه التقلبات كانت بالفعل ناتجة عن رمضان، وليس عوامل موسمية أخرى.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Search Data: AI Service Impact -->
+            <section>
+                <h2 class="lang-en">Search Data Analysis <span class="tag tag-ai">AI Service Impact</span></h2>
+                <h2 class="lang-zh" style="display:none;">搜索数据分析 <span class="tag tag-ai">AI服务影响</span></h2>
+                <h2 class="lang-ar" style="display:none;">تحليل بيانات البحث <span class="tag tag-ai">تأثير خدمة الذكاء الاصطناعي</span></h2>
+                
+                <div class="ppt-row">
+                    <div class="text-container">
+                        <h3 class="lang-en">AI Service Launch Impact on Search Data</h3>
+                        <h3 class="lang-zh" style="display:none;">AI服务上线对搜索数据的影响</h3>
+                        <h3 class="lang-ar" style="display:none;">تأثير إطلاق خدمة الذكاء الاصطناعي على بيانات البحث</h3>
+                        
+                        <p class="lang-en"><strong>Key Findings:</strong></p>
+                        <p class="lang-zh" style="display:none;"><strong>主要发现：</strong></p>
+                        <p class="lang-ar" style="display:none;"><strong>النتائج الرئيسية:</strong></p>
+                        
+                        <ul class="lang-en">
+                            <li>AI entry point grayscale release started on March 2, with minimal initial usage</li>
+                            <li>Search suggestion feature launch (March 12) created significant acceleration in AI service adoption</li>
+                            <li>UAE AI search service daily usage grew from about 3,000/day in early March to nearly 40,000/day by late March</li>
+                            <li>India AI search service daily usage grew more steadily, reaching about 15,000/day by late March</li>
+                            <li>The most significant growth spike occurred after Android grayscale completion (March 18)</li>
+                        </ul>
+                        
+                        <ul class="lang-zh" style="display:none;">
+                            <li>AI入口于3月2日开始灰度发布，初始使用量很小</li>
+                            <li>搜索建议功能上线（3月12日）显著加速了AI服务的采用</li>
+                            <li>阿联酋AI搜索服务日使用量从3月初的约3,000次/天增长到3月底的近40,000次/天</li>
+                            <li>印度AI搜索服务日使用量增长更为稳定，到3月底达到约15,000次/天</li>
+                            <li>最显著的增长高峰出现在Android灰度完成后（3月18日）</li>
+                        </ul>
+                        
+                        <ul class="lang-ar" style="display:none;">
+                            <li>بدأ الإطلاق التدريجي لنقطة دخول الذكاء الاصطناعي في 2 مارس، مع استخدام أولي ضئيل</li>
+                            <li>أدى إطلاق ميزة اقتراح البحث (12 مارس) إلى تسارع كبير في اعتماد خدمة الذكاء الاصطناعي</li>
+                            <li>نما الاستخدام اليومي لخدمة بحث الذكاء الاصطناعي في الإمارات من حوالي 3,000 / يوم في أوائل مارس إلى ما يقرب من 40,000 / يوم بحلول أواخر مارس</li>
+                            <li>نما استخدام خدمة بحث الذكاء الاصطناعي في الهند بشكل أكثر استقرارًا، ليصل إلى حوالي 15,000 / يوم بحلول أواخر مارس</li>
+                            <li>حدثت أكبر طفرة نمو بعد اكتمال الإطلاق التدريجي لنظام أندرويد (18 مارس)</li>
+                        </ul>
+                        
+                        <h3 class="lang-en">Entry Point Comparison</h3>
+                        <h3 class="lang-zh" style="display:none;">入口点对比</h3>
+                        <h3 class="lang-ar" style="display:none;">مقارنة نقاط الدخول</h3>
+                        
+                        <p class="lang-en">The data clearly demonstrates the overwhelming dominance of the search suggestion entry point (26,924 clicks), which generated nearly 4 times more traffic to AI services than the second-most effective entry point, AI popups (7,017 clicks). This confirms that embedding AI services within the search flow creates the most effective cross-selling opportunity.</p>
+                        <p class="lang-zh" style="display:none;">数据清晰地展示了搜索建议入口点的绝对优势（26,924次点击），它为AI服务带来的流量几乎是第二有效入口点AI弹窗（7,017次点击）的4倍。这证实了在搜索流程中嵌入AI服务创造了最有效的交叉销售机会。</p>
+                        <p class="lang-ar" style="display:none;">توضح البيانات بشكل واضح الهيمنة الساحقة لنقطة دخول اقتراح البحث (26,924 نقرة)، والتي ولدت حركة مرور إلى خدمات الذكاء الاصطناعي تقريبًا 4 أضعاف أكثر من نقطة الدخول الأكثر فعالية الثانية، النوافذ المنبثقة للذكاء الاصطناعي (7,017 نقرة). هذا يؤكد أن دمج خدمات الذكاء الاصطناعي ضمن تدفق البحث يخلق أفضل فرصة للبيع المتقاطع.</p>
+                    </div>
+                    <div class="chart-container">
+                        <h3 class="lang-en">AI Search Service Usage Trend</h3>
+                        <h3 class="lang-zh" style="display:none;">AI搜索服务使用趋势</h3>
+                        <h3 class="lang-ar" style="display:none;">اتجاه استخدام خدمة البحث بالذكاء الاصطناعي</h3>
+                        <div class="chart">
+                            <svg class="svg-chart" viewBox="0 0 500 300">
+                                <!-- X axis -->
+                                <line x1="50" y1="250" x2="450" y2="250" stroke="#333" stroke-width="2"/>
+                                <!-- Y axis -->
+                                <line x1="50" y1="50" x2="50" y2="250" stroke="#333" stroke-width="2"/>
+                                
+                                <!-- X axis labels -->
+                                <text x="100" y="270" text-anchor="middle" font-size="12">Late Feb</text>
+                                <text x="200" y="270" text-anchor="middle" font-size="12">Early Mar</text>
+                                <text x="300" y="270" text-anchor="middle" font-size="12">Mid Mar</text>
+                                <text x="400" y="270" text-anchor="middle" font-size="12">Late Mar</text>
+                                
+                                <!-- Y axis labels -->
+                                <text x="40" y="250" text-anchor="end" font-size="12">0</text>
+                                <text x="40" y="200" text-anchor="end" font-size="12">10K</text>
+                                <text x="40" y="150" text-anchor="end" font-size="12">20K</text>
+                                <text x="40" y="100" text-anchor="end" font-size="12">30K</text>
+                                <text x="40" y="50" text-anchor="end" font-size="12">40K</text>
+                                
+                                <!-- UAE data line -->
+                                <polyline points="100,245 200,220 300,150 400,70" 
+                                        fill="none" stroke="#ed7d31" stroke-width="3"/>
+                                
+                                <!-- India data line -->
+                                <polyline points="100,240 200,230 300,210 400,180" 
+                                        fill="none" stroke="#4472c4" stroke-width="3"/>
+                                
+                                <!-- Data points - UAE -->
+                                <circle cx="100" cy="245" r="5" fill="#ed7d31"/>
+                                <circle cx="200" cy="220" r="5" fill="#ed7d31"/>
+                                <circle cx="300" cy="150" r="5" fill="#ed7d31"/>
+                                <circle cx="400" cy="70" r="5" fill="#ed7d31"/>
+                                
+                                <!-- Data points - India -->
+                                <circle cx="100" cy="240" r="5" fill="#4472c4"/>
+                                <circle cx="200" cy="230" r="5" fill="#4472c4"/>
+                                <circle cx="300" cy="210" r="5" fill="#4472c4"/>
+                                <circle cx="400" cy="180" r="5" fill="#4472c4"/>
+                                
+                                <!-- AI feature markers -->
+                                <line x1="150" y1="50" x2="150" y2="250" stroke="#70ad47" stroke-width="2" stroke-dasharray="5,5"/>
+                                <text x="150" y="20" text-anchor="middle" font-size="12" fill="#548235">AI Entry Point</text>
+                                
+                                <line x1="270" y1="50" x2="270" y2="250" stroke="#ffc000" stroke-width="2" stroke-dasharray="5,5"/>
+                                <text x="270" y="35" text-anchor="middle" font-size="12" fill="#c55a11">Search Suggestion</text>
+                                
+                                <line x1="340" y1="50" x2="340" y2="250" stroke="#7030a0" stroke-width="2" stroke-dasharray="5,5"/>
+                                <text x="340" y="20" text-anchor="middle" font-size="12" fill="#7030a0">Android Complete</text>
+                            </svg>
+                        </div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: #ed7d31;"></div>
+                                <span class="lang-en">UAE</span>
+                                <span class="lang-zh" style="display:none;">阿联酋</span>
+                                <span class="lang-ar" style="display:none;">الإمارات</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: #4472c4;"></div>
+                                <span class="lang-en">India</span>
+                                <span class="lang-zh" style="display:none;">印度</span>
+                                <span class="lang-ar" style="display:none;">الهند</span>
+                            </div>
+                        </div>
+                        
+                        <div class="chart" style="margin-top: 30px;">
+                            <svg class="svg-chart" viewBox="0 0 500 320">
+                                <!-- Title -->
+                                <text x="250" y="30" text-anchor="middle" font-size="14" font-weight="bold" class="lang-en">AI Service Entry Points Distribution</text>
+                                <text x="250" y="30" text-anchor="middle" font-size="14" font-weight="bold" class="lang-zh" style="display:none;">AI服务入口点分布</text>
+                                <text x="250" y="30" text-anchor="middle" font-size="14" font-weight="bold" class="lang-ar" style="display:none;">توزيع نقاط دخول خدمة الذكاء الاصطناعي</text>
+                                
+                                <!-- Background -->
+                                <rect x="0" y="50" width="500" height="250" fill="#1d1d1d" rx="5" ry="5"/>
+                                
+                                <!-- Entry point bars with gradient -->
+                                <rect x="180" y="60" width="280" height="25" fill="url(#grad1)"/>
+                                <rect x="180" y="90" width="73" height="25" fill="url(#grad1)"/>
+                                <rect x="180" y="120" width="27" height="25" fill="url(#grad1)"/>
+                                <rect x="180" y="150" width="10" height="25" fill="url(#grad1)"/>
+                                <rect x="180" y="180" width="8" height="25" fill="url(#grad1)"/>
+                                <rect x="180" y="210" width="7" height="25" fill="url(#grad1)"/>
+                                <rect x="180" y="240" width="6" height="25" fill="url(#grad1)"/>
+                                <rect x="180" y="270" width="1.5" height="25" fill="url(#grad1)"/>
+                                
+                                <!-- Gradients -->
+                                <defs>
+                                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" style="stop-color:#7cfc00;stop-opacity:0.7"/>
+                                        <stop offset="100%" style="stop-color:#ff4500;stop-opacity:0.7"/>
+                                    </linearGradient>
+                                </defs>
+                                
+                                <!-- Entry point labels - English -->
+                                <text x="175" y="76" text-anchor="end" font-size="12" fill="white" class="lang-en">Search Suggestion</text>
+                                <text x="175" y="106" text-anchor="end" font-size="12" fill="white" class="lang-en">AI Popup</text>
+                                <text x="175" y="136" text-anchor="end" font-size="12" fill="white" class="lang-en">Action Bar</text>
+                                <text x="175" y="166" text-anchor="end" font-size="12" fill="white" class="lang-en">Presearch Suggestion</text>
+                                <text x="175" y="196" text-anchor="end" font-size="12" fill="white" class="lang-en">Presearch Services</text>
+                                <text x="175" y="226" text-anchor="end" font-size="12" fill="white" class="lang-en">Recent Services</text>
+                                <text x="175" y="256" text-anchor="end" font-size="12" fill="white" class="lang-en">Subsearch AI</text>
+                                <text x="175" y="286" text-anchor="end" font-size="12" fill="white" class="lang-en">Other Entry Points</text>
+                                
+                                <!-- Entry point labels - Chinese -->
+                                <text x="175" y="76" text-anchor="end" font-size="12" fill="white" class="lang-zh" style="display:none;">搜索建议</text>
+                                <text x="175" y="106" text-anchor="end" font-size="12" fill="white" class="lang-zh" style="display:none;">AI弹窗</text>
+                                <text x="175" y="136" text-anchor="end" font-size="12" fill="white" class="lang-zh" style="display:none;">操作栏</text>
+                                <text x="175" y="166" text-anchor="end" font-size="12" fill="white" class="lang-zh" style="display:none;">预搜索建议</text>
+                                <text x="175" y="196" text-anchor="end" font-size="12" fill="white" class="lang-zh" style="display:none;">预搜索服务</text>
+                                <text x="175" y="226" text-anchor="end" font-size="12" fill="white" class="lang-zh" style="display:none;">最近服务</text>
+                                <text x="175" y="256" text-anchor="end" font-size="12" fill="white" class="lang-zh" style="display:none;">子搜索AI</text>
+                                <text x="175" y="286" text-anchor="end" font-size="12" fill="white" class="lang-zh" style="display:none;">其他入口</text>
+                                
+                                <!-- Entry point labels - Arabic -->
+                                <text x="175" y="76" text-anchor="end" font-size="12" fill="white" class="lang-ar" style="display:none;">اقتراح البحث</text>
+                                <text x="175" y="106" text-anchor="end" font-size="12" fill="white" class="lang-ar" style="display:none;">نافذة الذكاء الاصطناعي</text>
+                                <text x="175" y="136" text-anchor="end" font-size="12" fill="white" class="lang-ar" style="display:none;">شريط الإجراءات</text>
+                                <text x="175" y="166" text-anchor="end" font-size="12" fill="white" class="lang-ar" style="display:none;">اقتراح ما قبل البحث</text>
+                                <text x="175" y="196" text-anchor="end" font-size="12" fill="white" class="lang-ar" style="display:none;">خدمات ما قبل البحث</text>
+                                <text x="175" y="226" text-anchor="end" font-size="12" fill="white" class="lang-ar" style="display:none;">الخدمات الأخيرة</text>
+                                <text x="175" y="256" text-anchor="end" font-size="12" fill="white" class="lang-ar" style="display:none;">البحث الفرعي</text>
+                                <text x="175" y="286" text-anchor="end" font-size="12" fill="white" class="lang-ar" style="display:none;">نقاط دخول أخرى</text>
+                                
+                                <!-- Values -->
+                                <text x="465" y="76" text-anchor="end" font-size="12" fill="white" font-weight="bold">26924</text>
+                                <text x="255" y="106" text-anchor="start" font-size="12" fill="white" font-weight="bold">7017</text>
+                                <text x="210" y="136" text-anchor="start" font-size="12" fill="white" font-weight="bold">2605</text>
+                                <text x="195" y="166" text-anchor="start" font-size="12" fill="white" font-weight="bold">992</text>
+                                <text x="193" y="196" text-anchor="start" font-size="12" fill="white" font-weight="bold">811</text>
+                                <text x="192" y="226" text-anchor="start" font-size="12" fill="white" font-weight="bold">697</text>
+                                <text x="191" y="256" text-anchor="start" font-size="12" fill="white" font-weight="bold">597</text>
+                                <text x="187" y="286" text-anchor="start" font-size="12" fill="white" font-weight="bold">241</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- VoIP Tab (initially hidden) -->
+        <div class="tab-content" id="voip-content">
+            <!-- VoIP Data: Ramadan Impact -->
+            <section>
+                <h2 class="lang-en">VoIP Data Analysis <span class="tag tag-ramadan">Ramadan Impact</span></h2>
+                <h2 class="lang-zh" style="display:none;">VoIP数据分析 <span class="tag tag-ramadan">斋月影响</span></h2>
+                <h2 class="lang-ar" style="display:none;">تحليل بيانات VoIP <span class="tag tag-ramadan">تأثير رمضان</span></h2>
+                
+                <div class="ppt-row reverse">
+                    <div class="chart-container">
+                        <h3 class="lang-en">VoIP Daily Active Users Trend</h3>
+                        <h3 class="lang-zh" style="display:none;">VoIP日活跃用户趋势</h3>
+                        <h3 class="lang-ar" style="display:none;">اتجاه المستخدمين النشطين يوميًا لـ VoIP</h3>
+                        <div class="chart">
+                            <svg class="svg-chart" viewBox="0 0 500 300">
+                                <!-- X axis -->
+                                <line x1="50" y1="250" x2="450" y2="250" stroke="#333" stroke-width="2"/>
+                                <!-- Y axis -->
+                                <line x1="50" y1="50" x2="50" y2="250" stroke="#333" stroke-width="2"/>
+                                
+                                <!-- X axis labels -->
+                                <text x="100" y="270" text-anchor="middle" font-size="12">Early Feb</text>
+                                <text x="200" y="270" text-anchor="middle" font-size="12">Late Feb</text>
+                                <text x="300" y="270" text-anchor="middle" font-size="12">Early Mar</text>
+                                <text x="400" y="270" text-anchor="middle" font-size="12">Late Mar</text>
+                                
+                                <!-- Y axis labels -->
+                                <text x="40" y="250" text-anchor="end" font-size="12">0</text>
+                                <text x="40" y="200" text-anchor="end" font-size="12">2M</text>
+                                <text x="40" y="150" text-anchor="end" font-size="12">4M</text>
+                                <text x="40" y="100" text-anchor="end" font-size="12">6M</text>
+                                <text x="40" y="50" text-anchor="end" font-size="12">8M</text>
+                                
+                                <!-- p2p users line -->
+                                <polyline points="100,130 200,130 300,125 400,135" 
+                                        fill="none" stroke="#4472c4" stroke-width="3"/>
+                                
+                                <!-- meeting users line -->
+                                <polyline points="100,220 200,220 300,220 400,221" 
+                                        fill="none" stroke="#7030a0" stroke-width="3"/>
+                                
+                                <!-- Data points -->
+                                <circle cx="100" cy="130" r="4" fill="#4472c4"/>
+                                <circle cx="200" cy="130" r="4" fill="#4472c4"/>
+                                <circle cx="300" cy="125" r="4" fill="#4472c4"/>
+                                <circle cx="400" cy="135" r="4" fill="#4472c4"/>
+                                
+                                <circle cx="100" cy="220" r="4" fill="#7030a0"/>
+                                <circle cx="200" cy="220" r="4" fill="#7030a0"/>
+                                <circle cx="300" cy="220" r="4" fill="#7030a0"/>
+                                <circle cx="400" cy="221" r="4" fill="#7030a0"/>
+                                
+                                <!-- Ramadan start marker -->
+                                <line x1="240" y1="50" x2="240" y2="250" stroke="#ff9999" stroke-width="2" stroke-dasharray="5,5"/>
+                                <text x="240" y="40" text-anchor="middle" font-size="12" fill="#c00000">Ramadan Start</text>
+                            </svg>
+                        </div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: #4472c4;"></div>
+                                <span class="lang-en">p2p Users</span>
+                                <span class="lang-zh" style="display:none;">p2p用户</span>
+                                <span class="lang-ar" style="display:none;">مستخدمي p2p</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: #7030a0;"></div>
+                                <span class="lang-en">Meeting Users</span>
+                                <span class="lang-zh" style="display:none;">会议用户</span>
+                                <span class="lang-ar" style="display:none;">مستخدمي الاجتماعات</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-container">
+                        <h3 class="lang-en">Ramadan Impact on VoIP Data</h3>
+                        <h3 class="lang-zh" style="display:none;">斋月对VoIP数据的影响</h3>
+                        <h3 class="lang-ar" style="display:none;">تأثير رمضان على بيانات VoIP</h3>
+                        
+                        <p class="lang-en"><strong>Key Findings:</strong></p>
+                        <p class="lang-zh" style="display:none;"><strong>主要发现：</strong></p>
+                        <p class="lang-ar" style="display:none;"><strong>النتائج الرئيسية:</strong></p>
+                        
+                        <ul class="lang-en">
+                            <li>Botim total daily active users (dau_all) decreased by 7.2% during Ramadan (from 8,350,153 to 7,746,370)</li>
+                            <li>Total p2p users (p2p_user_active_count_all) decreased by 7.9% during Ramadan (from 6,606,044 to 6,081,483)</li>
+                            <li>Meeting users (meet_user_active_count_all) decreased by 2.2% during Ramadan (from 269,423 to 263,507)</li>
+                            <li>Voice users (voice_user_active_count_all) saw a larger decrease of 10.7% (from 4,770,508 to 4,260,077)</li>
+                            <li>Video users (video_user_active_count_all) decreased by 4.3% (from 3,390,491 to 3,243,047)</li>
+                        </ul>
+                        
+                        <ul class="lang-zh" style="display:none;">
+                            <li>斋月期间Botim总日活跃用户(dau_all)减少了7.2%（从8,350,153减少到7,746,370）</li>
+                            <li>斋月期间p2p用户总数(p2p_user_active_count_all)减少了7.9%（从6,606,044减少到6,081,483）</li>
+                            <li>斋月期间会议用户(meet_user_active_count_all)减少了2.2%（从269,423减少到263,507）</li>
+                            <li>语音用户(voice_user_active_count_all)减少幅度更大，达10.7%（从4,770,508减少到4,260,077）</li>
+                            <li>视频用户(video_user_active_count_all)减少了4.3%（从3,390,491减少到3,243,047）</li>
+                        </ul>
+                        
+                        <ul class="lang-ar" style="display:none;">
+                            <li>انخفض إجمالي المستخدمين النشطين يوميًا لـ Botim (dau_all) بنسبة 7.2٪ خلال رمضان (من 8,350,153 إلى 7,746,370)</li>
+                            <li>انخفض إجمالي مستخدمي p2p (p2p_user_active_count_all) بنسبة 7.9٪ خلال رمضان (من 6,606,044 إلى 6,081,483)</li>
+                            <li>انخفض عدد مستخدمي الاجتماعات (meet_user_active_count_all) بنسبة 2.2٪ خلال رمضان (من 269,423 إلى 263,507)</li>
+                            <li>شهد مستخدمو الصوت (voice_user_active_count_all) انخفاضًا أكبر بنسبة 10.7٪ (من 4,770,508 إلى 4,260,077)</li>
+                            <li>انخفض عدد مستخدمي الفيديو (video_user_active_count_all) بنسبة 4.3٪ (من 3,390,491 إلى 3,243,047)</li>
+                        </ul>
+                        
+                        <h3 class="lang-en">p2p vs. Meeting Users Comparison</h3>
+                        <h3 class="lang-zh" style="display:none;">p2p与会议用户对比</h3>
+                        <h3 class="lang-ar" style="display:none;">مقارنة بين مستخدمي p2p ومستخدمي الاجتماعات</h3>
+                        
+                        <div class="chart">
+                            <svg class="svg-chart" viewBox="0 0 500 250">
+                                <!-- X axis -->
+                                <line x1="50" y1="200" x2="450" y2="200" stroke="#333" stroke-width="2"/>
+                                <!-- Y axis -->
+                                <line x1="50" y1="50" x2="50" y2="200" stroke="#333" stroke-width="2"/>
+                                
+                                <!-- X axis labels -->
+                                <text x="150" y="220" text-anchor="middle" font-size="12">Before Ramadan</text>
+                                <text x="350" y="220" text-anchor="middle" font-size="12">During Ramadan</text>
+                                
+                                <!-- Y axis labels -->
+                                <text x="40" y="200" text-anchor="end" font-size="12">0</text>
+                                <text x="40" y="162" text-anchor="end" font-size="12">2M</text>
+                                <text x="40" y="125" text-anchor="end" font-size="12">4M</text>
+                                <text x="40" y="87" text-anchor="end" font-size="12">6M</text>
+                                <text x="40" y="50" text-anchor="end" font-size="12">8M</text>
+                                
+                                <!-- Before Ramadan bars -->
+                                <rect x="100" y="55" width="50" height="145" fill="#4472c4"/>
+                                <rect x="160" y="180" width="50" height="20" fill="#7030a0"/>
+                                
+                                <!-- During Ramadan bars -->
+                                <rect x="300" y="65" width="50" height="135" fill="#4472c4"/>
+                                <rect x="360" y="181" width="50" height="19" fill="#7030a0"/>
+                                
+                                <!-- Labels for data -->
+                                <text x="125" y="50" text-anchor="middle" font-size="12" font-weight="bold">6.61M</text>
+                                <text x="185" y="175" text-anchor="middle" font-size="12" font-weight="bold">269K</text>
+                                
+                                <text x="325" y="60" text-anchor="middle" font-size="12" font-weight="bold">6.08M</text>
+                                <text x="385" y="176" text-anchor="middle" font-size="12" font-weight="bold">264K</text>
+                                
+                                <!-- Legend -->
+                                <rect x="50" y="25" width="12" height="12" fill="#4472c4"/>
+                                <text x="65" y="35" font-size="11" class="lang-en">p2p Users</text>
+                                <text x="65" y="35" font-size="11" class="lang-zh" style="display:none;">p2p用户</text>
+                                <text x="65" y="35" font-size="11" class="lang-ar" style="display:none;">مستخدمي p2p</text>
+                                
+                                <rect x="180" y="25" width="12" height="12" fill="#7030a0"/>
+                                <text x="195" y="35" font-size="11" class="lang-en">Meeting Users</text>
+                                <text x="195" y="35" font-size="11" class="lang-zh" style="display:none;">会议用户</text>
+                                <text x="195" y="35" font-size="11" class="lang-ar" style="display:none;">مستخدمي الاجتماعات</text>
+                                
+                                <!-- Percentage change indicators -->
+                                <path d="M 125 70 L 325 70 L 325 65 L 335 75 L 325 85 L 325 80 L 125 80 Z" fill="#f8cbad" opacity="0.7"/>
+                                <text x="225" y="100" text-anchor="middle" font-size="11" fill="#c55a11">-7.9%</text>
+                                
+                                <path d="M 185 179 L 385 179 L 385 174 L 395 184 L 385 194 L 385 189 L 185 189 Z" fill="#c5e0b4" opacity="0.7"/>
+                                <text x="285" y="210" text-anchor="middle" font-size="11" fill="#548235">-2.2%</text>
+                            </svg>
+                        </div>
+                        
+                        <p class="lang-en"><strong>Analysis Conclusion:</strong></p>
+                        <p class="lang-zh" style="display:none;"><strong>分析结论：</strong></p>
+                        <p class="lang-ar" style="display:none;"><strong>استنتاج التحليل:</strong></p>
+                        
+                        <p class="lang-en">Data shows that during Ramadan in UAE, overall communication volume decreased. The p2p users decreased by 7.9%, while meeting users declined by only 2.2%, indicating a relative shift towards group communications. This suggests that during Ramadan, while overall communication decreased, users were more likely to maintain their group interactions compared to one-on-one communications.</p>
+                        <p class="lang-zh" style="display:none;">数据显示，在阿联酋，斋月期间整体通信量有所下降。p2p用户减少了7.9%，而会议用户仅下降2.2%，表明用户相对转向群组通信。这表明在斋月期间，虽然整体通信减少，但用户相比一对一通信更倾向于保持群组互动。</p>
+                        <p class="lang-ar" style="display:none;">تُظهر البيانات أنه خلال شهر رمضان في الإمارات، انخفض حجم الاتصالات بشكل عام. انخفض عدد مستخدمي p2p بنسبة 7.9٪، بينما انخفض عدد مستخدمي الاجتماعات بنسبة 2.2٪ فقط، مما يشير إلى تحول نسبي نحو الاتصالات الجماعية. هذا يشير إلى أنه خلال رمضان، بينما انخفض التواصل بشكل عام، كان المستخدمون أكثر ميلًا للحفاظ على تفاعلاتهم الجماعية مقارنة بالاتصالات الفردية.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <footer style="text-align: center; margin-top: 50px; padding: 20px; border-top: 1px solid #eee;">
+        <p class="lang-en">© 2025 Core Platform Product Team | Generated: March 24, 2025</p>
+        <p class="lang-zh" style="display:none;">© 2025 Core Platform 产品团队 | 生成日期: 2025年3月24日</p>
+        <p class="lang-ar" style="display:none;">© 2025 فريق منتجات Core Platform | تم إنشاؤه: 24 مارس 2025</p>
+    </footer>
+
+    <script>
+        // Language switcher functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageOptions = document.querySelectorAll('.language-option');
+            
+            languageOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    
+                    // Remove active class from all options
+                    languageOptions.forEach(opt => opt.classList.remove('active'));
+                    
+                    // Add active class to selected option
+                    this.classList.add('active');
+                    
+                    // Hide all language content
+                    document.querySelectorAll('.lang-en, .lang-zh, .lang-ar').forEach(el => {
+                        el.style.display = 'none';
+                    });
+                    
+                    // Show content for selected language
+                    document.querySelectorAll(`.lang-${lang}`).forEach(el => {
+                        el.style.display = 'block';
+                    });
+                    
+                    // Set RTL for Arabic, LTR for others
+                    if (lang === 'ar') {
+                        document.documentElement.setAttribute('dir', 'rtl');
+                    } else {
+                        document.documentElement.setAttribute('dir', 'ltr');
+                    }
+                });
+            });
+            
+            // Tab switching functionality
+            const tabs = document.querySelectorAll('.tab');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Get tab content id
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Hide all tab content
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Show selected tab content
+                    document.getElementById(`${tabId}-content`).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
