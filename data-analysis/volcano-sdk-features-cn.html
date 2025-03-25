@@ -138,23 +138,72 @@
                 grid-template-columns: 1fr;
             }
         }
+        
+        /* Language switcher styles */
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 8px 15px;
+            border-radius: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .language-option {
+            margin: 0 8px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .language-option:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .language-option.active {
+            background-color: #4472c4;
+            color: white;
+        }
+        
+        /* Language-specific content */
+        .lang-content {
+            display: none;
+        }
+        
+        .lang-zh {
+            display: block;
+        }
     </style>
 </head>
 <body>
+    <div class="language-switcher">
+        <div class="language-option" data-lang="en">English</div>
+        <div class="language-option active" data-lang="zh">中文</div>
+    </div>
+    
     <header>
-        <h1>火山引擎 SDK 增强现实功能</h1>
-        <p>提升视频通话互动体验的 AR 特效和虚拟形象技术</p>
+        <h1 class="lang-zh">火山引擎 SDK 增强现实功能</h1>
+        <h1 class="lang-en" style="display:none;">Volcano Engine SDK AR Features</h1>
+        <p class="lang-zh">提升视频通话互动体验的 AR 特效和虚拟形象技术</p>
+        <p class="lang-en" style="display:none;">AR Effects and Virtual Avatar Technology for Enhanced Video Call Experience</p>
     </header>
 
     <div class="section-intro">
-        <p>火山引擎 SDK 提供多种 AR 和虚拟形象功能，可大幅提升视频通话的互动性和趣味性。下面展示几个核心功能及其在视频通话场景中的应用优势与劣势。</p>
+        <p class="lang-zh">火山引擎 SDK 提供多种 AR 和虚拟形象功能，可大幅提升视频通话的互动性和趣味性。下面展示几个核心功能及其在视频通话场景中的应用优势与劣势。</p>
+        <p class="lang-en" style="display:none;">Volcano Engine SDK offers various AR and virtual avatar features that significantly enhance the interactivity and fun of video calls. Below are several core features and their advantages and disadvantages in video call scenarios.</p>
     </div>
     
     <div class="features-grid">
         <!-- 虚拟形象 -->
         <div class="feature-card">
             <div class="feature-card-header">
-                <h3>虚拟形象</h3>
+                <h3 class="lang-zh">虚拟形象</h3>
+                <h3 class="lang-en" style="display:none;">Virtual Avatar</h3>
             </div>
             <div class="feature-card-body">
                 <div class="image-container">
@@ -162,27 +211,44 @@
                 </div>
                 <div class="content-container">
                     <div class="description">
-                        <p>数字虚拟形象系统，用3D虚拟角色替代用户的真实外观。系统实时捕捉面部表情和动作并映射到虚拟角色上，在保持自然沟通的同时保护隐私。</p>
+                        <p class="lang-zh">数字虚拟形象系统，用3D虚拟角色替代用户的真实外观。系统实时捕捉面部表情和动作并映射到虚拟角色上，在保持自然沟通的同时保护隐私。</p>
+                        <p class="lang-en" style="display:none;">Digital avatar system that replaces the user's real appearance with a 3D virtual character. The system captures facial expressions and movements in real-time and maps them to the virtual character, protecting privacy while maintaining natural communication.</p>
                     </div>
                     <div class="pros-cons">
                         <div class="pros">
-                            <h4>优势</h4>
-                            <ul>
+                            <h4 class="lang-zh">优势</h4>
+                            <h4 class="lang-en" style="display:none;">Advantages</h4>
+                            <ul class="lang-zh">
                                 <li>隐私保护 - 用户无需展示真实面貌</li>
                                 <li>减轻视频通话疲劳感</li>
                                 <li>通过可定制形象展现个性</li>
                                 <li>较低的带宽消耗</li>
                                 <li>在低光环境下依然表现良好</li>
                             </ul>
+                            <ul class="lang-en" style="display:none;">
+                                <li>Privacy protection - users don't need to show their real face</li>
+                                <li>Reduces video call fatigue</li>
+                                <li>Expresses personality through customizable avatars</li>
+                                <li>Lower bandwidth consumption</li>
+                                <li>Performs well in low-light environments</li>
+                            </ul>
                         </div>
                         <div class="cons">
-                            <h4>劣势</h4>
-                            <ul>
+                            <h4 class="lang-zh">劣势</h4>
+                            <h4 class="lang-en" style="display:none;">Disadvantages</h4>
+                            <ul class="lang-zh">
                                 <li>可能降低在专业场合的真实感</li>
                                 <li>潜在的"恐怖谷"效应</li>
                                 <li>在捕捉细微表情方面存在技术限制</li>
                                 <li>可能被视为缺乏个人接触感</li>
                                 <li>不适用于需要正式人脸识别的场景</li>
+                            </ul>
+                            <ul class="lang-en" style="display:none;">
+                                <li>May reduce authenticity in professional settings</li>
+                                <li>Potential "uncanny valley" effect</li>
+                                <li>Technical limitations in capturing subtle expressions</li>
+                                <li>Might be perceived as lacking personal connection</li>
+                                <li>Not suitable for scenarios requiring formal facial recognition</li>
                             </ul>
                         </div>
                     </div>
@@ -193,7 +259,8 @@
         <!-- AR贴纸/挂件 -->
         <div class="feature-card">
             <div class="feature-card-header">
-                <h3>AR贴纸/挂件</h3>
+                <h3 class="lang-zh">AR贴纸/挂件</h3>
+                <h3 class="lang-en" style="display:none;">AR Stickers/Accessories</h3>
             </div>
             <div class="feature-card-body">
                 <div class="image-container">
@@ -201,27 +268,44 @@
                 </div>
                 <div class="content-container">
                     <div class="description">
-                        <p>可叠加在用户视频画面上的增强现实元素。这些虚拟配饰、贴纸或动画效果会跟随用户移动，可用于增添趣味、季节主题或品牌元素。</p>
+                        <p class="lang-zh">可叠加在用户视频画面上的增强现实元素。这些虚拟配饰、贴纸或动画效果会跟随用户移动，可用于增添趣味、季节主题或品牌元素。</p>
+                        <p class="lang-en" style="display:none;">Augmented reality elements that can be overlaid on the user's video. These virtual accessories, stickers, or animated effects follow the user's movements and can add fun, seasonal themes, or brand elements.</p>
                     </div>
                     <div class="pros-cons">
                         <div class="pros">
-                            <h4>优势</h4>
-                            <ul>
+                            <h4 class="lang-zh">优势</h4>
+                            <h4 class="lang-en" style="display:none;">Advantages</h4>
+                            <ul class="lang-zh">
                                 <li>为会议增添趣味性和互动元素</li>
                                 <li>创造共享欢乐时刻，增强团队凝聚力</li>
                                 <li>适用于主题通话（节日、庆祝活动）</li>
                                 <li>可融入品牌元素增强企业形象</li>
                                 <li>使通话更加难忘和具有吸引力</li>
                             </ul>
+                            <ul class="lang-en" style="display:none;">
+                                <li>Adds fun and interactive elements to meetings</li>
+                                <li>Creates shared moments of joy, enhancing team cohesion</li>
+                                <li>Suitable for themed calls (holidays, celebrations)</li>
+                                <li>Can incorporate brand elements to enhance corporate image</li>
+                                <li>Makes calls more memorable and engaging</li>
+                            </ul>
                         </div>
                         <div class="cons">
-                            <h4>劣势</h4>
-                            <ul>
+                            <h4 class="lang-zh">劣势</h4>
+                            <h4 class="lang-en" style="display:none;">Disadvantages</h4>
+                            <ul class="lang-zh">
                                 <li>在严肃讨论中可能造成干扰</li>
                                 <li>在某些场合可能显得不够专业</li>
                                 <li>处理要求可能影响设备性能</li>
                                 <li>可能分散对谈话内容的注意力</li>
                                 <li>并非所有参与者都会欣赏这些趣味元素</li>
+                            </ul>
+                            <ul class="lang-en" style="display:none;">
+                                <li>May cause distractions in serious discussions</li>
+                                <li>Might appear unprofessional in certain contexts</li>
+                                <li>Processing requirements may affect device performance</li>
+                                <li>Could divert attention from conversation content</li>
+                                <li>Not all participants will appreciate these playful elements</li>
                             </ul>
                         </div>
                     </div>
@@ -232,7 +316,8 @@
         <!-- 头部3D挂件 -->
         <div class="feature-card">
             <div class="feature-card-header">
-                <h3>头部3D挂件</h3>
+                <h3 class="lang-zh">头部3D挂件</h3>
+                <h3 class="lang-en" style="display:none;">3D Head Accessories</h3>
             </div>
             <div class="feature-card-body">
                 <div class="image-container">
@@ -240,27 +325,44 @@
                 </div>
                 <div class="content-container">
                     <div class="description">
-                        <p>专为附着在用户头部设计的3D增强现实饰品，如帽子、头盔、面具或其他头戴虚拟物品，可自然跟随用户头部移动。</p>
+                        <p class="lang-zh">专为附着在用户头部设计的3D增强现实饰品，如帽子、头盔、面具或其他头戴虚拟物品，可自然跟随用户头部移动。</p>
+                        <p class="lang-en" style="display:none;">3D augmented reality accessories designed to attach to the user's head, such as hats, helmets, masks, or other virtual headwear, that naturally follow the user's head movements.</p>
                     </div>
                     <div class="pros-cons">
                         <div class="pros">
-                            <h4>优势</h4>
-                            <ul>
+                            <h4 class="lang-zh">优势</h4>
+                            <h4 class="lang-en" style="display:none;">Advantages</h4>
+                            <ul class="lang-zh">
                                 <li>比2D贴纸创造更强的视觉冲击力</li>
                                 <li>可用于角色扮演或模拟场景</li>
                                 <li>与用户外观实现更逼真的融合</li>
                                 <li>适用于教育演示或培训</li>
                                 <li>可表现专业设备（安全装备、制服）</li>
                             </ul>
+                            <ul class="lang-en" style="display:none;">
+                                <li>Creates stronger visual impact than 2D stickers</li>
+                                <li>Can be used for role-playing or simulation scenarios</li>
+                                <li>Achieves more realistic integration with user appearance</li>
+                                <li>Suitable for educational demonstrations or training</li>
+                                <li>Can represent professional equipment (safety gear, uniforms)</li>
+                            </ul>
                         </div>
                         <div class="cons">
-                            <h4>劣势</h4>
-                            <ul>
+                            <h4 class="lang-zh">劣势</h4>
+                            <h4 class="lang-en" style="display:none;">Disadvantages</h4>
+                            <ul class="lang-zh">
                                 <li>需要更强的处理能力</li>
                                 <li>可能遮挡面部表情</li>
                                 <li>更复杂的跟踪可能导致画面抖动</li>
                                 <li>在专业环境中使用场景有限</li>
                                 <li>如果过于复杂或动画效果过多可能分散注意力</li>
+                            </ul>
+                            <ul class="lang-en" style="display:none;">
+                                <li>Requires stronger processing power</li>
+                                <li>May obscure facial expressions</li>
+                                <li>More complex tracking might cause video jitter</li>
+                                <li>Limited use cases in professional environments</li>
+                                <li>Can be distracting if overly complex or with too many animations</li>
                             </ul>
                         </div>
                     </div>
@@ -271,7 +373,8 @@
         <!-- 背景模糊和背景替换 -->
         <div class="feature-card">
             <div class="feature-card-header">
-                <h3>背景模糊和背景替换</h3>
+                <h3 class="lang-zh">背景模糊和背景替换</h3>
+                <h3 class="lang-en" style="display:none;">Background Blur and Replacement</h3>
             </div>
             <div class="feature-card-body">
                 <div class="image-container">
@@ -279,27 +382,44 @@
                 </div>
                 <div class="content-container">
                     <div class="description">
-                        <p>实时分割技术将用户与背景分离，使背景可以被模糊处理或完全替换为虚拟图像或视频。</p>
+                        <p class="lang-zh">实时分割技术将用户与背景分离，使背景可以被模糊处理或完全替换为虚拟图像或视频。</p>
+                        <p class="lang-en" style="display:none;">Real-time segmentation technology separates the user from the background, allowing the background to be blurred or completely replaced with virtual images or videos.</p>
                     </div>
                     <div class="pros-cons">
                         <div class="pros">
-                            <h4>优势</h4>
-                            <ul>
+                            <h4 class="lang-zh">优势</h4>
+                            <h4 class="lang-en" style="display:none;">Advantages</h4>
+                            <ul class="lang-zh">
                                 <li>通过隐藏个人环境保护隐私</li>
                                 <li>无论环境如何都能保持专业形象</li>
                                 <li>减少对其他参与者的视觉干扰</li>
                                 <li>帮助集中注意力于发言者</li>
                                 <li>可以集成企业品牌背景，提升企业形象</li>
                             </ul>
+                            <ul class="lang-en" style="display:none;">
+                                <li>Protects privacy by hiding personal environment</li>
+                                <li>Maintains professional appearance regardless of surroundings</li>
+                                <li>Reduces visual distractions for other participants</li>
+                                <li>Helps focus attention on the speaker</li>
+                                <li>Can integrate corporate brand backgrounds to enhance company image</li>
+                            </ul>
                         </div>
                         <div class="cons">
-                            <h4>劣势</h4>
-                            <ul>
+                            <h4 class="lang-zh">劣势</h4>
+                            <h4 class="lang-en" style="display:none;">Disadvantages</h4>
+                            <ul class="lang-zh">
                                 <li>边缘检测可能不完美，造成视觉瑕疵</li>
                                 <li>需要良好的光线条件才能获得最佳分割效果</li>
                                 <li>更高的处理要求可能影响性能</li>
                                 <li>用户快速移动时替换背景可能出现不自然</li>
                                 <li>可能导致音频（房间声学）与视觉环境不匹配</li>
+                            </ul>
+                            <ul class="lang-en" style="display:none;">
+                                <li>Edge detection may be imperfect, causing visual artifacts</li>
+                                <li>Requires good lighting conditions for optimal segmentation</li>
+                                <li>Higher processing requirements may affect performance</li>
+                                <li>Background replacement may appear unnatural when user moves quickly</li>
+                                <li>May cause mismatch between audio (room acoustics) and visual environment</li>
                             </ul>
                         </div>
                     </div>
@@ -310,7 +430,8 @@
         <!-- 换头 -->
         <div class="feature-card">
             <div class="feature-card-header">
-                <h3>换头</h3>
+                <h3 class="lang-zh">换头</h3>
+                <h3 class="lang-en" style="display:none;">Face Swap</h3>
             </div>
             <div class="feature-card-body">
                 <div class="image-container">
@@ -318,27 +439,44 @@
                 </div>
                 <div class="content-container">
                     <div class="description">
-                        <p>将用户的面部替换为另一个面部或风格化版本的技术，同时保持表情和动作，在隐私保护和表情保留之间取得平衡。</p>
+                        <p class="lang-zh">将用户的面部替换为另一个面部或风格化版本的技术，同时保持表情和动作，在隐私保护和表情保留之间取得平衡。</p>
+                        <p class="lang-en" style="display:none;">Technology that replaces the user's face with another face or stylized version while maintaining expressions and movements, striking a balance between privacy protection and expression preservation.</p>
                     </div>
                     <div class="pros-cons">
                         <div class="pros">
-                            <h4>优势</h4>
-                            <ul>
+                            <h4 class="lang-zh">优势</h4>
+                            <h4 class="lang-en" style="display:none;">Advantages</h4>
+                            <ul class="lang-zh">
                                 <li>改变外观的同时保持自然面部表情</li>
                                 <li>比完整虚拟形象系统计算负担更轻</li>
                                 <li>比完整虚拟形象更好地保留非语言沟通线索</li>
                                 <li>可用于创建标准化的团队形象</li>
                                 <li>可以在光线条件不佳的情况下改善外观</li>
                             </ul>
+                            <ul class="lang-en" style="display:none;">
+                                <li>Changes appearance while maintaining natural facial expressions</li>
+                                <li>Lighter computational burden than full virtual avatar systems</li>
+                                <li>Better preserves non-verbal communication cues than full avatars</li>
+                                <li>Can be used to create standardized team appearances</li>
+                                <li>Can improve appearance in poor lighting conditions</li>
+                            </ul>
                         </div>
                         <div class="cons">
-                            <h4>劣势</h4>
-                            <ul>
+                            <h4 class="lang-zh">劣势</h4>
+                            <h4 class="lang-en" style="display:none;">Disadvantages</h4>
+                            <ul class="lang-zh">
                                 <li>如果实现不完美可能显得诡异</li>
                                 <li>隐私保护程度低于完整虚拟形象替换</li>
                                 <li>与完整虚拟形象相比定制选项有限</li>
                                 <li>关于身份表示可能存在伦理问题</li>
                                 <li>不适合正式验证目的</li>
+                            </ul>
+                            <ul class="lang-en" style="display:none;">
+                                <li>May appear uncanny if implementation is not perfect</li>
+                                <li>Lower privacy protection level than complete virtual avatar replacement</li>
+                                <li>Limited customization options compared to full virtual avatars</li>
+                                <li>May raise ethical issues regarding identity representation</li>
+                                <li>Not suitable for formal verification purposes</li>
                             </ul>
                         </div>
                     </div>
@@ -348,7 +486,37 @@
     </div>
 
     <footer>
-        <p>© 2023 火山引擎。保留所有权利。</p>
+        <p class="lang-zh">© 2023 火山引擎。保留所有权利。</p>
+        <p class="lang-en" style="display:none;">© 2023 Volcano Engine. All rights reserved.</p>
     </footer>
+    
+    <script>
+        // Language switcher functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageOptions = document.querySelectorAll('.language-option');
+            
+            languageOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    
+                    // Remove active class from all options
+                    languageOptions.forEach(opt => opt.classList.remove('active'));
+                    
+                    // Add active class to selected option
+                    this.classList.add('active');
+                    
+                    // Hide all language content
+                    document.querySelectorAll('.lang-en, .lang-zh').forEach(el => {
+                        el.style.display = 'none';
+                    });
+                    
+                    // Show content for selected language
+                    document.querySelectorAll(`.lang-${lang}`).forEach(el => {
+                        el.style.display = 'block';
+                    });
+                });
+            });
+        });
+    </script>
 </body>
 </html> 
