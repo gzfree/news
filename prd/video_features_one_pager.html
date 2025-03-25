@@ -359,36 +359,101 @@
         <h2><span class="emoji">📄</span> PRD</h2>
 
         <h3><span class="emoji">↗️</span> Features In</h3>
-        <table>
-            <tr>
-                <th>Feature</th>
-                <th>Details</th>
-            </tr>
-            <tr>
-                <td><strong>Background Replacement</strong></td>
-                <td>
-                    <strong>Given</strong>: The user is in a video call (pre-call or in-call)<br>
-                    <strong>When</strong>: The user clicks the "Background" button<br>
-                    <strong>Then</strong>: The user can choose a blurred, preset, or custom image as their background, which applies in real-time.
-                </td>
-            </tr>
-            <tr>
-                <td><strong>Emoji Avatar</strong></td>
-                <td>
-                    <strong>Given</strong>: The user is in a video call (pre-call or in-call)<br>
-                    <strong>When</strong>: The user selects an Emoji avatar<br>
-                    <strong>Then</strong>: The user's video avatar is replaced with the selected Emoji or virtual character in real time.
-                </td>
-            </tr>
-            <tr>
-                <td><strong>Filters</strong></td>
-                <td>
-                    <strong>Given</strong>: The user is in a video call (pre-call or in-call)<br>
-                    <strong>When</strong>: The user selects a filter effect<br>
-                    <strong>Then</strong>: The chosen filter is applied to the video feed, and the user can adjust its intensity in real time.
-                </td>
-            </tr>
-        </table>
+        <p>The features will be implemented in phases to ensure quality, stability, and to gather user feedback at each stage:</p>
+        
+        <div style="margin-bottom: 30px;">
+            <h4 style="background-color: #eef6ff; padding: 8px 12px; border-radius: 6px; display: inline-block;">Phase 1 - Core Features</h4>
+            <table>
+                <tr>
+                    <th width="30%">Feature</th>
+                    <th>Details</th>
+                </tr>
+                <tr>
+                    <td><strong>Background Blur</strong></td>
+                    <td>
+                        <strong>Given</strong>: The user is in a video call (pre-call or in-call)<br>
+                        <strong>When</strong>: The user clicks the "Background" button and selects "Blur"<br>
+                        <strong>Then</strong>: The user's background is blurred while keeping them in focus, with adjustable intensity.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Basic Beauty Filters</strong></td>
+                    <td>
+                        <strong>Given</strong>: The user is in a video call (pre-call or in-call)<br>
+                        <strong>When</strong>: The user selects the "Beauty" filter<br>
+                        <strong>Then</strong>: Basic skin smoothing and lighting enhancement are applied with adjustable intensity.
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div style="margin-bottom: 30px;">
+            <h4 style="background-color: #f0f7f0; padding: 8px 12px; border-radius: 6px; display: inline-block;">Phase 2 - Enhanced Features</h4>
+            <table>
+                <tr>
+                    <th width="30%">Feature</th>
+                    <th>Details</th>
+                </tr>
+                <tr>
+                    <td><strong>Background Replacement</strong></td>
+                    <td>
+                        <strong>Given</strong>: The user has access to Phase 1 features<br>
+                        <strong>When</strong>: The user clicks the "Background" button and selects a preset image<br>
+                        <strong>Then</strong>: The user's background is replaced with the selected preset in real-time.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Simple AR Stickers</strong></td>
+                    <td>
+                        <strong>Given</strong>: The user is in a video call<br>
+                        <strong>When</strong>: The user selects the "Stickers" option<br>
+                        <strong>Then</strong>: The user can apply simple AR effects (hats, glasses, frames) that follow their movements.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Visual Filters</strong></td>
+                    <td>
+                        <strong>Given</strong>: The user has access to the beauty filter<br>
+                        <strong>When</strong>: The user selects "Visual Filters"<br>
+                        <strong>Then</strong>: The user can apply artistic filters (B&W, sepia, vintage, etc.) to their entire video.
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div>
+            <h4 style="background-color: #fff0f7; padding: 8px 12px; border-radius: 6px; display: inline-block;">Phase 3 - Advanced Features</h4>
+            <table>
+                <tr>
+                    <th width="30%">Feature</th>
+                    <th>Details</th>
+                </tr>
+                <tr>
+                    <td><strong>Custom Background Upload</strong></td>
+                    <td>
+                        <strong>Given</strong>: The user has access to preset backgrounds<br>
+                        <strong>When</strong>: The user clicks "Upload Custom Background"<br>
+                        <strong>Then</strong>: The user can upload and use their own images as video backgrounds.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Emoji Avatar</strong></td>
+                    <td>
+                        <strong>Given</strong>: The user is in a video call<br>
+                        <strong>When</strong>: The user selects "Emoji Avatar" and chooses a character<br>
+                        <strong>Then</strong>: The user's video feed is replaced with an animated avatar that mimics their facial expressions.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Advanced AR Effects</strong></td>
+                    <td>
+                        <strong>Given</strong>: The user has access to simple AR stickers<br>
+                        <strong>When</strong>: The user selects "Advanced Effects"<br>
+                        <strong>Then</strong>: The user can apply complex, animated AR overlays with interactive elements, scene effects, and thematic packs.
+                    </td>
+                </tr>
+            </table>
+        </div>
 
         <h3><span class="emoji">📤</span> Features Out</h3>
         <ul>
@@ -605,36 +670,101 @@
         <h2><span class="emoji">📄</span> 产品需求文档</h2>
 
         <h3><span class="emoji">↗️</span> 包含功能</h3>
-        <table>
-            <tr>
-                <th>功能</th>
-                <th>详情</th>
-            </tr>
-            <tr>
-                <td><strong>背景替换</strong></td>
-                <td>
-                    <strong>前提</strong>：用户正在进行视频通话（通话前或通话中）<br>
-                    <strong>当</strong>：用户点击"背景"按钮<br>
-                    <strong>然后</strong>：用户可以选择模糊、预设或自定义图像作为背景，实时应用。
-                </td>
-            </tr>
-            <tr>
-                <td><strong>表情头像</strong></td>
-                <td>
-                    <strong>前提</strong>：用户正在进行视频通话（通话前或通话中）<br>
-                    <strong>当</strong>：用户选择表情头像<br>
-                    <strong>然后</strong>：用户的视频头像实时替换为所选表情或虚拟角色。
-                </td>
-            </tr>
-            <tr>
-                <td><strong>滤镜</strong></td>
-                <td>
-                    <strong>前提</strong>：用户正在进行视频通话（通话前或通话中）<br>
-                    <strong>当</strong>：用户选择滤镜效果<br>
-                    <strong>然后</strong>：所选滤镜应用于视频流，用户可以实时调整其强度。
-                </td>
-            </tr>
-        </table>
+        <p>这些功能将分阶段实施，以确保质量、稳定性，并在每个阶段收集用户反馈：</p>
+        
+        <div style="margin-bottom: 30px;">
+            <h4 style="background-color: #eef6ff; padding: 8px 12px; border-radius: 6px; display: inline-block;">第一阶段 - 核心功能</h4>
+            <table>
+                <tr>
+                    <th width="30%">功能</th>
+                    <th>详情</th>
+                </tr>
+                <tr>
+                    <td><strong>背景模糊</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户正在进行视频通话（通话前或通话中）<br>
+                        <strong>当</strong>：用户点击"背景"按钮并选择"模糊"<br>
+                        <strong>然后</strong>：用户的背景被模糊处理，同时保持用户清晰，可调整模糊强度。
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>基础美颜</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户正在进行视频通话（通话前或通话中）<br>
+                        <strong>当</strong>：用户选择"美颜"滤镜<br>
+                        <strong>然后</strong>：基础的肌肤平滑和光线增强效果应用于视频，强度可调。
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div style="margin-bottom: 30px;">
+            <h4 style="background-color: #f0f7f0; padding: 8px 12px; border-radius: 6px; display: inline-block;">第二阶段 - 增强功能</h4>
+            <table>
+                <tr>
+                    <th width="30%">功能</th>
+                    <th>详情</th>
+                </tr>
+                <tr>
+                    <td><strong>背景替换</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户已有第一阶段功能访问权<br>
+                        <strong>当</strong>：用户点击"背景"按钮并选择预设图像<br>
+                        <strong>然后</strong>：用户的背景实时替换为所选预设图像。
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>简单AR贴纸</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户正在进行视频通话<br>
+                        <strong>当</strong>：用户选择"贴纸"选项<br>
+                        <strong>然后</strong>：用户可以应用简单的AR效果（帽子、眼镜、边框）跟随其动作。
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>视觉滤镜</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户已经使用了美颜滤镜<br>
+                        <strong>当</strong>：用户选择"视觉滤镜"<br>
+                        <strong>然后</strong>：用户可以对整个视频应用艺术滤镜（黑白、褐色、复古等）。
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div>
+            <h4 style="background-color: #fff0f7; padding: 8px 12px; border-radius: 6px; display: inline-block;">第三阶段 - 高级功能</h4>
+            <table>
+                <tr>
+                    <th width="30%">功能</th>
+                    <th>详情</th>
+                </tr>
+                <tr>
+                    <td><strong>自定义背景上传</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户已有预设背景的访问权<br>
+                        <strong>当</strong>：用户点击"上传自定义背景"<br>
+                        <strong>然后</strong>：用户可以上传并使用自己的图像作为视频背景。
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>表情头像</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户正在进行视频通话<br>
+                        <strong>当</strong>：用户选择"表情头像"并选择一个角色<br>
+                        <strong>然后</strong>：用户的视频被替换为模仿其面部表情的动画头像。
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>高级AR效果</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户已有简单AR贴纸的访问权<br>
+                        <strong>当</strong>：用户选择"高级效果"<br>
+                        <strong>然后</strong>：用户可以应用复杂的、带动画的AR叠加效果，包含互动元素、场景效果和主题包。
+                    </td>
+                </tr>
+            </table>
+        </div>
 
         <h3><span class="emoji">📤</span> 不包含功能</h3>
         <ul>
