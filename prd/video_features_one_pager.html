@@ -13,6 +13,7 @@
             margin: 0 auto;
             padding: 20px;
             background-color: #f8f9fa;
+            position: relative;
         }
         h1, h2, h3 {
             color: #2b579a;
@@ -83,105 +84,254 @@
             margin-bottom: 10px;
             border-left: 4px solid #2b579a;
         }
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 12px;
+            background-color: #2b579a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .lang-switch:hover {
+            background-color: #1a3a70;
+        }
+        .content-zh {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <h1>Video Call Enhancement Features - One Pager</h1>
+    <button id="langToggle" class="lang-switch">中文</button>
     
-    <h2><span class="emoji">🪟</span> Overview</h2>
-    <p>This project aims to enhance VoIP video calls by introducing the following three features:</p>
-    <ul>
-        <li><strong>Background Replacement</strong>: Users can change their background before or during a video call, including blur, preset backgrounds, and custom images.</li>
-        <li><strong>Emoji Avatar</strong>: Users can replace their avatar with an Emoji or virtual character for added fun.</li>
-        <li><strong>Filters</strong>: Users can apply different filters (e.g., beauty, black and white, retro) to enhance video appearance.</li>
-    </ul>
+    <div id="content-en" class="content-en">
+        <h1>Video Call Enhancement Features - One Pager</h1>
+        
+        <h2><span class="emoji">🪟</span> Overview</h2>
+        <p>This project aims to enhance VoIP video calls by introducing the following three features:</p>
+        <ul>
+            <li><strong>Background Replacement</strong>: Users can change their background before or during a video call, including blur, preset backgrounds, and custom images.</li>
+            <li><strong>Emoji Avatar</strong>: Users can replace their avatar with an Emoji or virtual character for added fun.</li>
+            <li><strong>Filters</strong>: Users can apply different filters (e.g., beauty, black and white, retro) to enhance video appearance.</li>
+        </ul>
 
-    <h2><span class="emoji">🛸</span> Problem</h2>
-    <ul>
-        <li>Users want to personalize their appearance and background in video calls to improve engagement.</li>
-        <li>Current VoIP solutions lack flexible background replacement and real-time avatar effects.</li>
-        <li>Users need the ability to adjust backgrounds or apply filters in various settings (home, office) to enhance professionalism or entertainment.</li>
-    </ul>
+        <h2><span class="emoji">🛸</span> Problem</h2>
+        <ul>
+            <li>Users want to personalize their appearance and background in video calls to improve engagement.</li>
+            <li>Current VoIP solutions lack flexible background replacement and real-time avatar effects.</li>
+            <li>Users need the ability to adjust backgrounds or apply filters in various settings (home, office) to enhance professionalism or entertainment.</li>
+        </ul>
 
-    <h2><span class="emoji">🎯</span> Objectives</h2>
-    <ul>
-        <li>Allow users to replace their background before or during video calls (blur, preset, custom).</li>
-        <li>Enable users to change their avatar to an Emoji or virtual character.</li>
-        <li>Provide multiple filter effects, such as beauty, black and white, and retro.</li>
-        <li>Ensure low latency and high visual quality while optimizing performance for low-end devices.</li>
-    </ul>
+        <h2><span class="emoji">🎯</span> Objectives</h2>
+        <ul>
+            <li>Allow users to replace their background before or during video calls (blur, preset, custom).</li>
+            <li>Enable users to change their avatar to an Emoji or virtual character.</li>
+            <li>Provide multiple filter effects, such as beauty, black and white, and retro.</li>
+            <li>Ensure low latency and high visual quality while optimizing performance for low-end devices.</li>
+        </ul>
 
-    <h2><span class="emoji">🚧</span> Constraints</h2>
-    <ul>
-        <li>Only available for video calls; voice calls do not support this feature.</li>
-        <li>AI processing must be done on-device for privacy and low latency.</li>
-        <li>Algorithm optimization is required to support low-end devices with minimal performance impact.</li>
-    </ul>
+        <h2><span class="emoji">🚧</span> Constraints</h2>
+        <ul>
+            <li>Only available for video calls; voice calls do not support this feature.</li>
+            <li>AI processing must be done on-device for privacy and low latency.</li>
+            <li>Algorithm optimization is required to support low-end devices with minimal performance impact.</li>
+        </ul>
 
-    <h2><span class="emoji">💁</span> Customer Persona</h2>
-    <div>
-        <p><strong>Persona 1: Business Users</strong></p>
-        <p><span class="tag">📌</span> Need: Use professional backgrounds during remote meetings to improve appearance and privacy.</p>
+        <h2><span class="emoji">💁</span> Customer Persona</h2>
+        <div>
+            <p><strong>Persona 1: Business Users</strong></p>
+            <p><span class="tag">📌</span> Need: Use professional backgrounds during remote meetings to improve appearance and privacy.</p>
+        </div>
+        <div>
+            <p><strong>Persona 2: Young Social Users</strong></p>
+            <p><span class="tag">📌</span> Need: Enhance video call fun by using Emoji avatars or filters.</p>
+        </div>
+        <div>
+            <p><strong>Persona 3: Content Creators</strong></p>
+            <p><span class="tag">📌</span> Need: Optimize video quality and personalize appearance through filters and effects.</p>
+        </div>
+
+        <h2><span class="emoji">🧳</span> Use Cases</h2>
+        <div class="scenario">
+            <p><span class="tag">📌</span> <strong>Scenario 1</strong>: A user in a home office replaces their background with a "professional office" setting for a video meeting.</p>
+        </div>
+        <div class="scenario">
+            <p><span class="tag">📌</span> <strong>Scenario 2</strong>: A social user applies an Emoji avatar during a video call for a fun interaction.</p>
+        </div>
+        <div class="scenario">
+            <p><span class="tag">📌</span> <strong>Scenario 3</strong>: A content creator uses filters to enhance video quality or create a specific aesthetic.</p>
+        </div>
+
+        <h2><span class="emoji">📄</span> PRD</h2>
+
+        <h3><span class="emoji">↗️</span> Features In</h3>
+        <table>
+            <tr>
+                <th>Feature</th>
+                <th>Details</th>
+            </tr>
+            <tr>
+                <td><strong>Background Replacement</strong></td>
+                <td>
+                    <strong>Given</strong>: The user is in a video call (pre-call or in-call)<br>
+                    <strong>When</strong>: The user clicks the "Background" button<br>
+                    <strong>Then</strong>: The user can choose a blurred, preset, or custom image as their background, which applies in real-time.
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Emoji Avatar</strong></td>
+                <td>
+                    <strong>Given</strong>: The user is in a video call (pre-call or in-call)<br>
+                    <strong>When</strong>: The user selects an Emoji avatar<br>
+                    <strong>Then</strong>: The user's video avatar is replaced with the selected Emoji or virtual character in real time.
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Filters</strong></td>
+                <td>
+                    <strong>Given</strong>: The user is in a video call (pre-call or in-call)<br>
+                    <strong>When</strong>: The user selects a filter effect<br>
+                    <strong>Then</strong>: The chosen filter is applied to the video feed, and the user can adjust its intensity in real time.
+                </td>
+            </tr>
+        </table>
+
+        <h3><span class="emoji">📤</span> Features Out</h3>
+        <ul>
+            <li><span class="feature-out">❌</span> Avatar effects for voice calls.</li>
+            <li><span class="feature-out">❌</span> Cloud-based processing (all effects are processed on-device).</li>
+            <li><span class="feature-out">❌</span> Advanced 3D AR effects (planned for future iterations).</li>
+        </ul>
     </div>
-    <div>
-        <p><strong>Persona 2: Young Social Users</strong></p>
-        <p><span class="tag">📌</span> Need: Enhance video call fun by using Emoji avatars or filters.</p>
-    </div>
-    <div>
-        <p><strong>Persona 3: Content Creators</strong></p>
-        <p><span class="tag">📌</span> Need: Optimize video quality and personalize appearance through filters and effects.</p>
+
+    <div id="content-zh" class="content-zh">
+        <h1>视频通话增强功能 - 规划概要</h1>
+        
+        <h2><span class="emoji">🪟</span> 概述</h2>
+        <p>本项目旨在通过引入以下三个功能来增强VoIP视频通话体验：</p>
+        <ul>
+            <li><strong>背景替换</strong>：用户可以在视频通话前或通话中更换背景，包括模糊、预设背景和自定义图像。</li>
+            <li><strong>表情头像</strong>：用户可以将自己的头像替换为表情符号或虚拟角色，增加趣味性。</li>
+            <li><strong>滤镜</strong>：用户可以应用各种滤镜（如美颜、黑白、复古等）来增强视频外观。</li>
+        </ul>
+
+        <h2><span class="emoji">🛸</span> 问题</h2>
+        <ul>
+            <li>用户希望在视频通话中个性化自己的外观和背景，以提高参与度。</li>
+            <li>当前的VoIP解决方案缺乏灵活的背景替换和实时头像效果。</li>
+            <li>用户需要在不同环境（家庭、办公室）调整背景或应用滤镜，以增强专业性或娱乐性。</li>
+        </ul>
+
+        <h2><span class="emoji">🎯</span> 目标</h2>
+        <ul>
+            <li>允许用户在视频通话前或通话中替换背景（模糊、预设、自定义）。</li>
+            <li>使用户能够将头像更改为表情符号或虚拟角色。</li>
+            <li>提供多种滤镜效果，如美颜、黑白和复古等。</li>
+            <li>确保低延迟和高视觉质量，同时优化低端设备的性能。</li>
+        </ul>
+
+        <h2><span class="emoji">🚧</span> 限制条件</h2>
+        <ul>
+            <li>仅适用于视频通话；语音通话不支持此功能。</li>
+            <li>AI处理必须在设备上完成，以保护隐私并实现低延迟。</li>
+            <li>需要进行算法优化，以支持低端设备并最小化性能影响。</li>
+        </ul>
+
+        <h2><span class="emoji">💁</span> 客户画像</h2>
+        <div>
+            <p><strong>画像1：商务用户</strong></p>
+            <p><span class="tag">📌</span> 需求：在远程会议中使用专业背景，改善外观并保护隐私。</p>
+        </div>
+        <div>
+            <p><strong>画像2：年轻社交用户</strong></p>
+            <p><span class="tag">📌</span> 需求：通过使用表情头像或滤镜增强视频通话的趣味性。</p>
+        </div>
+        <div>
+            <p><strong>画像3：内容创作者</strong></p>
+            <p><span class="tag">📌</span> 需求：通过滤镜和效果优化视频质量并个性化外观。</p>
+        </div>
+
+        <h2><span class="emoji">🧳</span> 使用场景</h2>
+        <div class="scenario">
+            <p><span class="tag">📌</span> <strong>场景1</strong>：在家办公的用户将背景替换为"专业办公室"设置，用于视频会议。</p>
+        </div>
+        <div class="scenario">
+            <p><span class="tag">📌</span> <strong>场景2</strong>：社交用户在视频通话中应用表情头像，增加互动乐趣。</p>
+        </div>
+        <div class="scenario">
+            <p><span class="tag">📌</span> <strong>场景3</strong>：内容创作者使用滤镜增强视频质量或创造特定美学效果。</p>
+        </div>
+
+        <h2><span class="emoji">📄</span> 产品需求文档</h2>
+
+        <h3><span class="emoji">↗️</span> 包含功能</h3>
+        <table>
+            <tr>
+                <th>功能</th>
+                <th>详情</th>
+            </tr>
+            <tr>
+                <td><strong>背景替换</strong></td>
+                <td>
+                    <strong>前提</strong>：用户正在进行视频通话（通话前或通话中）<br>
+                    <strong>当</strong>：用户点击"背景"按钮<br>
+                    <strong>然后</strong>：用户可以选择模糊、预设或自定义图像作为背景，实时应用。
+                </td>
+            </tr>
+            <tr>
+                <td><strong>表情头像</strong></td>
+                <td>
+                    <strong>前提</strong>：用户正在进行视频通话（通话前或通话中）<br>
+                    <strong>当</strong>：用户选择表情头像<br>
+                    <strong>然后</strong>：用户的视频头像实时替换为所选表情或虚拟角色。
+                </td>
+            </tr>
+            <tr>
+                <td><strong>滤镜</strong></td>
+                <td>
+                    <strong>前提</strong>：用户正在进行视频通话（通话前或通话中）<br>
+                    <strong>当</strong>：用户选择滤镜效果<br>
+                    <strong>然后</strong>：所选滤镜应用于视频流，用户可以实时调整其强度。
+                </td>
+            </tr>
+        </table>
+
+        <h3><span class="emoji">📤</span> 不包含功能</h3>
+        <ul>
+            <li><span class="feature-out">❌</span> 语音通话的头像效果。</li>
+            <li><span class="feature-out">❌</span> 基于云的处理（所有效果均在设备上处理）。</li>
+            <li><span class="feature-out">❌</span> 高级3D AR效果（计划用于未来迭代）。</li>
+        </ul>
     </div>
 
-    <h2><span class="emoji">🧳</span> Use Cases</h2>
-    <div class="scenario">
-        <p><span class="tag">📌</span> <strong>Scenario 1</strong>: A user in a home office replaces their background with a "professional office" setting for a video meeting.</p>
-    </div>
-    <div class="scenario">
-        <p><span class="tag">📌</span> <strong>Scenario 2</strong>: A social user applies an Emoji avatar during a video call for a fun interaction.</p>
-    </div>
-    <div class="scenario">
-        <p><span class="tag">📌</span> <strong>Scenario 3</strong>: A content creator uses filters to enhance video quality or create a specific aesthetic.</p>
-    </div>
-
-    <h2><span class="emoji">📄</span> PRD</h2>
-
-    <h3><span class="emoji">↗️</span> Features In</h3>
-    <table>
-        <tr>
-            <th>Feature</th>
-            <th>Details</th>
-        </tr>
-        <tr>
-            <td><strong>Background Replacement</strong></td>
-            <td>
-                <strong>Given</strong>: The user is in a video call (pre-call or in-call)<br>
-                <strong>When</strong>: The user clicks the "Background" button<br>
-                <strong>Then</strong>: The user can choose a blurred, preset, or custom image as their background, which applies in real-time.
-            </td>
-        </tr>
-        <tr>
-            <td><strong>Emoji Avatar</strong></td>
-            <td>
-                <strong>Given</strong>: The user is in a video call (pre-call or in-call)<br>
-                <strong>When</strong>: The user selects an Emoji avatar<br>
-                <strong>Then</strong>: The user's video avatar is replaced with the selected Emoji or virtual character in real time.
-            </td>
-        </tr>
-        <tr>
-            <td><strong>Filters</strong></td>
-            <td>
-                <strong>Given</strong>: The user is in a video call (pre-call or in-call)<br>
-                <strong>When</strong>: The user selects a filter effect<br>
-                <strong>Then</strong>: The chosen filter is applied to the video feed, and the user can adjust its intensity in real time.
-            </td>
-        </tr>
-    </table>
-
-    <h3><span class="emoji">📤</span> Features Out</h3>
-    <ul>
-        <li><span class="feature-out">❌</span> Avatar effects for voice calls.</li>
-        <li><span class="feature-out">❌</span> Cloud-based processing (all effects are processed on-device).</li>
-        <li><span class="feature-out">❌</span> Advanced 3D AR effects (planned for future iterations).</li>
-    </ul>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const langToggle = document.getElementById('langToggle');
+            const contentEn = document.getElementById('content-en');
+            const contentZh = document.getElementById('content-zh');
+            
+            let isEnglish = true;
+            
+            langToggle.addEventListener('click', function() {
+                if (isEnglish) {
+                    // Switch to Chinese
+                    contentEn.style.display = 'none';
+                    contentZh.style.display = 'block';
+                    langToggle.textContent = 'English';
+                    isEnglish = false;
+                } else {
+                    // Switch to English
+                    contentEn.style.display = 'block';
+                    contentZh.style.display = 'none';
+                    langToggle.textContent = '中文';
+                    isEnglish = true;
+                }
+            });
+        });
+    </script>
 </body>
 </html> 
