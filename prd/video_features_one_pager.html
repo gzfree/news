@@ -177,6 +177,7 @@
             <li><strong>Emoji Avatar</strong>: Users can replace their avatar with an Emoji or virtual character for added fun.</li>
             <li><strong>AR Stickers and Accessories</strong>: Users can overlay virtual accessories and animated effects that follow their movements.</li>
             <li><strong>Beauty Filters</strong>: Users can enhance their appearance with skin smoothing and facial adjustments, along with other visual filters (black and white, retro, etc.).</li>
+            <li><strong>Gift Giving</strong>: Users can send virtual gifts during calls that display special effects (fireworks, animations) visible to both parties for 5 seconds.</li>
         </ul>
 
         <h2><span class="emoji">🛸</span> Problem</h2>
@@ -192,6 +193,7 @@
             <li>Enable users to change their avatar to an Emoji or virtual character.</li>
             <li>Provide AR stickers and accessories that follow user movements and add interactive elements.</li>
             <li>Implement beauty filters and other visual effects that enhance user appearance.</li>
+            <li>Create shared experiences through interactive gift-giving features with visual effects.</li>
             <li>Ensure low latency and high visual quality while optimizing performance for low-end devices.</li>
         </ul>
 
@@ -356,6 +358,37 @@
             </div>
         </div>
 
+        <div class="feature-card">
+            <div class="feature-header">
+                <h3>Gift Giving</h3>
+            </div>
+            <div class="feature-body">
+                <div class="feature-description">
+                    <p>Interactive feature that allows users to send virtual gifts during video calls. When activated, special effects like fireworks or animations appear on both users' screens as temporary overlays for approximately 5 seconds, creating a shared moment of celebration.</p>
+                </div>
+                <div class="pros">
+                    <h4>Advantages</h4>
+                    <ul>
+                        <li>Creates interactive, celebratory moments during video calls</li>
+                        <li>Enhances emotional connection between users with shared visual experiences</li>
+                        <li>Provides a fun way to express appreciation during conversations</li>
+                        <li>Temporary duration ensures effects don't disrupt the entire conversation</li>
+                        <li>Both parties see the same effect, creating synchronized shared experiences</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>Disadvantages</h4>
+                    <ul>
+                        <li>May be distracting during serious or professional conversations</li>
+                        <li>Animation effects require additional processing power and bandwidth</li>
+                        <li>Might not appeal to all user demographics</li>
+                        <li>Could be overused in some contexts, leading to conversation disruption</li>
+                        <li>Synchronization issues could affect the shared experience quality</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <h2><span class="emoji">📄</span> PRD</h2>
 
         <h3><span class="emoji">↗️</span> Features In</h3>
@@ -442,6 +475,14 @@
                         <strong>Then</strong>: The user's video feed is replaced with an animated avatar that mimics their facial expressions.
                     </td>
                 </tr>
+                <tr>
+                    <td><strong>Gift Giving</strong></td>
+                    <td>
+                        <strong>Given</strong>: The user is in a video call<br>
+                        <strong>When</strong>: The user clicks the "Send Gift" button<br>
+                        <strong>Then</strong>: A random gift animation (like fireworks) appears as an overlay effect for both parties, lasting approximately 5 seconds.
+                    </td>
+                </tr>
             </table>
         </div>
 
@@ -478,6 +519,7 @@
             <li><strong>表情头像</strong>：用户可以将自己的头像替换为表情符号或虚拟角色，增加趣味性。</li>
             <li><strong>AR贴纸和挂件</strong>：用户可以叠加跟随其动作的虚拟配饰和动画效果。</li>
             <li><strong>美颜滤镜</strong>：用户可以通过肌肤平滑和面部调整来增强外观，以及应用其他视觉滤镜（黑白、复古等）。</li>
+            <li><strong>赠送礼物</strong>：用户可以在通话中发送虚拟礼物，显示特殊效果（烟花、动画）对通话双方可见，持续5秒钟。</li>
         </ul>
 
         <h2><span class="emoji">🛸</span> 问题</h2>
@@ -493,6 +535,7 @@
             <li>使用户能够将头像更改为表情符号或虚拟角色。</li>
             <li>提供跟随用户动作的AR贴纸和挂件，增加互动元素。</li>
             <li>实现美颜滤镜和其他视觉效果，提升用户外观。</li>
+            <li>通过互动礼物赠送功能和视觉效果创造共享体验。</li>
             <li>确保低延迟和高视觉质量，同时优化低端设备的性能。</li>
         </ul>
 
@@ -657,6 +700,37 @@
             </div>
         </div>
 
+        <div class="feature-card">
+            <div class="feature-header">
+                <h3>赠送礼物</h3>
+            </div>
+            <div class="feature-body">
+                <div class="feature-description">
+                    <p>允许用户在视频通话中发送虚拟礼物的互动功能。激活时，特殊效果如烟花或动画会在双方用户屏幕上显示约5秒钟的临时叠加层，创造共同的庆祝时刻。</p>
+                </div>
+                <div class="pros">
+                    <h4>优势</h4>
+                    <ul>
+                        <li>在视频通话中创造互动、庆祝的时刻</li>
+                        <li>通过共享视觉体验增强用户之间的情感连接</li>
+                        <li>提供一种在对话中表达赞赏的有趣方式</li>
+                        <li>临时持续时间确保效果不会干扰整个对话</li>
+                        <li>双方看到相同的效果，创造同步的共享体验</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>劣势</h4>
+                    <ul>
+                        <li>在严肃或专业对话中可能造成分心</li>
+                        <li>动画效果需要额外的处理能力和带宽</li>
+                        <li>可能不吸引所有用户群体</li>
+                        <li>在某些情境中可能被过度使用，导致对话中断</li>
+                        <li>同步问题可能影响共享体验质量</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <h2><span class="emoji">📄</span> 产品需求文档</h2>
 
         <h3><span class="emoji">↗️</span> 包含功能</h3>
@@ -741,6 +815,14 @@
                         <strong>前提</strong>：用户正在进行视频通话<br>
                         <strong>当</strong>：用户选择"表情头像"并选择一个角色<br>
                         <strong>然后</strong>：用户的视频被替换为模仿其面部表情的动画头像。
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>赠送礼物</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户正在进行视频通话<br>
+                        <strong>当</strong>：用户点击"赠送礼物"按钮<br>
+                        <strong>然后</strong>：随机的礼物动画（如烟花）作为叠加效果显示给双方，持续约5秒钟。
                     </td>
                 </tr>
             </table>
