@@ -162,6 +162,46 @@
             color: #0066cc;
             margin-top: 0;
         }
+        .feature-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .feature-table th {
+            background-color: #f0f7ff;
+            padding: 12px;
+            text-align: left;
+            color: #0066cc;
+            font-weight: bold;
+            border: 1px solid #ddd;
+        }
+        .feature-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+        .feature-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .pros-list, .cons-list {
+            padding-left: 20px;
+            margin: 0;
+        }
+        .pros-title {
+            color: #00aa55;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .cons-title {
+            color: #aa0055;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .feature-name {
+            font-weight: bold;
+            color: #0066cc;
+        }
     </style>
 </head>
 <body>
@@ -231,163 +271,141 @@
 
         <h2><span class="emoji">🔍</span> Detailed Feature Analysis</h2>
         
-        <div class="feature-card">
-            <div class="feature-header">
-                <h3>Background Blur and Replacement</h3>
-            </div>
-            <div class="feature-body">
-                <div class="feature-description">
-                    <p>Real-time segmentation technology separates the user from the background, allowing the background to be blurred or completely replaced with virtual images or videos. This feature helps maintain privacy and create a more professional or personalized environment.</p>
-                </div>
-                <div class="pros">
-                    <h4>Advantages</h4>
-                    <ul>
-                        <li>Protects user privacy in shared spaces or work environments</li>
-                        <li>Creates a more professional appearance for business meetings</li>
-                        <li>Allows users to showcase hometowns or meaningful places as virtual backgrounds</li>
-                        <li>Enhances emotional connections during long-distance communications</li>
-                        <li>Reduces distractions from cluttered or inappropriate backgrounds</li>
-                    </ul>
-                </div>
-                <div class="cons">
-                    <h4>Disadvantages</h4>
-                    <ul>
-                        <li>Edge detection may be imperfect, causing visual artifacts</li>
-                        <li>Requires good lighting conditions for optimal segmentation</li>
-                        <li>Higher processing requirements may affect performance on low-end devices</li>
-                        <li>Background replacement may appear unnatural when user moves quickly</li>
-                        <li>May cause mismatch between audio (room acoustics) and visual environment</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        
-        <div class="feature-card">
-            <div class="feature-header">
-                <h3>Emoji Avatar / Virtual Character</h3>
-            </div>
-            <div class="feature-body">
-                <div class="feature-description">
-                    <p>Digital avatar system that replaces the user's real appearance with a virtual character or emoji. The system captures facial expressions and movements in real-time and maps them to the virtual character, protecting privacy while maintaining natural communication.</p>
-                </div>
-                <div class="pros">
-                    <h4>Advantages</h4>
-                    <ul>
-                        <li>Privacy protection - users don't need to show their real face</li>
-                        <li>Reduces video call fatigue and self-consciousness</li>
-                        <li>Expresses personality through customizable avatars</li>
-                        <li>Lower bandwidth consumption compared to full video</li>
-                        <li>Performs well in low-light environments where video quality would be poor</li>
-                    </ul>
-                </div>
-                <div class="cons">
-                    <h4>Disadvantages</h4>
-                    <ul>
-                        <li>May reduce authenticity in professional settings</li>
-                        <li>Potential "uncanny valley" effect with some avatar styles</li>
-                        <li>Technical limitations in capturing subtle expressions</li>
-                        <li>Might be perceived as lacking personal connection</li>
-                        <li>Not suitable for scenarios requiring formal facial recognition</li>
-                        <li>May not be well-received in some cultures where family calls value authentic faces</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        
-        <div class="feature-card">
-            <div class="feature-header">
-                <h3>AR Stickers and Accessories</h3>
-            </div>
-            <div class="feature-body">
-                <div class="feature-description">
-                    <p>Augmented reality elements that can be overlaid on the user's video. These virtual accessories, stickers, or animated effects follow the user's movements and can add fun, seasonal themes, or brand elements without completely replacing the user's face.</p>
-                </div>
-                <div class="pros">
-                    <h4>Advantages</h4>
-                    <ul>
-                        <li>Adds fun and interactive elements to calls while maintaining user identity</li>
-                        <li>Creates shared moments of joy, enhancing social connection</li>
-                        <li>Suitable for themed calls (holidays, celebrations, special events)</li>
-                        <li>Can incorporate brand elements for corporate use</li>
-                        <li>Makes calls more memorable and engaging</li>
-                        <li>Adds festive atmosphere, ideal for cross-country family interactions</li>
-                    </ul>
-                </div>
-                <div class="cons">
-                    <h4>Disadvantages</h4>
-                    <ul>
-                        <li>May cause distractions in serious discussions</li>
-                        <li>Might appear unprofessional in certain contexts</li>
-                        <li>Processing requirements may affect device performance</li>
-                        <li>Could divert attention from conversation content</li>
-                        <li>Not all participants will appreciate these playful elements</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        
-        <div class="feature-card">
-            <div class="feature-header">
-                <h3>Beauty Filters</h3>
-            </div>
-            <div class="feature-body">
-                <div class="feature-description">
-                    <p>Real-time technology that enhances users' facial features and skin tone, smoothing skin, adjusting facial features, and enhancing lighting effects to improve personal appearance in video calls without drastically changing identity.</p>
-                </div>
-                <div class="pros">
-                    <h4>Advantages</h4>
-                    <ul>
-                        <li>Enhances user confidence and comfort during video calls</li>
-                        <li>Compensates for suboptimal lighting conditions</li>
-                        <li>Highly customizable, from subtle to more noticeable effects</li>
-                        <li>Relatively low computational requirements compared to other effects</li>
-                        <li>Improves appearance while maintaining the user's true identity</li>
-                        <li>Meets basic appearance presentation needs across different cultural backgrounds</li>
-                    </ul>
-                </div>
-                <div class="cons">
-                    <h4>Disadvantages</h4>
-                    <ul>
-                        <li>Excessive use may lead to unnatural appearance</li>
-                        <li>May reinforce social pressure regarding beauty standards</li>
-                        <li>Different cultural backgrounds have different beauty preferences</li>
-                        <li>Requires continuous facial tracking, may be unstable during rapid movements</li>
-                        <li>Higher processing requirements for high-resolution video</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="feature-card">
-            <div class="feature-header">
-                <h3>Gift Giving</h3>
-            </div>
-            <div class="feature-body">
-                <div class="feature-description">
-                    <p>Interactive feature that allows users to send virtual gifts during video calls. When activated, special effects like fireworks or animations appear on both users' screens as temporary overlays for approximately 5 seconds, creating a shared moment of celebration.</p>
-                </div>
-                <div class="pros">
-                    <h4>Advantages</h4>
-                    <ul>
-                        <li>Creates interactive, celebratory moments during video calls</li>
-                        <li>Enhances emotional connection between users with shared visual experiences</li>
-                        <li>Provides a fun way to express appreciation during conversations</li>
-                        <li>Temporary duration ensures effects don't disrupt the entire conversation</li>
-                        <li>Both parties see the same effect, creating synchronized shared experiences</li>
-                    </ul>
-                </div>
-                <div class="cons">
-                    <h4>Disadvantages</h4>
-                    <ul>
-                        <li>May be distracting during serious or professional conversations</li>
-                        <li>Animation effects require additional processing power and bandwidth</li>
-                        <li>Might not appeal to all user demographics</li>
-                        <li>Could be overused in some contexts, leading to conversation disruption</li>
-                        <li>Synchronization issues could affect the shared experience quality</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        <table class="feature-table">
+            <thead>
+                <tr>
+                    <th width="18%">Feature</th>
+                    <th width="27%">Description</th>
+                    <th width="27%">Advantages</th>
+                    <th width="28%">Disadvantages</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="feature-name">Background Blur and Replacement</td>
+                    <td>Real-time segmentation technology separates the user from the background, allowing the background to be blurred or completely replaced with virtual images or videos. This feature helps maintain privacy and create a more professional or personalized environment.</td>
+                    <td>
+                        <div class="pros-title">Advantages:</div>
+                        <ul class="pros-list">
+                            <li>Protects user privacy in shared spaces or work environments</li>
+                            <li>Creates a more professional appearance for business meetings</li>
+                            <li>Allows users to showcase hometowns or meaningful places as virtual backgrounds</li>
+                            <li>Enhances emotional connections during long-distance communications</li>
+                            <li>Reduces distractions from cluttered or inappropriate backgrounds</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">Disadvantages:</div>
+                        <ul class="cons-list">
+                            <li>Edge detection may be imperfect, causing visual artifacts</li>
+                            <li>Requires good lighting conditions for optimal segmentation</li>
+                            <li>Higher processing requirements may affect performance on low-end devices</li>
+                            <li>Background replacement may appear unnatural when user moves quickly</li>
+                            <li>May cause mismatch between audio (room acoustics) and visual environment</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="feature-name">Emoji Avatar / Virtual Character</td>
+                    <td>Digital avatar system that replaces the user's real appearance with a virtual character or emoji. The system captures facial expressions and movements in real-time and maps them to the virtual character, protecting privacy while maintaining natural communication.</td>
+                    <td>
+                        <div class="pros-title">Advantages:</div>
+                        <ul class="pros-list">
+                            <li>Privacy protection - users don't need to show their real face</li>
+                            <li>Reduces video call fatigue and self-consciousness</li>
+                            <li>Expresses personality through customizable avatars</li>
+                            <li>Lower bandwidth consumption compared to full video</li>
+                            <li>Performs well in low-light environments where video quality would be poor</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">Disadvantages:</div>
+                        <ul class="cons-list">
+                            <li>May reduce authenticity in professional settings</li>
+                            <li>Potential "uncanny valley" effect with some avatar styles</li>
+                            <li>Technical limitations in capturing subtle expressions</li>
+                            <li>Might be perceived as lacking personal connection</li>
+                            <li>Not suitable for scenarios requiring formal facial recognition</li>
+                            <li>May not be well-received in some cultures where family calls value authentic faces</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="feature-name">AR Stickers and Accessories</td>
+                    <td>Augmented reality elements that can be overlaid on the user's video. These virtual accessories, stickers, or animated effects follow the user's movements and can add fun, seasonal themes, or brand elements without completely replacing the user's face.</td>
+                    <td>
+                        <div class="pros-title">Advantages:</div>
+                        <ul class="pros-list">
+                            <li>Adds fun and interactive elements to calls while maintaining user identity</li>
+                            <li>Creates shared moments of joy, enhancing social connection</li>
+                            <li>Suitable for themed calls (holidays, celebrations, special events)</li>
+                            <li>Can incorporate brand elements for corporate use</li>
+                            <li>Makes calls more memorable and engaging</li>
+                            <li>Adds festive atmosphere, ideal for cross-country family interactions</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">Disadvantages:</div>
+                        <ul class="cons-list">
+                            <li>May cause distractions in serious discussions</li>
+                            <li>Might appear unprofessional in certain contexts</li>
+                            <li>Processing requirements may affect device performance</li>
+                            <li>Could divert attention from conversation content</li>
+                            <li>Not all participants will appreciate these playful elements</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="feature-name">Beauty Filters</td>
+                    <td>Real-time technology that enhances users' facial features and skin tone, smoothing skin, adjusting facial features, and enhancing lighting effects to improve personal appearance in video calls without drastically changing identity.</td>
+                    <td>
+                        <div class="pros-title">Advantages:</div>
+                        <ul class="pros-list">
+                            <li>Enhances user confidence and comfort during video calls</li>
+                            <li>Compensates for suboptimal lighting conditions</li>
+                            <li>Highly customizable, from subtle to more noticeable effects</li>
+                            <li>Relatively low computational requirements compared to other effects</li>
+                            <li>Improves appearance while maintaining the user's true identity</li>
+                            <li>Meets basic appearance presentation needs across different cultural backgrounds</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">Disadvantages:</div>
+                        <ul class="cons-list">
+                            <li>Excessive use may lead to unnatural appearance</li>
+                            <li>May reinforce social pressure regarding beauty standards</li>
+                            <li>Different cultural backgrounds have different beauty preferences</li>
+                            <li>Requires continuous facial tracking, may be unstable during rapid movements</li>
+                            <li>Higher processing requirements for high-resolution video</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="feature-name">Gift Giving</td>
+                    <td>Interactive feature that allows users to send virtual gifts during video calls. When activated, special effects like fireworks or animations appear on both users' screens as temporary overlays for approximately 5 seconds, creating a shared moment of celebration.</td>
+                    <td>
+                        <div class="pros-title">Advantages:</div>
+                        <ul class="pros-list">
+                            <li>Creates interactive, celebratory moments during video calls</li>
+                            <li>Enhances emotional connection between users with shared visual experiences</li>
+                            <li>Provides a fun way to express appreciation during conversations</li>
+                            <li>Temporary duration ensures effects don't disrupt the entire conversation</li>
+                            <li>Both parties see the same effect, creating synchronized shared experiences</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">Disadvantages:</div>
+                        <ul class="cons-list">
+                            <li>May be distracting during serious or professional conversations</li>
+                            <li>Animation effects require additional processing power and bandwidth</li>
+                            <li>Might not appeal to all user demographics</li>
+                            <li>Could be overused in some contexts, leading to conversation disruption</li>
+                            <li>Synchronization issues could affect the shared experience quality</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
         <h2><span class="emoji">📄</span> PRD</h2>
 
@@ -599,163 +617,141 @@
 
         <h2><span class="emoji">🔍</span> 功能详细分析</h2>
         
-        <div class="feature-card">
-            <div class="feature-header">
-                <h3>背景模糊和背景替换</h3>
-            </div>
-            <div class="feature-body">
-                <div class="feature-description">
-                    <p>实时分割技术将用户与背景分离，使背景可以被模糊处理或完全替换为虚拟图像或视频。此功能有助于保持隐私并创造更专业或个性化的环境。</p>
-                </div>
-                <div class="pros">
-                    <h4>优势</h4>
-                    <ul>
-                        <li>在共享空间或工作环境中保护用户隐私</li>
-                        <li>为商务会议创造更专业的外观</li>
-                        <li>允许用户展示家乡或有意义的地点作为虚拟背景</li>
-                        <li>增强远距离通信期间的情感连接</li>
-                        <li>减少杂乱或不适当背景的干扰</li>
-                    </ul>
-                </div>
-                <div class="cons">
-                    <h4>劣势</h4>
-                    <ul>
-                        <li>边缘检测可能不完美，造成视觉瑕疵</li>
-                        <li>需要良好的光线条件才能获得最佳分割效果</li>
-                        <li>更高的处理要求可能影响低端设备的性能</li>
-                        <li>用户快速移动时替换背景可能出现不自然</li>
-                        <li>可能导致音频（房间声学）与视觉环境不匹配</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        
-        <div class="feature-card">
-            <div class="feature-header">
-                <h3>表情头像/虚拟形象</h3>
-            </div>
-            <div class="feature-body">
-                <div class="feature-description">
-                    <p>数字虚拟形象系统，用表情符号或虚拟角色替代用户的真实外观。系统实时捕捉面部表情和动作并映射到虚拟角色上，在保持自然沟通的同时保护隐私。</p>
-                </div>
-                <div class="pros">
-                    <h4>优势</h4>
-                    <ul>
-                        <li>隐私保护 - 用户无需展示真实面貌</li>
-                        <li>减轻视频通话疲劳感和自我意识</li>
-                        <li>通过可定制形象展现个性</li>
-                        <li>较低的带宽消耗，相比完整视频</li>
-                        <li>在低光环境下依然表现良好，此类环境下视频质量通常较差</li>
-                    </ul>
-                </div>
-                <div class="cons">
-                    <h4>劣势</h4>
-                    <ul>
-                        <li>可能降低在专业场合的真实感</li>
-                        <li>某些头像样式可能产生"恐怖谷"效应</li>
-                        <li>在捕捉细微表情方面存在技术限制</li>
-                        <li>可能被视为缺乏个人接触感</li>
-                        <li>不适用于需要正式人脸识别的场景</li>
-                        <li>在某些重视面对面真实交流的文化中可能不受欢迎</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        
-        <div class="feature-card">
-            <div class="feature-header">
-                <h3>AR贴纸和挂件</h3>
-            </div>
-            <div class="feature-body">
-                <div class="feature-description">
-                    <p>可叠加在用户视频画面上的增强现实元素。这些虚拟配饰、贴纸或动画效果会跟随用户移动，可用于增添趣味、季节主题或品牌元素，而不必完全替换用户的面部。</p>
-                </div>
-                <div class="pros">
-                    <h4>优势</h4>
-                    <ul>
-                        <li>为会议增添趣味性和互动元素，同时保持用户身份</li>
-                        <li>创造共享欢乐时刻，增强社交连接</li>
-                        <li>适用于主题通话（节日、庆祝活动、特殊事件）</li>
-                        <li>可融入品牌元素增强企业形象</li>
-                        <li>使通话更加难忘和具有吸引力</li>
-                        <li>增添节日氛围，理想的跨国家庭互动方式</li>
-                    </ul>
-                </div>
-                <div class="cons">
-                    <h4>劣势</h4>
-                    <ul>
-                        <li>在严肃讨论中可能造成干扰</li>
-                        <li>在某些场合可能显得不够专业</li>
-                        <li>处理要求可能影响设备性能</li>
-                        <li>可能分散对谈话内容的注意力</li>
-                        <li>并非所有参与者都会欣赏这些趣味元素</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        
-        <div class="feature-card">
-            <div class="feature-header">
-                <h3>美颜</h3>
-            </div>
-            <div class="feature-body">
-                <div class="feature-description">
-                    <p>实时美化用户面部和肤色的技术，可平滑肌肤、调整面部特征、增强光线效果，提高视频通话中的个人形象，而不会大幅改变身份。</p>
-                </div>
-                <div class="pros">
-                    <h4>优势</h4>
-                    <ul>
-                        <li>提升用户在视频通话中的自信心和舒适度</li>
-                        <li>弥补不理想光线条件的不足</li>
-                        <li>自定义程度高，可从轻微到明显效果调节</li>
-                        <li>与其他效果相比，计算需求相对较低</li>
-                        <li>保持用户真实身份的同时改善外观</li>
-                        <li>满足不同文化背景人群对外观展示的基本需求</li>
-                    </ul>
-                </div>
-                <div class="cons">
-                    <h4>劣势</h4>
-                    <ul>
-                        <li>过度使用可能导致不自然的外观</li>
-                        <li>可能强化关于美容标准的社会压力</li>
-                        <li>不同文化背景的用户对美颜标准有不同偏好</li>
-                        <li>需要持续跟踪面部，快速移动时可能效果不稳定</li>
-                        <li>在高分辨率视频中处理要求更高</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="feature-card">
-            <div class="feature-header">
-                <h3>赠送礼物</h3>
-            </div>
-            <div class="feature-body">
-                <div class="feature-description">
-                    <p>允许用户在视频通话中发送虚拟礼物的互动功能。激活时，特殊效果如烟花或动画会在双方用户屏幕上显示约5秒钟的临时叠加层，创造共同的庆祝时刻。</p>
-                </div>
-                <div class="pros">
-                    <h4>优势</h4>
-                    <ul>
-                        <li>在视频通话中创造互动、庆祝的时刻</li>
-                        <li>通过共享视觉体验增强用户之间的情感连接</li>
-                        <li>提供一种在对话中表达赞赏的有趣方式</li>
-                        <li>临时持续时间确保效果不会干扰整个对话</li>
-                        <li>双方看到相同的效果，创造同步的共享体验</li>
-                    </ul>
-                </div>
-                <div class="cons">
-                    <h4>劣势</h4>
-                    <ul>
-                        <li>在严肃或专业对话中可能造成分心</li>
-                        <li>动画效果需要额外的处理能力和带宽</li>
-                        <li>可能不吸引所有用户群体</li>
-                        <li>在某些情境中可能被过度使用，导致对话中断</li>
-                        <li>同步问题可能影响共享体验质量</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        <table class="feature-table">
+            <thead>
+                <tr>
+                    <th width="18%">功能</th>
+                    <th width="27%">描述</th>
+                    <th width="27%">优势</th>
+                    <th width="28%">劣势</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="feature-name">背景模糊和背景替换</td>
+                    <td>实时分割技术将用户与背景分离，使背景可以被模糊处理或完全替换为虚拟图像或视频。此功能有助于保持隐私并创造更专业或个性化的环境。</td>
+                    <td>
+                        <div class="pros-title">优势：</div>
+                        <ul class="pros-list">
+                            <li>在共享空间或工作环境中保护用户隐私</li>
+                            <li>为商务会议创造更专业的外观</li>
+                            <li>允许用户展示家乡或有意义的地点作为虚拟背景</li>
+                            <li>增强远距离通信期间的情感连接</li>
+                            <li>减少杂乱或不适当背景的干扰</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">劣势：</div>
+                        <ul class="cons-list">
+                            <li>边缘检测可能不完美，造成视觉瑕疵</li>
+                            <li>需要良好的光线条件才能获得最佳分割效果</li>
+                            <li>更高的处理要求可能影响低端设备的性能</li>
+                            <li>用户快速移动时替换背景可能出现不自然</li>
+                            <li>可能导致音频（房间声学）与视觉环境不匹配</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="feature-name">表情头像/虚拟形象</td>
+                    <td>数字虚拟形象系统，用表情符号或虚拟角色替代用户的真实外观。系统实时捕捉面部表情和动作并映射到虚拟角色上，在保持自然沟通的同时保护隐私。</td>
+                    <td>
+                        <div class="pros-title">优势：</div>
+                        <ul class="pros-list">
+                            <li>隐私保护 - 用户无需展示真实面貌</li>
+                            <li>减轻视频通话疲劳感和自我意识</li>
+                            <li>通过可定制形象展现个性</li>
+                            <li>较低的带宽消耗，相比完整视频</li>
+                            <li>在低光环境下依然表现良好，此类环境下视频质量通常较差</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">劣势：</div>
+                        <ul class="cons-list">
+                            <li>可能降低在专业场合的真实感</li>
+                            <li>某些头像样式可能产生"恐怖谷"效应</li>
+                            <li>在捕捉细微表情方面存在技术限制</li>
+                            <li>可能被视为缺乏个人接触感</li>
+                            <li>不适用于需要正式人脸识别的场景</li>
+                            <li>在某些重视面对面真实交流的文化中可能不受欢迎</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="feature-name">AR贴纸和挂件</td>
+                    <td>可叠加在用户视频画面上的增强现实元素。这些虚拟配饰、贴纸或动画效果会跟随用户移动，可用于增添趣味、季节主题或品牌元素，而不必完全替换用户的面部。</td>
+                    <td>
+                        <div class="pros-title">优势：</div>
+                        <ul class="pros-list">
+                            <li>为会议增添趣味性和互动元素，同时保持用户身份</li>
+                            <li>创造共享欢乐时刻，增强社交连接</li>
+                            <li>适用于主题通话（节日、庆祝活动、特殊事件）</li>
+                            <li>可融入品牌元素增强企业形象</li>
+                            <li>使通话更加难忘和具有吸引力</li>
+                            <li>增添节日氛围，理想的跨国家庭互动方式</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">劣势：</div>
+                        <ul class="cons-list">
+                            <li>在严肃讨论中可能造成干扰</li>
+                            <li>在某些场合可能显得不够专业</li>
+                            <li>处理要求可能影响设备性能</li>
+                            <li>可能分散对谈话内容的注意力</li>
+                            <li>并非所有参与者都会欣赏这些趣味元素</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="feature-name">美颜滤镜</td>
+                    <td>实时美化用户面部和肤色的技术，可平滑肌肤、调整面部特征、增强光线效果，提高视频通话中的个人形象，而不会大幅改变身份。</td>
+                    <td>
+                        <div class="pros-title">优势：</div>
+                        <ul class="pros-list">
+                            <li>提升用户在视频通话中的自信心和舒适度</li>
+                            <li>弥补不理想光线条件的不足</li>
+                            <li>自定义程度高，可从轻微到明显效果调节</li>
+                            <li>与其他效果相比，计算需求相对较低</li>
+                            <li>保持用户真实身份的同时改善外观</li>
+                            <li>满足不同文化背景人群对外观展示的基本需求</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">劣势：</div>
+                        <ul class="cons-list">
+                            <li>过度使用可能导致不自然的外观</li>
+                            <li>可能强化关于美容标准的社会压力</li>
+                            <li>不同文化背景的用户对美颜标准有不同偏好</li>
+                            <li>需要持续跟踪面部，快速移动时可能效果不稳定</li>
+                            <li>在高分辨率视频中处理要求更高</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="feature-name">赠送礼物</td>
+                    <td>允许用户在视频通话中发送虚拟礼物的互动功能。激活时，特殊效果如烟花或动画会在双方用户屏幕上显示约5秒钟的临时叠加层，创造共同的庆祝时刻。</td>
+                    <td>
+                        <div class="pros-title">优势：</div>
+                        <ul class="pros-list">
+                            <li>在视频通话中创造互动、庆祝的时刻</li>
+                            <li>通过共享视觉体验增强用户之间的情感连接</li>
+                            <li>提供一种在对话中表达赞赏的有趣方式</li>
+                            <li>临时持续时间确保效果不会干扰整个对话</li>
+                            <li>双方看到相同的效果，创造同步的共享体验</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">劣势：</div>
+                        <ul class="cons-list">
+                            <li>在严肃或专业对话中可能造成分心</li>
+                            <li>动画效果需要额外的处理能力和带宽</li>
+                            <li>可能不吸引所有用户群体</li>
+                            <li>在某些情境中可能被过度使用，导致对话中断</li>
+                            <li>同步问题可能影响共享体验质量</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
         <h2><span class="emoji">📄</span> 产品需求文档</h2>
 
