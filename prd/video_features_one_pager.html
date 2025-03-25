@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Call Enhancement Features - One Pager</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h1, h2, h3 {
+            color: #2b579a;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        h1 {
+            font-size: 2.2em;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        h2 {
+            font-size: 1.8em;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 5px;
+        }
+        h3 {
+            font-size: 1.4em;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1em 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        strong {
+            font-weight: bold;
+            color: #2b579a;
+        }
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 5px;
+        }
+        .tag {
+            display: inline-block;
+            background-color: #e0f0ff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #0066cc;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .feature-out {
+            color: #cc0000;
+            font-weight: bold;
+        }
+        .scenario {
+            background-color: #f0f7ff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border-left: 4px solid #2b579a;
+        }
+    </style>
+</head>
+<body>
+    <h1>Video Call Enhancement Features - One Pager</h1>
+    
+    <h2><span class="emoji">🪟</span> Overview</h2>
+    <p>This project aims to enhance VoIP video calls by introducing the following three features:</p>
+    <ul>
+        <li><strong>Background Replacement</strong>: Users can change their background before or during a video call, including blur, preset backgrounds, and custom images.</li>
+        <li><strong>Emoji Avatar</strong>: Users can replace their avatar with an Emoji or virtual character for added fun.</li>
+        <li><strong>Filters</strong>: Users can apply different filters (e.g., beauty, black and white, retro) to enhance video appearance.</li>
+    </ul>
+
+    <h2><span class="emoji">🛸</span> Problem</h2>
+    <ul>
+        <li>Users want to personalize their appearance and background in video calls to improve engagement.</li>
+        <li>Current VoIP solutions lack flexible background replacement and real-time avatar effects.</li>
+        <li>Users need the ability to adjust backgrounds or apply filters in various settings (home, office) to enhance professionalism or entertainment.</li>
+    </ul>
+
+    <h2><span class="emoji">🎯</span> Objectives</h2>
+    <ul>
+        <li>Allow users to replace their background before or during video calls (blur, preset, custom).</li>
+        <li>Enable users to change their avatar to an Emoji or virtual character.</li>
+        <li>Provide multiple filter effects, such as beauty, black and white, and retro.</li>
+        <li>Ensure low latency and high visual quality while optimizing performance for low-end devices.</li>
+    </ul>
+
+    <h2><span class="emoji">🚧</span> Constraints</h2>
+    <ul>
+        <li>Only available for video calls; voice calls do not support this feature.</li>
+        <li>AI processing must be done on-device for privacy and low latency.</li>
+        <li>Algorithm optimization is required to support low-end devices with minimal performance impact.</li>
+    </ul>
+
+    <h2><span class="emoji">💁</span> Customer Persona</h2>
+    <div>
+        <p><strong>Persona 1: Business Users</strong></p>
+        <p><span class="tag">📌</span> Need: Use professional backgrounds during remote meetings to improve appearance and privacy.</p>
+    </div>
+    <div>
+        <p><strong>Persona 2: Young Social Users</strong></p>
+        <p><span class="tag">📌</span> Need: Enhance video call fun by using Emoji avatars or filters.</p>
+    </div>
+    <div>
+        <p><strong>Persona 3: Content Creators</strong></p>
+        <p><span class="tag">📌</span> Need: Optimize video quality and personalize appearance through filters and effects.</p>
+    </div>
+
+    <h2><span class="emoji">🧳</span> Use Cases</h2>
+    <div class="scenario">
+        <p><span class="tag">📌</span> <strong>Scenario 1</strong>: A user in a home office replaces their background with a "professional office" setting for a video meeting.</p>
+    </div>
+    <div class="scenario">
+        <p><span class="tag">📌</span> <strong>Scenario 2</strong>: A social user applies an Emoji avatar during a video call for a fun interaction.</p>
+    </div>
+    <div class="scenario">
+        <p><span class="tag">📌</span> <strong>Scenario 3</strong>: A content creator uses filters to enhance video quality or create a specific aesthetic.</p>
+    </div>
+
+    <h2><span class="emoji">📄</span> PRD</h2>
+
+    <h3><span class="emoji">↗️</span> Features In</h3>
+    <table>
+        <tr>
+            <th>Feature</th>
+            <th>Details</th>
+        </tr>
+        <tr>
+            <td><strong>Background Replacement</strong></td>
+            <td>
+                <strong>Given</strong>: The user is in a video call (pre-call or in-call)<br>
+                <strong>When</strong>: The user clicks the "Background" button<br>
+                <strong>Then</strong>: The user can choose a blurred, preset, or custom image as their background, which applies in real-time.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Emoji Avatar</strong></td>
+            <td>
+                <strong>Given</strong>: The user is in a video call (pre-call or in-call)<br>
+                <strong>When</strong>: The user selects an Emoji avatar<br>
+                <strong>Then</strong>: The user's video avatar is replaced with the selected Emoji or virtual character in real time.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Filters</strong></td>
+            <td>
+                <strong>Given</strong>: The user is in a video call (pre-call or in-call)<br>
+                <strong>When</strong>: The user selects a filter effect<br>
+                <strong>Then</strong>: The chosen filter is applied to the video feed, and the user can adjust its intensity in real time.
+            </td>
+        </tr>
+    </table>
+
+    <h3><span class="emoji">📤</span> Features Out</h3>
+    <ul>
+        <li><span class="feature-out">❌</span> Avatar effects for voice calls.</li>
+        <li><span class="feature-out">❌</span> Cloud-based processing (all effects are processed on-device).</li>
+        <li><span class="feature-out">❌</span> Advanced 3D AR effects (planned for future iterations).</li>
+    </ul>
+</body>
+</html> 
