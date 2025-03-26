@@ -466,22 +466,6 @@
 
     <!-- 主要内容区域 -->
     <div class="content-area">
-      <!-- 服务区域 -->
-      <div class="section">
-        <div class="section-header">
-          <span class="section-icon">🔍</span>
-          <span class="section-title">Services</span>
-        </div>
-        <div class="service-cards">
-          <div class="service-card" onclick="window.location.href='news.html'">
-            <div class="service-icon">📰</div>
-            <div class="service-info">
-              <div class="service-title">News</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- 最近服务 -->
       <div class="section">
         <div class="section-header">
@@ -539,6 +523,15 @@
               <div class="popular-service-info">
                 <div class="popular-service-title">Botim AI</div>
                 <div class="popular-service-subtitle">Meet Botim AI, your smart companion!</div>
+              </div>
+              <div class="popular-service-arrow">›</div>
+            </div>
+
+            <div class="popular-service-item" onclick="window.location.href=getPath('news.html')">
+              <div class="popular-service-icon">📰</div>
+              <div class="popular-service-info">
+                <div class="popular-service-title">News</div>
+                <div class="popular-service-subtitle">Stay updated with latest news and updates</div>
               </div>
               <div class="popular-service-arrow">›</div>
             </div>
@@ -737,17 +730,30 @@
   </div>
 
   <script>
+    // 路径处理函数
+    function getPath(relativePath) {
+      // 检查是否在本地环境
+      if (window.location.protocol === 'file:') {
+        // 本地环境，使用相对路径
+        return './' + relativePath;
+      } else {
+        // 线上环境，使用绝对路径
+        return '/' + relativePath;
+      }
+    }
+
     // 搜索框点击和获取焦点事件
     const searchInput = document.querySelector('.search-input');
     const searchBar = document.querySelector('.search-bar');
 
     searchBar.addEventListener('click', () => {
-      searchInput.focus();
+      // 直接跳转到搜索结果页，而不仅仅是聚焦
+      window.location.href = getPath('search_local_result.html');
     });
 
     searchInput.addEventListener('focus', () => {
-      // 确保输入框获得焦点并唤起键盘
-      searchInput.focus();
+      // 直接跳转到搜索结果页，而不仅仅是聚焦
+      window.location.href = getPath('search_local_result.html');
     });
 
     // 搜索框输入处理
@@ -757,7 +763,23 @@
         // 保存搜索词到 localStorage
         localStorage.setItem('searchQuery', searchQuery);
         // 跳转到搜索结果页
-        window.location.href = '/search-result';
+        window.location.href = getPath('search_local_result.html');
+      }
+    });
+
+    // 添加回车键搜索功能
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const searchQuery = e.target.value.trim();
+        if (searchQuery) {
+          // 保存搜索词到 localStorage
+          localStorage.setItem('searchQuery', searchQuery);
+          // 跳转到搜索结果页
+          window.location.href = getPath('search_local_result.html');
+        } else {
+          // 即使没有输入内容，也跳转到搜索结果页
+          window.location.href = getPath('search_local_result.html');
+        }
       }
     });
 
@@ -776,7 +798,7 @@
     const tabContents = document.querySelectorAll('.tab-content');
 
     tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
+      tab.addEventListener('click', (e) => {
         // 移除所有 active 类
         tabs.forEach(t => t.classList.remove('active'));
         tabContents.forEach(c => c.classList.remove('active'));

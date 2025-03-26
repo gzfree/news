@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botim News Assistant - PRD</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 28px;
+            border-bottom: 2px solid #3366FF;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        h2 {
+            font-size: 22px;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 8px;
+            margin-top: 25px;
+        }
+        h3 {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        ul, ol {
+            padding-left: 25px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #3366FF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .emoji {
+            margin-right: 8px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .highlight {
+            background-color: #f0f7ff;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #3366FF;
+            margin: 15px 0;
+        }
+        .caption {
+            font-style: italic;
+            color: #666;
+            font-size: 14px;
+        }
+        strong {
+            color: #111;
+        }
+        .demo-link {
+            display: inline-block;
+            background-color: #3366FF;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .demo-link:hover {
+            background-color: #2952cc;
+            text-decoration: none;
+        }
+        /* Language switcher styles */
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+        .language-btn {
+            background-color: #3366FF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        .language-btn:hover {
+            background-color: #2952cc;
+        }
+        /* Header container for positioning */
+        .header-container {
+            position: relative;
+            width: 100%;
+        }
+        /* Hide Chinese content by default */
+        .lang-zh {
+            display: none;
+        }
+        .use-case-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .use-case-table th {
+            background-color: #3366FF;
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        .use-case-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .use-case-table tr:last-child td {
+            border-bottom: none;
+        }
+        .use-case-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .use-case-table tr:nth-child(odd) {
+            background-color: white;
+        }
+        .use-case-image {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px solid #eaeaea;
+        }
+        .use-case-icon {
+            font-size: 24px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <h1><span class="emoji">📱</span> <span class="lang-en">Botim News Assistant - One Pager</span><span class="lang-zh">Botim 新闻助手 - 产品需求文档</span></h1>
+        <div class="language-switcher">
+            <button class="language-btn" id="langToggle">中文</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">🌟</span> <span class="lang-en">Overview</span><span class="lang-zh">概述</span></h2>
+        <p class="lang-en">
+            Botim News Assistant is an AI-driven news service designed to provide high-quality news content to Botim users. This feature allows users to receive personalized news recommendations and perform AI-powered searches for relevant content. Its core goal is to enrich the Botim ecosystem, enhance user retention, and generate revenue through advertisements. The news assistant recommends trending content based on users' geographical location, language, and other profile attributes. News is sourced from GPT's web search and formatted to include a title, subtitle, details, AI-generated related questions, and hashtags.
+        </p>
+        <p class="lang-zh">
+            Botim 新闻助手是一项人工智能驱动的新闻服务，旨在为 Botim 用户提供高质量的新闻内容。该功能允许用户接收个性化的新闻推荐，并执行人工智能搜索以获取相关内容。其核心目标是丰富 Botim 生态系统，提高用户留存率，并通过广告获取收入。新闻助手根据用户的地理位置、语言和其他个人资料属性推荐热门内容。新闻内容来源于 GPT 的网络搜索，并格式化为包含标题、副标题、详细信息、AI生成的相关问题和主题标签。
+        </p>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">🚀</span> <span class="lang-en">Problem</span><span class="lang-zh">问题</span></h2>
+        <p class="lang-en">
+            Currently, Botim lacks a content service, leading to high user churn after completing calls or chats, as users have no reason to stay in the app. Many users have a demand for news, but Botim does not currently fulfill this need. Traditional news services often face copyright issues and high maintenance costs, whereas AI-generated news content can reduce operational expenses and mitigate copyright risks.
+        </p>
+        <p class="lang-zh">
+            目前，Botim 缺乏内容服务，导致用户在完成通话或聊天后流失率高，因为用户没有理由继续留在应用程序中。许多用户有获取新闻的需求，但 Botim 目前尚未满足这一需求。传统新闻服务常常面临版权问题和高维护成本，而人工智能生成的新闻内容可以降低运营开支并减轻版权风险。
+        </p>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">🎯</span> <span class="lang-en">Objectives</span><span class="lang-zh">目标</span></h2>
+        <ul class="lang-en">
+            <li><strong>Enhance Botim Ecosystem</strong> – As a SuperApp, Botim currently lacks a content service, and this feature helps bridge that gap.</li>
+            <li><strong>Increase User Engagement</strong> – By offering news recommendations and AI-powered search, users will stay within Botim even after completing calls or chats, improving retention and session duration.</li>
+            <li><strong>Enable Advertisement Monetization</strong> – Leveraging precise ad placements to drive revenue and offset AI operational costs.</li>
+        </ul>
+        <ul class="lang-zh">
+            <li><strong>增强 Botim 生态系统</strong> – 作为一个超级应用程序，Botim 当前缺乏内容服务，此功能有助于弥补这一差距。</li>
+            <li><strong>提高用户参与度</strong> – 通过提供新闻推荐和人工智能搜索，用户在完成通话或聊天后仍将留在 Botim 中，提高留存率和会话时长。</li>
+            <li><strong>实现广告变现</strong> – 利用精准广告投放来产生收入并抵消人工智能运营成本。</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">🚧</span> <span class="lang-en">Constraints</span><span class="lang-zh">限制</span></h2>
+        <ul class="lang-en">
+            <li><strong>Engineering Resources</strong> – Requires AI search optimization to ensure precise and performant content recommendations.</li>
+            <li><strong>Privacy Compliance</strong> – Must adhere to privacy regulations when utilizing users' geographical and language data.</li>
+            <li><strong>Server Bandwidth Costs</strong> – Since content is cached, an efficient caching strategy is necessary to minimize bandwidth consumption.</li>
+        </ul>
+        <ul class="lang-zh">
+            <li><strong>工程资源</strong> – 需要人工智能搜索优化，以确保精准高效的内容推荐。</li>
+            <li><strong>隐私合规</strong> – 在使用用户的地理位置和语言数据时，必须遵守隐私法规。</li>
+            <li><strong>服务器带宽成本</strong> – 由于内容被缓存，因此需要高效的缓存策略来最小化带宽消耗。</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">💁</span> <span class="lang-en">Customer Persona</span><span class="lang-zh">客户画像</span></h2>
+        
+        <table class="use-case-table lang-en">
+            <thead>
+                <tr>
+                    <th>Persona</th>
+                    <th>Characteristics</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="use-case-icon">👥</span><strong>All Botim Users</strong></td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>Users can be segmented by country, city, and language for more precise news recommendations.</li>
+                            <li>Require valuable information after completing calls or chats to extend their time within Botim.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🔄</span><strong>Frequent Users</strong></td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>Regularly use Botim for communication and are interested in consuming news within the app.</li>
+                            <li>Follow real-time news updates and expect personalized recommendations aligned with their interests.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🆕</span><strong>New Users</strong></td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>First-time users of Botim, where the news service serves as an attractive feature to improve long-term retention.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="use-case-table lang-zh">
+            <thead>
+                <tr>
+                    <th>用户类型</th>
+                    <th>特征</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="use-case-icon">👥</span><strong>所有 Botim 用户</strong></td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>可以按国家、城市和语言对用户进行细分，以获得更精准的新闻推荐。</li>
+                            <li>需要在完成通话或聊天后获取有价值的信息，以延长他们在 Botim 中的停留时间。</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🔄</span><strong>频繁用户</strong></td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>经常使用 Botim 进行通讯，并有兴趣在应用内消费新闻。</li>
+                            <li>关注实时新闻更新，期望获得与其兴趣相符的个性化推荐。</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🆕</span><strong>新用户</strong></td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>Botim 的首次使用者，新闻服务作为一个吸引人的功能，有助于提高长期留存率。</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">🧳</span> <span class="lang-en">Use Cases</span><span class="lang-zh">使用场景</span></h2>
+        
+        <table class="use-case-table lang-en">
+            <thead>
+                <tr>
+                    <th>Use Case</th>
+                    <th>Description</th>
+                    <th>Prototype</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="use-case-icon">📊</span><strong>Pre-Search Recommendations</strong></td>
+                    <td>
+                        Recommending popular news articles to users on the search page.
+                    </td>
+                    <td>
+                        <a href="../prototype/search.html" target="_blank" style="color: #3366FF;">View</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🔍</span><strong>Post-Search Recommendations</strong></td>
+                    <td>After a user searches for news, AI suggests additional related trending articles.</td>
+                    <td>
+                        <a href="../prototype/search.html" target="_blank" style="color: #3366FF;">View</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">📞</span><strong>Call-End Page Recommendations</strong></td>
+                    <td>The end-call page directly displays personalized news content to users immediately after a call ends, with no additional interaction required, helping to improve user retention.</td>
+                    <td>
+                        <a href="../prototype/end-call.html" target="_blank" style="color: #3366FF;">View</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">♾️</span><strong>Infinite Scroll News Feed</strong></td>
+                    <td>Users can browse an AI-curated news feed and subscribe to different content categories, with each category displayed as a tab (default: "For You").</td>
+                    <td>
+                        <a href="../prototype/news.html" target="_blank" style="color: #3366FF;">View</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="use-case-table lang-zh">
+            <thead>
+                <tr>
+                    <th>使用场景</th>
+                    <th>描述</th>
+                    <th>原型</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="use-case-icon">📊</span><strong>搜索前推荐</strong></td>
+                    <td>
+                        在search页面推荐给用户一些热门新闻。
+                    </td>
+                    <td>
+                        <a href="../prototype/search.html" target="_blank" style="color: #3366FF;">查看</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🔍</span><strong>搜索后推荐</strong></td>
+                    <td>用户搜索新闻后，AI 推荐额外相关的热门文章。</td>
+                    <td>
+                        <a href="../prototype/search.html" target="_blank" style="color: #3366FF;">查看</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">📞</span><strong>通话结束页面推荐</strong></td>
+                    <td>通话结束页面在打开后直接展示个性化的新闻内容，用户无需额外操作即可看到推荐新闻，有助于提高用户留存率。</td>
+                    <td>
+                        <a href="../prototype/end-call.html" target="_blank" style="color: #3366FF;">查看</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">♾️</span><strong>无限滚动新闻源</strong></td>
+                    <td>用户可浏览 AI 策划的新闻源并订阅不同内容类别，每个类别显示为一个标签页（默认："为你推荐"）。</td>
+                    <td>
+                        <a href="../prototype/news.html" target="_blank" style="color: #3366FF;">查看</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">📊</span> <span class="lang-en">Key Success Metrics</span><span class="lang-zh">关键成功指标</span></h2>
+        <ul class="lang-en">
+            <li><strong>Penetration Rate</strong> – News assistant adoption reaches 10%-20% of Botim's total user base.</li>
+            <li><strong>Retention Rate</strong> – Over 30% of users return to use the feature after initial interaction.</li>
+            <li><strong>Usage Duration</strong> – Average user engagement exceeds 2 minutes per session.</li>
+        </ul>
+        <ul class="lang-zh">
+            <li><strong>渗透率</strong> – 新闻助手的采用率达到 Botim 总用户群的 10%-20%。</li>
+            <li><strong>留存率</strong> – 超过 30% 的用户在初次互动后会回来使用该功能。</li>
+            <li><strong>使用时长</strong> – 平均用户参与度每次会话超过 2 分钟。</li>
+        </ul>
+    </div>
+
+    <div class="section highlight">
+        <h2><span class="emoji">🔍</span> <span class="lang-en">Demo</span><span class="lang-zh">演示</span></h2>
+        <p class="lang-en">Check out our interactive prototype:</p>
+        <p class="lang-zh">查看我们的交互式原型:</p>
+        <a href="https://news-kappa-henna.vercel.app/news.html" class="demo-link"><span class="lang-en">View Demo</span><span class="lang-zh">查看演示</span></a>
+    </div>
+
+    <script>
+        // Language toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const langToggle = document.getElementById('langToggle');
+            const enElements = document.querySelectorAll('.lang-en');
+            const zhElements = document.querySelectorAll('.lang-zh');
+            let currentLang = 'en'; // Default language is English
+            
+            langToggle.addEventListener('click', function() {
+                if (currentLang === 'en') {
+                    // Switch to Chinese
+                    enElements.forEach(el => el.style.display = 'none');
+                    zhElements.forEach(el => el.style.display = 'inline-block');
+                    langToggle.textContent = 'English';
+                    currentLang = 'zh';
+                } else {
+                    // Switch to English
+                    zhElements.forEach(el => el.style.display = 'none');
+                    enElements.forEach(el => el.style.display = 'inline-block');
+                    langToggle.textContent = '中文';
+                    currentLang = 'en';
+                }
+            });
+            
+            // Initialize display
+            zhElements.forEach(el => el.style.display = 'none');
+            enElements.forEach(el => el.style.display = 'inline-block');
+        });
+    </script>
+</body>
+</html> 

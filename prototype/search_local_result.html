@@ -2,124 +2,196 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Local Search Results</title>
+    <link rel="stylesheet" href="common.css">
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        /* 全局样式 */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
             background-color: #f8f9fa;
-        }
-        
-        .status-bar {
+            color: #333;
+            line-height: 1.5;
+            min-height: 100vh;
             display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app-container {
+            width: 414px;
+            height: 950px;
+            margin: 0 auto;
+            background-color: #FFF;
+            border-radius: 40px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 414px) {
+            .app-container {
+                width: 100%;
+                height: 100%;
+                border-radius: 0;
+                box-shadow: none;
+            }
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            height: 44px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
             justify-content: space-between;
-            padding: 4px 16px;
-            color: #666;
             font-size: 14px;
-            background-color: white;
+            font-weight: 600;
+            color: #333;
+            background: #FFF;
         }
-        
-        .time {
-            font-weight: 500;
+
+        .status-time {
+            flex: 1;
         }
-        
-        .status-bar-right {
+
+        .status-icons {
             display: flex;
             gap: 4px;
             align-items: center;
         }
-        
-        .header {
-            background-color: #f8f9fa;
-            padding: 10px 16px;
+
+        /* 顶部导航栏 */
+        .top-nav {
+            height: 56px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid #e0e0e0;
+            justify-content: space-between;
+            padding: 8px 16px;
+            background: #FFF;
+            border-bottom: 1px solid #EEEEEE;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        
-        .search-container {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            background-color: #eef1f4;
-            border-radius: 8px;
-            padding: 8px 12px;
-            margin: 0 16px;
-        }
-        
-        .ai-icon {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background-color: #7000ff;
-            color: white;
+
+        .back-btn {
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 500;
-            font-size: 14px;
+            font-size: 20px;
+            cursor: pointer;
             margin-right: 8px;
-            flex-shrink: 0;
         }
-        
+
+        .search-bar {
+            flex: 1;
+            height: 40px;
+            background: #F6F6F6;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            gap: 8px;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+            margin: 0 8px;
+        }
+
+        .search-icon {
+            color: #999;
+            font-size: 18px;
+        }
+
         .search-input {
             flex: 1;
             border: none;
             background: transparent;
             font-size: 16px;
+            color: #333;
             outline: none;
-            color: #1a1a1a;
+            padding: 0;
+            height: 40px;
+            line-height: 40px;
         }
-        
+
+        .search-input::placeholder {
+            color: #999;
+        }
+
+        .ai-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 16px;
+            background: #3366FF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(51, 102, 255, 0.2);
+        }
+
         .cancel-btn {
-            margin-left: 12px;
+            color: #3366FF;
             font-size: 15px;
-            color: #666;
             text-decoration: none;
-            padding: 8px;
+            margin-left: 8px;
         }
-        
+
+        /* 内容区域 */
+        .content-area {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            background-color: #FFF;
+        }
+
+        /* 分区标题 */
         .section-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 16px;
-            color: #1a1a1a;
-            font-size: 16px;
+            justify-content: space-between;
+            font-size: 18px;
+            color: #3366FF;
             font-weight: 500;
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f0f0f0;
         }
-        
-        .see-all {
-            color: #0066ff;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
+
+        /* 建议项样式 */
         .suggestion-item {
             display: flex;
             align-items: flex-start;
             padding: 16px;
-            background-color: white;
+            background: #FFF;
             border-radius: 12px;
-            margin: 0 16px 12px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 16px;
+            border: 1px solid #EEEEEE;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
             position: relative;
         }
-        
+
         .suggestion-item.transfer {
-            border-left: 4px solid #00b347;
+            border-left: 4px solid #00B347;
         }
-        
+
         .suggestion-item.card {
-            border-left: 4px solid #0066ff;
+            border-left: 4px solid #3366FF;
         }
-        
+
         .suggestion-icon {
             width: 40px;
             height: 40px;
@@ -130,49 +202,32 @@
             justify-content: center;
             font-size: 24px;
             flex-shrink: 0;
-            background-color: #f8f9fa;
+            background: #F5F7FF;
         }
-        
+
         .suggestion-content {
             flex: 1;
+            min-width: 0;
         }
-        
+
         .suggestion-title {
-            font-weight: 500;
-            margin: 0;
-            color: #1a1a1a;
             font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
         }
-        
+
         .suggestion-desc {
-            color: #666;
-            margin: 8px 0 0;
             font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
             line-height: 1.5;
         }
-        
-        .currency-conversion {
-            display: flex;
-            align-items: center;
-            margin-top: 8px;
-            font-size: 14px;
-            color: #666;
-        }
-        
-        .flag {
-            width: 20px;
-            height: 20px;
-            margin: 0 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
+
         .hot-tag {
-            background-color: #ff4d4f;
+            background-color: #FF3B30;
             color: white;
             border-radius: 4px;
             padding: 2px 8px;
@@ -180,217 +235,293 @@
             font-weight: 500;
             position: absolute;
             right: 36px;
+            top: 16px;
         }
-        
+
         .chevron {
             position: absolute;
             right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
             color: #ccc;
             font-size: 20px;
         }
-        
+
+        /* 在线结果 */
         .online-results {
             display: flex;
             align-items: center;
+            gap: 12px;
             padding: 16px;
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #e0e0e0;
-            color: #666;
-            font-size: 15px;
+            background: #F6F6F6;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        
+
+        .online-results:hover, .online-results:active {
+            background: #EEEEEE;
+        }
+
         .search-circle {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background-color: #0066ff;
-            color: white;
+            width: 36px;
+            height: 36px;
+            background: #3366FF;
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 12px;
-            font-size: 14px;
-        }
-        
-        .ask-botim {
-            padding: 16px;
-            color: #1a1a1a;
-            font-size: 16px;
+            color: white;
             font-weight: 500;
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #e0e0e0;
+            font-size: 16px;
+        }
+
+        /* Ask Botim */
+        .ask-botim {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 18px;
+            color: #3366FF;
+            font-weight: 500;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f0f0f0;
         }
-        
+
+        /* Botim AI建议 */
         .botim-suggestion {
             display: flex;
-            padding: 12px 16px;
             align-items: center;
-            background-color: white;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
-        .blue-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #0066ff;
-            margin-right: 12px;
-            flex-shrink: 0;
-        }
-        
-        .suggestions-title {
+            gap: 12px;
             padding: 16px;
-            font-size: 16px;
-            font-weight: 500;
-            color: #1a1a1a;
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #e0e0e0;
+            background: #FFF;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #EEEEEE;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .botim-suggestion:active {
+            background: #F6F6F6;
+            transform: scale(0.98);
+        }
+
+        .blue-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 6px;
+            background: #3366FF;
+        }
+
+        /* 搜索建议 */
+        .suggestions-title {
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-        
-        .search-suggestion {
-            display: flex;
-            padding: 12px 16px;
-            align-items: center;
-            background-color: white;
+            font-size: 18px;
+            color: #3366FF;
+            font-weight: 500;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
             border-bottom: 1px solid #f0f0f0;
         }
-        
-        .search-icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 12px;
-            color: #666;
+
+        .search-suggestion {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 16px;
+            gap: 12px;
+            padding: 16px;
+            background: #FFF;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #EEEEEE;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        
+
+        .search-suggestion:active {
+            background: #F6F6F6;
+            transform: scale(0.98);
+        }
+
         .search-suggestion-text {
-            color: #1a1a1a;
-            font-size: 15px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* 货币转换 */
+        .currency-conversion {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        .flag {
+            margin: 0 4px;
         }
     </style>
 </head>
 <body>
-    <!-- 状态栏 -->
-    <div class="status-bar">
-        <div class="time">9:41</div>
-        <div class="status-bar-right">
-            <span>&#128246;</span>
-            <span>&#128279;</span>
-            <span>&#128267;</span>
-        </div>
-    </div>
-    
-    <!-- 搜索框 -->
-    <div class="header">
-        <div class="search-container">
-            <div class="ai-icon">AI</div>
-            <input type="text" class="search-input" placeholder="Search" value="a">
-        </div>
-        <a href="#" class="cancel-btn">Cancel</a>
-    </div>
-    
-    <!-- AI建议部分 -->
-    <div class="section-header">
-        <div>AI Suggestions</div>
-        <a href="#" class="see-all">See all</a>
-    </div>
-    
-    <!-- 国际转账建议 -->
-    <div class="suggestion-item transfer">
-        <div class="suggestion-icon">💱</div>
-        <div class="suggestion-content">
-            <div class="suggestion-title">International Transfer</div>
-            <div class="suggestion-desc">You're so close to sending money home..</div>
-            <div class="currency-conversion">
-                <span class="flag">🇦🇪</span>
-                <span>1</span>
-                <span>≈</span>
-                <span>1.98</span>
-                <span class="flag">🇨🇳</span>
+    <div class="app-container">
+        <div class="status-bar">
+            <div class="status-time">10:20</div>
+            <div class="status-icons">
+                <div class="status-icon">•••</div>
+                <div class="status-icon">📶</div>
+                <div class="status-icon">🔋</div>
             </div>
         </div>
-        <div class="chevron">›</div>
-    </div>
-    
-    <!-- 多币种卡建议 -->
-    <div class="suggestion-item card">
-        <div class="suggestion-icon">💳</div>
-        <div class="suggestion-content">
-            <div class="suggestion-title">Multi Currency Card</div>
-            <div class="suggestion-desc">Default description</div>
+
+        <!-- 顶部导航栏 -->
+        <div class="top-nav">
+            <div class="back-btn">←</div>
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="Search" value="a">
+            </div>
+            <a href="#" class="cancel-btn">Cancel</a>
         </div>
-        <div class="hot-tag">HOT</div>
-        <div class="chevron">›</div>
+
+        <!-- 内容区域 -->
+        <div class="content-area">
+            <!-- AI建议部分 -->
+            <div class="section-header">
+                <div>AI Suggestions</div>
+            </div>
+
+            <!-- 国际转账建议 -->
+            <div class="suggestion-item transfer">
+                <div class="suggestion-icon">💱</div>
+                <div class="suggestion-content">
+                    <div class="suggestion-title">International Transfer</div>
+                    <div class="suggestion-desc">You're so close to sending money home..</div>
+                    <div class="currency-conversion">
+                        <span class="flag">🇦🇪</span>
+                        <span>1</span>
+                        <span>≈</span>
+                        <span>1.98</span>
+                        <span class="flag">🇨🇳</span>
+                    </div>
+                </div>
+                <div class="chevron">›</div>
+            </div>
+
+            <!-- 多币种卡建议 -->
+            <div class="suggestion-item card">
+                <div class="suggestion-icon">💳</div>
+                <div class="suggestion-content">
+                    <div class="suggestion-title">Multi Currency Card</div>
+                    <div class="suggestion-desc">Default description</div>
+                </div>
+                <div class="hot-tag">HOT</div>
+                <div class="chevron">›</div>
+            </div>
+
+            <!-- 在线结果 -->
+            <div class="online-results">
+                <div class="search-circle">Q</div>
+                <div>Online results for "a"</div>
+            </div>
+
+            <!-- Ask Botim AI -->
+            <div class="ask-botim">
+                <div>Ask Botim AI</div>
+            </div>
+
+            <!-- Botim AI建议 -->
+            <div class="botim-suggestion">
+                <div class="blue-dot"></div>
+                <div class="search-suggestion-text">Ramadan Timing 2025</div>
+            </div>
+
+            <div class="botim-suggestion">
+                <div class="blue-dot"></div>
+                <div class="search-suggestion-text">When does Ramadan Starts 2025?</div>
+            </div>
+
+            <div class="botim-suggestion">
+                <div class="blue-dot"></div>
+                <div class="search-suggestion-text">What is Ramadan?</div>
+            </div>
+
+            <!-- 搜索建议 -->
+            <div class="suggestions-title">
+                <div>Suggestions</div>
+            </div>
+
+            <div class="search-suggestion">
+                <div class="search-icon">🔍</div>
+                <div class="search-suggestion-text">Aladdin</div>
+            </div>
+
+            <div class="search-suggestion">
+                <div class="search-icon">🔍</div>
+                <div class="search-suggestion-text">Adjustable</div>
+            </div>
+
+            <div class="search-suggestion">
+                <div class="search-icon">🔍</div>
+                <div class="search-suggestion-text">Alcohol free</div>
+            </div>
+
+            <div class="search-suggestion">
+                <div class="search-icon">🔍</div>
+                <div class="search-suggestion-text">Automatic incline</div>
+            </div>
+        </div>
     </div>
-    
-    <!-- 在线结果 -->
-    <div class="online-results">
-        <div class="search-circle">Q</div>
-        <div>Online results for "a"</div>
-    </div>
-    
-    <!-- Ask Botim AI -->
-    <div class="ask-botim">
-        <div>Ask Botim AI</div>
-        <a href="#" class="see-all">See all</a>
-    </div>
-    
-    <!-- Botim AI建议 -->
-    <div class="botim-suggestion">
-        <div class="blue-dot"></div>
-        <div class="search-suggestion-text">Ramadan Timing 2025</div>
-    </div>
-    
-    <div class="botim-suggestion">
-        <div class="blue-dot"></div>
-        <div class="search-suggestion-text">When does Ramadan Starts 2025?</div>
-    </div>
-    
-    <div class="botim-suggestion">
-        <div class="blue-dot"></div>
-        <div class="search-suggestion-text">What is Ramadan?</div>
-    </div>
-    
-    <!-- 搜索建议 -->
-    <div class="suggestions-title">
-        <div>Suggestions</div>
-        <a href="#" class="see-all">See all</a>
-    </div>
-    
-    <div class="search-suggestion">
-        <div class="search-icon">🔍</div>
-        <div class="search-suggestion-text">Aladdin</div>
-    </div>
-    
-    <div class="search-suggestion">
-        <div class="search-icon">🔍</div>
-        <div class="search-suggestion-text">Adjustable</div>
-    </div>
-    
-    <div class="search-suggestion">
-        <div class="search-icon">🔍</div>
-        <div class="search-suggestion-text">Alcohol free</div>
-    </div>
-    
-    <div class="search-suggestion">
-        <div class="search-icon">🔍</div>
-        <div class="search-suggestion-text">Automatic incline</div>
-    </div>
-    
+
     <script>
+        // 更新时间
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.querySelector('.status-time').textContent = `${hours}:${minutes}`;
+        }
+        
+        updateTime();
+        setInterval(updateTime, 60000);
+
+        // 路径处理函数
+        function getBackPath() {
+            // 检查是否在本地环境
+            if (window.location.protocol === 'file:') {
+                // 本地环境，使用相对路径
+                return './search.html';
+            } else {
+                // 线上环境，使用绝对路径
+                return '/search';
+            }
+        }
+
+        function getOnlineResultPath() {
+            // 检查是否在本地环境
+            if (window.location.protocol === 'file:') {
+                // 本地环境，使用相对路径
+                return './search_online_result.html';
+            } else {
+                // 线上环境，使用绝对路径
+                return '/search-online';
+            }
+        }
+
+        // 设置返回按钮的点击事件
+        document.querySelector('.back-btn').addEventListener('click', function() {
+            window.location.href = getBackPath();
+        });
+
         // 添加点击效果
         document.querySelectorAll('.suggestion-item, .botim-suggestion, .search-suggestion').forEach(item => {
             item.addEventListener('click', function() {
-                this.style.backgroundColor = '#f0f0f0';
+                this.style.backgroundColor = '#F6F6F6';
                 setTimeout(() => {
                     this.style.backgroundColor = '';
                 }, 200);
@@ -399,16 +530,32 @@
         
         // 添加搜索框焦点效果
         const searchInput = document.querySelector('.search-input');
-        const searchContainer = document.querySelector('.search-container');
+        const searchBar = document.querySelector('.search-bar');
         
         searchInput.addEventListener('focus', () => {
-            searchContainer.style.backgroundColor = '#fff';
-            searchContainer.style.boxShadow = '0 0 0 2px #0066ff40';
+            searchBar.style.backgroundColor = '#FFFFFF';
+            searchBar.style.boxShadow = '0 0 0 2px rgba(51, 102, 255, 0.2)';
         });
         
         searchInput.addEventListener('blur', () => {
-            searchContainer.style.backgroundColor = '#eef1f4';
-            searchContainer.style.boxShadow = 'none';
+            searchBar.style.backgroundColor = '#F6F6F6';
+            searchBar.style.boxShadow = '0px 2px 8px rgba(0, 0, 0, 0.05)';
+        });
+
+        // 添加搜索框输入处理
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const searchValue = this.value.trim();
+                if (searchValue) {
+                    window.location.href = './search_local_result.html';
+                }
+            }
+        });
+
+        // 添加在线结果点击事件
+        document.querySelector('.online-results').addEventListener('click', function() {
+            window.location.href = getOnlineResultPath();
         });
     </script>
 </body>
