@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botim Search Results</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        .header {
+            background-color: #f8f9fa;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .back-button {
+            color: #666;
+            text-decoration: none;
+            font-size: 24px;
+        }
+
+        .search-container {
+            flex: 1;
+            display: flex;
+            gap: 8px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            background-color: #eef1f4;
+            font-size: 16px;
+        }
+
+        .search-button {
+            padding: 8px 16px;
+            background-color: #0066ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .tabs {
+            display: flex;
+            padding: 0 16px;
+            border-bottom: 1px solid #e0e0e0;
+            background-color: white;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tab {
+            padding: 12px 16px;
+            color: #666;
+            text-decoration: none;
+            position: relative;
+            font-size: 15px;
+            white-space: nowrap;
+        }
+
+        .tab.active {
+            color: #000;
+            font-weight: 500;
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #0066ff;
+        }
+
+        .search-results {
+            padding: 16px;
+        }
+
+        .result-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 16px;
+            background-color: white;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            margin-right: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .result-icon.ai {
+            background-color: #7000ff;
+            color: white;
+        }
+
+        .result-icon.app {
+            background-color: #00b347;
+            color: white;
+        }
+
+        .result-content {
+            flex: 1;
+        }
+
+        .result-title {
+            font-weight: 500;
+            margin: 0;
+            color: #1a1a1a;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .result-description {
+            color: #666;
+            margin: 8px 0 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .result-meta {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .result-meta span {
+            margin-right: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .result-meta span i {
+            margin-right: 4px;
+            font-size: 14px;
+        }
+
+        .chevron-right {
+            color: #ccc;
+            font-size: 20px;
+            margin-left: 12px;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 16px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .status-bar-right {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .news-preview {
+            margin-top: 8px;
+            padding: 8px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .news-source {
+            color: #0066ff;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            background-color: #f0f0f0;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #666;
+            margin-right: 8px;
+            margin-top: 8px;
+        }
+
+        .app-rating {
+            display: flex;
+            align-items: center;
+            color: #666;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .app-rating .stars {
+            color: #ffb400;
+            margin-right: 4px;
+        }
+
+        .result-item.definition {
+            border-left: 4px solid #7000ff;
+        }
+
+        .result-item.news {
+            border-left: 4px solid #0066ff;
+        }
+
+        .result-item.app {
+            border-left: 4px solid #00b347;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab.ai-tab {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .tab.ai-tab .ai-icon {
+            width: 16px;
+            height: 16px;
+            background-color: #7000ff;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .explanation-box {
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .explanation-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin: 0 0 8px 0;
+        }
+
+        .explanation-content {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .explanation-tags {
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .related-search-item {
+            background-color: white;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border: 1px solid #e0e0e0;
+        }
+
+        .related-search-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .related-search-source {
+            color: #0066ff;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-icon {
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-bar">
+        <span>9:41</span>
+        <div class="status-bar-right">
+            <span>📶</span>
+            <span>🔋</span>
+        </div>
+    </div>
+
+    <div class="header">
+        <a href="#" class="back-button">←</a>
+        <div class="search-container">
+            <input type="text" class="search-input" value="ramadan" placeholder="Search">
+            <button class="search-button">Search</button>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <a href="#" class="tab ai-tab active" data-tab="ai">
+            <span class="ai-icon">🤖</span>
+            AI
+        </a>
+        <a href="#" class="tab" data-tab="services">Services</a>
+        <a href="#" class="tab" data-tab="accounts">Official Accounts</a>
+        <a href="#" class="tab" data-tab="stores">Stores</a>
+    </div>
+
+    <!-- AI Tab Content -->
+    <div id="ai" class="search-results tab-content active">
+        <!-- Quran App Result -->
+        <div class="result-item app">
+            <div class="result-icon app">📖</div>
+            <div class="result-content">
+                <h3 class="result-title">
+                    Quran
+                    <span class="chevron-right">›</span>
+                </h3>
+                <p class="result-description">Complete Quran with translations, audio recitations, and Ramadan-specific content.</p>
+                <div class="app-rating">
+                    <span class="stars">⭐⭐⭐⭐⭐</span>
+                    <span>4.9 (50K+ reviews)</span>
+                </div>
+                <div class="tags">
+                    <span class="tag">Holy Quran</span>
+                    <span class="tag">Audio</span>
+                    <span class="tag">Translations</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ramadan Explanation -->
+        <div class="explanation-box">
+            <h3 class="explanation-title">What is Ramadan?</h3>
+            <p class="explanation-content">Ramadan is the ninth month of the Islamic calendar and is observed by Muslims worldwide as a month of fasting, prayer, reflection and community. It commemorates the first revelation of the Quran to Muhammad according to Islamic belief.</p>
+            <div class="explanation-tags">
+                <span class="tag">Islamic Calendar</span>
+                <span class="tag">Religious Observance</span>
+                <span class="tag">Fasting</span>
+            </div>
+        </div>
+
+        <!-- Related Searches -->
+        <div class="result-item">
+            <div class="result-content">
+                <h3 class="result-title">Related Searches</h3>
+                <div class="related-search-item" onclick="performSearch('Ramadan 2024 calendar')">
+                    <div class="related-search-source">
+                        <span>When is Ramadan 2024?</span>
+                        <span class="search-icon">🔍</span>
+                    </div>
+                    <p class="result-description">Ramadan 2024: When does it start and how is it celebrated?</p>
+                </div>
+                <div class="related-search-item" onclick="performSearch('Ramadan Dubai markets')">
+                    <div class="related-search-source">
+                        <span>Ramadan Markets in Dubai</span>
+                        <span class="search-icon">🔍</span>
+                    </div>
+                    <p class="result-description">Dubai announces Ramadan market locations and timings</p>
+                </div>
+                <div class="related-search-item" onclick="performSearch('UAE Ramadan working hours')">
+                    <div class="related-search-source">
+                        <span>UAE Ramadan Working Hours</span>
+                        <span class="search-icon">🔍</span>
+                    </div>
+                    <p class="result-description">UAE Ramadan 2024: Working hours announced for private sector</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Tab Content -->
+    <div id="services" class="search-results tab-content">
+        <div class="result-item">
+            <div class="result-icon payment">💳</div>
+            <div class="result-content">
+                <h3 class="result-title">
+                    Botim Pay
+                    <span class="chevron-right">›</span>
+                </h3>
+                <p class="result-description">Get 10% Cash back from it.</p>
+            </div>
+        </div>
+
+        <div class="result-item">
+            <div class="result-icon promo">🎟️</div>
+            <div class="result-content">
+                <h3 class="result-title">
+                    Promo Codes
+                    <span class="chevron-right">›</span>
+                </h3>
+                <p class="result-description">Incredible discount you need.</p>
+            </div>
+        </div>
+
+        <div class="result-item">
+            <div class="result-icon payment">💳</div>
+            <div class="result-content">
+                <h3 class="result-title">
+                    Money Transfer
+                    <span class="chevron-right">›</span>
+                </h3>
+                <p class="result-description">Send money to your loved ones.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Official Accounts Tab Content -->
+    <div id="accounts" class="search-results tab-content">
+        <div class="result-item">
+            <div class="result-icon">👤</div>
+            <div class="result-content">
+                <h3 class="result-title">
+                    Dubai Islamic Affairs
+                    <span class="chevron-right">›</span>
+                </h3>
+                <p class="result-description">Official Ramadan announcements and guidance.</p>
+            </div>
+        </div>
+
+        <div class="result-item">
+            <div class="result-icon">🕌</div>
+            <div class="result-content">
+                <h3 class="result-title">
+                    Grand Mosque
+                    <span class="chevron-right">›</span>
+                </h3>
+                <p class="result-description">Official updates and prayer times.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stores Tab Content -->
+    <div id="stores" class="search-results tab-content">
+        <div class="result-item">
+            <div class="result-icon">🛍️</div>
+            <div class="result-content">
+                <h3 class="result-title">
+                    Ramadan Bazaar
+                    <span class="chevron-right">›</span>
+                </h3>
+                <p class="result-description">Special Ramadan offers and products.</p>
+            </div>
+        </div>
+
+        <div class="result-item">
+            <div class="result-icon">🥘</div>
+            <div class="result-content">
+                <h3 class="result-title">
+                    Iftar Catering
+                    <span class="chevron-right">›</span>
+                </h3>
+                <p class="result-description">Order iftar meals for your family.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced tab switching functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Function to handle related search clicks
+        function performSearch(query) {
+            console.log('Searching for:', query);
+            // Here you would implement the actual search functionality
+            document.querySelector('.search-input').value = query;
+        }
+    </script>
+</body>
+</html> 

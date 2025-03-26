@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>News List</title>
+  <link rel="stylesheet" href="common.css">
+  <style>
+    /* 页面特定样式 */
+    /* General styles */
+    .top-nav {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      background-color: #FFF;
+      border-bottom: 1px solid #EEEEEE;
+      position: fixed;
+      top: 44px;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      max-width: var(--app-width);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .top-nav h1 {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .nav-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      background-color: #F6F6F6;
+      cursor: pointer;
+    }
+
+    .bottom-nav {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      background-color: #FFF;
+      border-top: 1px solid #EEEEEE;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 414px;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 12px;
+      color: #999999;
+      cursor: pointer;
+    }
+
+    .nav-item.active {
+      color: #3366FF;
+    }
+
+    .nav-item .icon {
+      margin-bottom: 4px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-item.active .icon {
+      background-color: #E8EFFF;
+    }
+
+    /* List page styles */
+    .category-tabs {
+      display: flex;
+      padding: 8px 12px;
+      overflow-x: auto;
+      background-color: #FFF;
+      white-space: nowrap;
+      border-bottom: 1px solid #EEEEEE;
+    }
+
+    .category-tab {
+      padding: 6px 12px;
+      margin-right: 8px;
+      border-radius: 15px;
+      font-size: 14px;
+      background-color: #F6F6F6;
+      color: #666;
+      cursor: pointer;
+    }
+
+    .category-tab.active {
+      background-color: #3366FF;
+      color: #FFF;
+    }
+
+    .news-list {
+      padding: 12px;
+    }
+
+    .news-card {
+      display: flex;
+      padding: 16px;
+      background-color: #FFF;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+    }
+
+    .news-card:active {
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .news-image {
+      width: 100px;
+      height: 70px;
+      border-radius: 8px;
+      background-color: #F0F0F0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      font-size: 12px;
+      overflow: hidden;
+    }
+
+    .news-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .news-content {
+      flex: 1;
+      margin-left: 12px;
+      overflow: hidden;
+    }
+
+    .news-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .news-info {
+      display: flex;
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .news-source {
+      margin-right: 16px;
+    }
+
+    .news-time {
+      color: #999;
+    }
+
+    .news-summary {
+      font-size: 14px;
+      color: #666;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Page transition animation */
+    .app-container {
+      width: var(--app-width);
+      height: var(--app-height);
+      margin: 0 auto;
+      background-color: var(--container-bg);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border-radius: var(--app-border-radius);
+      overflow: hidden;
+      box-shadow: var(--app-shadow);
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: fixed;
+      touch-action: manipulation;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--background);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    .content-area {
+      flex: 1;
+      overflow-y: auto;
+      padding-top: 76px;
+      padding-bottom: 76px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- 全局导航 -->
+  <div class="global-nav">
+    <a href="index.html" class="global-nav-item active">P <span class="nav-arrow">▾</span>
+      <div class="submenu">
+        <a href="index.html" class="submenu-item">Home</a>
+        <a href="news.html" class="submenu-item">News</a>
+        <a href="search.html" class="submenu-item">Search</a>
+        <a href="call.html" class="submenu-item">Call</a>
+        <a href="filters.html" class="submenu-item">Filters</a>
+      </div>
+    </a>
+    <a href="docs.html" class="global-nav-item">D <span class="nav-arrow">▾</span>
+      <div class="submenu">
+        <a href="docs.html" class="submenu-item">Requirements</a>
+        <a href="docs/api.html" class="submenu-item">API Docs</a>
+        <a href="docs/design.html" class="submenu-item">Design System</a>
+      </div>
+    </a>
+  </div>
+
+  <!-- List page -->
+  <div id="home-page" class="app-container active">
+    <div class="status-bar">
+      <div class="status-time">10:20</div>
+      <div class="status-icons">
+        <div class="status-icon">•••</div>
+        <div class="status-icon">📶</div>
+        <div class="status-icon">🔋</div>
+      </div>
+    </div>
+    <div class="top-nav">
+      <h1>Today's News</h1>
+      <div class="nav-icon">🔍</div>
+    </div>
+    
+    <div class="category-tabs">
+      <div class="category-tab active">Recommended</div>
+      <div class="category-tab">Technology</div>
+      <div class="category-tab">Finance</div>
+      <div class="category-tab">Sports</div>
+      <div class="category-tab">Health</div>
+      <div class="category-tab">Education</div>
+    </div>
+    
+    <div class="content-area">
+      <div class="news-list">
+        <div class="news-card" onclick="location.href='news-detail.html'">
+          <div class="news-image">
+            <img src="https://via.placeholder.com/100x70" alt="AI Code Generation Technology">
+          </div>
+          <div class="news-content">
+            <div class="news-title">New Breakthrough in AI Technology: Automatic Code Generation Draws Industry Attention</div>
+            <div class="news-info">
+              <div class="news-source">Technology Daily</div>
+              <div class="news-time">2 hours ago</div>
+            </div>
+            <div class="news-summary">The latest AI research has made significant breakthroughs in code generation, enabling the direct generation of production-ready code.</div>
+          </div>
+        </div>
+        
+        <div class="news-card" onclick="location.href='news-detail.html'">
+          <div class="news-image">
+            <img src="https://via.placeholder.com/100x70" alt="Global Economic Outlook">
+          </div>
+          <div class="news-content">
+            <div class="news-title">Global Economic Outlook: Digital Transformation to Be the Main Growth Driver</div>
+            <div class="news-info">
+              <div class="news-source">Finance Weekly</div>
+              <div class="news-time">4 hours ago</div>
+            </div>
+            <div class="news-summary">The digital economy is expected to be the main driver of global economic growth in the next five years, with an estimated annual growth rate of 15%.</div>
+          </div>
+        </div>
+        
+        <div class="news-card" onclick="location.href='news-detail.html'">
+          <div class="news-image">
+            <img src="https://via.placeholder.com/100x70" alt="New Trends in Healthy Diet">
+          </div>
+          <div class="news-content">
+            <div class="news-title">New Trends in Healthy Diet: Plant-based Proteins Become the New Market Favorite</div>
+            <div class="news-info">
+              <div class="news-source">Health Times</div>
+              <div class="news-time">6 hours ago</div>
+            </div>
+            <div class="news-summary">With the increasing health awareness of people, the market for plant-based protein foods is expanding rapidly, with an annual growth rate of over 20%.</div>
+          </div>
+        </div>
+        
+        <div class="news-card" onclick="location.href='news-detail.html'">
+          <div class="news-image">
+            <img src="https://via.placeholder.com/100x70" alt="Education Technology">
+          </div>
+          <div class="news-content">
+            <div class="news-title">Education Technology Boosts Personalized Learning, Significantly Improving Student Performance</div>
+            <div class="news-info">
+              <div class="news-source">Education Observer</div>
+              <div class="news-time">8 hours ago</div>
+            </div>
+            <div class="news-summary">Schools using AI-powered personalized learning systems report an average 15% improvement in student grades and a significant increase in engagement.</div>
+          </div>
+        </div>
+        
+        <div class="news-card" onclick="location.href='news-detail.html'">
+          <div class="news-image">
+            <img src="https://via.placeholder.com/100x70" alt="Sustainable Fashion">
+          </div>
+          <div class="news-content">
+            <div class="news-title">Sustainable Fashion Is No Longer Just a Slogan: Eco-friendly Fabrics Are Widely Used</div>
+            <div class="news-info">
+              <div class="news-source">Fashion Weekly</div>
+              <div class="news-time">10 hours ago</div>
+            </div>
+            <div class="news-summary">More and more fashion brands are starting to use recycled materials and eco-friendly processes, making sustainable fashion the new industry standard.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="bottom-nav">
+      <div class="nav-item active">
+        <div class="icon">🏠</div>
+        <div>Home</div>
+      </div>
+      <div class="nav-item">
+        <div class="icon">🔍</div>
+        <div>Discover</div>
+      </div>
+      <div class="nav-item">
+        <div class="icon">👤</div>
+        <div>My</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="global-nav.js"></script>
+  <script>
+    // Add click events to all category tabs
+    document.querySelectorAll('.category-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.category-tab').forEach(t => {
+          t.classList.remove('active');
+        });
+        this.classList.add('active');
+      });
+    });
+    
+    // Add click events to all bottom navigation items
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', function() {
+        document.querySelectorAll('.nav-item').forEach(i => {
+          i.classList.remove('active');
+        });
+        this.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html> 

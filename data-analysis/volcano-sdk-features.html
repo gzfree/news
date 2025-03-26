@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>火山引擎 SDK 增强现实能力 - 视频通话应用</title>
+    <style>
+        body {
+            font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            font-size: 28px;
+            color: #0066cc;
+        }
+        h2 {
+            font-size: 22px;
+            margin-top: 30px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eaeaea;
+            color: #333;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .feature-description {
+            color: #666;
+            font-size: 14px;
+        }
+        .section-intro {
+            margin-bottom: 25px;
+        }
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #777;
+            font-size: 14px;
+        }
+        .image-gallery {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin: 25px 0;
+        }
+        .gallery-item {
+            flex-basis: 48%;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .gallery-item img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        .gallery-caption {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+        .image-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .showcase-image {
+            max-width: 230px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            margin: 0 10px 20px;
+        }
+        .feature-highlight {
+            background-color: #f0f7ff;
+            border-left: 4px solid #0066cc;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+        .feature-highlight h3 {
+            margin-top: 0;
+            color: #0066cc;
+            font-size: 18px;
+        }
+        .video-call-benefit {
+            background-color: #f5fff5;
+            border-left: 4px solid #00aa55;
+            padding: 15px;
+            margin: 10px 0 20px 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 14px;
+        }
+        .video-call-benefit h4 {
+            margin-top: 0;
+            color: #00aa55;
+            font-size: 16px;
+        }
+        .image-description {
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .image-description ul {
+            margin: 5px 0 0 20px;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>火山引擎 SDK 增强现实能力</h1>
+        <p>提升视频通话互动体验的 AR 特效和虚拟形象技术</p>
+    </header>
+
+    <section>
+        <div class="section-intro">
+            <p>火山引擎 SDK 提供多种 AR 和虚拟形象功能，可大幅提升视频通话的互动性和趣味性。下面展示几个核心功能及其在视频通话场景中的应用优势。</p>
+        </div>
+        
+        <div class="feature-highlight">
+            <h3>虚拟形象替身</h3>
+            <p>用户可在视频通话中使用个性化虚拟形象，保护隐私同时提升互动效果</p>
+        </div>
+        
+        <div class="image-container">
+            <img src="./images/avatar-example.jpg" class="showcase-image" alt="虚拟形象示例">
+            <img src="./images/avatar-drive-ui.jpg" class="showcase-image" alt="虚拟形象驱动界面">
+        </div>
+        
+        <div class="image-description" style="max-width: 600px; margin: 0 auto 20px auto;">
+            <ul>
+                <li><strong>左图:</strong> 虚拟形象示例</li>
+                <li><strong>右图:</strong> 虚拟形象驱动界面</li>
+            </ul>
+        </div>
+        
+        <div class="video-call-benefit">
+            <h4>视频通话优势</h4>
+            <ul>
+                <li><strong>隐私保护:</strong> 用户无需展示真实面貌，减轻视频疲劳感</li>
+                <li><strong>表情同步:</strong> 实时捕捉并映射用户表情，保持自然沟通</li>
+                <li><strong>个性表达:</strong> 多样化形象选择，展现个人风格</li>
+                <li><strong>降低带宽:</strong> 虚拟形象传输数据量小，适合网络条件受限场景</li>
+            </ul>
+        </div>
+        
+        <div class="feature-highlight">
+            <h3>AR 特效与风格化渲染</h3>
+            <p>视频通话过程中添加实时特效，提升会议趣味性和参与感</p>
+        </div>
+        
+        <div class="image-container">
+            <img src="./images/ar-stickers.jpg" class="showcase-image" alt="AR贴纸">
+            <img src="./images/style-rendering.jpg" class="showcase-image" alt="风格渲染">
+        </div>
+        
+        <div class="image-description" style="max-width: 600px; margin: 0 auto 20px auto;">
+            <ul>
+                <li><strong>左图:</strong> AR贴纸</li>
+                <li><strong>右图:</strong> 风格渲染</li>
+            </ul>
+        </div>
+        
+        <div class="video-call-benefit">
+            <h4>视频通话优势</h4>
+            <ul>
+                <li><strong>氛围营造:</strong> 特定场景(如节日祝福)可添加相应贴纸提升氛围</li>
+                <li><strong>会议趣味性:</strong> 破除传统视频会议刻板感，增加互动趣味</li>
+                <li><strong>背景美化:</strong> 智能渲染优化环境，无需担忧真实背景杂乱</li>
+                <li><strong>品牌定制:</strong> 企业可添加品牌元素贴纸，强化企业文化</li>
+            </ul>
+        </div>
+        
+        <div class="feature-highlight">
+            <h3>高级交互特效</h3>
+            <p>手势识别和AR试戴，为视频通话增加创新互动方式</p>
+        </div>
+        
+        <div class="image-gallery">
+            <div class="gallery-item">
+                <img src="./images/fist-gesture.jpg" alt="拳头手势">
+                <div class="gallery-caption">拳头手势</div>
+            </div>
+            <div class="gallery-item">
+                <img src="./images/ar-helmet.jpg" alt="AR头盔">
+                <div class="gallery-caption">AR头盔</div>
+            </div>
+        </div>
+        
+        <div class="video-call-benefit">
+            <h4>视频通话优势</h4>
+            <ul>
+                <li><strong>非语言互动:</strong> 通过手势快速触发表情或特效，丰富沟通形式</li>
+                <li><strong>远程演示:</strong> 产品销售可在视频中展示虚拟试用效果</li>
+                <li><strong>会议控制:</strong> 利用手势进行静音、举手等操作，简化会议流程</li>
+                <li><strong>教育培训:</strong> 远程示范和指导更加直观，提升学习效果</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer>
+    </footer>
+</body>
+ 
+ </html>

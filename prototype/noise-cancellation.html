@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 智能降噪通话</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --info: #4895ef;
+            --warning: #f72585;
+            --danger: #ff4d6d;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gray-light: #f1f3f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #000;
+            color: #f8f9fa;
+            line-height: 1.6;
+            overflow: hidden;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .call-container {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 状态栏样式 */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: transparent;
+            color: white;
+            font-weight: 500;
+        }
+
+        .status-bar-time {
+            font-size: 18px;
+        }
+
+        .status-bar-icons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            color: white;
+            background: none;
+            border: none;
+            font-size: 24px;
+            z-index: 100;
+            cursor: pointer;
+        }
+
+        /* 调整主要内容区域 */
+        .call-main {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .remote-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            filter: brightness(0.9);
+        }
+
+        /* 通话者信息 */
+        .caller-info {
+            position: absolute;
+            bottom: 150px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            z-index: 5;
+            text-align: center;
+        }
+
+        .caller-name {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .caller-status {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .call-vip-badge {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .hd-badge {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+
+        .call-duration-badge {
+            position: absolute;
+            left: 40px;
+            bottom: 100px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            z-index: 5;
+        }
+
+        /* 本地视频调整 */
+        .local-video-container {
+            position: absolute;
+            top: 150px;
+            right: 20px;
+            width: 130px;
+            height: 200px;
+            border-radius: 20px;
+            overflow: hidden;
+            z-index: 3;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* 底部控制按钮 */
+        .call-footer {
+            padding: 20px 0 40px;
+            display: flex;
+            justify-content: space-evenly;
+            background-color: transparent;
+            z-index: 10;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .footer-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .footer-btn.end-call {
+            background-color: #FF3B30;
+        }
+
+        .footer-btn.regular {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* AI 降噪指示器 */
+        .noise-cancellation {
+            position: absolute;
+            top: 80px;
+            left: 20px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 50px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 5;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            animation: pulse 2s infinite;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(67, 97, 238, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(67, 97, 238, 0);
+            }
+        }
+
+        .side-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #3478F6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 5;
+            margin-bottom: 10px;
+        }
+
+        .contact-button {
+            position: absolute;
+            left: 20px;
+            top: calc(50% + 50px);
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 5;
+        }
+
+        .call-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 12px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .call-name {
+            font-weight: 500;
+            font-size: 18px;
+        }
+
+        .call-duration {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .call-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .call-action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .call-action-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .call-action-btn.end-call {
+            background-color: var(--danger);
+        }
+
+        .call-action-btn.end-call:hover {
+            background-color: #ff3057;
+        }
+
+        .local-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .noise-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--success);
+            animation: spin 4s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .noise-text {
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .noise-status {
+            font-size: 14px;
+            color: var(--success);
+        }
+
+        .waveform {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 12px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            z-index: 5;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .wave-bar {
+            width: 3px;
+            background-color: var(--primary);
+            border-radius: 3px;
+            animation: wave 1s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                height: 10px;
+            }
+            50% {
+                height: 30px;
+            }
+        }
+
+        .wave-bar:nth-child(1) { animation-delay: 0.0s; }
+        .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { animation-delay: 0.3s; }
+        .wave-bar:nth-child(5) { animation-delay: 0.4s; }
+        .wave-bar:nth-child(6) { animation-delay: 0.5s; }
+        .wave-bar:nth-child(7) { animation-delay: 0.6s; }
+        .wave-bar:nth-child(8) { animation-delay: 0.7s; }
+        .wave-bar:nth-child(9) { animation-delay: 0.8s; }
+        .wave-bar:nth-child(10) { animation-delay: 0.9s; }
+
+        .noise-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        .noise-detail {
+            position: absolute;
+            bottom: 150px;
+            left: 20px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 12px;
+            padding: 15px;
+            z-index: 5;
+            max-width: 300px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .noise-detail h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .noise-detail p {
+            font-size: 14px;
+            color: var(--light);
+            margin-bottom: 10px;
+        }
+
+        .noise-stat {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .noise-stat-value {
+            color: var(--success);
+            font-weight: 500;
+        }
+
+        /* 主屏幕指示器 */
+        .home-indicator {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30%;
+            height: 5px;
+            background-color: white;
+            border-radius: 3px;
+            z-index: 10;
+        }
+
+        /* 过滤波形效果 - 模拟降噪 */
+        .noise-filter-visual {
+            position: absolute;
+            bottom: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 2px;
+            opacity: 0.7;
+            z-index: 3;
+        }
+
+        .noise-filter-bar {
+            width: 3px;
+            height: 20px;
+            background-color: red;
+            animation: noiseWave 1s ease-in-out infinite;
+            opacity: 0.2;
+        }
+
+        .clean-audio-bar {
+            width: 3px;
+            height: 20px;
+            background-color: #4cc9f0;
+            animation: audioWave 1s ease-in-out infinite;
+        }
+
+        @keyframes noiseWave {
+            0%, 100% { height: 5px; }
+            50% { height: 15px; }
+        }
+
+        @keyframes audioWave {
+            0%, 100% { height: 10px; }
+            25% { height: 30px; }
+            50% { height: 20px; }
+            75% { height: 25px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="call-container">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <div class="status-bar-time">9:41</div>
+            <div class="status-bar-icons">
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-battery-three-quarters"></i>
+            </div>
+        </div>
+
+        <!-- 返回按钮 -->
+        <button class="back-button">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <div class="call-main">
+            <!-- 视频部分 -->
+            <video class="remote-video" autoplay muted loop>
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-woman-with-blonde-hair-posing-smiling-for-camera-42365-large.mp4" type="video/mp4">
+                您的浏览器不支持视频标签
+            </video>
+
+            <!-- 侧边功能按钮 -->
+            <div class="side-button">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <div class="contact-button">
+                <i class="fas fa-user"></i>
+            </div>
+
+            <!-- 本地视频窗口 -->
+            <div class="local-video-container">
+                <video class="local-video" autoplay muted loop>
+                    <source src="https://assets.mixkit.co/videos/preview/mixkit-woman-with-dark-hair-and-pink-ears-smiles-42366-large.mp4" type="video/mp4">
+                    您的浏览器不支持视频标签
+                </video>
+            </div>
+
+            <!-- AI 降噪指示器 -->
+            <div class="noise-cancellation">
+                <i class="fas fa-shield-alt noise-icon"></i>
+                <div class="noise-text">
+                    <div>AI 智能降噪</div>
+                    <div class="noise-status">降噪中...</div>
+                </div>
+            </div>
+
+            <!-- 通话者信息 -->
+            <div class="caller-info">
+                <div class="caller-name">Albert Flores <span class="call-vip-badge">VIP</span></div>
+                <div class="caller-status">
+                    <i class="fas fa-microphone"></i> 通话中
+                </div>
+            </div>
+
+            <!-- 通话时长 -->
+            <div class="call-duration-badge">
+                <i class="fas fa-signal"></i> 23:04 <span class="hd-badge">HD</span>
+            </div>
+
+            <!-- 噪音详情面板 -->
+            <div class="noise-detail">
+                <h3><i class="fas fa-chart-line"></i> AI 降噪状态</h3>
+                <p>智能降噪正在过滤以下噪音：</p>
+                <div class="noise-stat">
+                    <span>环境噪音</span>
+                    <span class="noise-stat-value">降低 95%</span>
+                </div>
+                <div class="noise-stat">
+                    <span>回声</span>
+                    <span class="noise-stat-value">降低 98%</span>
+                </div>
+                <div class="noise-stat">
+                    <span>背景音乐</span>
+                    <span class="noise-stat-value">降低 90%</span>
+                </div>
+            </div>
+
+            <!-- 粒子效果 -->
+            <canvas id="noiseParticles" class="noise-particles"></canvas>
+
+            <!-- 显示降噪过程的可视化元素 -->
+            <div class="noise-filter-visual">
+                <!-- 噪音部分 - 红色，较弱 -->
+                <div class="noise-filter-bar"></div>
+                <div class="noise-filter-bar"></div>
+                <div class="noise-filter-bar"></div>
+                <div class="noise-filter-bar"></div>
+                <div class="noise-filter-bar"></div>
+                <!-- 清晰音频部分 - 蓝色，较强 -->
+                <div class="clean-audio-bar"></div>
+                <div class="clean-audio-bar"></div>
+                <div class="clean-audio-bar"></div>
+                <div class="clean-audio-bar"></div>
+                <div class="clean-audio-bar"></div>
+                <div class="clean-audio-bar"></div>
+                <div class="clean-audio-bar"></div>
+                <div class="clean-audio-bar"></div>
+                <div class="clean-audio-bar"></div>
+                <div class="clean-audio-bar"></div>
+            </div>
+        </div>
+
+        <!-- 底部控制按钮 -->
+        <div class="call-footer">
+            <button class="footer-btn regular">
+                <i class="fas fa-retweet"></i>
+            </button>
+            <button class="footer-btn regular">
+                <i class="fas fa-volume-up"></i>
+            </button>
+            <button class="footer-btn end-call">
+                <i class="fas fa-phone-slash"></i>
+            </button>
+            <button class="footer-btn regular">
+                <i class="fas fa-video"></i>
+            </button>
+            <button class="footer-btn regular">
+                <i class="fas fa-microphone"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- 主屏幕指示器 -->
+    <div class="home-indicator"></div>
+
+    <script>
+        // 创建音频波形动画
+        const waveform = document.querySelector('.waveform');
+        const waveBars = document.querySelectorAll('.wave-bar');
+        
+        function updateWaveform() {
+            waveBars.forEach(bar => {
+                const height = 5 + Math.random() * 25;
+                bar.style.height = `${height}px`;
+            });
+        }
+        
+        setInterval(updateWaveform, 100);
+
+        // 降噪粒子效果
+        const canvas = document.getElementById('noiseParticles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
+        class Particle {
+            constructor() {
+                // 粒子从屏幕中心开始
+                this.x = window.innerWidth / 2 + (Math.random() * 100 - 50);
+                this.y = window.innerHeight / 2 + (Math.random() * 100 - 50);
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 2 - 1;
+                this.speedY = Math.random() * 2 - 1;
+                
+                // 更多蓝色和青色调
+                const colors = ['#4361ee', '#4cc9f0', '#3a86ff', '#38b6ff'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                
+                // 粒子寿命
+                this.life = 100 + Math.random() * 100;
+                this.opacity = 0.7;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                // 随着粒子移动，逐渐变小和变透明
+                this.life -= 1;
+                if (this.life < 50) {
+                    this.opacity = this.life / 50 * 0.7;
+                }
+                
+                // 当粒子超出屏幕或生命结束时，返回false表示可以移除
+                if (this.x < 0 || this.x > canvas.width || 
+                    this.y < 0 || this.y > canvas.height || 
+                    this.life <= 0) {
+                    return false;
+                }
+                return true;
+            }
+            
+            draw() {
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.closePath();
+                ctx.globalAlpha = 1;
+            }
+        }
+        
+        function createParticles() {
+            // 控制粒子数量，移动设备减少粒子数
+            if (particles.length < 70) {
+                for (let i = 0; i < 3; i++) {
+                    particles.push(new Particle());
+                }
+            }
+        }
+        
+        function animateParticles() {
+            // 创建淡出效果而不是完全清除
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            particles = particles.filter(particle => {
+                return particle.update();
+            });
+            
+            particles.forEach(particle => {
+                particle.draw();
+            });
+            
+            createParticles();
+            requestAnimationFrame(animateParticles);
+        }
+        
+        // 显示/隐藏降噪详情面板
+        const noiseIcon = document.querySelector('.noise-cancellation');
+        const noiseDetail = document.querySelector('.noise-detail');
+        
+        noiseIcon.addEventListener('click', function() {
+            if (noiseDetail.style.display === 'none' || noiseDetail.style.display === '') {
+                noiseDetail.style.display = 'flex';
+                noiseIcon.style.backgroundColor = 'var(--primary)';
+            } else {
+                noiseDetail.style.display = 'none';
+                noiseIcon.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
+            }
+        });
+        
+        // 默认隐藏降噪详情
+        noiseDetail.style.display = 'none';
+        
+        // 添加脉冲动画到降噪图标
+        setInterval(() => {
+            noiseIcon.classList.toggle('pulse');
+        }, 2000);
+        
+        // 开始动画
+        animateParticles();
+        
+        // 模拟通话时长
+        const durationElement = document.querySelector('.call-duration-badge');
+        let seconds = 23 * 60 + 4; // 开始于23:04
+        
+        function updateCallDuration() {
+            seconds++;
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            durationElement.innerHTML = `<i class="fas fa-signal"></i> ${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds} <span class="hd-badge">HD</span>`;
+        }
+        
+        setInterval(updateCallDuration, 1000);
+
+        // 模拟降噪波形效果
+        const noiseFilterBars = document.querySelectorAll('.noise-filter-bar');
+        const cleanAudioBars = document.querySelectorAll('.clean-audio-bar');
+        
+        function updateNoiseWaveform() {
+            noiseFilterBars.forEach(bar => {
+                // 噪音波形较小，表示噪音被过滤
+                const height = 3 + Math.random() * 5;
+                bar.style.height = `${height}px`;
+            });
+            
+            cleanAudioBars.forEach(bar => {
+                // 清晰音频波形较大
+                const height = 10 + Math.random() * 20;
+                bar.style.height = `${height}px`;
+            });
+        }
+        
+        setInterval(updateNoiseWaveform, 100);
+    </script>
+</body>
+</html> 

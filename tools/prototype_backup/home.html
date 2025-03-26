@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Botim - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #F8F8F8;
+            color: #333;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .status-bar {
+            height: 44px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .status-time {
+            flex: 1;
+            text-align: center;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+        }
+
+        .header {
+            padding: 16px;
+            background: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0084FF;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 16px;
+            font-size: 18px;
+            color: #666;
+        }
+
+        .search-bar {
+            padding: 12px 16px;
+            background: #fff;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .search-input {
+            background: #F2F2F7;
+            border-radius: 10px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            color: #8E8E93;
+        }
+
+        .search-icon {
+            margin-right: 8px;
+        }
+
+        .tabs {
+            display: flex;
+            background: #fff;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px 0;
+            text-align: center;
+            font-size: 15px;
+            color: #666;
+            position: relative;
+        }
+
+        .tab.active {
+            color: #0084FF;
+            font-weight: 600;
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background: #0084FF;
+            border-radius: 1.5px;
+        }
+
+        .contact-list, .call-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .section-header {
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #8E8E93;
+            background: #F8F8F8;
+        }
+
+        .contact-item, .call-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background: #fff;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            overflow: hidden;
+            margin-right: 12px;
+            background: #E5E5EA;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .contact-info, .call-info {
+            flex: 1;
+        }
+
+        .contact-name, .caller-name {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .contact-status, .call-time {
+            font-size: 14px;
+            color: #8E8E93;
+        }
+
+        .contact-action, .call-action {
+            display: flex;
+            gap: 16px;
+        }
+
+        .action-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background: #F2F2F7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0084FF;
+            font-size: 18px;
+        }
+
+        .tab-content {
+            flex: 1;
+            display: none;
+            overflow-y: auto;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .bottom-nav {
+            height: 83px;
+            background: #fff;
+            display: flex;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            padding-bottom: 30px;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #8E8E93;
+            font-size: 10px;
+            padding-top: 8px;
+        }
+
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item.active {
+            color: #0084FF;
+        }
+    </style>
+</head>
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-time">9:41</div>
+        <div class="status-icons">
+            <div>📶</div>
+            <div>📡</div>
+            <div>🔋</div>
+        </div>
+    </div>
+
+    <!-- 头部 -->
+    <div class="header">
+        <div class="logo">Botim</div>
+        <div class="header-icons">
+            <div>➕</div>
+            <div>📷</div>
+        </div>
+    </div>
+
+    <!-- 搜索栏 -->
+    <div class="search-bar">
+        <div class="search-input">
+            <div class="search-icon">🔍</div>
+            <div>搜索联系人和聊天</div>
+        </div>
+    </div>
+
+    <!-- 标签栏 -->
+    <div class="tabs">
+        <div class="tab active" id="contacts-tab">联系人</div>
+        <div class="tab" id="calls-tab">通话</div>
+    </div>
+
+    <!-- 联系人列表 -->
+    <div class="tab-content active" id="contacts-content">
+        <div class="section-header">收藏联系人</div>
+        <div class="contact-item">
+            <div class="avatar">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Contact">
+            </div>
+            <div class="contact-info">
+                <div class="contact-name">王小红</div>
+                <div class="contact-status">在线</div>
+            </div>
+            <div class="contact-action">
+                <div class="action-icon">📞</div>
+                <div class="action-icon">📹</div>
+            </div>
+        </div>
+
+        <div class="section-header">所有联系人</div>
+        <div class="contact-item">
+            <div class="avatar">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Contact">
+            </div>
+            <div class="contact-info">
+                <div class="contact-name">李小明</div>
+                <div class="contact-status">在线</div>
+            </div>
+            <div class="contact-action">
+                <div class="action-icon">📞</div>
+                <div class="action-icon">📹</div>
+            </div>
+        </div>
+        <div class="contact-item">
+            <div class="avatar">
+                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Contact">
+            </div>
+            <div class="contact-info">
+                <div class="contact-name">张小芳</div>
+                <div class="contact-status">3小时前在线</div>
+            </div>
+            <div class="contact-action">
+                <div class="action-icon">📞</div>
+                <div class="action-icon">📹</div>
+            </div>
+        </div>
+        <div class="contact-item">
+            <div class="avatar">
+                <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="Contact">
+            </div>
+            <div class="contact-info">
+                <div class="contact-name">赵小刚</div>
+                <div class="contact-status">1天前在线</div>
+            </div>
+            <div class="contact-action">
+                <div class="action-icon">📞</div>
+                <div class="action-icon">📹</div>
+            </div>
+        </div>
+        <div class="contact-item">
+            <div class="avatar">
+                <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="Contact">
+            </div>
+            <div class="contact-info">
+                <div class="contact-name">刘小婷</div>
+                <div class="contact-status">2天前在线</div>
+            </div>
+            <div class="contact-action">
+                <div class="action-icon">📞</div>
+                <div class="action-icon">📹</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 通话列表 -->
+    <div class="tab-content" id="calls-content">
+        <div class="section-header">最近通话</div>
+        <div class="call-item">
+            <div class="avatar">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Caller">
+            </div>
+            <div class="call-info">
+                <div class="caller-name">李小明</div>
+                <div class="call-time">今天, 14:32</div>
+            </div>
+            <div class="call-action">
+                <div class="action-icon">📞</div>
+                <div class="action-icon">📹</div>
+            </div>
+        </div>
+        <div class="call-item">
+            <div class="avatar">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Caller">
+            </div>
+            <div class="call-info">
+                <div class="caller-name">王小红</div>
+                <div class="call-time">今天, 10:15</div>
+            </div>
+            <div class="call-action">
+                <div class="action-icon">📞</div>
+                <div class="action-icon">📹</div>
+            </div>
+        </div>
+        <div class="call-item">
+            <div class="avatar">
+                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Caller">
+            </div>
+            <div class="call-info">
+                <div class="caller-name">张小芳</div>
+                <div class="call-time">昨天, 19:24</div>
+            </div>
+            <div class="call-action">
+                <div class="action-icon">📞</div>
+                <div class="action-icon">📹</div>
+            </div>
+        </div>
+        <div class="call-item">
+            <div class="avatar">
+                <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="Caller">
+            </div>
+            <div class="call-info">
+                <div class="caller-name">赵小刚</div>
+                <div class="call-time">昨天, 16:08</div>
+            </div>
+            <div class="call-action">
+                <div class="action-icon">📞</div>
+                <div class="action-icon">📹</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航 -->
+    <div class="bottom-nav">
+        <div class="nav-item active">
+            <div class="nav-icon">📞</div>
+            <div>Call</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">💬</div>
+            <div>消息</div>
+        </div>
+    </div>
+
+    <script>
+        // 标签切换功能
+        const contactsTab = document.getElementById('contacts-tab');
+        const callsTab = document.getElementById('calls-tab');
+        const contactsContent = document.getElementById('contacts-content');
+        const callsContent = document.getElementById('calls-content');
+
+        contactsTab.addEventListener('click', function() {
+            contactsTab.classList.add('active');
+            callsTab.classList.remove('active');
+            contactsContent.classList.add('active');
+            callsContent.classList.remove('active');
+        });
+
+        callsTab.addEventListener('click', function() {
+            callsTab.classList.add('active');
+            contactsTab.classList.remove('active');
+            callsContent.classList.add('active');
+            contactsContent.classList.remove('active');
+        });
+
+        // 搜索栏点击跳转
+        document.querySelector('.search-input').addEventListener('click', function() {
+            window.location.href = 'search.html';
+        });
+
+        // 视频通话按钮点击跳转
+        const videoCallButtons = document.querySelectorAll('.action-icon:nth-child(2)');
+        videoCallButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                window.location.href = 'voip.html';
+            });
+        });
+
+        // 通话列表项点击跳转到视频通话页面
+        const callItems = document.querySelectorAll('.call-item');
+        callItems.forEach(item => {
+            item.addEventListener('click', function() {
+                window.location.href = 'voip.html';
+            });
+        });
+    </script>
+    
+    <!-- 设备切换器 -->
+    <script src="assets/device-switcher.js"></script>
+</body>
+</html> 

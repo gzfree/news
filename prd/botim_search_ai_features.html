@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botim Search AI Enhancement Features</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            position: relative;
+        }
+        h1, h2, h3 {
+            color: #2b579a;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        h1 {
+            font-size: 2.2em;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        h2 {
+            font-size: 1.8em;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 5px;
+        }
+        h3 {
+            font-size: 1.4em;
+        }
+        h4 {
+            font-size: 1.1em;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1em 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        strong {
+            font-weight: bold;
+            color: #2b579a;
+        }
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 5px;
+        }
+        .tag {
+            display: inline-block;
+            background-color: #e0f0ff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #0066cc;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .feature-out {
+            color: #cc0000;
+            font-weight: bold;
+        }
+        .scenario {
+            background-color: #f0f7ff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border-left: 4px solid #2b579a;
+        }
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 12px;
+            background-color: #2b579a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .lang-switch:hover {
+            background-color: #1a3a70;
+        }
+        .content-zh {
+            display: none;
+        }
+        .feature-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .feature-header {
+            background-color: #f0f7ff;
+            padding: 10px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .feature-header h3 {
+            margin: 0;
+            color: #0066cc;
+        }
+        .feature-body {
+            padding: 15px;
+        }
+        .feature-description {
+            background-color: #f5f5f5;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        .pros, .cons {
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        .pros {
+            background-color: #f5fff5;
+        }
+        .pros h4 {
+            color: #00aa55;
+            margin-top: 0;
+        }
+        .cons {
+            background-color: #fff5f5;
+        }
+        .cons h4 {
+            color: #aa0055;
+            margin-top: 0;
+        }
+        .implementation {
+            background-color: #f5f8ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+        .implementation h3 {
+            color: #0066cc;
+            margin-top: 0;
+        }
+        .feature-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .feature-table th {
+            background-color: #f0f7ff;
+            padding: 12px;
+            text-align: left;
+            color: #0066cc;
+            font-weight: bold;
+            border: 1px solid #ddd;
+        }
+        .feature-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+        .feature-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .pros-list, .cons-list {
+            padding-left: 20px;
+            margin: 0;
+        }
+        .pros-title {
+            color: #00aa55;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .cons-title {
+            color: #aa0055;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .feature-name {
+            font-weight: bold;
+            color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <button id="langToggle" class="lang-switch">中文</button>
+    
+    <div id="content-en" class="content-en">
+        <h1>Botim Search AI Enhancement Features</h1>
+        
+        <h2><span class="emoji">🪟</span> Overview</h2>
+        <p>This project aims to enhance Botim's search functionality by introducing the following features:</p>
+        <ul>
+            <li><strong>Web Search Integration</strong>: When local search results are empty, provide web search results as an alternative.</li>
+            <li><strong>Multilingual Search Support</strong>: Enable search functionality for Arabic and Chinese content while maintaining relevance matching.</li>
+            <li><strong>Internal Knowledge Base Integration</strong>: Implement two-tier matching system with fixed rules and LLM-based semantic matching.</li>
+            <li><strong>IM Message Search</strong>: Add search functionality for selected text messages within IM conversations.</li>
+            <li><strong>Money Services Integration</strong>: Expand search coverage to include more money-related services.</li>
+            <li><strong>Social Proof</strong>: Display usage statistics for each service (e.g., "1000+ users").</li>
+            <li><strong>Service Tags</strong>: Add descriptive tags to services for better UI presentation and functionality explanation.</li>
+        </ul>
+
+        <h2><span class="emoji">🛸</span> Problem</h2>
+        <ul>
+            <li>Users need access to web content when local search results are insufficient.</li>
+            <li>Language barriers limit search effectiveness for non-English content.</li>
+            <li>Internal knowledge base content is not fully utilized in search results.</li>
+            <li>Users cannot easily search within IM conversations.</li>
+            <li>Money-related services are not fully discoverable through search.</li>
+            <li>Service credibility and popularity information is not visible to users.</li>
+            <li>Service functionality is not clearly communicated through tags.</li>
+        </ul>
+
+        <h2><span class="emoji">🎯</span> Objectives</h2>
+        <ul>
+            <li>Implement seamless web search integration when local results are empty.</li>
+            <li>Enable accurate search results for Arabic and Chinese content.</li>
+            <li>Create a hybrid search system combining rule-based and LLM matching.</li>
+            <li>Add in-conversation search functionality for selected messages.</li>
+            <li>Expand search coverage to include comprehensive money services.</li>
+            <li>Display social proof metrics for each service.</li>
+            <li>Implement a tagging system for better service categorization and description.</li>
+        </ul>
+
+        <h2><span class="emoji">🚧</span> Constraints</h2>
+        <ul>
+            <li>Web search results must be clearly distinguished from local results.</li>
+            <li>Multilingual support must maintain high accuracy and relevance.</li>
+            <li>LLM-based matching must be optimized for performance and cost.</li>
+            <li>Message search must respect user privacy and data protection regulations.</li>
+            <li>Service tags must be standardized and consistent across the platform.</li>
+        </ul>
+
+        <h2><span class="emoji">💁</span> Customer Persona</h2>
+        <div>
+            <p><strong>Persona 1: Multilingual Users</strong></p>
+            <p><span class="tag">📌</span> Need: Search functionality that works effectively in multiple languages.</p>
+        </div>
+        <div>
+            <p><strong>Persona 2: Business Users</strong></p>
+            <p><span class="tag">📌</span> Need: Access to comprehensive money services and business-related information.</p>
+        </div>
+        <div>
+            <p><strong>Persona 3: Regular IM Users</strong></p>
+            <p><span class="tag">📌</span> Need: Easy access to past conversations and related information.</p>
+        </div>
+
+        <h2><span class="emoji">🧳</span> Use Cases</h2>
+        <div class="scenario">
+            <p><span class="tag">📌</span> <strong>Scenario 1</strong>: A user searches for a service in Arabic, and the system provides relevant results in both Arabic and English.</p>
+        </div>
+        <div class="scenario">
+            <p><span class="tag">📌</span> <strong>Scenario 2</strong>: A user selects text from an IM message and searches for related services or information.</p>
+        </div>
+        <div class="scenario">
+            <p><span class="tag">📌</span> <strong>Scenario 3</strong>: When local search returns no results, the system automatically shows relevant web search results.</p>
+        </div>
+
+        <h2><span class="emoji">🔍</span> Detailed Feature Analysis</h2>
+        
+        <table class="feature-table">
+            <thead>
+                <tr>
+                    <th width="18%">Feature</th>
+                    <th width="27%">Description</th>
+                    <th width="27%">Advantages</th>
+                    <th width="28%">Disadvantages</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="feature-name">Web Search Integration</td>
+                    <td>When local search results are empty, the system automatically provides relevant web search results as an alternative, ensuring users always get meaningful results.</td>
+                    <td>
+                        <div class="pros-title">Advantages:</div>
+                        <ul class="pros-list">
+                            <li>Ensures users always get search results</li>
+                            <li>Expands search coverage beyond local content</li>
+                            <li>Improves user satisfaction by providing alternatives</li>
+                            <li>Enables discovery of external resources</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">Disadvantages:</div>
+                        <ul class="cons-list">
+                            <li>May increase response time</li>
+                            <li>Requires additional API costs</li>
+                            <li>Need to handle web content quality</li>
+                            <li>May confuse users if not clearly distinguished</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="feature-name">Multilingual Search</td>
+                    <td>Support for Arabic and Chinese content search with relevance matching, enabling users to find content in their preferred language.</td>
+                    <td>
+                        <div class="pros-title">Advantages:</div>
+                        <ul class="pros-list">
+                            <li>Expands user base to non-English speakers</li>
+                            <li>Improves accessibility for diverse users</li>
+                            <li>Enhances user experience in local markets</li>
+                            <li>Supports cross-language content discovery</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">Disadvantages:</div>
+                        <ul class="cons-list">
+                            <li>Requires complex language processing</li>
+                            <li>May increase processing time</li>
+                            <li>Need to maintain translation quality</li>
+                            <li>Higher development and maintenance costs</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="feature-name">Internal Knowledge Base Integration</td>
+                    <td>Two-tier matching system combining fixed rules and LLM-based semantic matching for comprehensive internal content search.</td>
+                    <td>
+                        <div class="pros-title">Advantages:</div>
+                        <ul class="pros-list">
+                            <li>Improves search accuracy</li>
+                            <li>Better utilizes internal content</li>
+                            <li>Combines speed and intelligence</li>
+                            <li>Enables semantic understanding</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">Disadvantages:</div>
+                        <ul class="cons-list">
+                            <li>Higher computational costs</li>
+                            <li>Complex system maintenance</li>
+                            <li>Need to balance speed and accuracy</li>
+                            <li>Requires regular model updates</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="feature-name">IM Message Search</td>
+                    <td>Allow users to search within IM conversations by selecting text messages and finding related content or services.</td>
+                    <td>
+                        <div class="pros-title">Advantages:</div>
+                        <ul class="pros-list">
+                            <li>Improves conversation context</li>
+                            <li>Enables quick information retrieval</li>
+                            <li>Enhances user productivity</li>
+                            <li>Facilitates service discovery</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">Disadvantages:</div>
+                        <ul class="cons-list">
+                            <li>Privacy concerns</li>
+                            <li>Complex UI implementation</li>
+                            <li>May impact performance</li>
+                            <li>Requires careful data handling</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="feature-name">Money Services Integration</td>
+                    <td>Expand search coverage to include comprehensive money-related services and features.</td>
+                    <td>
+                        <div class="pros-title">Advantages:</div>
+                        <ul class="pros-list">
+                            <li>Improves service discovery</li>
+                            <li>Enhances user convenience</li>
+                            <li>Expands service usage</li>
+                            <li>Better monetization potential</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">Disadvantages:</div>
+                        <ul class="cons-list">
+                            <li>Complex integration requirements</li>
+                            <li>Need for regulatory compliance</li>
+                            <li>May increase system complexity</li>
+                            <li>Requires careful security measures</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="feature-name">Social Proof</td>
+                    <td>Display usage statistics and popularity metrics for each service to build trust and credibility.</td>
+                    <td>
+                        <div class="pros-title">Advantages:</div>
+                        <ul class="pros-list">
+                            <li>Builds user trust</li>
+                            <li>Increases service adoption</li>
+                            <li>Provides social validation</li>
+                            <li>Improves user confidence</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">Disadvantages:</div>
+                        <ul class="cons-list">
+                            <li>May create pressure on new services</li>
+                            <li>Need to maintain accurate statistics</li>
+                            <li>May influence user decisions</li>
+                            <li>Requires regular updates</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="feature-name">Service Tags</td>
+                    <td>Implement a tagging system to better describe and categorize services in the UI.</td>
+                    <td>
+                        <div class="pros-title">Advantages:</div>
+                        <ul class="pros-list">
+                            <li>Improves service understanding</li>
+                            <li>Better categorization</li>
+                            <li>Enhanced searchability</li>
+                            <li>Clearer service descriptions</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">Disadvantages:</div>
+                        <ul class="cons-list">
+                            <li>Requires tag management</li>
+                            <li>May create UI clutter</li>
+                            <li>Need for tag standardization</li>
+                            <li>Regular maintenance needed</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2><span class="emoji">📄</span> PRD</h2>
+
+        <h3><span class="emoji">↗️</span> Features In</h3>
+        <p>The features will be implemented in two phases to ensure quality, stability, and to gather user feedback at each stage:</p>
+        
+        <div style="margin-bottom: 30px;">
+            <h4 style="background-color: #eef6ff; padding: 8px 12px; border-radius: 6px; display: inline-block;">Phase 1 - Core Features</h4>
+            <table>
+                <tr>
+                    <th width="25%">Feature</th>
+                    <th width="50%">Details</th>
+                    <th width="25%">Interactive Prototype</th>
+                </tr>
+                <tr>
+                    <td><strong>Web Search Integration</strong></td>
+                    <td>
+                        <strong>Given</strong>: User performs a search with no local results<br>
+                        <strong>When</strong>: System detects empty local results<br>
+                        <strong>Then</strong>: System displays relevant web search results with clear distinction.
+                    </td>
+                    <td><a href="../interactive-prototype/search-features.html" target="_blank">Try it now</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Multilingual Search</strong></td>
+                    <td>
+                        <strong>Given</strong>: User enters search query in Arabic/Chinese<br>
+                        <strong>When</strong>: System processes the query<br>
+                        <strong>Then</strong>: System returns relevant results in both languages.
+                    </td>
+                    <td><a href="../interactive-prototype/search-features.html" target="_blank">Try it now</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Basic Knowledge Base Integration</strong></td>
+                    <td>
+                        <strong>Given</strong>: User searches for internal content<br>
+                        <strong>When</strong>: System processes the query<br>
+                        <strong>Then</strong>: System applies rule-based matching first, then LLM matching for better results.
+                    </td>
+                    <td><a href="../interactive-prototype/search-features.html" target="_blank">Try it now</a></td>
+                </tr>
+                <tr>
+                    <td><strong>IM Message Search</strong></td>
+                    <td>
+                        <strong>Given</strong>: User selects text in IM conversation<br>
+                        <strong>When</strong>: User clicks search option<br>
+                        <strong>Then</strong>: System searches for related content and services.
+                    </td>
+                    <td><a href="../interactive-prototype/search-features.html" target="_blank">Try it now</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Basic Money Services</strong></td>
+                    <td>
+                        <strong>Given</strong>: User searches for money-related services<br>
+                        <strong>When</strong>: System processes the query<br>
+                        <strong>Then</strong>: System includes relevant money services in results.
+                    </td>
+                    <td><a href="../interactive-prototype/search-features.html" target="_blank">Try it now</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Service Tags</strong></td>
+                    <td>
+                        <strong>Given</strong>: Service is displayed in search results<br>
+                        <strong>When</strong>: System shows service information<br>
+                        <strong>Then</strong>: System displays relevant tags for better understanding.
+                    </td>
+                    <td><a href="../interactive-prototype/search-features.html" target="_blank">Try it now</a></td>
+                </tr>
+            </table>
+        </div>
+        
+        <div>
+            <h4 style="background-color: #f0f7f0; padding: 8px 12px; border-radius: 6px; display: inline-block;">Phase 2 - Advanced Features</h4>
+            <table>
+                <tr>
+                    <th width="30%">Feature</th>
+                    <th>Details</th>
+                </tr>
+                <tr>
+                    <td><strong>Advanced Knowledge Base Integration</strong></td>
+                    <td>
+                        <strong>Given</strong>: User searches for complex queries<br>
+                        <strong>When</strong>: System processes the query<br>
+                        <strong>Then</strong>: System uses advanced LLM models for better semantic understanding.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Extended Money Services</strong></td>
+                    <td>
+                        <strong>Given</strong>: User searches for specific financial services<br>
+                        <strong>When</strong>: System processes the query<br>
+                        <strong>Then</strong>: System includes comprehensive money services with detailed information.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Social Proof Integration</strong></td>
+                    <td>
+                        <strong>Given</strong>: Service is displayed in results<br>
+                        <strong>When</strong>: System shows service information<br>
+                        <strong>Then</strong>: System displays usage statistics and popularity metrics.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Advanced Tag System</strong></td>
+                    <td>
+                        <strong>Given</strong>: Service has multiple attributes<br>
+                        <strong>When</strong>: System displays service<br>
+                        <strong>Then</strong>: System shows comprehensive tags with categories and descriptions.
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <h3><span class="emoji">📤</span> Features Out</h3>
+        <ul>
+            <li><span class="feature-out">❌</span> Real-time web search results (results are cached for performance).</li>
+            <li><span class="feature-out">❌</span> Voice-based search functionality.</li>
+            <li><span class="feature-out">❌</span> Image-based search capabilities.</li>
+            <li><span class="feature-out">❌</span> Search history tracking and personalization.</li>
+            <li><span class="feature-out">❌</span> Advanced analytics and reporting features.</li>
+        </ul>
+    </div>
+
+    <div id="content-zh" class="content-zh">
+        <h1>Botim搜索AI增强功能</h1>
+        
+        <h2><span class="emoji">🪟</span> 概述</h2>
+        <p>本项目旨在通过引入以下功能来增强Botim的搜索功能：</p>
+        <ul>
+            <li><strong>网页搜索集成</strong>：当本地搜索结果为空时，提供网页搜索结果作为替代。</li>
+            <li><strong>多语言搜索支持</strong>：支持阿拉伯语和中文内容的搜索，同时保持相关性匹配。</li>
+            <li><strong>内部知识库集成</strong>：实现固定规则和基于LLM的语义匹配的双层匹配系统。</li>
+            <li><strong>IM消息搜索</strong>：为IM对话中的选定文本消息添加搜索功能。</li>
+            <li><strong>金融服务集成</strong>：扩大搜索范围以包含更多金融服务。</li>
+            <li><strong>社交证明</strong>：显示每个服务的使用统计（例如"1000+用户"）。</li>
+            <li><strong>服务标签</strong>：为服务添加描述性标签，以便更好地在UI中展示和说明功能。</li>
+        </ul>
+
+        <h2><span class="emoji">🛸</span> 问题</h2>
+        <ul>
+            <li>当本地搜索结果不足时，用户需要访问网页内容。</li>
+            <li>语言障碍限制了非英语内容的搜索效果。</li>
+            <li>内部知识库内容未在搜索结果中充分利用。</li>
+            <li>用户无法轻松搜索IM对话内容。</li>
+            <li>金融服务无法通过搜索完全发现。</li>
+            <li>服务可信度和受欢迎程度信息对用户不可见。</li>
+            <li>服务功能未通过标签清晰传达。</li>
+        </ul>
+
+        <h2><span class="emoji">🎯</span> 目标</h2>
+        <ul>
+            <li>在本地结果为空时实现无缝的网页搜索集成。</li>
+            <li>为阿拉伯语和中文内容提供准确的搜索结果。</li>
+            <li>创建结合规则和LLM匹配的混合搜索系统。</li>
+            <li>为选定的消息添加对话内搜索功能。</li>
+            <li>扩大搜索范围以包含全面的金融服务。</li>
+            <li>显示每个服务的社会证明指标。</li>
+            <li>实现标签系统以更好地分类和描述服务。</li>
+        </ul>
+
+        <h2><span class="emoji">🚧</span> 限制条件</h2>
+        <ul>
+            <li>网页搜索结果必须与本地结果明确区分。</li>
+            <li>多语言支持必须保持高准确性和相关性。</li>
+            <li>基于LLM的匹配必须优化性能和成本。</li>
+            <li>消息搜索必须遵守用户隐私和数据保护法规。</li>
+            <li>服务标签必须在整个平台上标准化和一致。</li>
+        </ul>
+
+        <h2><span class="emoji">💁</span> 客户画像</h2>
+        <div>
+            <p><strong>画像1：多语言用户</strong></p>
+            <p><span class="tag">📌</span> 需求：在多种语言中有效工作的搜索功能。</p>
+        </div>
+        <div>
+            <p><strong>画像2：商务用户</strong></p>
+            <p><span class="tag">📌</span> 需求：访问全面的金融服务和商业相关信息。</p>
+        </div>
+        <div>
+            <p><strong>画像3：普通IM用户</strong></p>
+            <p><span class="tag">📌</span> 需求：轻松访问过去的对话和相关信息。</p>
+        </div>
+
+        <h2><span class="emoji">🧳</span> 使用场景</h2>
+        <div class="scenario">
+            <p><span class="tag">📌</span> <strong>场景1</strong>：用户用阿拉伯语搜索服务，系统提供阿拉伯语和英语的相关结果。</p>
+        </div>
+        <div class="scenario">
+            <p><span class="tag">📌</span> <strong>场景2</strong>：用户从IM消息中选择文本并搜索相关服务或信息。</p>
+        </div>
+        <div class="scenario">
+            <p><span class="tag">📌</span> <strong>场景3</strong>：当本地搜索没有结果时，系统自动显示相关的网页搜索结果。</p>
+        </div>
+
+        <h2><span class="emoji">🔍</span> 功能详细分析</h2>
+        
+        <table class="feature-table">
+            <thead>
+                <tr>
+                    <th width="18%">功能</th>
+                    <th width="27%">描述</th>
+                    <th width="27%">优势</th>
+                    <th width="28%">劣势</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="feature-name">网页搜索集成</td>
+                    <td>当本地搜索结果为空时，系统自动提供相关的网页搜索结果作为替代，确保用户始终获得有意义的结果。</td>
+                    <td>
+                        <div class="pros-title">优势：</div>
+                        <ul class="pros-list">
+                            <li>确保用户始终获得搜索结果</li>
+                            <li>扩大搜索范围到本地内容之外</li>
+                            <li>通过提供替代方案提高用户满意度</li>
+                            <li>实现外部资源的发现</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">劣势：</div>
+                        <ul class="cons-list">
+                            <li>可能增加响应时间</li>
+                            <li>需要额外的API成本</li>
+                            <li>需要处理网页内容质量</li>
+                            <li>如果未明确区分可能混淆用户</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="feature-name">多语言搜索</td>
+                    <td>支持阿拉伯语和中文内容搜索，具有相关性匹配，使用户能够找到首选语言的内容。</td>
+                    <td>
+                        <div class="pros-title">优势：</div>
+                        <ul class="pros-list">
+                            <li>扩大非英语用户群</li>
+                            <li>提高多样化用户的可访问性</li>
+                            <li>改善本地市场的用户体验</li>
+                            <li>支持跨语言内容发现</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">劣势：</div>
+                        <ul class="cons-list">
+                            <li>需要复杂的语言处理</li>
+                            <li>可能增加处理时间</li>
+                            <li>需要维护翻译质量</li>
+                            <li>更高的开发和维护成本</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="feature-name">内部知识库集成</td>
+                    <td>结合固定规则和基于LLM的语义匹配的双层匹配系统，实现全面的内部内容搜索。</td>
+                    <td>
+                        <div class="pros-title">优势：</div>
+                        <ul class="pros-list">
+                            <li>提高搜索准确性</li>
+                            <li>更好地利用内部内容</li>
+                            <li>结合速度和智能</li>
+                            <li>实现语义理解</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">劣势：</div>
+                        <ul class="cons-list">
+                            <li>更高的计算成本</li>
+                            <li>复杂的系统维护</li>
+                            <li>需要平衡速度和准确性</li>
+                            <li>需要定期更新模型</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="feature-name">IM消息搜索</td>
+                    <td>允许用户通过选择文本消息在IM对话中搜索相关内容或服务。</td>
+                    <td>
+                        <div class="pros-title">优势：</div>
+                        <ul class="pros-list">
+                            <li>改善对话上下文</li>
+                            <li>实现快速信息检索</li>
+                            <li>提高用户生产力</li>
+                            <li>促进服务发现</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">劣势：</div>
+                        <ul class="cons-list">
+                            <li>隐私问题</li>
+                            <li>复杂的UI实现</li>
+                            <li>可能影响性能</li>
+                            <li>需要谨慎的数据处理</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="feature-name">金融服务集成</td>
+                    <td>扩大搜索范围以包含全面的金融服务和功能。</td>
+                    <td>
+                        <div class="pros-title">优势：</div>
+                        <ul class="pros-list">
+                            <li>改善服务发现</li>
+                            <li>提高用户便利性</li>
+                            <li>扩大服务使用</li>
+                            <li>更好的变现潜力</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">劣势：</div>
+                        <ul class="cons-list">
+                            <li>复杂的集成要求</li>
+                            <li>需要监管合规</li>
+                            <li>可能增加系统复杂性</li>
+                            <li>需要谨慎的安全措施</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="feature-name">社交证明</td>
+                    <td>显示每个服务的使用统计和受欢迎程度指标，以建立信任和可信度。</td>
+                    <td>
+                        <div class="pros-title">优势：</div>
+                        <ul class="pros-list">
+                            <li>建立用户信任</li>
+                            <li>增加服务采用率</li>
+                            <li>提供社会验证</li>
+                            <li>提高用户信心</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">劣势：</div>
+                        <ul class="cons-list">
+                            <li>可能对新服务造成压力</li>
+                            <li>需要维护准确的统计数据</li>
+                            <li>可能影响用户决策</li>
+                            <li>需要定期更新</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="feature-name">服务标签</td>
+                    <td>实现标签系统以更好地在UI中描述和分类服务。</td>
+                    <td>
+                        <div class="pros-title">优势：</div>
+                        <ul class="pros-list">
+                            <li>改善服务理解</li>
+                            <li>更好的分类</li>
+                            <li>增强可搜索性</li>
+                            <li>更清晰的服务描述</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="cons-title">劣势：</div>
+                        <ul class="cons-list">
+                            <li>需要标签管理</li>
+                            <li>可能造成UI混乱</li>
+                            <li>需要标签标准化</li>
+                            <li>需要定期维护</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2><span class="emoji">📄</span> 产品需求文档</h2>
+
+        <h3><span class="emoji">↗️</span> 包含功能</h3>
+        <p>这些功能将分两个阶段实施，以确保质量、稳定性，并在每个阶段收集用户反馈：</p>
+        
+        <div style="margin-bottom: 30px;">
+            <h4 style="background-color: #eef6ff; padding: 8px 12px; border-radius: 6px; display: inline-block;">第一阶段 - 核心功能</h4>
+            <table>
+                <tr>
+                    <th width="25%">功能</th>
+                    <th width="50%">详情</th>
+                    <th width="25%">交互原型</th>
+                </tr>
+                <tr>
+                    <td><strong>网页搜索集成</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户执行搜索且无本地结果<br>
+                        <strong>当</strong>：系统检测到空本地结果<br>
+                        <strong>然后</strong>：系统显示相关的网页搜索结果，并明确区分。
+                    </td>
+                    <td><a href="../interactive-prototype/search-features.html" target="_blank">立即体验</a></td>
+                </tr>
+                <tr>
+                    <td><strong>多语言搜索</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户输入阿拉伯语/中文搜索查询<br>
+                        <strong>当</strong>：系统处理查询<br>
+                        <strong>然后</strong>：系统返回两种语言的相关结果。
+                    </td>
+                    <td><a href="../interactive-prototype/search-features.html" target="_blank">立即体验</a></td>
+                </tr>
+                <tr>
+                    <td><strong>基础知识库集成</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户搜索内部内容<br>
+                        <strong>当</strong>：系统处理查询<br>
+                        <strong>然后</strong>：系统先应用基于规则的匹配，然后使用LLM匹配以获得更好的结果。
+                    </td>
+                    <td><a href="../interactive-prototype/search-features.html" target="_blank">立即体验</a></td>
+                </tr>
+                <tr>
+                    <td><strong>IM消息搜索</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户在IM对话中选择文本<br>
+                        <strong>当</strong>：用户点击搜索选项<br>
+                        <strong>然后</strong>：系统搜索相关内容和服务。
+                    </td>
+                    <td><a href="../interactive-prototype/search-features.html" target="_blank">立即体验</a></td>
+                </tr>
+                <tr>
+                    <td><strong>基础金融服务</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户搜索金融服务<br>
+                        <strong>当</strong>：系统处理查询<br>
+                        <strong>然后</strong>：系统在结果中包含相关金融服务。
+                    </td>
+                    <td><a href="../interactive-prototype/search-features.html" target="_blank">立即体验</a></td>
+                </tr>
+                <tr>
+                    <td><strong>服务标签</strong></td>
+                    <td>
+                        <strong>前提</strong>：服务在搜索结果中显示<br>
+                        <strong>当</strong>：系统显示服务信息<br>
+                        <strong>然后</strong>：系统显示相关标签以更好地理解。
+                    </td>
+                    <td><a href="../interactive-prototype/search-features.html" target="_blank">立即体验</a></td>
+                </tr>
+            </table>
+        </div>
+        
+        <div>
+            <h4 style="background-color: #f0f7f0; padding: 8px 12px; border-radius: 6px; display: inline-block;">第二阶段 - 高级功能</h4>
+            <table>
+                <tr>
+                    <th width="30%">功能</th>
+                    <th>详情</th>
+                </tr>
+                <tr>
+                    <td><strong>高级知识库集成</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户搜索复杂查询<br>
+                        <strong>当</strong>：系统处理查询<br>
+                        <strong>然后</strong>：系统使用高级LLM模型以获得更好的语义理解。
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>扩展金融服务</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户搜索特定金融服务<br>
+                        <strong>当</strong>：系统处理查询<br>
+                        <strong>然后</strong>：系统包含全面的金融服务和详细信息。
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>社交证明集成</strong></td>
+                    <td>
+                        <strong>前提</strong>：服务在结果中显示<br>
+                        <strong>当</strong>：系统显示服务信息<br>
+                        <strong>然后</strong>：系统显示使用统计和受欢迎程度指标。
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>高级标签系统</strong></td>
+                    <td>
+                        <strong>前提</strong>：服务具有多个属性<br>
+                        <strong>当</strong>：系统显示服务<br>
+                        <strong>然后</strong>：系统显示包含类别和描述的全面标签。
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <h3><span class="emoji">📤</span> 不包含功能</h3>
+        <ul>
+            <li><span class="feature-out">❌</span> 实时网页搜索结果（结果被缓存以提高性能）。</li>
+            <li><span class="feature-out">❌</span> 基于语音的搜索功能。</li>
+            <li><span class="feature-out">❌</span> 基于图像的搜索功能。</li>
+            <li><span class="feature-out">❌</span> 搜索历史跟踪和个性化。</li>
+            <li><span class="feature-out">❌</span> 高级分析和报告功能。</li>
+        </ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const langToggle = document.getElementById('langToggle');
+            const contentEn = document.getElementById('content-en');
+            const contentZh = document.getElementById('content-zh');
+            
+            let isEnglish = true;
+            
+            langToggle.addEventListener('click', function() {
+                if (isEnglish) {
+                    // Switch to Chinese
+                    contentEn.style.display = 'none';
+                    contentZh.style.display = 'block';
+                    langToggle.textContent = 'English';
+                    isEnglish = false;
+                } else {
+                    // Switch to English
+                    contentEn.style.display = 'block';
+                    contentZh.style.display = 'none';
+                    langToggle.textContent = '中文';
+                    isEnglish = true;
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

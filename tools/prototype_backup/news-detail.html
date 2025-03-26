@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>News Detail</title>
+  <link rel="stylesheet" href="common.css">
+  <style>
+    /* 页面特定样式 */
+    /* General styles */
+    .top-nav {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      background-color: #FFF;
+      border-bottom: 1px solid #EEEEEE;
+      position: fixed;
+      top: 44px;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      max-width: var(--app-width);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .top-nav h1 {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .nav-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      background-color: #F6F6F6;
+      cursor: pointer;
+    }
+
+    /* Detail page styles */
+    .detail-container {
+      padding: 16px;
+      padding-top: 76px;
+    }
+
+    .detail-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .detail-info {
+      display: flex;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 16px;
+    }
+
+    .detail-source {
+      margin-right: 16px;
+    }
+
+    .detail-time {
+      color: #999;
+    }
+
+    .detail-views {
+      margin-left: 16px;
+      color: #999;
+    }
+
+    .detail-content {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .divider {
+      height: 8px;
+      background-color: #F5F5F5;
+      margin: 16px -16px;
+    }
+
+    .discussion-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+
+    /* 互动操作区域 */
+    .interaction-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 8px;
+      background-color: #FFF;
+      border-top: 1px solid #EEEEEE;
+      margin-bottom: 16px;
+    }
+    
+    .interaction-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    
+    .interaction-item:hover {
+      transform: translateY(-2px);
+    }
+    
+    .interaction-icon {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+    
+    .interaction-count {
+      font-size: 12px;
+      color: #666;
+    }
+    
+    .up-icon {
+      color: #3366FF;
+    }
+    
+    .down-icon {
+      color: #FF3333;
+    }
+
+    /* 点赞/踩动画效果 */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+    
+    .pulse-animation {
+      animation: pulse 0.3s ease-in-out;
+    }
+
+    /* 相关话题样式 */
+    .related-topics-container {
+      margin-bottom: 24px;
+    }
+
+    .topic-card {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      background-color: #F8F9FA;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .topic-card:active {
+      transform: scale(0.98);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .topic-icon {
+      width: 40px;
+      height: 40px;
+      background-color: #E8EFFF;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    .topic-content {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .topic-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .topic-info {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .topic-arrow {
+      margin-left: 12px;
+      color: #3366FF;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .ai-search-cta {
+      background-color: #F0F7FF;
+      border: 1px solid #D6E4FF;
+      border-radius: 12px 12px 0 0;
+      padding: 16px;
+      width: 90%;
+      max-width: 374px;
+      margin: 0 auto;
+      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .ai-search-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .ai-icon {
+      width: 32px;
+      height: 32px;
+      background-color: #3366FF;
+      border-radius: 16px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: bold;
+      margin-right: 12px;
+    }
+
+    .ai-search-btn {
+      background-color: #3366FF;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 12px 24px;
+      font-size: 16px;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    /* Back button */
+    .back-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .app-container {
+      width: var(--app-width);
+      height: var(--app-height);
+      margin: 0 auto;
+      background-color: var(--container-bg);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border-radius: var(--app-border-radius);
+      overflow: hidden;
+      box-shadow: var(--app-shadow);
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: fixed;
+      touch-action: manipulation;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--background);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    .content-area {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    /* 分享弹出层 */
+    .share-overlay {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #FFF;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+      z-index: 2000;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      max-width: var(--app-width);
+      margin: 0 auto;
+    }
+    
+    .share-overlay.active {
+      transform: translateY(0);
+    }
+    
+    .share-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      border-bottom: 1px solid #EEEEEE;
+    }
+    
+    .share-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    
+    .share-close {
+      font-size: 20px;
+      cursor: pointer;
+    }
+    
+    .share-options {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 24px 16px;
+    }
+    
+    .share-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      cursor: pointer;
+    }
+    
+    .share-option-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+      font-size: 24px;
+      color: #FFF;
+    }
+    
+    .wechat-icon {
+      background-color: #07C160;
+    }
+    
+    .weibo-icon {
+      background-color: #E6162D;
+    }
+    
+    .qq-icon {
+      background-color: #12B7F5;
+    }
+    
+    .facebook-icon {
+      background-color: #1877F2;
+    }
+    
+    .twitter-icon {
+      background-color: #1DA1F2;
+    }
+    
+    .linkedin-icon {
+      background-color: #0A66C2;
+    }
+    
+    .link-icon {
+      background-color: #27AE60;
+    }
+    
+    .more-icon {
+      background-color: #95A5A6;
+    }
+    
+    .share-option-name {
+      font-size: 12px;
+      color: #666;
+    }
+    
+    .backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+    }
+    
+    .backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+  </style>
+</head>
+<body>
+  <!-- 全局导航 -->
+  <div class="global-nav">
+    <a href="index.html" class="global-nav-item active">P <span class="nav-arrow">▾</span>
+      <div class="submenu">
+        <a href="index.html" class="submenu-item">Home</a>
+        <a href="news-list.html" class="submenu-item">News</a>
+        <a href="search.html" class="submenu-item">Search</a>
+        <a href="call.html" class="submenu-item">Call</a>
+        <a href="filters.html" class="submenu-item">Filters</a>
+      </div>
+    </a>
+    </a>
+  </div>
+
+  <!-- Detail page -->
+  <div class="app-container">
+    <div class="status-bar">
+      <div class="status-time">10:20</div>
+      <div class="status-icons">
+        <div class="status-icon">•••</div>
+        <div class="status-icon">📶</div>
+        <div class="status-icon">🔋</div>
+      </div>
+    </div>
+    <div class="top-nav">
+      <div class="back-btn" onclick="location.href='news-list.html'">◀</div>
+      <h1>News Detail</h1>
+      <div class="nav-icon">⋮</div>
+    </div>
+    
+    <div class="content-area">
+      <div class="detail-container">
+        <h2 class="detail-title">New Breakthrough in AI Technology: Automatic Code Generation Draws Industry Attention</h2>
+        <div class="detail-info">
+          <div class="detail-source">Technology Daily</div>
+          <div class="detail-time">2 hours ago</div>
+          <div class="detail-views">3.5K views</div>
+        </div>
+        
+        <div class="detail-content">
+          <p>According to the latest research report, AI has made significant breakthroughs in the field of code generation. The new generation of models can understand complex requirements and automatically generate high-quality, production-ready code. This technology has attracted wide attention in the technology industry.</p>
+          <p>The research team said that the latest AI code generation model can not only understand the functional requirements described in natural language but also understand the business logic to be implemented based on the context and generate code that meets best practices. Compared with previous code assistance tools, the accuracy of the new technology has increased by about 40%, and the error rate has decreased by nearly 60%.</p>
+          <p>Several technology giants have begun to integrate this technology into their development tools. Industry analysts predict that this will bring a revolutionary improvement in software development efficiency and also change the way programmers work.</p>
+          <p>"In the future, programmers may shift more of their work to requirements analysis and system design, leaving the specific coding work to AI assistants," said a senior developer. "This doesn't mean that programmers will be replaced, but rather that it will allow us to focus on more creative work."</p>
+        </div>
+        
+        <!-- 互动操作区域 -->
+        <div class="interaction-bar">
+          <div class="interaction-item">
+            <div class="interaction-icon up-icon">👍</div>
+            <div class="interaction-count">428</div>
+          </div>
+          <div class="interaction-item">
+            <div class="interaction-icon down-icon">👎</div>
+            <div class="interaction-count">36</div>
+          </div>
+          <div class="interaction-item">
+            <div class="interaction-icon">↗️</div>
+            <div class="interaction-count">Share</div>
+          </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <h3 class="discussion-title">Related Topics</h3>
+        
+        <div class="related-topics-container">
+          <div class="topic-card" onclick="location.href='news-ai.html'">
+            <div class="topic-icon">🤖</div>
+            <div class="topic-content">
+              <div class="topic-title">Future of AI Technology</div>
+              <div class="topic-info">382K reads · 31K discussions</div>
+            </div>
+            <div class="topic-arrow">→</div>
+          </div>
+          
+          <div class="topic-card" onclick="location.href='news-ai.html'">
+            <div class="topic-icon">💼</div>
+            <div class="topic-content">
+              <div class="topic-title">Programming Career Prospects & AI</div>
+              <div class="topic-info">225K reads · 18K discussions</div>
+            </div>
+            <div class="topic-arrow">→</div>
+          </div>
+          
+          <div class="topic-card" onclick="location.href='news-ai.html'">
+            <div class="topic-icon">📊</div>
+            <div class="topic-content">
+              <div class="topic-title">Automated Coding Tools Ranking</div>
+              <div class="topic-info">157K reads · 9K discussions</div>
+            </div>
+            <div class="topic-arrow">→</div>
+          </div>
+        </div>
+        
+        <div class="ai-search-cta">
+          <div class="ai-search-header">
+            <div class="ai-icon">AI</div>
+            <h3>Want to know more?</h3>
+          </div>
+          <button class="ai-search-btn" onclick="location.href='news-ai.html'">Try AI Search ➔</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 分享弹出层 -->
+  <div class="backdrop"></div>
+  <div class="share-overlay">
+    <div class="share-header">
+      <div class="share-title">Share to</div>
+      <div class="share-close">×</div>
+    </div>
+    <div class="share-options">
+      <div class="share-option">
+        <div class="share-option-icon wechat-icon">W</div>
+        <div class="share-option-name">WeChat</div>
+      </div>
+      <div class="share-option">
+        <div class="share-option-icon weibo-icon">W</div>
+        <div class="share-option-name">Weibo</div>
+      </div>
+      <div class="share-option">
+        <div class="share-option-icon qq-icon">Q</div>
+        <div class="share-option-name">QQ</div>
+      </div>
+      <div class="share-option">
+        <div class="share-option-icon facebook-icon">f</div>
+        <div class="share-option-name">Facebook</div>
+      </div>
+      <div class="share-option">
+        <div class="share-option-icon twitter-icon">t</div>
+        <div class="share-option-name">Twitter</div>
+      </div>
+      <div class="share-option">
+        <div class="share-option-icon linkedin-icon">in</div>
+        <div class="share-option-name">LinkedIn</div>
+      </div>
+      <div class="share-option">
+        <div class="share-option-icon link-icon">🔗</div>
+        <div class="share-option-name">Copy link</div>
+      </div>
+      <div class="share-option">
+        <div class="share-option-icon more-icon">⋯</div>
+        <div class="share-option-name">More</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="global-nav.js"></script>
+  <script>
+    // 处理互动功能（点赞、踩、收藏等）
+    let isUpvoted = false;
+    let isDownvoted = false;
+    let upCount = 428;
+    let downCount = 36;
+    
+    // 使用事件委托来处理互动栏的点击事件
+    document.addEventListener('click', function(e) {
+      // 处理点赞按钮
+      if (e.target.closest('.interaction-item:nth-child(1)')) {
+        const upIcon = document.querySelector('.up-icon');
+        const upCountElem = document.querySelector('.interaction-item:nth-child(1) .interaction-count');
+        
+        if (isDownvoted) {
+          // 如果已经踩了，先取消踩
+          isDownvoted = false;
+          document.querySelector('.down-icon').style.color = '';
+          document.querySelector('.interaction-item:nth-child(2) .interaction-count').textContent = --downCount;
+        }
+        
+        if (!isUpvoted) {
+          // 点赞
+          isUpvoted = true;
+          upIcon.style.color = '#3366FF';
+          upIcon.style.transform = 'scale(1.2)';
+          upCountElem.textContent = ++upCount;
+          
+          // 添加点赞动画
+          upIcon.classList.add('pulse-animation');
+          setTimeout(() => {
+            upIcon.classList.remove('pulse-animation');
+            upIcon.style.transform = '';
+          }, 300);
+        } else {
+          // 取消点赞
+          isUpvoted = false;
+          upIcon.style.color = '';
+          upCountElem.textContent = --upCount;
+        }
+      }
+      
+      // 处理踩按钮
+      if (e.target.closest('.interaction-item:nth-child(2)')) {
+        const downIcon = document.querySelector('.down-icon');
+        const downCountElem = document.querySelector('.interaction-item:nth-child(2) .interaction-count');
+        
+        if (isUpvoted) {
+          // 如果已经点赞了，先取消点赞
+          isUpvoted = false;
+          document.querySelector('.up-icon').style.color = '';
+          document.querySelector('.interaction-item:nth-child(1) .interaction-count').textContent = --upCount;
+        }
+        
+        if (!isDownvoted) {
+          // 踩
+          isDownvoted = true;
+          downIcon.style.color = '#FF3333';
+          downIcon.style.transform = 'scale(1.2)';
+          downCountElem.textContent = ++downCount;
+          
+          // 添加踩动画
+          downIcon.classList.add('pulse-animation');
+          setTimeout(() => {
+            downIcon.classList.remove('pulse-animation');
+            downIcon.style.transform = '';
+          }, 300);
+        } else {
+          // 取消踩
+          isDownvoted = false;
+          downIcon.style.color = '';
+          downCountElem.textContent = --downCount;
+        }
+      }
+    });
+    
+    // 处理阅读量统计
+    document.addEventListener('DOMContentLoaded', function() {
+      // 增加阅读量
+      let viewCount = parseInt(localStorage.getItem('articleViewCount') || "3500");
+      viewCount++;
+      document.querySelector('.detail-views').textContent = `${viewCount} views`;
+      localStorage.setItem('articleViewCount', viewCount.toString());
+    });
+    
+    // 分享功能处理
+    const shareButton = document.querySelector('.interaction-item:nth-child(3)');
+    const backdrop = document.querySelector('.backdrop');
+    const shareOverlay = document.querySelector('.share-overlay');
+    const closeButton = document.querySelector('.share-close');
+    
+    // 显示分享弹出层
+    if (shareButton) {
+      shareButton.addEventListener('click', () => {
+        backdrop.classList.add('active');
+        shareOverlay.classList.add('active');
+      });
+    }
+    
+    // 关闭分享弹出层
+    if (closeButton) {
+      closeButton.addEventListener('click', () => {
+        backdrop.classList.remove('active');
+        shareOverlay.classList.remove('active');
+      });
+    }
+    
+    // 点击背景关闭分享弹出层
+    if (backdrop) {
+      backdrop.addEventListener('click', () => {
+        backdrop.classList.remove('active');
+        shareOverlay.classList.remove('active');
+      });
+    }
+    
+    // 处理分享选项点击
+    const shareOptions = document.querySelectorAll('.share-option');
+    const articleTitle = document.querySelector('.detail-title').textContent;
+    
+    shareOptions.forEach((option, index) => {
+      option.addEventListener('click', () => {
+        let platform = '';
+        
+        // 根据索引确定平台
+        switch(index) {
+          case 0: platform = 'WeChat'; break;
+          case 1: platform = 'Weibo'; break;
+          case 2: platform = 'QQ'; break;
+          case 3: platform = 'Facebook'; break;
+          case 4: platform = 'Twitter'; break;
+          case 5: platform = 'LinkedIn'; break;
+          case 6: // 复制链接
+            navigator.clipboard.writeText(window.location.href)
+              .then(() => alert('Link copied to clipboard!'))
+              .catch(err => alert('Failed to copy link: ' + err));
+            platform = '';
+            break;
+          case 7: platform = 'More options'; break;
+        }
+        
+        if (platform) {
+          alert(`Sharing "${articleTitle}" to ${platform}`);
+        }
+        
+        // 关闭分享弹出层
+        backdrop.classList.remove('active');
+        shareOverlay.classList.remove('active');
+      });
+    });
+  </script>
+</body>
+</html> 

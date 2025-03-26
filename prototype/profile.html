@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/styles.css">
+  <style>
+    .profile-header {
+      padding: 24px 16px;
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+    }
+    
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 40px;
+      overflow: hidden;
+      margin-right: 16px;
+      border: 2px solid #E9E9EB;
+    }
+    
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .profile-info {
+      flex: 1;
+    }
+    
+    .profile-name {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #000;
+    }
+    
+    .profile-bio {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+    
+    .profile-stats {
+      display: flex;
+      font-size: 14px;
+      gap: 16px;
+    }
+    
+    .stat-item {
+      display: flex;
+      align-items: center;
+      color: #8E8E93;
+    }
+    
+    .stat-value {
+      font-weight: 600;
+      color: #333;
+      margin-right: 4px;
+    }
+    
+    .edit-btn {
+      background-color: #F2F2F7;
+      border-radius: 18px;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+      margin-left: auto;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      align-self: flex-start;
+    }
+    
+    .actions-row {
+      display: flex;
+      padding: 16px;
+      background-color: #fff;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    
+    .action-btn {
+      flex: 1;
+      background-color: #F2F2F7;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 14px;
+    }
+    
+    .action-icon {
+      width: 28px;
+      height: 28px;
+      background-color: #E9E9EB;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    
+    .action-title {
+      font-size: 13px;
+      color: #333;
+    }
+    
+    .settings-list {
+      background-color: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 0 16px 16px;
+    }
+    
+    .settings-group {
+      margin-bottom: 16px;
+    }
+    
+    .settings-header {
+      padding: 12px 16px;
+      font-size: 14px;
+      color: #8E8E93;
+      background-color: #F8F8F8;
+    }
+    
+    .settings-item {
+      display: flex;
+      padding: 16px;
+      align-items: center;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .settings-item:last-child {
+      border-bottom: none;
+    }
+    
+    .settings-icon {
+      width: 32px;
+      height: 32px;
+      background-color: #F2F2F7;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      color: #333;
+      font-size: 16px;
+    }
+    
+    .settings-icon.red {
+      background-color: #FFEBEB;
+      color: #FF3B30;
+    }
+    
+    .settings-icon.green {
+      background-color: #E3F7EB;
+      color: #34C759;
+    }
+    
+    .settings-icon.blue {
+      background-color: #E5F1FF;
+      color: #007AFF;
+    }
+    
+    .settings-icon.purple {
+      background-color: #F4EBFF;
+      color: #AF52DE;
+    }
+    
+    .settings-text {
+      flex: 1;
+      font-size: 16px;
+      color: #333;
+    }
+    
+    .settings-right {
+      color: #8E8E93;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .badge {
+      background-color: #FF3B30;
+      color: white;
+      border-radius: 10px;
+      height: 20px;
+      min-width: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 0 6px;
+      margin-right: 8px;
+    }
+    
+    .arrow-right {
+      color: #C7C7CC;
+      margin-left: 8px;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 51px;
+      height: 31px;
+    }
+    
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .switch-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #E9E9EB;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    
+    .switch-slider:before {
+      position: absolute;
+      content: "";
+      height: 27px;
+      width: 27px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .switch-slider {
+      background-color: #34C759;
+    }
+    
+    input:checked + .switch-slider:before {
+      transform: translateX(20px);
+    }
+    
+    .premium-banner {
+      background: linear-gradient(to right, #F7B731, #F2994A);
+      border-radius: 12px;
+      margin: 0 16px 16px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .premium-icon {
+      width: 44px;
+      height: 44px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+      margin-right: 12px;
+    }
+    
+    .premium-info {
+      flex: 1;
+    }
+    
+    .premium-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 4px;
+    }
+    
+    .premium-desc {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .premium-btn {
+      background-color: white;
+      color: #F2994A;
+      padding: 8px 16px;
+      border-radius: 18px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- iOS状态栏 -->
+    <div class="status-bar">
+      <div class="status-time">9:41</div>
+      <div class="status-icons">
+        <i class="fas fa-signal"></i>
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-battery-full"></i>
+      </div>
+    </div>
+    
+    <!-- 导航栏 -->
+    <div class="nav-header">
+      <div class="nav-left">
+        <!-- 左侧空白 -->
+      </div>
+      <div class="nav-title">我的</div>
+      <div class="nav-right">
+        <i class="fas fa-cog"></i>
+      </div>
+    </div>
+    
+    <!-- 内容区域 -->
+    <div class="content">
+      <!-- 个人信息头部 -->
+      <div class="profile-header">
+        <div class="profile-avatar">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Avatar">
+        </div>
+        <div class="profile-info">
+          <div class="profile-name">张明远</div>
+          <div class="profile-bio">热爱科技与创新 | 数字内容创作者</div>
+          <div class="profile-stats">
+            <div class="stat-item">
+              <div class="stat-value">128</div>
+              <div>关注</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">2,546</div>
+              <div>粉丝</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">42</div>
+              <div>文章</div>
+            </div>
+          </div>
+        </div>
+        <div class="edit-btn">
+          <i class="fas fa-pen"></i>
+          <span>编辑</span>
+        </div>
+      </div>
+      
+      <!-- 动作按钮 -->
+      <div class="actions-row">
+        <div class="action-btn">
+          <div class="action-icon">
+            <i class="fas fa-bookmark"></i>
+          </div>
+          <div class="action-title">收藏</div>
+        </div>
+        <div class="action-btn">
+          <div class="action-icon">
+            <i class="fas fa-history"></i>
+          </div>
+          <div class="action-title">历史</div>
+        </div>
+        <div class="action-btn">
+          <div class="action-icon">
+            <i class="fas fa-heart"></i>
+          </div>
+          <div class="action-title">喜欢</div>
+        </div>
+        <div class="action-btn">
+          <div class="action-icon">
+            <i class="fas fa-wallet"></i>
+          </div>
+          <div class="action-title">钱包</div>
+        </div>
+      </div>
+      
+      <!-- 会员横幅 -->
+      <div class="premium-banner">
+        <div class="premium-icon">
+          <i class="fas fa-crown"></i>
+        </div>
+        <div class="premium-info">
+          <div class="premium-title">升级高级会员</div>
+          <div class="premium-desc">解锁所有高级功能，享受无广告体验</div>
+        </div>
+        <div class="premium-btn">立即升级</div>
+      </div>
+      
+      <!-- 账户设置 -->
+      <div class="settings-group">
+        <div class="settings-header">账户设置</div>
+        <div class="settings-list">
+          <div class="settings-item">
+            <div class="settings-icon blue">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="settings-text">个人资料</div>
+            <div class="arrow-right">
+              <i class="fas fa-chevron-right"></i>
+            </div>
+          </div>
+          <div class="settings-item">
+            <div class="settings-icon purple">
+              <i class="fas fa-bell"></i>
+            </div>
+            <div class="settings-text">通知</div>
+            <div class="settings-right">
+              <div class="badge">3</div>
+              <div class="arrow-right">
+                <i class="fas fa-chevron-right"></i>
+              </div>
+            </div>
+          </div>
+          <div class="settings-item">
+            <div class="settings-icon blue">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="settings-text">隐私与安全</div>
+            <div class="arrow-right">
+              <i class="fas fa-chevron-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 偏好设置 -->
+      <div class="settings-group">
+        <div class="settings-header">偏好设置</div>
+        <div class="settings-list">
+          <div class="settings-item">
+            <div class="settings-icon green">
+              <i class="fas fa-paint-brush"></i>
+            </div>
+            <div class="settings-text">外观</div>
+            <div class="settings-right">
+              <span>浅色</span>
+              <div class="arrow-right">
+                <i class="fas fa-chevron-right"></i>
+              </div>
+            </div>
+          </div>
+          <div class="settings-item">
+            <div class="settings-icon blue">
+              <i class="fas fa-language"></i>
+            </div>
+            <div class="settings-text">语言</div>
+            <div class="settings-right">
+              <span>简体中文</span>
+              <div class="arrow-right">
+                <i class="fas fa-chevron-right"></i>
+              </div>
+            </div>
+          </div>
+          <div class="settings-item">
+            <div class="settings-icon green">
+              <i class="fas fa-moon"></i>
+            </div>
+            <div class="settings-text">深色模式</div>
+            <label class="toggle-switch">
+              <input type="checkbox">
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 支持与反馈 -->
+      <div class="settings-group">
+        <div class="settings-header">支持与反馈</div>
+        <div class="settings-list">
+          <div class="settings-item">
+            <div class="settings-icon blue">
+              <i class="fas fa-question-circle"></i>
+            </div>
+            <div class="settings-text">帮助中心</div>
+            <div class="arrow-right">
+              <i class="fas fa-chevron-right"></i>
+            </div>
+          </div>
+          <div class="settings-item">
+            <div class="settings-icon purple">
+              <i class="fas fa-comment-alt"></i>
+            </div>
+            <div class="settings-text">反馈问题</div>
+            <div class="arrow-right">
+              <i class="fas fa-chevron-right"></i>
+            </div>
+          </div>
+          <div class="settings-item">
+            <div class="settings-icon red">
+              <i class="fas fa-sign-out-alt"></i>
+            </div>
+            <div class="settings-text">退出登录</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 底部标签栏 -->
+    <div class="tab-bar">
+      <a href="#" class="tab-item" data-target="home-page">
+        <i class="fas fa-home tab-icon"></i>
+        <span>首页</span>
+      </a>
+      <a href="#" class="tab-item" data-target="discover-page">
+        <i class="fas fa-compass tab-icon"></i>
+        <span>发现</span>
+      </a>
+      <a href="#" class="tab-item" data-target="video-page">
+        <i class="fas fa-video tab-icon"></i>
+        <span>视频</span>
+      </a>
+      <a href="#" class="tab-item active" data-target="profile-page">
+        <i class="fas fa-user tab-icon"></i>
+        <span>我的</span>
+      </a>
+    </div>
+  </div>
+  
+  <script src="assets/main.js"></script>
+</body>
+</html> 

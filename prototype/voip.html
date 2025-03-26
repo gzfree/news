@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Video Call</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .status-bar {
+            height: 44px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .status-time {
+            flex: 1;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .video-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .remote-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: #222;
+        }
+
+        .local-video {
+            position: absolute;
+            top: 60px;
+            right: 16px;
+            width: 120px;
+            height: 160px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            z-index: 10;
+        }
+
+        .local-video-inner {
+            width: 100%;
+            height: 100%;
+            background: #444;
+        }
+
+        .call-controls {
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        .control-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .control-btn.end-call {
+            background: #FF3B30;
+        }
+
+        .menu-btn {
+            position: absolute;
+            bottom: 120px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            z-index: 10;
+        }
+
+        .menu-panel {
+            position: absolute;
+            bottom: 180px;
+            right: 20px;
+            width: 180px;
+            background: rgba(40, 40, 40, 0.9);
+            border-radius: 12px;
+            padding: 8px 0;
+            z-index: 11;
+        }
+
+        .menu-item {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .menu-icon {
+            width: 24px;
+            margin-right: 12px;
+            text-align: center;
+        }
+
+        .call-info {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            z-index: 10;
+        }
+
+        .caller-name {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .call-duration {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-time">9:41</div>
+    </div>
+
+    <!-- 视频容器 -->
+    <div class="video-container">
+        <!-- 对方视频 -->
+        <div class="remote-video"></div>
+
+        <!-- 通话信息 -->
+        <div class="call-info">
+            <div class="caller-name">李小明</div>
+            <div class="call-duration">03:24</div>
+        </div>
+
+        <!-- 自己的视频 -->
+        <div class="local-video">
+            <div class="local-video-inner"></div>
+        </div>
+
+        <!-- 菜单按钮 -->
+        <div class="menu-btn">
+            <i>···</i>
+        </div>
+
+        <!-- 菜单面板 -->
+        <div class="menu-panel">
+            <div class="menu-item">
+                <div class="menu-icon">🎨</div>
+                <div>滤镜效果</div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon">🖼️</div>
+                <div>更换背景</div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon">🔊</div>
+                <div>AI降噪</div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon">👤</div>
+                <div>更换头像</div>
+            </div>
+        </div>
+
+        <!-- 通话控制 -->
+        <div class="call-controls">
+            <div class="control-btn">
+                <i>🔄</i>
+            </div>
+            <div class="control-btn">
+                <i>🎤</i>
+            </div>
+            <div class="control-btn end-call">
+                <i>📞</i>
+            </div>
+            <div class="control-btn">
+                <i>📷</i>
+            </div>
+            <div class="control-btn">
+                <i>🔊</i>
+            </div>
+        </div>
+    </div>
+
+    <!-- 设备切换器 -->
+    <script src="assets/device-switcher.js"></script>
+</body>
+</html> 

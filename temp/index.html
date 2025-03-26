@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Botim</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
+      }
+
+      body {
+        background-color: #E8F4FF;
+        color: #333;
+        line-height: 1.5;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .app-container {
+        width: 414px;
+        height: 950px;
+        margin: 0 auto;
+        background-color: #FFF;
+        border-radius: 40px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      .status-bar {
+        height: 44px;
+        padding: 0 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        background: #FFF;
+      }
+
+      .time {
+        flex: 1;
+      }
+
+      .status-icons {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+      }
+
+      .search-header {
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #FFF;
+      }
+
+      .search-bar {
+        flex: 1;
+        height: 40px;
+        background: #F6F6F6;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        gap: 8px;
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .search-icon {
+        color: #999;
+        font-size: 18px;
+      }
+
+      .search-input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        font-size: 16px;
+        color: #999;
+        outline: none;
+        padding: 0;
+      }
+
+      .header-icons {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .header-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        background: #F6F6F6;
+      }
+
+      .ai-icon {
+        background: #3366FF;
+        color: white;
+        font-size: 14px;
+        font-weight: bold;
+        box-shadow: 0 2px 4px rgba(51, 102, 255, 0.2);
+      }
+
+      .content-area {
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding: 8px 16px;
+      }
+
+      .content-area::-webkit-scrollbar {
+        display: none;
+      }
+
+      .chat-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 0;
+        gap: 12px;
+        border-bottom: 1px solid #EEEEEE;
+      }
+
+      .chat-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 24px;
+        background: #F6F6F6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .chat-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .chat-info {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .chat-title {
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .chat-subtitle {
+        font-size: 14px;
+        color: #999;
+      }
+
+      .chat-meta {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+      }
+
+      .chat-time {
+        font-size: 12px;
+        color: #999;
+      }
+
+      .chat-action {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+      }
+
+      .ad-banner {
+        margin: 8px 0;
+        padding: 12px;
+        background: #F8F9FF;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .ad-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 24px;
+        background: linear-gradient(135deg, #FF6B6B, #FFB88C);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+      }
+
+      .ad-content {
+        flex: 1;
+      }
+
+      .ad-title {
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 4px;
+      }
+
+      .ad-desc {
+        font-size: 14px;
+        color: #666;
+      }
+
+      .ad-tag {
+        font-size: 12px;
+        color: #999;
+        padding: 2px 6px;
+        background: #F0F0F0;
+        border-radius: 4px;
+        margin-right: 8px;
+      }
+
+      .ad-button {
+        padding: 8px 20px;
+        background: #3366FF;
+        color: white;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+      }
+
+      .bottom-nav {
+        height: 84px;
+        padding: 8px 0 32px;
+        background: #FFF;
+        border-top: 1px solid #EEEEEE;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+
+      .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        color: #999;
+      }
+
+      .nav-item.active {
+        color: #3366FF;
+      }
+
+      .nav-icon {
+        font-size: 24px;
+      }
+
+      .nav-label {
+        font-size: 12px;
+      }
+
+      .badge {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        min-width: 18px;
+        height: 18px;
+        padding: 0 6px;
+        background: #FF3B30;
+        color: white;
+        font-size: 12px;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        padding: 16px;
+        gap: 12px;
+        border-bottom: 1px solid #EEEEEE;
+      }
+
+      .menu-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 16px;
+        background: #F6F6F6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+      }
+
+      .menu-text {
+        font-size: 16px;
+        color: #333;
+      }
+
+      /* Toast 样式 */
+      .toast {
+        position: fixed;
+        bottom: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 14px;
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .toast.show {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-container">
+      <div class="status-bar">
+        <div class="time">15:23</div>
+        <div class="status-icons">
+          <div>••••</div>
+          <div>📶</div>
+          <div>🔋</div>
+        </div>
+      </div>
+
+      <div class="search-header">
+        <div class="search-bar">
+          <div class="search-icon">🔍</div>
+          <input type="text" class="search-input" placeholder="Ask Botim AI or Search">
+        </div>
+        <div class="header-icons">
+          <div class="header-icon ai-icon" onclick="window.location.href='deepseek.html'">AI</div>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <div class="chat-item">
+          <div class="chat-avatar">
+            <img src="https://via.placeholder.com/48" alt="Profile">
+          </div>
+          <div class="chat-info">
+            <div class="chat-title">
+              +971 50 168 7208
+              <span>💳</span>
+              <span>💬</span>
+            </div>
+            <div class="chat-subtitle">Yesterday</div>
+          </div>
+          <div class="chat-meta">
+            <div class="chat-action">📞</div>
+          </div>
+        </div>
+
+        <div class="chat-item">
+          <div class="chat-avatar">T</div>
+          <div class="chat-info">
+            <div class="chat-title">
+              Taki
+              <span>💬</span>
+            </div>
+            <div class="chat-subtitle">2025-3-11</div>
+          </div>
+          <div class="chat-meta">
+            <div class="chat-action">📹</div>
+          </div>
+        </div>
+
+        <div class="ad-banner">
+          <div class="ad-icon">❤️</div>
+          <div class="ad-content">
+            <div class="chat-title">
+              <span class="ad-tag">Ad</span>
+              Let you shine!
+            </div>
+            <div class="ad-desc">Make your life interesting and...</div>
+          </div>
+          <button class="ad-button">Install</button>
+        </div>
+
+        <div class="chat-item">
+          <div class="chat-avatar">
+            <img src="https://via.placeholder.com/48" alt="Profile">
+          </div>
+          <div class="chat-info">
+            <div class="chat-title">Bhaby</div>
+            <div class="chat-subtitle">2025-3-4</div>
+          </div>
+          <div class="chat-meta">
+            <div class="chat-action">📞</div>
+          </div>
+        </div>
+
+        <div class="chat-item">
+          <div class="chat-avatar">
+            <img src="https://via.placeholder.com/48" alt="Profile">
+          </div>
+          <div class="chat-info">
+            <div class="chat-title">
+              +971 52 649 5718
+              <span>💳</span>
+              <span>💬</span>
+            </div>
+            <div class="chat-subtitle">2025-2-23</div>
+          </div>
+          <div class="chat-meta">
+            <div class="chat-action">📞</div>
+          </div>
+        </div>
+
+        <div class="chat-item">
+          <div class="chat-avatar">
+            <img src="https://via.placeholder.com/48" alt="Profile">
+          </div>
+          <div class="chat-info">
+            <div class="chat-title">Bhaby</div>
+            <div class="chat-subtitle">2025-2-20</div>
+          </div>
+          <div class="chat-meta">
+            <div class="chat-action">📹</div>
+          </div>
+        </div>
+
+        <div class="chat-item">
+          <div class="chat-avatar">
+            <img src="https://via.placeholder.com/48" alt="Profile">
+          </div>
+          <div class="chat-info">
+            <div class="chat-title">
+              +971 52 969 2883
+              <span>💬</span>
+            </div>
+            <div class="chat-subtitle">2025-2-18</div>
+          </div>
+          <div class="chat-meta">
+            <div class="chat-action">📞</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item active">
+          <div class="nav-icon">🏠</div>
+          <div class="nav-label">Home</div>
+        </div>
+        <div class="nav-item">
+          <div class="nav-icon">🔍</div>
+          <div class="nav-label">Search</div>
+        </div>
+        <div class="nav-item">
+          <div class="nav-icon">👤</div>
+          <div class="nav-label">Profile</div>
+        </div>
+      </div>
+
+      <div class="profile-menu">
+      </div>
+    </div>
+
+    <!-- Toast 元素 -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+      // 更新时间
+      function updateTime() {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        document.querySelector('.time').textContent = `${hours}:${minutes}`;
+      }
+      
+      updateTime();
+      setInterval(updateTime, 60000);
+
+      // 搜索框点击事件
+      document.querySelector('.search-bar').addEventListener('click', () => {
+        window.location.href = 'search.html';
+      });
+
+      // 导航项点击事件
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+          document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+          item.classList.add('active');
+        });
+      });
+
+      // 显示 Toast 消息
+      function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        
+        // 3秒后隐藏
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3000);
+      }
+    </script>
+  </body>
+</html> 

@@ -20,10 +20,10 @@
 
 ### 快速访问链接
 - 新闻页面: https://news-kappa-henna.vercel.app/news.html
-- 视频滤镜: https://news-kappa-henna.vercel.app/video-filters.html
-- 搜索页面: https://news-kappa-henna.vercel.app/search.html
-- Botim主页: https://news-kappa-henna.vercel.app/index.html
-- 降噪通话: https://news-kappa-henna.vercel.app/noise-cancellation-en.html
+- 视频滤镜: https://news-kappa-henna.vercel.app/temp/video-filters.html
+- 搜索页面: https://news-kappa-henna.vercel.app/temp/search.html
+- Botim主页: https://news-kappa-henna.vercel.app/temp/index.html
+- 降噪通话: https://news-kappa-henna.vercel.app/temp/noise-cancellation-en.html
 
 ## 项目结构
 

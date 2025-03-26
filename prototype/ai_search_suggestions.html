@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botim AI Search</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 16px;
+            color: #666;
+            font-size: 14px;
+            background-color: white;
+        }
+        
+        .time {
+            font-weight: 500;
+        }
+        
+        .status-bar-right {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+        
+        .header {
+            background-color: #f8f9fa;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .search-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background-color: #eef1f4;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin: 0 16px;
+        }
+        
+        .ai-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #7000ff;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            font-size: 14px;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            outline: none;
+            color: #1a1a1a;
+        }
+        
+        .cancel-btn {
+            margin-left: 12px;
+            font-size: 15px;
+            color: #666;
+            text-decoration: none;
+            padding: 8px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            color: #1a1a1a;
+            font-size: 16px;
+            font-weight: 500;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .see-all {
+            color: #0066ff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .suggestion-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 16px;
+            background-color: white;
+            border-radius: 12px;
+            margin: 0 16px 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .suggestion-item.transfer {
+            border-left: 4px solid #00b347;
+        }
+        
+        .suggestion-item.card {
+            border-left: 4px solid #0066ff;
+        }
+        
+        .suggestion-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            margin-right: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+            background-color: #f8f9fa;
+        }
+        
+        .suggestion-content {
+            flex: 1;
+        }
+        
+        .suggestion-title {
+            font-weight: 500;
+            margin: 0;
+            color: #1a1a1a;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .suggestion-desc {
+            color: #666;
+            margin: 8px 0 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .currency-conversion {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .flag {
+            width: 20px;
+            height: 20px;
+            margin: 0 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hot-tag {
+            background-color: #ff4d4f;
+            color: white;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 12px;
+            font-weight: 500;
+            position: absolute;
+            right: 36px;
+        }
+        
+        .chevron {
+            position: absolute;
+            right: 16px;
+            color: #ccc;
+            font-size: 20px;
+        }
+        
+        .online-results {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            color: #666;
+            font-size: 15px;
+        }
+        
+        .search-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #0066ff;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 14px;
+        }
+        
+        .ask-botim {
+            padding: 16px;
+            color: #1a1a1a;
+            font-size: 16px;
+            font-weight: 500;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .botim-suggestion {
+            display: flex;
+            padding: 12px 16px;
+            align-items: center;
+            background-color: white;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .blue-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #0066ff;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .suggestions-title {
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #1a1a1a;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .search-suggestion {
+            display: flex;
+            padding: 12px 16px;
+            align-items: center;
+            background-color: white;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .search-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .search-suggestion-text {
+            color: #1a1a1a;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="time">9:41</div>
+        <div class="status-bar-right">
+            <span>&#128246;</span>
+            <span>&#128279;</span>
+            <span>&#128267;</span>
+        </div>
+    </div>
+    
+    <!-- 搜索框 -->
+    <div class="header">
+        <div class="search-container">
+            <div class="ai-icon">AI</div>
+            <input type="text" class="search-input" placeholder="Search" value="a">
+        </div>
+        <a href="#" class="cancel-btn">Cancel</a>
+    </div>
+    
+    <!-- AI建议部分 -->
+    <div class="section-header">
+        <div>AI Suggestions</div>
+        <a href="#" class="see-all">See all</a>
+    </div>
+    
+    <!-- 国际转账建议 -->
+    <div class="suggestion-item transfer">
+        <div class="suggestion-icon">💱</div>
+        <div class="suggestion-content">
+            <div class="suggestion-title">International Transfer</div>
+            <div class="suggestion-desc">You're so close to sending money home..</div>
+            <div class="currency-conversion">
+                <span class="flag">🇦🇪</span>
+                <span>1</span>
+                <span>≈</span>
+                <span>1.98</span>
+                <span class="flag">🇨🇳</span>
+            </div>
+        </div>
+        <div class="chevron">›</div>
+    </div>
+    
+    <!-- 多币种卡建议 -->
+    <div class="suggestion-item card">
+        <div class="suggestion-icon">💳</div>
+        <div class="suggestion-content">
+            <div class="suggestion-title">Multi Currency Card</div>
+            <div class="suggestion-desc">Default description</div>
+        </div>
+        <div class="hot-tag">HOT</div>
+        <div class="chevron">›</div>
+    </div>
+    
+    <!-- 在线结果 -->
+    <div class="online-results">
+        <div class="search-circle">Q</div>
+        <div>Online results for "a"</div>
+    </div>
+    
+    <!-- Ask Botim AI -->
+    <div class="ask-botim">
+        <div>Ask Botim AI</div>
+        <a href="#" class="see-all">See all</a>
+    </div>
+    
+    <!-- Botim AI建议 -->
+    <div class="botim-suggestion">
+        <div class="blue-dot"></div>
+        <div class="search-suggestion-text">Ramadan Timing 2025</div>
+    </div>
+    
+    <div class="botim-suggestion">
+        <div class="blue-dot"></div>
+        <div class="search-suggestion-text">When does Ramadan Starts 2025?</div>
+    </div>
+    
+    <div class="botim-suggestion">
+        <div class="blue-dot"></div>
+        <div class="search-suggestion-text">What is Ramadan?</div>
+    </div>
+    
+    <!-- 搜索建议 -->
+    <div class="suggestions-title">
+        <div>Suggestions</div>
+        <a href="#" class="see-all">See all</a>
+    </div>
+    
+    <div class="search-suggestion">
+        <div class="search-icon">🔍</div>
+        <div class="search-suggestion-text">Aladdin</div>
+    </div>
+    
+    <div class="search-suggestion">
+        <div class="search-icon">🔍</div>
+        <div class="search-suggestion-text">Adjustable</div>
+    </div>
+    
+    <div class="search-suggestion">
+        <div class="search-icon">🔍</div>
+        <div class="search-suggestion-text">Alcohol free</div>
+    </div>
+    
+    <div class="search-suggestion">
+        <div class="search-icon">🔍</div>
+        <div class="search-suggestion-text">Automatic incline</div>
+    </div>
+    
+    <script>
+        // 添加点击效果
+        document.querySelectorAll('.suggestion-item, .botim-suggestion, .search-suggestion').forEach(item => {
+            item.addEventListener('click', function() {
+                this.style.backgroundColor = '#f0f0f0';
+                setTimeout(() => {
+                    this.style.backgroundColor = '';
+                }, 200);
+            });
+        });
+        
+        // 添加搜索框焦点效果
+        const searchInput = document.querySelector('.search-input');
+        const searchContainer = document.querySelector('.search-container');
+        
+        searchInput.addEventListener('focus', () => {
+            searchContainer.style.backgroundColor = '#fff';
+            searchContainer.style.boxShadow = '0 0 0 2px #0066ff40';
+        });
+        
+        searchInput.addEventListener('blur', () => {
+            searchContainer.style.backgroundColor = '#eef1f4';
+            searchContainer.style.boxShadow = 'none';
+        });
+    </script>
+</body>
+</html> 

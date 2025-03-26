@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Analytics Dashboard</title>
+    <link rel="stylesheet" href="common.css">
+    <style>
+      /* 页面特定样式 */
+      .dashboard-header {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        background: #f8faff;
+      }
+
+      .dashboard-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #333;
+      }
+
+      .dashboard-period {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 4px;
+      }
+
+      .period-selector {
+        display: flex;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        overflow: hidden;
+        background: white;
+      }
+
+      .period-option {
+        padding: 8px 12px;
+        font-size: 13px;
+        color: #666;
+        background: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      .period-option.active {
+        background: #3366FF;
+        color: white;
+        font-weight: 500;
+      }
+
+      .date-range {
+        font-size: 13px;
+        color: #666;
+        background: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        padding: 8px 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 16px;
+      }
+
+      .metric-card {
+        background: white;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .metric-title {
+        font-size: 14px;
+        color: #666;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .metric-value {
+        font-size: 28px;
+        font-weight: 700;
+        color: #333;
+      }
+
+      .metric-trend {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 13px;
+      }
+
+      .trend-up {
+        color: #28A745;
+      }
+
+      .trend-down {
+        color: #DC3545;
+      }
+
+      .chart-container {
+        margin: 0 16px;
+        background: white;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        height: 220px;
+        margin-bottom: 16px;
+      }
+
+      .chart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      .chart-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .chart-legend {
+        display: flex;
+        gap: 12px;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        color: #666;
+      }
+
+      .legend-color {
+        width: 12px;
+        height: 12px;
+        border-radius: 3px;
+      }
+
+      .color-calls {
+        background: #3366FF;
+      }
+
+      .color-messages {
+        background: #FF6B6B;
+      }
+
+      .chart {
+        height: 160px;
+        width: 100%;
+        position: relative;
+      }
+
+      .chart-grid {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        position: relative;
+      }
+
+      .grid-line {
+        width: 100%;
+        height: 1px;
+        background: #f0f0f0;
+        position: relative;
+      }
+
+      .grid-label {
+        position: absolute;
+        left: 0;
+        top: -10px;
+        font-size: 10px;
+        color: #999;
+      }
+
+      .chart-bars {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-end;
+      }
+
+      .bar-group {
+        display: flex;
+        gap: 4px;
+        width: 100%;
+        flex: 1;
+        align-items: flex-end;
+        justify-content: center;
+      }
+
+      .bar {
+        flex: 1;
+        max-width: 20px;
+        border-radius: 4px 4px 0 0;
+      }
+
+      .bar-calls {
+        background: #3366FF;
+      }
+
+      .bar-messages {
+        background: #FF6B6B;
+      }
+
+      .xaxis-labels {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 8px;
+      }
+
+      .xaxis-label {
+        font-size: 11px;
+        color: #999;
+        text-align: center;
+      }
+
+      .top-list {
+        margin: 0 16px 16px;
+        background: white;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      }
+
+      .list-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      .list-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .list-more {
+        font-size: 13px;
+        color: #3366FF;
+      }
+
+      .list-item {
+        display: flex;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .item-rank {
+        width: 24px;
+        height: 24px;
+        border-radius: 12px;
+        background: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 600;
+        margin-right: 12px;
+      }
+
+      .top-1 {
+        background: #FFD700;
+        color: white;
+      }
+
+      .top-2 {
+        background: #C0C0C0;
+        color: white;
+      }
+
+      .top-3 {
+        background: #CD7F32;
+        color: white;
+      }
+
+      .item-details {
+        flex: 1;
+      }
+
+      .item-name {
+        font-size: 14px;
+        color: #333;
+        font-weight: 500;
+      }
+
+      .item-value {
+        text-align: right;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .item-unit {
+        font-size: 13px;
+        color: #999;
+        font-weight: normal;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 全局导航 -->
+      </a>
+      </a>
+      </a>
+    </div>
+
+<div class="app-container">
+      <div class="status-bar">
+        <div class="status-time">10:20</div>
+        <div class="status-icons">
+          <div class="status-icon">•••</div>
+          <div class="status-icon">📶</div>
+          <div class="status-icon">🔋</div>
+        </div>
+      </div>
+
+      <div class="dashboard-header">
+        <div class="dashboard-title">Analytics Dashboard</div>
+        <div class="dashboard-period">
+          <div class="period-selector">
+            <button class="period-option">Day</button>
+            <button class="period-option active">Week</button>
+            <button class="period-option">Month</button>
+            <button class="period-option">Year</button>
+          </div>
+          <div class="date-range">
+            <span>Jul 10 - Jul 17, 2025</span>
+            <span>📅</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-title">📱 Active Users</div>
+            <div class="metric-value">258.7K</div>
+            <div class="metric-trend trend-up">↑ 12.4% vs last week</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-title">⏱️ Avg. Session</div>
+            <div class="metric-value">18m 27s</div>
+            <div class="metric-trend trend-up">↑ 3.2% vs last week</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-title">📞 Total Calls</div>
+            <div class="metric-value">1.24M</div>
+            <div class="metric-trend trend-up">↑ 8.7% vs last week</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-title">💬 Total Messages</div>
+            <div class="metric-value">4.58M</div>
+            <div class="metric-trend trend-down">↓ 2.3% vs last week</div>
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <div class="chart-header">
+            <div class="chart-title">Daily Activity</div>
+            <div class="chart-legend">
+              <div class="legend-item">
+                <div class="legend-color color-calls"></div>
+                <span>Calls</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color color-messages"></div>
+                <span>Messages</span>
+              </div>
+            </div>
+          </div>
+          <div class="chart">
+            <div class="chart-grid">
+              <div class="grid-line">
+                <div class="grid-label">400K</div>
+              </div>
+              <div class="grid-line">
+                <div class="grid-label">300K</div>
+              </div>
+              <div class="grid-line">
+                <div class="grid-label">200K</div>
+              </div>
+              <div class="grid-line">
+                <div class="grid-label">100K</div>
+              </div>
+              <div class="grid-line">
+                <div class="grid-label">0</div>
+              </div>
+            </div>
+            <div class="chart-bars">
+              <div class="bar-group">
+                <div class="bar bar-calls" style="height: 40%;"></div>
+                <div class="bar bar-messages" style="height: 60%;"></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar bar-calls" style="height: 45%;"></div>
+                <div class="bar bar-messages" style="height: 65%;"></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar bar-calls" style="height: 50%;"></div>
+                <div class="bar bar-messages" style="height: 68%;"></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar bar-calls" style="height: 48%;"></div>
+                <div class="bar bar-messages" style="height: 64%;"></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar bar-calls" style="height: 60%;"></div>
+                <div class="bar bar-messages" style="height: 72%;"></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar bar-calls" style="height: 54%;"></div>
+                <div class="bar bar-messages" style="height: 58%;"></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar bar-calls" style="height: 42%;"></div>
+                <div class="bar bar-messages" style="height: 52%;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="xaxis-labels">
+            <div class="xaxis-label">Mon</div>
+            <div class="xaxis-label">Tue</div>
+            <div class="xaxis-label">Wed</div>
+            <div class="xaxis-label">Thu</div>
+            <div class="xaxis-label">Fri</div>
+            <div class="xaxis-label">Sat</div>
+            <div class="xaxis-label">Sun</div>
+          </div>
+        </div>
+
+        <div class="top-list">
+          <div class="list-header">
+            <div class="list-title">Top Regions</div>
+            <div class="list-more">See all</div>
+          </div>
+          <div class="list-item">
+            <div class="item-rank top-1">1</div>
+            <div class="item-details">
+              <div class="item-name">United Arab Emirates</div>
+            </div>
+            <div class="item-value">87.2<span class="item-unit">K</span></div>
+          </div>
+          <div class="list-item">
+            <div class="item-rank top-2">2</div>
+            <div class="item-details">
+              <div class="item-name">Saudi Arabia</div>
+            </div>
+            <div class="item-value">54.8<span class="item-unit">K</span></div>
+          </div>
+          <div class="list-item">
+            <div class="item-rank top-3">3</div>
+            <div class="item-details">
+              <div class="item-name">India</div>
+            </div>
+            <div class="item-value">42.1<span class="item-unit">K</span></div>
+          </div>
+          <div class="list-item">
+            <div class="item-rank">4</div>
+            <div class="item-details">
+              <div class="item-name">Pakistan</div>
+            </div>
+            <div class="item-value">36.5<span class="item-unit">K</span></div>
+          </div>
+          <div class="list-item">
+            <div class="item-rank">5</div>
+            <div class="item-details">
+              <div class="item-name">Egypt</div>
+            </div>
+            <div class="item-value">28.7<span class="item-unit">K</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom navigation -->
+      <div class="bottom-nav">
+        <div class="nav-item active">
+          <div class="nav-icon">📊</div>
+          <div class="nav-label">Analytics</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast 元素 -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+      // 更新时间
+      function updateTime() {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        document.querySelector('.status-time').textContent = `${hours}:${minutes}`;
+      }
+      
+      updateTime();
+      setInterval(updateTime, 60000);
+
+      // 显示 Toast 消息
+      function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        
+        // 3秒后隐藏
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3000);
+      }
+
+      // 时间周期选择
+      document.querySelectorAll('.period-option').forEach(option => {
+        option.addEventListener('click', () => {
+          document.querySelectorAll('.period-option').forEach(opt => {
+            opt.classList.remove('active');
+          });
+          option.classList.add('active');
+          showToast('Updating dashboard data...');
+        });
+      });
+    </script>
+</body>
+</html> 

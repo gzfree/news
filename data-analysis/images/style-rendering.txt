@@ -1,0 +1,7 @@
+此文件用于标记缺少的"style-rendering.jpg"图片。
+
+根据截图内容，您可以使用显示风格化渲染界面选项的截图，例如：
+- 显示"Stylization"、"3D"和"Complex"标签的界面截图
+- 显示"2D"、"Complex"和"3D Stylization"标签的界面截图
+
+您上传的第5张截图中包含"Cool & Sweet"效果选项，也可作为风格化渲染示例。 
