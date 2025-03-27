@@ -199,8 +199,11 @@
             color: white;
             border-color: #4caf50;
         }
-        .en {
+        .zh {
             display: none;
+        }
+        .en {
+            display: block;
         }
     </style>
 </head>
@@ -285,8 +288,8 @@
                     <div class="en" style="font-weight: 600; color: #666; margin-bottom: 5px;">Audio Quality Score</div>
                     <div class="zh" style="font-size: 16px; margin-bottom: 5px;">新SDK: <span style="color: #4caf50; font-weight: 600;">3.9/5</span></div>
                     <div class="en" style="font-size: 16px; margin-bottom: 5px;">New SDK: <span style="color: #4caf50; font-weight: 600;">3.9/5</span></div>
-                    <div class="zh" style="font-size: 16px; margin-bottom: 5px;">老SDK: <span style="color: #ff9800; font-weight: 600;">3.2/5</span></div>
-                    <div class="en" style="font-size: 16px; margin-bottom: 5px;">Old SDK: <span style="color: #ff9800; font-weight: 600;">3.2/5</span></div>
+                    <div class="zh" style="font-size: 16px; margin-bottom: 5px;">老SDK: <span style="color: #ff9800; font-weight: 600;">N/A</span></div>
+                    <div class="en" style="font-size: 16px; margin-bottom: 5px;">Old SDK: <span style="color: #ff9800; font-weight: 600;">N/A</span></div>
                     <div class="zh" style="font-size: 16px;">优秀率(5分): <span style="color: #4caf50; font-weight: 600;">45%</span></div>
                     <div class="en" style="font-size: 16px;">Excellent rate (5 pts): <span style="color: #4caf50; font-weight: 600;">45%</span></div>
                 </div>
@@ -300,6 +303,78 @@
                     <div class="en" style="font-size: 16px; margin-bottom: 5px;">New SDK connection failures: <span style="color: #4caf50; font-weight: 600;">7%</span></div>
                     <div class="zh" style="font-size: 16px;">老SDK连接失败: <span style="color: #ff9800; font-weight: 600;">11%</span></div>
                     <div class="en" style="font-size: 16px;">Old SDK connection failures: <span style="color: #ff9800; font-weight: 600;">11%</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Current Issues Section - Moved from bottom to right after Summary -->
+        <div class="dashboard-section">
+            <div class="section-text" style="flex: 1;">
+                <div class="section-title zh">当前线上问题分析</div>
+                <div class="section-title en">Current Issues Analysis</div>
+                <div class="key-point zh">
+                    <strong>呼出不响铃：</strong>约<span class="highlight">25%</span>的比例，符合行业标准，受网络环境、系统功耗、使用频率等多因素影响。该问题难以进一步优化，与竞品水平相当。
+                </div>
+                <div class="key-point en">
+                    <strong>No-Ring Calls:</strong> Approximately <span class="highlight">25%</span> rate, which meets industry standards. Affected by network environment, system power consumption, usage frequency, and other factors. This issue is difficult to further optimize and is comparable to competitor levels.
+                </div>
+                <div class="key-point zh">
+                    <strong>接通后连接失败率：</strong>新SDK已将此问题率降至<span class="highlight">7%</span>，后续将通过小幅度迭代持续优化。
+                </div>
+                <div class="key-point en">
+                    <strong>Connection Failure Rate:</strong> New SDK has reduced this issue to <span class="highlight">7%</span>, with continuous optimization through minor iterations in the future.
+                </div>
+                <div class="key-point zh">
+                    <strong>视频流畅度问题：</strong>包括卡死、卡顿、黑屏等，6月将结合监控和用户反馈进行精准统计并优化。
+                </div>
+                <div class="key-point en">
+                    <strong>Video Fluidity Issues:</strong> Including freezing, stuttering, black screens, etc. Precise statistics and optimization will be conducted in June based on monitoring and user feedback.
+                </div>
+                <div class="key-point zh">
+                    <strong>视频清晰度：</strong>部分用户反馈清晰度低、模糊，正结合硬件能力持续优化编码压缩算法。
+                </div>
+                <div class="key-point en">
+                    <strong>Video Clarity:</strong> Some users report low clarity and blurriness. We are continuously optimizing encoding compression algorithms based on hardware capabilities.
+                </div>
+                <div class="key-point zh">
+                    <strong>音频质量问题：</strong>语音卡顿、回声、噪音等问题正在通过优化音频处理管道解决，6月会有更准确数据。
+                </div>
+                <div class="key-point en">
+                    <strong>Audio Quality Issues:</strong> Voice stuttering, echo, noise, and other issues are being resolved through audio processing pipeline optimization. More accurate data will be available in June.
+                </div>
+            </div>
+            
+            <div class="section-chart" style="flex: 1;">
+                <div class="chart-title zh" style="margin-top: 0px;">优化计划时间线</div>
+                <div class="chart-title en" style="margin-top: 0px;">Optimization Plan Timeline</div>
+                <div style="padding: 0 20px;">
+                    <div style="display: flex; margin-bottom: 12px; align-items: center;">
+                        <div style="width: 70px; font-size: 13px; color: #666;">4月</div>
+                        <div style="flex: 1; padding: 10px; background: #e8f5e9; border-radius: 4px; font-size: 13px;" class="zh">
+                            连接稳定性优化 - 减少连接失败率
+                        </div>
+                        <div style="flex: 1; padding: 10px; background: #e8f5e9; border-radius: 4px; font-size: 13px;" class="en">
+                            Connection Stability - Reduce failure rate
+                        </div>
+                    </div>
+                    <div style="display: flex; margin-bottom: 12px; align-items: center;">
+                        <div style="width: 70px; font-size: 13px; color: #666;">5月</div>
+                        <div style="flex: 1; padding: 10px; background: #fff8e1; border-radius: 4px; font-size: 13px;" class="zh">
+                            视频流畅度优化 - 解决卡顿和黑屏问题
+                        </div>
+                        <div style="flex: 1; padding: 10px; background: #fff8e1; border-radius: 4px; font-size: 13px;" class="en">
+                            Video Fluidity - Fix stuttering and black screens
+                        </div>
+                    </div>
+                    <div style="display: flex; margin-bottom: 12px; align-items: center;">
+                        <div style="width: 70px; font-size: 13px; color: #666;">6月</div>
+                        <div style="flex: 1; padding: 10px; background: #e3f2fd; border-radius: 4px; font-size: 13px;" class="zh">
+                            音频质量和视频清晰度优化 - 提高通话体验
+                        </div>
+                        <div style="flex: 1; padding: 10px; background: #e3f2fd; border-radius: 4px; font-size: 13px;" class="en">
+                            Audio Quality and Video Clarity - Improve call experience
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -644,6 +719,12 @@
                 <div class="key-point en">
                     Low scores of 1-2 points only account for <span class="highlight">12%</span>, mainly occurring under poor network conditions.
                 </div>
+                <div class="key-point zh">
+                    老SDK不支持此评分体系，因此标记为N/A。
+                </div>
+                <div class="key-point en">
+                    Old SDK does not support this scoring system, therefore marked as N/A.
+                </div>
             </div>
             <div class="section-chart">
                 <div class="chart-title zh">语音质量评分分布</div>
@@ -683,78 +764,6 @@
         
         <div class="divider"></div>
         
-        <!-- Current Issues Section -->
-        <div class="dashboard-section">
-            <div class="section-text" style="flex: 1;">
-                <div class="section-title zh">当前线上问题分析</div>
-                <div class="section-title en">Current Issues Analysis</div>
-                <div class="key-point zh">
-                    <strong>呼出不响铃：</strong>约<span class="highlight">25%</span>的比例，符合行业标准，受网络环境、系统功耗、使用频率等多因素影响。该问题难以进一步优化，与竞品水平相当。
-                </div>
-                <div class="key-point en">
-                    <strong>No-Ring Calls:</strong> Approximately <span class="highlight">25%</span> rate, which meets industry standards. Affected by network environment, system power consumption, usage frequency, and other factors. This issue is difficult to further optimize and is comparable to competitor levels.
-                </div>
-                <div class="key-point zh">
-                    <strong>接通后连接失败率：</strong>新SDK已将此问题率降至<span class="highlight">7%</span>，后续将通过小幅度迭代持续优化。
-                </div>
-                <div class="key-point en">
-                    <strong>Connection Failure Rate:</strong> New SDK has reduced this issue to <span class="highlight">7%</span>, with continuous optimization through minor iterations in the future.
-                </div>
-                <div class="key-point zh">
-                    <strong>视频流畅度问题：</strong>包括卡死、卡顿、黑屏等，6月将结合监控和用户反馈进行精准统计并优化。
-                </div>
-                <div class="key-point en">
-                    <strong>Video Fluidity Issues:</strong> Including freezing, stuttering, black screens, etc. Precise statistics and optimization will be conducted in June based on monitoring and user feedback.
-                </div>
-                <div class="key-point zh">
-                    <strong>视频清晰度：</strong>部分用户反馈清晰度低、模糊，正结合硬件能力持续优化编码压缩算法。
-                </div>
-                <div class="key-point en">
-                    <strong>Video Clarity:</strong> Some users report low clarity and blurriness. We are continuously optimizing encoding compression algorithms based on hardware capabilities.
-                </div>
-                <div class="key-point zh">
-                    <strong>音频质量问题：</strong>语音卡顿、回声、噪音等问题正在通过优化音频处理管道解决，6月会有更准确数据。
-                </div>
-                <div class="key-point en">
-                    <strong>Audio Quality Issues:</strong> Voice stuttering, echo, noise, and other issues are being resolved through audio processing pipeline optimization. More accurate data will be available in June.
-                </div>
-            </div>
-            
-            <div class="section-chart" style="flex: 1;">
-                <div class="chart-title zh" style="margin-top: 0px;">优化计划时间线</div>
-                <div class="chart-title en" style="margin-top: 0px;">Optimization Plan Timeline</div>
-                <div style="padding: 0 20px;">
-                    <div style="display: flex; margin-bottom: 12px; align-items: center;">
-                        <div style="width: 70px; font-size: 13px; color: #666;">4月</div>
-                        <div style="flex: 1; padding: 10px; background: #e8f5e9; border-radius: 4px; font-size: 13px;" class="zh">
-                            连接稳定性优化 - 减少连接失败率
-                        </div>
-                        <div style="flex: 1; padding: 10px; background: #e8f5e9; border-radius: 4px; font-size: 13px;" class="en">
-                            Connection Stability - Reduce failure rate
-                        </div>
-                    </div>
-                    <div style="display: flex; margin-bottom: 12px; align-items: center;">
-                        <div style="width: 70px; font-size: 13px; color: #666;">5月</div>
-                        <div style="flex: 1; padding: 10px; background: #fff8e1; border-radius: 4px; font-size: 13px;" class="zh">
-                            视频流畅度优化 - 解决卡顿和黑屏问题
-                        </div>
-                        <div style="flex: 1; padding: 10px; background: #fff8e1; border-radius: 4px; font-size: 13px;" class="en">
-                            Video Fluidity - Fix stuttering and black screens
-                        </div>
-                    </div>
-                    <div style="display: flex; margin-bottom: 12px; align-items: center;">
-                        <div style="width: 70px; font-size: 13px; color: #666;">6月</div>
-                        <div style="flex: 1; padding: 10px; background: #e3f2fd; border-radius: 4px; font-size: 13px;" class="zh">
-                            音频质量和视频清晰度优化 - 提高通话体验
-                        </div>
-                        <div style="flex: 1; padding: 10px; background: #e3f2fd; border-radius: 4px; font-size: 13px;" class="en">
-                            Audio Quality and Video Clarity - Improve call experience
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
         <div class="bottom-note zh">数据来源：系统数据监控平台 | 统计周期：最近7天 | 报告生成日期：2025年3月27日</div>
         <div class="bottom-note en">Data Source: System Monitoring Platform | Statistics Period: Last 7 Days | Report Date: March 27, 2025</div>
     </div>
@@ -768,8 +777,8 @@
             drawCallRingingChart();
             drawDonutChart();
             
-            // Set Chinese as the default language
-            switchLanguage('zh');
+            // Set English as the default language
+            switchLanguage('en');
         };
         
         function switchLanguage(lang) {
