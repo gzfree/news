@@ -345,6 +345,71 @@
       color: #666;
     }
 
+    /* 添加阅读量和实时阅读指示器样式 */
+    .usage-stats {
+      display: flex;
+      align-items: center;
+      margin-top: 4px;
+      font-size: 11px;
+      color: #888;
+    }
+    
+    .usage-count {
+      display: flex;
+      align-items: center;
+      margin-right: 12px;
+    }
+    
+    .usage-icon {
+      margin-right: 3px;
+      font-size: 11px;
+    }
+    
+    .active-users {
+      display: flex;
+      align-items: center;
+      color: #3366FF;
+      position: relative;
+    }
+    
+    .active-pulse {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      background-color: #3366FF;
+      border-radius: 50%;
+      margin-right: 3px;
+      position: relative;
+    }
+    
+    .active-pulse::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: #3366FF;
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.6;
+      }
+      70% {
+        transform: scale(2);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0;
+      }
+    }
+
     /* 统一右侧值样式 */
     .popular-service-arrow,
     .ranking-value {
@@ -523,6 +588,17 @@
               <div class="popular-service-info">
                 <div class="popular-service-title">Botim AI</div>
                 <div class="popular-service-subtitle">Meet Botim AI, your smart companion!</div>
+                <!-- 添加使用统计 -->
+                <div class="usage-stats">
+                  <div class="usage-count">
+                    <span class="usage-icon">👤</span>
+                    <span>1.2M users</span>
+                  </div>
+                  <div class="active-users">
+                    <span class="active-pulse"></span>
+                    <span>328 using now</span>
+                  </div>
+                </div>
               </div>
               <div class="popular-service-arrow">›</div>
             </div>
@@ -532,6 +608,17 @@
               <div class="popular-service-info">
                 <div class="popular-service-title">News</div>
                 <div class="popular-service-subtitle">Stay updated with latest news and updates</div>
+                <!-- 添加使用统计 -->
+                <div class="usage-stats">
+                  <div class="usage-count">
+                    <span class="usage-icon">👤</span>
+                    <span>895K users</span>
+                  </div>
+                  <div class="active-users">
+                    <span class="active-pulse"></span>
+                    <span>176 using now</span>
+                  </div>
+                </div>
               </div>
               <div class="popular-service-arrow">›</div>
             </div>
@@ -541,6 +628,17 @@
               <div class="popular-service-info">
                 <div class="popular-service-title">VIP Membership</div>
                 <div class="popular-service-subtitle">Join and enjoy more privileges</div>
+                <!-- 添加使用统计 -->
+                <div class="usage-stats">
+                  <div class="usage-count">
+                    <span class="usage-icon">👤</span>
+                    <span>456K users</span>
+                  </div>
+                  <div class="active-users">
+                    <span class="active-pulse"></span>
+                    <span>82 using now</span>
+                  </div>
+                </div>
               </div>
               <div class="popular-service-arrow">›</div>
             </div>
@@ -550,6 +648,17 @@
               <div class="popular-service-info">
                 <div class="popular-service-title">Visit Visa</div>
                 <div class="popular-service-subtitle">Apply for a tourist visa to the UAE</div>
+                <!-- 添加使用统计 -->
+                <div class="usage-stats">
+                  <div class="usage-count">
+                    <span class="usage-icon">👤</span>
+                    <span>325K users</span>
+                  </div>
+                  <div class="active-users">
+                    <span class="active-pulse"></span>
+                    <span>64 using now</span>
+                  </div>
+                </div>
               </div>
               <div class="popular-service-arrow">›</div>
             </div>
@@ -559,6 +668,17 @@
               <div class="popular-service-info">
                 <div class="popular-service-title">Steps</div>
                 <div class="popular-service-subtitle">Stay healthy and track your steps</div>
+                <!-- 添加使用统计 -->
+                <div class="usage-stats">
+                  <div class="usage-count">
+                    <span class="usage-icon">👤</span>
+                    <span>782K users</span>
+                  </div>
+                  <div class="active-users">
+                    <span class="active-pulse"></span>
+                    <span>145 using now</span>
+                  </div>
+                </div>
               </div>
               <div class="popular-service-arrow">›</div>
             </div>
@@ -568,6 +688,17 @@
               <div class="popular-service-info">
                 <div class="popular-service-title">VOIP Diagnosis</div>
                 <div class="popular-service-subtitle">Call quality test</div>
+                <!-- 添加使用统计 -->
+                <div class="usage-stats">
+                  <div class="usage-count">
+                    <span class="usage-icon">👤</span>
+                    <span>215K users</span>
+                  </div>
+                  <div class="active-users">
+                    <span class="active-pulse"></span>
+                    <span>38 using now</span>
+                  </div>
+                </div>
               </div>
               <div class="popular-service-arrow">›</div>
             </div>
@@ -582,6 +713,17 @@
               <div class="ranking-info">
                 <div class="ranking-title">UAE announces new visa rules for residents</div>
                 <div class="ranking-subtitle">🇦🇪 Government News • 2h ago</div>
+                <!-- 添加阅读统计 -->
+                <div class="usage-stats">
+                  <div class="usage-count">
+                    <span class="usage-icon">👁️</span>
+                    <span>5.2K views</span>
+                  </div>
+                  <div class="active-users">
+                    <span class="active-pulse"></span>
+                    <span>248 reading now</span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -590,6 +732,17 @@
               <div class="ranking-info">
                 <div class="ranking-title">Dubai's EXPO City launches new sustainability initiative</div>
                 <div class="ranking-subtitle">🌱 Environment • 3h ago</div>
+                <!-- 添加阅读统计 -->
+                <div class="usage-stats">
+                  <div class="usage-count">
+                    <span class="usage-icon">👁️</span>
+                    <span>4.7K views</span>
+                  </div>
+                  <div class="active-users">
+                    <span class="active-pulse"></span>
+                    <span>186 reading now</span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -598,6 +751,17 @@
               <div class="ranking-info">
                 <div class="ranking-title">Abu Dhabi hosts major tech conference</div>
                 <div class="ranking-subtitle">💻 Technology • 4h ago</div>
+                <!-- 添加阅读统计 -->
+                <div class="usage-stats">
+                  <div class="usage-count">
+                    <span class="usage-icon">👁️</span>
+                    <span>3.9K views</span>
+                  </div>
+                  <div class="active-users">
+                    <span class="active-pulse"></span>
+                    <span>152 reading now</span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -606,6 +770,17 @@
               <div class="ranking-info">
                 <div class="ranking-title">UAE-China trade relations reach new heights</div>
                 <div class="ranking-subtitle">💰 Economy • 5h ago</div>
+                <!-- 添加阅读统计 -->
+                <div class="usage-stats">
+                  <div class="usage-count">
+                    <span class="usage-icon">👁️</span>
+                    <span>3.5K views</span>
+                  </div>
+                  <div class="active-users">
+                    <span class="active-pulse"></span>
+                    <span>124 reading now</span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -614,6 +789,17 @@
               <div class="ranking-info">
                 <div class="ranking-title">Dubai Metro extends operating hours</div>
                 <div class="ranking-subtitle">🚇 Transport • 6h ago</div>
+                <!-- 添加阅读统计 -->
+                <div class="usage-stats">
+                  <div class="usage-count">
+                    <span class="usage-icon">👁️</span>
+                    <span>3.1K views</span>
+                  </div>
+                  <div class="active-users">
+                    <span class="active-pulse"></span>
+                    <span>108 reading now</span>
+                  </div>
+                </div>
               </div>
             </div>
 
