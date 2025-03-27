@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDK Performance Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: transparent;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            overflow-x: hidden;
+        }
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            padding: 30px;
+        }
+        h1 {
+            color: #2a3b4c;
+            text-align: center;
+            font-size: 28px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .dashboard-section {
+            display: flex;
+            margin-bottom: 40px;
+            align-items: center;
+        }
+        .section-text {
+            flex: 1;
+            padding-right: 30px;
+        }
+        .section-chart {
+            flex: 1.2;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2a3b4c;
+            margin-bottom: 15px;
+            border-left: 4px solid #4caf50;
+            padding-left: 10px;
+        }
+        .key-point {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        .highlight {
+            background-color: #e8f5e9;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+        .data-point {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+        .data-label {
+            width: 120px;
+            font-size: 14px;
+            color: #666;
+        }
+        .data-value {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 10px;
+        }
+        .data-value.new {
+            color: #4caf50;
+        }
+        .data-value.old {
+            color: #ff9800;
+        }
+        .chart-container {
+            position: relative;
+            height: 250px;
+            margin-bottom: 15px;
+        }
+        .chart-title {
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            color: #2a3b4c;
+            margin-bottom: 20px;
+        }
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 0 10px;
+            font-size: 13px;
+        }
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            margin-right: 5px;
+        }
+        .progress-container {
+            position: relative;
+            width: 100%;
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 50px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 50px;
+            background: linear-gradient(to right, #4caf50, #8bc34a);
+        }
+        .progress-old {
+            background: linear-gradient(to right, #ff9800, #ffb74d);
+        }
+        .bottom-note {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            margin-top: 20px;
+            font-style: italic;
+        }
+        .divider {
+            height: 2px;
+            background-color: #f0f0f0;
+            margin: 30px 0;
+            width: 100%;
+        }
+        /* For responsive design */
+        @media (max-width: 900px) {
+            .dashboard-section {
+                flex-direction: column;
+            }
+            .section-text {
+                padding-right: 0;
+                padding-bottom: 20px;
+            }
+        }
+        /* For FPS chart */
+        .fps-chart-container {
+            position: relative;
+            height: 200px;
+            margin-top: 30px;
+        }
+        /* For Audio Quality chart */
+        .donut-chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 220px;
+        }
+        /* Language switcher */
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .lang-btn {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .lang-btn:hover {
+            background-color: #e9ecef;
+        }
+        .lang-btn.active {
+            background-color: #4caf50;
+            color: white;
+            border-color: #4caf50;
+        }
+        .en {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="lang-btn" onclick="switchLanguage('zh')">中文</button>
+        <button class="lang-btn" onclick="switchLanguage('en')">English</button>
+    </div>
+    
+    <div class="container">
+        <h1 class="zh">Botim voip SDK 升级性能优化报告</h1>
+        <h1 class="en">Botim voip SDK Upgrade Performance Optimization Report</h1>
+        <div class="subtitle zh">新SDK灰度部署：35% | 优化重点：连接稳定性、视频流畅度、语音质量</div>
+        <div class="subtitle en">New SDK Deployment: 35% | Focus Areas: Connection Stability, Video Fluidity, Audio Quality</div>
+        
+        <!-- Summary Section -->
+        <div style="background-color: #f9f9f9; padding: 20px; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+            <div class="zh" style="font-size: 20px; font-weight: 600; color: #2a3b4c; margin-bottom: 15px; border-left: 4px solid #4caf50; padding-left: 10px;">
+                性能优化摘要
+            </div>
+            <div class="en" style="font-size: 20px; font-weight: 600; color: #2a3b4c; margin-bottom: 15px; border-left: 4px solid #4caf50; padding-left: 10px;">
+                Performance Optimization Summary
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+                <div style="min-width: 200px; background: white; border-radius: 8px; padding: 15px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+                    <div class="zh" style="font-weight: 600; color: #666; margin-bottom: 5px;">部署状态</div>
+                    <div class="en" style="font-weight: 600; color: #666; margin-bottom: 5px;">Deployment Status</div>
+                    <div class="zh" style="font-size: 16px; margin-bottom: 5px;">新SDK: <span style="color: #4caf50; font-weight: 600;">35%</span></div>
+                    <div class="en" style="font-size: 16px; margin-bottom: 5px;">New SDK: <span style="color: #4caf50; font-weight: 600;">35%</span></div>
+                    <div class="zh" style="font-size: 16px; margin-bottom: 5px;">4月目标: <span style="color: #4caf50; font-weight: 600;">55%</span></div>
+                    <div class="en" style="font-size: 16px; margin-bottom: 5px;">April Target: <span style="color: #4caf50; font-weight: 600;">55%</span></div>
+                    <div class="zh" style="font-size: 16px;">5月目标: <span style="color: #4caf50; font-weight: 600;">70%</span></div>
+                    <div class="en" style="font-size: 16px;">May Target: <span style="color: #4caf50; font-weight: 600;">70%</span></div>
+                </div>
+                
+                <div style="min-width: 200px; background: white; border-radius: 8px; padding: 15px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+                    <div class="zh" style="font-weight: 600; color: #666; margin-bottom: 5px;">连接成功率</div>
+                    <div class="en" style="font-weight: 600; color: #666; margin-bottom: 5px;">Connection Success Rate</div>
+                    <div class="zh" style="font-size: 16px; margin-bottom: 5px;">新SDK: <span style="color: #4caf50; font-weight: 600;">93.457%</span></div>
+                    <div class="en" style="font-size: 16px; margin-bottom: 5px;">New SDK: <span style="color: #4caf50; font-weight: 600;">93.457%</span></div>
+                    <div class="zh" style="font-size: 16px; margin-bottom: 5px;">老SDK: <span style="color: #ff9800; font-weight: 600;">89.571%</span></div>
+                    <div class="en" style="font-size: 16px; margin-bottom: 5px;">Old SDK: <span style="color: #ff9800; font-weight: 600;">89.571%</span></div>
+                    <div class="zh" style="font-size: 16px;">提升: <span style="color: #4caf50; font-weight: 600;">3.9%</span></div>
+                    <div class="en" style="font-size: 16px;">Improvement: <span style="color: #4caf50; font-weight: 600;">3.9%</span></div>
+                </div>
+                
+                <div style="min-width: 200px; background: white; border-radius: 8px; padding: 15px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+                    <div class="zh" style="font-weight: 600; color: #666; margin-bottom: 5px;">视频帧率</div>
+                    <div class="en" style="font-weight: 600; color: #666; margin-bottom: 5px;">Video Frame Rate</div>
+                    <div class="zh" style="font-size: 16px; margin-bottom: 5px;">新SDK: <span style="color: #4caf50; font-weight: 600;">24 FPS</span></div>
+                    <div class="en" style="font-size: 16px; margin-bottom: 5px;">New SDK: <span style="color: #4caf50; font-weight: 600;">24 FPS</span></div>
+                    <div class="zh" style="font-size: 16px; margin-bottom: 5px;">老SDK: <span style="color: #ff9800; font-weight: 600;">12 FPS</span></div>
+                    <div class="en" style="font-size: 16px; margin-bottom: 5px;">Old SDK: <span style="color: #ff9800; font-weight: 600;">12 FPS</span></div>
+                    <div class="zh" style="font-size: 16px;">提升: <span style="color: #4caf50; font-weight: 600;">100%</span></div>
+                    <div class="en" style="font-size: 16px;">Improvement: <span style="color: #4caf50; font-weight: 600;">100%</span></div>
+                </div>
+                
+                <div style="min-width: 200px; background: white; border-radius: 8px; padding: 15px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+                    <div class="zh" style="font-weight: 600; color: #666; margin-bottom: 5px;">音频首帧延迟</div>
+                    <div class="en" style="font-weight: 600; color: #666; margin-bottom: 5px;">Audio First Frame Delay</div>
+                    <div class="zh" style="font-size: 16px; margin-bottom: 5px;">新SDK: <span style="color: #4caf50; font-weight: 600;">0.9秒</span></div>
+                    <div class="en" style="font-size: 16px; margin-bottom: 5px;">New SDK: <span style="color: #4caf50; font-weight: 600;">0.9s</span></div>
+                    <div class="zh" style="font-size: 16px; margin-bottom: 5px;">老SDK: <span style="color: #ff9800; font-weight: 600;">1.3秒</span></div>
+                    <div class="en" style="font-size: 16px; margin-bottom: 5px;">Old SDK: <span style="color: #ff9800; font-weight: 600;">1.3s</span></div>
+                    <div class="zh" style="font-size: 16px;">改善: <span style="color: #4caf50; font-weight: 600;">31%</span></div>
+                    <div class="en" style="font-size: 16px;">Improvement: <span style="color: #4caf50; font-weight: 600;">31%</span></div>
+                </div>
+                
+                <div style="min-width: 200px; background: white; border-radius: 8px; padding: 15px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+                    <div class="zh" style="font-weight: 600; color: #666; margin-bottom: 5px;">呼叫响铃时间</div>
+                    <div class="en" style="font-weight: 600; color: #666; margin-bottom: 5px;">Call-to-Ringing Time</div>
+                    <div class="zh" style="font-size: 16px; margin-bottom: 5px;">新SDK: <span style="color: #4caf50; font-weight: 600;">1.9秒</span></div>
+                    <div class="en" style="font-size: 16px; margin-bottom: 5px;">New SDK: <span style="color: #4caf50; font-weight: 600;">1.9s</span></div>
+                    <div class="zh" style="font-size: 16px; margin-bottom: 5px;">老SDK: <span style="color: #ff9800; font-weight: 600;">3.6秒</span></div>
+                    <div class="en" style="font-size: 16px; margin-bottom: 5px;">Old SDK: <span style="color: #ff9800; font-weight: 600;">3.6s</span></div>
+                    <div class="zh" style="font-size: 16px;">改善: <span style="color: #4caf50; font-weight: 600;">47%</span></div>
+                    <div class="en" style="font-size: 16px;">Improvement: <span style="color: #4caf50; font-weight: 600;">47%</span></div>
+                </div>
+                
+                <div style="min-width: 200px; background: white; border-radius: 8px; padding: 15px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+                    <div class="zh" style="font-weight: 600; color: #666; margin-bottom: 5px;">音频质量评分</div>
+                    <div class="en" style="font-weight: 600; color: #666; margin-bottom: 5px;">Audio Quality Score</div>
+                    <div class="zh" style="font-size: 16px; margin-bottom: 5px;">新SDK: <span style="color: #4caf50; font-weight: 600;">3.9/5</span></div>
+                    <div class="en" style="font-size: 16px; margin-bottom: 5px;">New SDK: <span style="color: #4caf50; font-weight: 600;">3.9/5</span></div>
+                    <div class="zh" style="font-size: 16px; margin-bottom: 5px;">老SDK: <span style="color: #ff9800; font-weight: 600;">3.2/5</span></div>
+                    <div class="en" style="font-size: 16px; margin-bottom: 5px;">Old SDK: <span style="color: #ff9800; font-weight: 600;">3.2/5</span></div>
+                    <div class="zh" style="font-size: 16px;">优秀率(5分): <span style="color: #4caf50; font-weight: 600;">45%</span></div>
+                    <div class="en" style="font-size: 16px;">Excellent rate (5 pts): <span style="color: #4caf50; font-weight: 600;">45%</span></div>
+                </div>
+                
+                <div style="min-width: 200px; background: white; border-radius: 8px; padding: 15px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+                    <div class="zh" style="font-weight: 600; color: #666; margin-bottom: 5px;">主要问题</div>
+                    <div class="en" style="font-weight: 600; color: #666; margin-bottom: 5px;">Main Issues</div>
+                    <div class="zh" style="font-size: 16px; margin-bottom: 5px;">呼出不响铃: <span style="color: #ff9800; font-weight: 600;">25%</span></div>
+                    <div class="en" style="font-size: 16px; margin-bottom: 5px;">No-ring calls: <span style="color: #ff9800; font-weight: 600;">25%</span></div>
+                    <div class="zh" style="font-size: 16px; margin-bottom: 5px;">新SDK连接失败: <span style="color: #4caf50; font-weight: 600;">7%</span></div>
+                    <div class="en" style="font-size: 16px; margin-bottom: 5px;">New SDK connection failures: <span style="color: #4caf50; font-weight: 600;">7%</span></div>
+                    <div class="zh" style="font-size: 16px;">老SDK连接失败: <span style="color: #ff9800; font-weight: 600;">11%</span></div>
+                    <div class="en" style="font-size: 16px;">Old SDK connection failures: <span style="color: #ff9800; font-weight: 600;">11%</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Deployment Section -->
+        <div class="dashboard-section">
+            <div class="section-text">
+                <div class="section-title zh">SDK部署状态</div>
+                <div class="section-title en">SDK Deployment Status</div>
+                <div class="key-point zh">
+                    当前新SDK灰度覆盖率为<span class="highlight">35%</span>，1月已达到<span class="highlight">35%</span>。
+                </div>
+                <div class="key-point en">
+                    Current new SDK deployment coverage is <span class="highlight">35%</span>, reached <span class="highlight">35%</span> in January.
+                </div>
+                <div class="key-point zh">
+                    灰度规划：4月将扩大至<span class="highlight">55%</span>，5月将达到<span class="highlight">70%</span>。
+                </div>
+                <div class="key-point en">
+                    Deployment plan: expanding to <span class="highlight">55%</span> in April and <span class="highlight">70%</span> in May.
+                </div>
+                <div class="key-point zh">
+                    老版本SDK仍然覆盖<span class="highlight">65%</span>的用户群体。
+                </div>
+                <div class="key-point en">
+                    Old version SDK still covers <span class="highlight">65%</span> of the user base.
+                </div>
+                <div class="key-point zh">
+                    各主要区域用户均已覆盖新版本，数据收集情况良好。
+                </div>
+                <div class="key-point en">
+                    All major regions have new version coverage, with good data collection status.
+                </div>
+            </div>
+            <div class="section-chart">
+                <div class="chart-title zh">新旧SDK部署分布</div>
+                <div class="chart-title en">New vs Old SDK Distribution</div>
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <canvas id="pieChart" width="260" height="200"></canvas>
+                </div>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #4caf50;"></div>
+                        <span class="zh">新SDK: 35%</span>
+                        <span class="en">New SDK: 35%</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #ff9800;"></div>
+                        <span class="zh">老SDK: 65%</span>
+                        <span class="en">Old SDK: 65%</span>
+                    </div>
+                </div>
+                
+                <div class="chart-title zh" style="margin-top: 20px;">灰度部署进度计划</div>
+                <div class="chart-title en" style="margin-top: 20px;">Deployment Progress Plan</div>
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <div style="position: relative; height: 80px; margin-top: 15px;">
+                        <canvas id="timelineChart" width="260" height="80"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <!-- Success Rate Section -->
+        <div class="dashboard-section">
+            <div class="section-text">
+                <div class="section-title zh">连接成功率提升</div>
+                <div class="section-title en">Connection Success Rate Improvement</div>
+                <div class="key-point zh">
+                    新SDK在高峰时段连接成功率显著提升，达到<span class="highlight">93.457%</span>。
+                </div>
+                <div class="key-point en">
+                    New SDK shows significant improvement in peak-time connection success rate, reaching <span class="highlight">93.457%</span>.
+                </div>
+                <div class="key-point zh">
+                    相比老SDK的<span class="highlight">89.571%</span>，提升了近4个百分点。
+                </div>
+                <div class="key-point en">
+                    Compared to old SDK's <span class="highlight">89.571%</span>, an improvement of nearly 4 percentage points.
+                </div>
+                <div class="key-point zh">
+                    高峰时段用户体验更加稳定，掉线情况明显减少。
+                </div>
+                <div class="key-point en">
+                    More stable user experience during peak periods, with significantly fewer disconnections.
+                </div>
+                <div class="data-point">
+                    <div class="data-label zh">新SDK成功率:</div>
+                    <div class="data-label en">New SDK rate:</div>
+                    <div class="data-value new">93.457%</div>
+                </div>
+                <div class="data-point">
+                    <div class="data-label zh">老SDK成功率:</div>
+                    <div class="data-label en">Old SDK rate:</div>
+                    <div class="data-value old">89.571%</div>
+                </div>
+            </div>
+            <div class="section-chart">
+                <div class="chart-title zh">高峰时段连接成功率对比</div>
+                <div class="chart-title en">Peak Time Connection Success Rate Comparison</div>
+                <div style="padding: 20px;">
+                    <div style="margin-bottom: 30px;">
+                        <div style="font-weight: 600; margin-bottom: 5px;" class="zh">新SDK</div>
+                        <div style="font-weight: 600; margin-bottom: 5px;" class="en">New SDK</div>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 93.457%;"></div>
+                        </div>
+                        <div style="text-align: right; font-size: 18px; font-weight: 600; color: #4caf50;">93.457%</div>
+                    </div>
+                    
+                    <div>
+                        <div style="font-weight: 600; margin-bottom: 5px;" class="zh">老SDK</div>
+                        <div style="font-weight: 600; margin-bottom: 5px;" class="en">Old SDK</div>
+                        <div class="progress-container">
+                            <div class="progress-bar progress-old" style="width: 89.571%;"></div>
+                        </div>
+                        <div style="text-align: right; font-size: 18px; font-weight: 600; color: #ff9800;">89.571%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <!-- FPS Section -->
+        <div class="dashboard-section">
+            <div class="section-text">
+                <div class="section-title zh">视频帧率表现</div>
+                <div class="section-title en">Video Frame Rate Performance</div>
+                <div class="key-point zh">
+                    新SDK (BOTRTC) 平均帧率稳定在<span class="highlight">24 FPS</span>。
+                </div>
+                <div class="key-point en">
+                    New SDK (BOTRTC) average frame rate is stable at <span class="highlight">24 FPS</span>.
+                </div>
+                <div class="key-point zh">
+                    老SDK (WEBRTC) 平均帧率约为<span class="highlight">12 FPS</span>。
+                </div>
+                <div class="key-point en">
+                    Old SDK (WEBRTC) average frame rate is around <span class="highlight">12 FPS</span>.
+                </div>
+                <div class="key-point zh">
+                    更高的帧率带来更流畅的视频体验，尤其在高网络负载情况下优势明显。
+                </div>
+                <div class="key-point en">
+                    Higher frame rate provides smoother video experience, especially advantageous under high network load.
+                </div>
+                <div class="key-point zh">
+                    新SDK的帧率波动更小，保持稳定，提高通话体验一致性。
+                </div>
+                <div class="key-point en">
+                    New SDK has less frame rate fluctuation, maintaining stability and improving call experience consistency.
+                </div>
+            </div>
+            <div class="section-chart">
+                <div class="chart-title zh">24小时视频帧率对比</div>
+                <div class="chart-title en">24-hour Video Frame Rate Comparison</div>
+                <div class="fps-chart-container">
+                    <canvas id="fpsChart" width="400" height="200"></canvas>
+                </div>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #a05000;"></div>
+                        <span class="zh">BOTRTC (新): ~24 FPS</span>
+                        <span class="en">BOTRTC (New): ~24 FPS</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #0065a0;"></div>
+                        <span class="zh">WEBRTC (老): ~12 FPS</span>
+                        <span class="en">WEBRTC (Old): ~12 FPS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <!-- Audio First Frame Delay Section -->
+        <div class="dashboard-section">
+            <div class="section-text">
+                <div class="section-title zh">音频首帧延迟优化</div>
+                <div class="section-title en">Audio First Frame Delay Optimization</div>
+                <div class="key-point zh">
+                    新SDK (BOTRTC) 音频首帧到达时间降低至<span class="highlight">0.9秒</span>。
+                </div>
+                <div class="key-point en">
+                    New SDK (BOTRTC) audio first frame arrival time reduced to <span class="highlight">0.9 seconds</span>.
+                </div>
+                <div class="key-point zh">
+                    相比老SDK (WebRTC) 的<span class="highlight">1.3秒</span>，减少约30%延迟。
+                </div>
+                <div class="key-point en">
+                    Compared to old SDK (WebRTC) at <span class="highlight">1.3 seconds</span>, about 30% delay reduction.
+                </div>
+                <div class="key-point zh">
+                    通话建立后音频更快响应，提升用户实时互动体验。
+                </div>
+                <div class="key-point en">
+                    Faster audio response after call establishment, enhancing real-time interaction experience.
+                </div>
+                <div class="key-point zh">
+                    在各时段测试中，新SDK首帧延迟波动更小，保持稳定。
+                </div>
+                <div class="key-point en">
+                    In tests at various times, new SDK shows less first frame delay fluctuation, maintaining stability.
+                </div>
+                <div class="data-point">
+                    <div class="data-label zh">新SDK延迟:</div>
+                    <div class="data-label en">New SDK delay:</div>
+                    <div class="data-value new">0.9秒</div>
+                </div>
+                <div class="data-point">
+                    <div class="data-label zh">老SDK延迟:</div>
+                    <div class="data-label en">Old SDK delay:</div>
+                    <div class="data-value old">1.3秒</div>
+                </div>
+            </div>
+            <div class="section-chart">
+                <div class="chart-title zh">24小时音频首帧延迟对比</div>
+                <div class="chart-title en">24-hour Audio First Frame Delay Comparison</div>
+                <div class="fps-chart-container">
+                    <canvas id="delayChart" width="400" height="200"></canvas>
+                </div>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #673ab7;"></div>
+                        <span class="zh">BOTRTC (新): ~0.9秒</span>
+                        <span class="en">BOTRTC (New): ~0.9 sec</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #e91e63;"></div>
+                        <span class="zh">WebRTC (老): ~1.3秒</span>
+                        <span class="en">WebRTC (Old): ~1.3 sec</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <!-- Call to Ringing Time Section -->
+        <div class="dashboard-section">
+            <div class="section-text">
+                <div class="section-title zh">呼叫响铃时间优化</div>
+                <div class="section-title en">Call-to-Ringing Time Optimization</div>
+                <div class="key-point zh">
+                    新SDK (BOTRTC_AE_AE) 呼出到响铃的平均等待时间降低至<span class="highlight">1.9秒</span>。
+                </div>
+                <div class="key-point en">
+                    New SDK (BOTRTC_AE_AE) average call-to-ringing waiting time reduced to <span class="highlight">1.9 seconds</span>.
+                </div>
+                <div class="key-point zh">
+                    相比老SDK (WebRTC_AE_AE) 的<span class="highlight">3.6秒</span>，减少了约47%等待时间。
+                </div>
+                <div class="key-point en">
+                    Compared to old SDK (WebRTC_AE_AE) at <span class="highlight">3.6 seconds</span>, reduced waiting time by about 47%.
+                </div>
+                <div class="key-point zh">
+                    更短的呼叫等待时间大大提升用户通话体验和满意度。
+                </div>
+                <div class="key-point en">
+                    Shorter call waiting time significantly improves user call experience and satisfaction.
+                </div>
+                <div class="key-point zh">
+                    在全天各时段测试中，新SDK响铃时间稳定在2秒左右，波动性小。
+                </div>
+                <div class="key-point en">
+                    In tests throughout the day, new SDK ringing time remains stable at around 2 seconds with minimal fluctuation.
+                </div>
+                <div class="data-point">
+                    <div class="data-label zh">新SDK响铃时间:</div>
+                    <div class="data-label en">New SDK ringing time:</div>
+                    <div class="data-value new">1.9秒</div>
+                </div>
+                <div class="data-point">
+                    <div class="data-label zh">老SDK响铃时间:</div>
+                    <div class="data-label en">Old SDK ringing time:</div>
+                    <div class="data-value old">3.6秒</div>
+                </div>
+            </div>
+            <div class="section-chart">
+                <div class="chart-title zh">24小时呼叫响铃时间对比</div>
+                <div class="chart-title en">24-hour Call-to-Ringing Time Comparison</div>
+                <div class="fps-chart-container">
+                    <canvas id="callRingingChart" width="400" height="200"></canvas>
+                </div>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #9c27b0;"></div>
+                        <span class="zh">BOTRTC_AE_AE (新): ~1.9秒</span>
+                        <span class="en">BOTRTC_AE_AE (New): ~1.9 sec</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #f0a732;"></div>
+                        <span class="zh">BOTRTC: ~2.1秒</span>
+                        <span class="en">BOTRTC: ~2.1 sec</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #4f8edb;"></div>
+                        <span class="zh">WebRTC_AE_AE (老): ~3.6秒</span>
+                        <span class="en">WebRTC_AE_AE (Old): ~3.6 sec</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #2f7d32;"></div>
+                        <span class="zh">WebRTC: ~3.9秒</span>
+                        <span class="en">WebRTC: ~3.9 sec</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <!-- Audio Quality Section -->
+        <div class="dashboard-section">
+            <div class="section-text">
+                <div class="section-title zh">语音质量分析</div>
+                <div class="section-title en">Audio Quality Analysis</div>
+                <div class="key-point zh">
+                    新增语音质量自动算法打分体系，满分5分。
+                </div>
+                <div class="key-point en">
+                    New automatic algorithm scoring system for audio quality, with a maximum score of 5 points.
+                </div>
+                <div class="key-point zh">
+                    5分（优秀）评分占比<span class="highlight">45%</span>，表明近半用户语音质量优秀。
+                </div>
+                <div class="key-point en">
+                    5 points (excellent) rating accounts for <span class="highlight">45%</span>, showing nearly half of users have excellent audio quality.
+                </div>
+                <div class="key-point zh">
+                    4-5分总占比达到<span class="highlight">63%</span>，整体表现良好。
+                </div>
+                <div class="key-point en">
+                    4-5 points total accounts for <span class="highlight">63%</span>, showing overall good performance.
+                </div>
+                <div class="key-point zh">
+                    1-2分低评分仅占<span class="highlight">12%</span>，主要出现在网络条件较差情况下。
+                </div>
+                <div class="key-point en">
+                    Low scores of 1-2 points only account for <span class="highlight">12%</span>, mainly occurring under poor network conditions.
+                </div>
+            </div>
+            <div class="section-chart">
+                <div class="chart-title zh">语音质量评分分布</div>
+                <div class="chart-title en">Audio Quality Score Distribution</div>
+                <div class="donut-chart-container">
+                    <canvas id="donutChart" width="220" height="220"></canvas>
+                </div>
+                <div class="chart-legend" style="flex-wrap: wrap; justify-content: center;">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #2e7d32;"></div>
+                        <span class="zh">5分 (优秀): 45%</span>
+                        <span class="en">5 points (Excellent): 45%</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #4caf50;"></div>
+                        <span class="zh">4分 (良好): 18%</span>
+                        <span class="en">4 points (Good): 18%</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #8bc34a;"></div>
+                        <span class="zh">3分 (一般): 25%</span>
+                        <span class="en">3 points (Average): 25%</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #c62828;"></div>
+                        <span class="zh">2分 (较差): 7%</span>
+                        <span class="en">2 points (Poor): 7%</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #d32f2f;"></div>
+                        <span class="zh">1分 (差): 5%</span>
+                        <span class="en">1 point (Bad): 5%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <!-- Current Issues Section -->
+        <div class="dashboard-section">
+            <div class="section-text" style="flex: 1;">
+                <div class="section-title zh">当前线上问题分析</div>
+                <div class="section-title en">Current Issues Analysis</div>
+                <div class="key-point zh">
+                    <strong>呼出不响铃：</strong>约<span class="highlight">25%</span>的比例，符合行业标准，受网络环境、系统功耗、使用频率等多因素影响。该问题难以进一步优化，与竞品水平相当。
+                </div>
+                <div class="key-point en">
+                    <strong>No-Ring Calls:</strong> Approximately <span class="highlight">25%</span> rate, which meets industry standards. Affected by network environment, system power consumption, usage frequency, and other factors. This issue is difficult to further optimize and is comparable to competitor levels.
+                </div>
+                <div class="key-point zh">
+                    <strong>接通后连接失败率：</strong>新SDK已将此问题率降至<span class="highlight">7%</span>，后续将通过小幅度迭代持续优化。
+                </div>
+                <div class="key-point en">
+                    <strong>Connection Failure Rate:</strong> New SDK has reduced this issue to <span class="highlight">7%</span>, with continuous optimization through minor iterations in the future.
+                </div>
+                <div class="key-point zh">
+                    <strong>视频流畅度问题：</strong>包括卡死、卡顿、黑屏等，6月将结合监控和用户反馈进行精准统计并优化。
+                </div>
+                <div class="key-point en">
+                    <strong>Video Fluidity Issues:</strong> Including freezing, stuttering, black screens, etc. Precise statistics and optimization will be conducted in June based on monitoring and user feedback.
+                </div>
+                <div class="key-point zh">
+                    <strong>视频清晰度：</strong>部分用户反馈清晰度低、模糊，正结合硬件能力持续优化编码压缩算法。
+                </div>
+                <div class="key-point en">
+                    <strong>Video Clarity:</strong> Some users report low clarity and blurriness. We are continuously optimizing encoding compression algorithms based on hardware capabilities.
+                </div>
+                <div class="key-point zh">
+                    <strong>音频质量问题：</strong>语音卡顿、回声、噪音等问题正在通过优化音频处理管道解决，6月会有更准确数据。
+                </div>
+                <div class="key-point en">
+                    <strong>Audio Quality Issues:</strong> Voice stuttering, echo, noise, and other issues are being resolved through audio processing pipeline optimization. More accurate data will be available in June.
+                </div>
+            </div>
+            
+            <div class="section-chart" style="flex: 1;">
+                <div class="chart-title zh" style="margin-top: 0px;">优化计划时间线</div>
+                <div class="chart-title en" style="margin-top: 0px;">Optimization Plan Timeline</div>
+                <div style="padding: 0 20px;">
+                    <div style="display: flex; margin-bottom: 12px; align-items: center;">
+                        <div style="width: 70px; font-size: 13px; color: #666;">4月</div>
+                        <div style="flex: 1; padding: 10px; background: #e8f5e9; border-radius: 4px; font-size: 13px;" class="zh">
+                            连接稳定性优化 - 减少连接失败率
+                        </div>
+                        <div style="flex: 1; padding: 10px; background: #e8f5e9; border-radius: 4px; font-size: 13px;" class="en">
+                            Connection Stability - Reduce failure rate
+                        </div>
+                    </div>
+                    <div style="display: flex; margin-bottom: 12px; align-items: center;">
+                        <div style="width: 70px; font-size: 13px; color: #666;">5月</div>
+                        <div style="flex: 1; padding: 10px; background: #fff8e1; border-radius: 4px; font-size: 13px;" class="zh">
+                            视频流畅度优化 - 解决卡顿和黑屏问题
+                        </div>
+                        <div style="flex: 1; padding: 10px; background: #fff8e1; border-radius: 4px; font-size: 13px;" class="en">
+                            Video Fluidity - Fix stuttering and black screens
+                        </div>
+                    </div>
+                    <div style="display: flex; margin-bottom: 12px; align-items: center;">
+                        <div style="width: 70px; font-size: 13px; color: #666;">6月</div>
+                        <div style="flex: 1; padding: 10px; background: #e3f2fd; border-radius: 4px; font-size: 13px;" class="zh">
+                            音频质量和视频清晰度优化 - 提高通话体验
+                        </div>
+                        <div style="flex: 1; padding: 10px; background: #e3f2fd; border-radius: 4px; font-size: 13px;" class="en">
+                            Audio Quality and Video Clarity - Improve call experience
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bottom-note zh">数据来源：系统数据监控平台 | 统计周期：最近7天 | 报告生成日期：2025年3月27日</div>
+        <div class="bottom-note en">Data Source: System Monitoring Platform | Statistics Period: Last 7 Days | Report Date: March 27, 2025</div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            drawPieChart();
+            drawTimelineChart();
+            drawFPSChart();
+            drawDelayChart();
+            drawCallRingingChart();
+            drawDonutChart();
+            
+            // Set Chinese as the default language
+            switchLanguage('zh');
+        };
+        
+        function switchLanguage(lang) {
+            // Hide all language elements
+            const zhElements = document.querySelectorAll('.zh');
+            const enElements = document.querySelectorAll('.en');
+            
+            if (lang === 'zh') {
+                zhElements.forEach(el => el.style.display = 'block');
+                enElements.forEach(el => el.style.display = 'none');
+                
+                // Update active button
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.textContent === '中文') btn.classList.add('active');
+                });
+            } else {
+                zhElements.forEach(el => el.style.display = 'none');
+                enElements.forEach(el => el.style.display = 'block');
+                
+                // Update active button
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.textContent === 'English') btn.classList.add('active');
+                });
+            }
+        }
+        
+        function drawPieChart() {
+            const canvas = document.getElementById('pieChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Data
+            const data = [
+                { value: 35, color: '#4caf50', label: 'New SDK' },
+                { value: 65, color: '#ff9800', label: 'Old SDK' }
+            ];
+            
+            // Draw pie chart
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = Math.min(centerX, centerY) - 30;
+            
+            let total = data.reduce((sum, item) => sum + item.value, 0);
+            let startAngle = 0;
+            
+            for (let item of data) {
+                let sliceAngle = 2 * Math.PI * item.value / total;
+                
+                ctx.beginPath();
+                ctx.fillStyle = item.color;
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
+                ctx.closePath();
+                ctx.fill();
+                
+                // Calculate label position
+                let midAngle = startAngle + sliceAngle / 2;
+                let labelX = centerX + Math.cos(midAngle) * (radius * 0.7);
+                let labelY = centerY + Math.sin(midAngle) * (radius * 0.7);
+                
+                // Add label
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 16px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(`${item.value}%`, labelX, labelY);
+                
+                startAngle += sliceAngle;
+            }
+        }
+        
+        function drawTimelineChart() {
+            const canvas = document.getElementById('timelineChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Data
+            const milestones = [
+                { month: "1月", percentage: 35, date: "已完成" },
+                { month: "当前", percentage: 35, date: "3月" },
+                { month: "4月", percentage: 55, date: "计划中" },
+                { month: "5月", percentage: 70, date: "计划中" }
+            ];
+            
+            // Chart dimensions
+            const chartWidth = canvas.width;
+            const chartHeight = canvas.height;
+            const padding = { top: 10, right: 10, bottom: 30, left: 10 };
+            const barHeight = 10;
+            
+            // Draw timeline bar
+            const timelineY = 25;
+            const barWidth = chartWidth - padding.left - padding.right;
+            
+            // Background bar
+            ctx.fillStyle = '#e0e0e0';
+            ctx.fillRect(padding.left, timelineY, barWidth, barHeight);
+            
+            // Progress bar
+            const colors = ['#4caf50', '#66bb6a', '#7cc47c', '#8bc34a'];
+            
+            // First draw completed portion (up to current percentage)
+            const currentPercentage = milestones[1].percentage;
+            ctx.fillStyle = '#4caf50';
+            ctx.fillRect(padding.left, timelineY, barWidth * (currentPercentage / 100), barHeight);
+            
+            // Then draw future portions with different colors
+            for (let i = 2; i < milestones.length; i++) {
+                const prevMilestone = milestones[i-1].percentage;
+                const milestone = milestones[i].percentage;
+                const startX = padding.left + barWidth * (prevMilestone / 100);
+                const width = barWidth * ((milestone - prevMilestone) / 100);
+                
+                ctx.fillStyle = '#e8f5e9'; // Light green for future milestones
+                ctx.fillRect(startX, timelineY, width, barHeight);
+            }
+            
+            // Draw milestone points and labels
+            milestones.forEach((milestone, index) => {
+                const milestoneX = padding.left + barWidth * (milestone.percentage / 100);
+                
+                // Draw milestone circle
+                ctx.beginPath();
+                ctx.arc(milestoneX, timelineY + barHeight / 2, 6, 0, Math.PI * 2);
+                ctx.fillStyle = index === 1 ? '#ff9800' : '#4caf50';
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Draw milestone percentage
+                ctx.fillStyle = '#333';
+                ctx.font = 'bold 12px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(`${milestone.percentage}%`, milestoneX, timelineY - 5);
+                
+                // Draw milestone month
+                ctx.fillStyle = '#666';
+                ctx.font = '11px Arial';
+                ctx.textBaseline = 'top';
+                ctx.fillText(milestone.month, milestoneX, timelineY + barHeight + 5);
+                
+                // Draw milestone date
+                ctx.fillStyle = '#999';
+                ctx.font = '10px Arial';
+                ctx.fillText(milestone.date, milestoneX, timelineY + barHeight + 20);
+            });
+        }
+        
+        function drawFPSChart() {
+            const canvas = document.getElementById('fpsChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Data based on the screenshot
+            const botrtcData = [24, 24, 24, 23.8, 24, 24.5, 24, 24, 24, 24.2, 23.8, 24, 24];
+            const webrtcData = [12.5, 12.6, 12, 11.8, 12.4, 12.5, 12.6, 12.8, 12.7, 12.6, 12.5, 12.6, 12.7];
+            
+            // Time points - shortened for clarity
+            const timePoints = ["15:00", "18:00", "21:00", "00:00", "03:00", "06:00", "09:00", "12:00"];
+            
+            // Chart dimensions
+            const chartWidth = canvas.width;
+            const chartHeight = canvas.height;
+            const padding = { top: 20, right: 20, bottom: 30, left: 40 };
+            
+            // Draw grid lines
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 1;
+            
+            // Y-axis grid lines
+            const yValues = [0, 5, 10, 15, 20, 25];
+            const yScale = (chartHeight - padding.top - padding.bottom) / 25;
+            
+            yValues.forEach(value => {
+                const y = chartHeight - padding.bottom - (value * yScale);
+                
+                ctx.beginPath();
+                ctx.moveTo(padding.left, y);
+                ctx.lineTo(chartWidth - padding.right, y);
+                ctx.stroke();
+                
+                // Y-axis labels
+                ctx.fillStyle = '#666';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(value, padding.left - 5, y);
+            });
+            
+            // X-axis labels
+            const xScale = (chartWidth - padding.left - padding.right) / (timePoints.length - 1);
+            
+            timePoints.forEach((time, i) => {
+                const x = padding.left + i * xScale;
+                
+                // X-axis gridlines
+                ctx.beginPath();
+                ctx.moveTo(x, padding.top);
+                ctx.lineTo(x, chartHeight - padding.bottom);
+                ctx.stroke();
+                
+                // X-axis labels
+                ctx.fillStyle = '#666';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.fillText(time, x, chartHeight - padding.bottom + 5);
+            });
+            
+            // Scales for data
+            const dataxScale = (chartWidth - padding.left - padding.right) / (botrtcData.length - 1);
+            
+            // Draw BOTRTC FPS line
+            ctx.beginPath();
+            ctx.strokeStyle = '#a05000'; // brown color for BOTRTC
+            ctx.lineWidth = 2;
+            
+            for (let i = 0; i < botrtcData.length; i++) {
+                const x = padding.left + i * dataxScale;
+                const y = chartHeight - padding.bottom - (botrtcData[i] * yScale);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+                
+                // Add data point
+                ctx.fillStyle = '#a05000';
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.stroke();
+            
+            // Draw WEBRTC FPS line
+            ctx.beginPath();
+            ctx.strokeStyle = '#0065a0'; // blue color for WEBRTC
+            ctx.lineWidth = 2;
+            
+            for (let i = 0; i < webrtcData.length; i++) {
+                const x = padding.left + i * dataxScale;
+                const y = chartHeight - padding.bottom - (webrtcData[i] * yScale);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+                
+                // Add data point
+                ctx.fillStyle = '#0065a0';
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.stroke();
+        }
+        
+        function drawDelayChart() {
+            const canvas = document.getElementById('delayChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Data based on the screenshot
+            const botrtcData = [850, 840, 860, 870, 900, 920, 900, 880, 830, 820, 810, 830, 820];
+            const webrtcData = [1200, 1210, 1190, 1210, 1290, 1300, 1280, 1230, 1120, 1130, 1150, 1180, 1200];
+            
+            // Time points
+            const timePoints = ["15:00", "18:00", "21:00", "00:00", "03:00", "06:00", "09:00", "12:00"];
+            
+            // Chart dimensions
+            const chartWidth = canvas.width;
+            const chartHeight = canvas.height;
+            const padding = { top: 20, right: 20, bottom: 30, left: 40 };
+            
+            // Draw grid lines
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 1;
+            
+            // Y-axis grid lines
+            const yValues = [0, 200, 400, 600, 800, 1000, 1200, 1400];
+            const yMax = 1400;
+            const yScale = (chartHeight - padding.top - padding.bottom) / yMax;
+            
+            yValues.forEach(value => {
+                const y = chartHeight - padding.bottom - (value * yScale);
+                
+                ctx.beginPath();
+                ctx.moveTo(padding.left, y);
+                ctx.lineTo(chartWidth - padding.right, y);
+                ctx.stroke();
+                
+                // Y-axis labels
+                ctx.fillStyle = '#666';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(value, padding.left - 5, y);
+            });
+            
+            // X-axis labels
+            const xScale = (chartWidth - padding.left - padding.right) / (timePoints.length - 1);
+            
+            timePoints.forEach((time, i) => {
+                const x = padding.left + i * xScale;
+                
+                // X-axis gridlines
+                ctx.beginPath();
+                ctx.moveTo(x, padding.top);
+                ctx.lineTo(x, chartHeight - padding.bottom);
+                ctx.stroke();
+                
+                // X-axis labels
+                ctx.fillStyle = '#666';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.fillText(time, x, chartHeight - padding.bottom + 5);
+            });
+            
+            // Scales for data
+            const dataxScale = (chartWidth - padding.left - padding.right) / (botrtcData.length - 1);
+            
+            // Draw WebRTC delay line (on top)
+            ctx.beginPath();
+            ctx.strokeStyle = '#e91e63'; // pink for WebRTC
+            ctx.lineWidth = 2;
+            
+            for (let i = 0; i < webrtcData.length; i++) {
+                const x = padding.left + i * dataxScale;
+                const y = chartHeight - padding.bottom - (webrtcData[i] * yScale);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+                
+                // Add data point
+                ctx.fillStyle = '#e91e63';
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.stroke();
+            
+            // Draw BOTRTC delay line (on bottom)
+            ctx.beginPath();
+            ctx.strokeStyle = '#673ab7'; // purple for BOTRTC
+            ctx.lineWidth = 2;
+            
+            for (let i = 0; i < botrtcData.length; i++) {
+                const x = padding.left + i * dataxScale;
+                const y = chartHeight - padding.bottom - (botrtcData[i] * yScale);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+                
+                // Add data point
+                ctx.fillStyle = '#673ab7';
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.stroke();
+        }
+        
+        function drawCallRingingChart() {
+            const canvas = document.getElementById('callRingingChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Data based on the screenshot - BOTRTC_AE_AE shows lower values around 1.8-2.0s
+            const botrtcData = [1.85, 1.90, 1.95, 1.90, 1.75, 1.70, 1.50, 1.60, 1.95, 1.90, 1.85, 1.80, 1.85];
+            
+            // Data based on the screenshot - WebRTC_AE_AE shows higher values around 3.6-3.8s
+            const webrtcData = [3.65, 3.70, 3.65, 3.60, 3.80, 3.85, 3.90, 3.85, 3.70, 3.65, 3.60, 3.65, 3.70];
+            
+            // We also have the regular WebRTC & BOTRTC lines from the screenshot (non AE_AE)
+            const webrtcRegularData = [3.90, 3.93, 3.85, 3.95, 4.0, 3.95, 3.85, 3.80, 3.75, 3.70, 3.75, 3.80, 3.75];
+            const botrtcRegularData = [2.10, 2.15, 2.20, 2.15, 2.05, 2.0, 1.90, 1.95, 2.20, 2.15, 2.10, 2.15, 2.10];
+            
+            // Time points
+            const timePoints = ["15:00", "18:00", "21:00", "00:00", "03:00", "06:00", "09:00", "12:00"];
+            
+            // Chart dimensions
+            const chartWidth = canvas.width;
+            const chartHeight = canvas.height;
+            const padding = { top: 20, right: 20, bottom: 30, left: 40 };
+            
+            // Draw grid lines
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 1;
+            
+            // Y-axis grid lines - based on the screenshot showing 0 to 4+ seconds
+            const yValues = [0, 1, 2, 3, 4];
+            const yMax = 4.5;
+            const yScale = (chartHeight - padding.top - padding.bottom) / yMax;
+            
+            yValues.forEach(value => {
+                const y = chartHeight - padding.bottom - (value * yScale);
+                
+                ctx.beginPath();
+                ctx.moveTo(padding.left, y);
+                ctx.lineTo(chartWidth - padding.right, y);
+                ctx.stroke();
+                
+                // Y-axis labels
+                ctx.fillStyle = '#666';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(value, padding.left - 5, y);
+            });
+            
+            // X-axis labels
+            const xScale = (chartWidth - padding.left - padding.right) / (timePoints.length - 1);
+            
+            timePoints.forEach((time, i) => {
+                const x = padding.left + i * xScale;
+                
+                // X-axis gridlines
+                ctx.beginPath();
+                ctx.moveTo(x, padding.top);
+                ctx.lineTo(x, chartHeight - padding.bottom);
+                ctx.stroke();
+                
+                // X-axis labels
+                ctx.fillStyle = '#666';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.fillText(time, x, chartHeight - padding.bottom + 5);
+            });
+            
+            // Scales for data
+            const dataxScale = (chartWidth - padding.left - padding.right) / (botrtcData.length - 1);
+            
+            // Draw WebRTC regular line
+            ctx.beginPath();
+            ctx.strokeStyle = '#2f7d32'; // green for WebRTC
+            ctx.lineWidth = 2;
+            
+            for (let i = 0; i < webrtcRegularData.length; i++) {
+                const x = padding.left + i * dataxScale;
+                const y = chartHeight - padding.bottom - (webrtcRegularData[i] * yScale);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+                
+                // Add data point
+                ctx.fillStyle = '#2f7d32';
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.stroke();
+            
+            // Draw WebRTC_AE_AE line
+            ctx.beginPath();
+            ctx.strokeStyle = '#4f8edb'; // blue for WebRTC_AE_AE
+            ctx.lineWidth = 2;
+            
+            for (let i = 0; i < webrtcData.length; i++) {
+                const x = padding.left + i * dataxScale;
+                const y = chartHeight - padding.bottom - (webrtcData[i] * yScale);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+                
+                // Add data point
+                ctx.fillStyle = '#4f8edb';
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.stroke();
+            
+            // Draw BOTRTC regular line
+            ctx.beginPath();
+            ctx.strokeStyle = '#f0a732'; // yellow for BOTRTC
+            ctx.lineWidth = 2;
+            
+            for (let i = 0; i < botrtcRegularData.length; i++) {
+                const x = padding.left + i * dataxScale;
+                const y = chartHeight - padding.bottom - (botrtcRegularData[i] * yScale);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+                
+                // Add data point
+                ctx.fillStyle = '#f0a732';
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.stroke();
+            
+            // Draw BOTRTC_AE_AE line
+            ctx.beginPath();
+            ctx.strokeStyle = '#9c27b0'; // purple for BOTRTC_AE_AE
+            ctx.lineWidth = 2;
+            
+            for (let i = 0; i < botrtcData.length; i++) {
+                const x = padding.left + i * dataxScale;
+                const y = chartHeight - padding.bottom - (botrtcData[i] * yScale);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+                
+                // Add data point
+                ctx.fillStyle = '#9c27b0';
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.stroke();
+        }
+        
+        function drawDonutChart() {
+            const canvas = document.getElementById('donutChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Audio quality scores data
+            const data = [
+                { value: 45, color: '#2e7d32', label: '5' }, // 5分 - 深绿色，最多
+                { value: 18, color: '#4caf50', label: '4' }, // 4分 - 浅绿色
+                { value: 25, color: '#8bc34a', label: '3' }, // 3分 - 更浅绿色
+                { value: 7,  color: '#c62828', label: '2' }, // 2分 - 深红色，较少
+                { value: 5,  color: '#d32f2f', label: '1' }  // 1分 - 红色，最少
+            ];
+            
+            // Draw donut chart
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const innerRadius = 60;
+            const outerRadius = 100;
+            
+            let total = data.reduce((sum, item) => sum + item.value, 0);
+            let startAngle = 0;
+            
+            for (let item of data) {
+                let sliceAngle = 2 * Math.PI * item.value / total;
+                
+                // Draw slice
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, outerRadius, startAngle, startAngle + sliceAngle);
+                ctx.arc(centerX, centerY, innerRadius, startAngle + sliceAngle, startAngle, true);
+                ctx.closePath();
+                
+                ctx.fillStyle = item.color;
+                ctx.fill();
+                
+                // Calculate label position (middle of the slice)
+                let midAngle = startAngle + sliceAngle / 2;
+                let labelRadius = (innerRadius + outerRadius) / 2;
+                let labelX = centerX + Math.cos(midAngle) * labelRadius;
+                let labelY = centerY + Math.sin(midAngle) * labelRadius;
+                
+                // Add score label if slice is big enough
+                if (item.value > 8) {
+                    ctx.fillStyle = '#fff';
+                    ctx.font = 'bold 16px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(item.label, labelX, labelY);
+                }
+                
+                startAngle += sliceAngle;
+            }
+            
+            // Add inner circle for donut hole (white)
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, innerRadius - 1, 0, 2 * Math.PI);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+        }
+    </script>
+</body>
+</html> 

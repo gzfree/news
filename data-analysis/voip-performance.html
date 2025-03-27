@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDK Performance Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: transparent;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            overflow-x: hidden;
+        }
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            padding: 30px;
+        }
+        h1 {
+            color: #2a3b4c;
+            text-align: center;
+            font-size: 28px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .dashboard-section {
+            display: flex;
+            margin-bottom: 40px;
+            align-items: center;
+        }
+        .section-text {
+            flex: 1;
+            padding-right: 30px;
+        }
+        .section-chart {
+            flex: 1.2;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2a3b4c;
+            margin-bottom: 15px;
+            border-left: 4px solid #4caf50;
+            padding-left: 10px;
+        }
+        .key-point {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        .highlight {
+            background-color: #e8f5e9;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+        .data-point {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+        .data-label {
+            width: 120px;
+            font-size: 14px;
+            color: #666;
+        }
+        .data-value {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 10px;
+        }
+        .data-value.new {
+            color: #4caf50;
+        }
+        .data-value.old {
+            color: #ff9800;
+        }
+        .chart-container {
+            position: relative;
+            height: 250px;
+            margin-bottom: 15px;
+        }
+        .chart-title {
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            color: #2a3b4c;
+            margin-bottom: 20px;
+        }
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 0 10px;
+            font-size: 13px;
+        }
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            margin-right: 5px;
+        }
+        .progress-container {
+            position: relative;
+            width: 100%;
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 50px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 50px;
+            background: linear-gradient(to right, #4caf50, #8bc34a);
+        }
+        .progress-old {
+            background: linear-gradient(to right, #ff9800, #ffb74d);
+        }
+        .bottom-note {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            margin-top: 20px;
+            font-style: italic;
+        }
+        .divider {
+            height: 2px;
+            background-color: #f0f0f0;
+            margin: 30px 0;
+            width: 100%;
+        }
+        /* For responsive design */
+        @media (max-width: 900px) {
+            .dashboard-section {
+                flex-direction: column;
+            }
+            .section-text {
+                padding-right: 0;
+                padding-bottom: 20px;
+            }
+        }
+        /* For FPS chart */
+        .fps-chart-container {
+            position: relative;
+            height: 200px;
+            margin-top: 30px;
+        }
+        /* For Audio Quality chart */
+        .donut-chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 220px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SDK 升级性能优化报告</h1>
+        <div class="subtitle">新SDK灰度部署：35% | 优化重点：连接稳定性、视频流畅度、语音质量</div>
+        
+        <!-- Deployment Section -->
+        <div class="dashboard-section">
+            <div class="section-text">
+                <div class="section-title">SDK部署状态</div>
+                <div class="key-point">
+                    当前新SDK灰度覆盖率为<span class="highlight">35%</span>，1月已达到<span class="highlight">35%</span>。
+                </div>
+                <div class="key-point">
+                    灰度规划：4月将扩大至<span class="highlight">55%</span>，5月将达到<span class="highlight">70%</span>。
+                </div>
+                <div class="key-point">
+                    老版本SDK仍然覆盖<span class="highlight">65%</span>的用户群体。
+                </div>
+                <div class="key-point">
+                    各主要区域用户均已覆盖新版本，数据收集情况良好。
+                </div>
+            </div>
+            <div class="section-chart">
+                <div class="chart-title">新旧SDK部署分布</div>
+                <canvas id="pieChart" width="260" height="200"></canvas>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #4caf50;"></div>
+                        <span>新SDK: 35%</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #ff9800;"></div>
+                        <span>老SDK: 65%</span>
+                    </div>
+                </div>
+                
+                <div class="chart-title" style="margin-top: 20px;">灰度部署进度计划</div>
+                <div style="position: relative; height: 80px; margin-top: 15px;">
+                    <canvas id="timelineChart" width="260" height="80"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <!-- Success Rate Section -->
+        <div class="dashboard-section">
+            <div class="section-text">
+                <div class="section-title">连接成功率提升</div>
+                <div class="key-point">
+                    新SDK在高峰时段连接成功率显著提升，达到<span class="highlight">93.457%</span>。
+                </div>
+                <div class="key-point">
+                    相比老SDK的<span class="highlight">89.571%</span>，提升了近4个百分点。
+                </div>
+                <div class="key-point">
+                    高峰时段用户体验更加稳定，掉线情况明显减少。
+                </div>
+                <div class="data-point">
+                    <div class="data-label">新SDK成功率:</div>
+                    <div class="data-value new">93.457%</div>
+                </div>
+                <div class="data-point">
+                    <div class="data-label">老SDK成功率:</div>
+                    <div class="data-value old">89.571%</div>
+                </div>
+            </div>
+            <div class="section-chart">
+                <div class="chart-title">高峰时段连接成功率对比</div>
+                <div style="padding: 20px;">
+                    <div style="margin-bottom: 30px;">
+                        <div style="font-weight: 600; margin-bottom: 5px;">新SDK</div>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 93.457%;"></div>
+                        </div>
+                        <div style="text-align: right; font-size: 18px; font-weight: 600; color: #4caf50;">93.457%</div>
+                    </div>
+                    
+                    <div>
+                        <div style="font-weight: 600; margin-bottom: 5px;">老SDK</div>
+                        <div class="progress-container">
+                            <div class="progress-bar progress-old" style="width: 89.571%;"></div>
+                        </div>
+                        <div style="text-align: right; font-size: 18px; font-weight: 600; color: #ff9800;">89.571%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <!-- FPS Section -->
+        <div class="dashboard-section">
+            <div class="section-text">
+                <div class="section-title">视频帧率表现</div>
+                <div class="key-point">
+                    新SDK (BOTRTC) 平均帧率稳定在<span class="highlight">24 FPS</span>。
+                </div>
+                <div class="key-point">
+                    老SDK (WEBRTC) 平均帧率约为<span class="highlight">12 FPS</span>。
+                </div>
+                <div class="key-point">
+                    更高的帧率带来更流畅的视频体验，尤其在高网络负载情况下优势明显。
+                </div>
+                <div class="key-point">
+                    新SDK的帧率波动更小，保持稳定，提高通话体验一致性。
+                </div>
+            </div>
+            <div class="section-chart">
+                <div class="chart-title">24小时视频帧率对比</div>
+                <div class="fps-chart-container">
+                    <canvas id="fpsChart" width="400" height="200"></canvas>
+                </div>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #a05000;"></div>
+                        <span>BOTRTC (新): ~24 FPS</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #0065a0;"></div>
+                        <span>WEBRTC (老): ~12 FPS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <!-- Audio First Frame Delay Section -->
+        <div class="dashboard-section">
+            <div class="section-text">
+                <div class="section-title">音频首帧延迟优化</div>
+                <div class="key-point">
+                    新SDK (BOTRTC) 音频首帧到达时间降低至<span class="highlight">0.9秒</span>。
+                </div>
+                <div class="key-point">
+                    相比老SDK (WebRTC) 的<span class="highlight">1.3秒</span>，减少约30%延迟。
+                </div>
+                <div class="key-point">
+                    通话建立后音频更快响应，提升用户实时互动体验。
+                </div>
+                <div class="key-point">
+                    在各时段测试中，新SDK首帧延迟波动更小，保持稳定。
+                </div>
+                <div class="data-point">
+                    <div class="data-label">新SDK延迟:</div>
+                    <div class="data-value new">0.9秒</div>
+                </div>
+                <div class="data-point">
+                    <div class="data-label">老SDK延迟:</div>
+                    <div class="data-value old">1.3秒</div>
+                </div>
+            </div>
+            <div class="section-chart">
+                <div class="chart-title">24小时音频首帧延迟对比</div>
+                <div class="fps-chart-container">
+                    <canvas id="delayChart" width="400" height="200"></canvas>
+                </div>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #673ab7;"></div>
+                        <span>BOTRTC (新): ~0.9秒</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #e91e63;"></div>
+                        <span>WebRTC (老): ~1.3秒</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <!-- Call to Ringing Time Section -->
+        <div class="dashboard-section">
+            <div class="section-text">
+                <div class="section-title">呼叫响铃时间优化</div>
+                <div class="key-point">
+                    新SDK (BOTRTC_AE_AE) 呼出到响铃的平均等待时间降低至<span class="highlight">1.9秒</span>。
+                </div>
+                <div class="key-point">
+                    相比老SDK (WebRTC_AE_AE) 的<span class="highlight">3.6秒</span>，减少了约47%等待时间。
+                </div>
+                <div class="key-point">
+                    更短的呼叫等待时间大大提升用户通话体验和满意度。
+                </div>
+                <div class="key-point">
+                    在全天各时段测试中，新SDK响铃时间稳定在2秒左右，波动性小。
+                </div>
+                <div class="data-point">
+                    <div class="data-label">新SDK响铃时间:</div>
+                    <div class="data-value new">1.9秒</div>
+                </div>
+                <div class="data-point">
+                    <div class="data-label">老SDK响铃时间:</div>
+                    <div class="data-value old">3.6秒</div>
+                </div>
+            </div>
+            <div class="section-chart">
+                <div class="chart-title">24小时呼叫响铃时间对比</div>
+                <div class="fps-chart-container">
+                    <canvas id="callRingingChart" width="400" height="200"></canvas>
+                </div>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #9c27b0;"></div>
+                        <span>BOTRTC_AE_AE (新): ~1.9秒</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #f0a732;"></div>
+                        <span>BOTRTC: ~2.1秒</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #4f8edb;"></div>
+                        <span>WebRTC_AE_AE (老): ~3.6秒</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #2f7d32;"></div>
+                        <span>WebRTC: ~3.9秒</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <!-- Audio Quality Section -->
+        <div class="dashboard-section">
+            <div class="section-text">
+                <div class="section-title">语音质量分析</div>
+                <div class="key-point">
+                    新增语音质量自动算法打分体系，满分5分。
+                </div>
+                <div class="key-point">
+                    5分（优秀）评分占比<span class="highlight">45%</span>，表明近半用户语音质量优秀。
+                </div>
+                <div class="key-point">
+                    4-5分总占比达到<span class="highlight">63%</span>，整体表现良好。
+                </div>
+                <div class="key-point">
+                    1-2分低评分仅占<span class="highlight">12%</span>，主要出现在网络条件较差情况下。
+                </div>
+            </div>
+            <div class="section-chart">
+                <div class="chart-title">语音质量评分分布</div>
+                <div class="donut-chart-container">
+                    <canvas id="donutChart" width="220" height="220"></canvas>
+                </div>
+                <div class="chart-legend" style="flex-wrap: wrap; justify-content: center;">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #2e7d32;"></div>
+                        <span>5分 (优秀): 45%</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #4caf50;"></div>
+                        <span>4分 (良好): 18%</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #8bc34a;"></div>
+                        <span>3分 (一般): 25%</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #c62828;"></div>
+                        <span>2分 (较差): 7%</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #d32f2f;"></div>
+                        <span>1分 (差): 5%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <!-- Current Issues Section -->
+        <div class="dashboard-section">
+            <div class="section-text">
+                <div class="section-title">当前线上问题分析</div>
+                <div class="key-point">
+                    <strong>呼出不响铃：</strong>约<span class="highlight">25%</span>的比例，符合行业标准，受网络环境、系统功耗、使用频率等多因素影响。该问题难以进一步优化，与竞品水平相当。
+                </div>
+                <div class="key-point">
+                    <strong>接通后连接失败率：</strong>新SDK已将此问题率降至<span class="highlight">7%</span>，后续将通过小幅度迭代持续优化。
+                </div>
+                <div class="key-point">
+                    <strong>视频流畅度问题：</strong>包括卡死、卡顿、黑屏等，6月将结合监控和用户反馈进行精准统计并优化。
+                </div>
+                <div class="key-point">
+                    <strong>视频清晰度：</strong>部分用户反馈清晰度低、模糊，正结合硬件能力持续优化编码压缩算法。
+                </div>
+                <div class="key-point">
+                    <strong>音频质量问题：</strong>语音卡顿、回声、噪音等问题正在通过优化音频处理管道解决，6月会有更准确数据。
+                </div>
+            </div>
+            <div class="section-chart">
+                <div class="chart-title">通话连接状态分析</div>
+                <canvas id="issuesChart" width="400" height="200"></canvas>
+                <div style="font-size: 13px; text-align: center; color: #666; margin-top: 10px; font-style: italic;">
+                    基于当前新SDK数据，呼出不响铃比例受外部因素影响，无法进一步降低
+                </div>
+                
+                <div class="chart-title" style="margin-top: 30px;">优化计划时间线</div>
+                <div style="padding: 0 20px;">
+                    <div style="display: flex; margin-bottom: 12px; align-items: center;">
+                        <div style="width: 70px; font-size: 13px; color: #666;">4月</div>
+                        <div style="flex: 1; padding: 10px; background: #e8f5e9; border-radius: 4px; font-size: 13px;">
+                            连接稳定性优化 - 减少连接失败率
+                        </div>
+                    </div>
+                    <div style="display: flex; margin-bottom: 12px; align-items: center;">
+                        <div style="width: 70px; font-size: 13px; color: #666;">5月</div>
+                        <div style="flex: 1; padding: 10px; background: #fff8e1; border-radius: 4px; font-size: 13px;">
+                            视频流畅度优化 - 解决卡顿和黑屏问题
+                        </div>
+                    </div>
+                    <div style="display: flex; margin-bottom: 12px; align-items: center;">
+                        <div style="width: 70px; font-size: 13px; color: #666;">6月</div>
+                        <div style="flex: 1; padding: 10px; background: #e3f2fd; border-radius: 4px; font-size: 13px;">
+                            音频质量和视频清晰度优化 - 提高通话体验
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bottom-note">数据来源：系统数据监控平台 | 统计周期：最近7天 | 报告生成日期：2023年6月15日</div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            drawPieChart();
+            drawTimelineChart();
+            drawFPSChart();
+            drawDelayChart();
+            drawCallRingingChart();
+            drawDonutChart();
+            drawIssuesChart();
+        };
+        
+        function drawPieChart() {
+            const canvas = document.getElementById('pieChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Data
+            const data = [
+                { value: 35, color: '#4caf50', label: 'New SDK' },
+                { value: 65, color: '#ff9800', label: 'Old SDK' }
+            ];
+            
+            // Draw pie chart
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = Math.min(centerX, centerY) - 30;
+            
+            let total = data.reduce((sum, item) => sum + item.value, 0);
+            let startAngle = 0;
+            
+            for (let item of data) {
+                let sliceAngle = 2 * Math.PI * item.value / total;
+                
+                ctx.beginPath();
+                ctx.fillStyle = item.color;
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
+                ctx.closePath();
+                ctx.fill();
+                
+                // Calculate label position
+                let midAngle = startAngle + sliceAngle / 2;
+                let labelX = centerX + Math.cos(midAngle) * (radius * 0.7);
+                let labelY = centerY + Math.sin(midAngle) * (radius * 0.7);
+                
+                // Add label
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 16px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(`${item.value}%`, labelX, labelY);
+                
+                startAngle += sliceAngle;
+            }
+        }
+        
+        function drawTimelineChart() {
+            const canvas = document.getElementById('timelineChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Data
+            const milestones = [
+                { month: "1月", percentage: 35, date: "已完成" },
+                { month: "当前", percentage: 35, date: "3月" },
+                { month: "4月", percentage: 55, date: "计划中" },
+                { month: "5月", percentage: 70, date: "计划中" }
+            ];
+            
+            // Chart dimensions
+            const chartWidth = canvas.width;
+            const chartHeight = canvas.height;
+            const padding = { top: 10, right: 10, bottom: 30, left: 10 };
+            const barHeight = 10;
+            
+            // Draw timeline bar
+            const timelineY = 25;
+            const barWidth = chartWidth - padding.left - padding.right;
+            
+            // Background bar
+            ctx.fillStyle = '#e0e0e0';
+            ctx.fillRect(padding.left, timelineY, barWidth, barHeight);
+            
+            // Progress bar
+            const colors = ['#4caf50', '#66bb6a', '#7cc47c', '#8bc34a'];
+            
+            // First draw completed portion (up to current percentage)
+            const currentPercentage = milestones[1].percentage;
+            ctx.fillStyle = '#4caf50';
+            ctx.fillRect(padding.left, timelineY, barWidth * (currentPercentage / 100), barHeight);
+            
+            // Then draw future portions with different colors
+            for (let i = 2; i < milestones.length; i++) {
+                const prevMilestone = milestones[i-1].percentage;
+                const milestone = milestones[i].percentage;
+                const startX = padding.left + barWidth * (prevMilestone / 100);
+                const width = barWidth * ((milestone - prevMilestone) / 100);
+                
+                ctx.fillStyle = '#e8f5e9'; // Light green for future milestones
+                ctx.fillRect(startX, timelineY, width, barHeight);
+            }
+            
+            // Draw milestone points and labels
+            milestones.forEach((milestone, index) => {
+                const milestoneX = padding.left + barWidth * (milestone.percentage / 100);
+                
+                // Draw milestone circle
+                ctx.beginPath();
+                ctx.arc(milestoneX, timelineY + barHeight / 2, 6, 0, Math.PI * 2);
+                ctx.fillStyle = index === 1 ? '#ff9800' : '#4caf50';
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Draw milestone percentage
+                ctx.fillStyle = '#333';
+                ctx.font = 'bold 12px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(`${milestone.percentage}%`, milestoneX, timelineY - 5);
+                
+                // Draw milestone month
+                ctx.fillStyle = '#666';
+                ctx.font = '11px Arial';
+                ctx.textBaseline = 'top';
+                ctx.fillText(milestone.month, milestoneX, timelineY + barHeight + 5);
+                
+                // Draw milestone date
+                ctx.fillStyle = '#999';
+                ctx.font = '10px Arial';
+                ctx.fillText(milestone.date, milestoneX, timelineY + barHeight + 20);
+            });
+        }
+        
+        function drawFPSChart() {
+            const canvas = document.getElementById('fpsChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Data based on the screenshot
+            const botrtcData = [24, 24, 24, 23.8, 24, 24.5, 24, 24, 24, 24.2, 23.8, 24, 24];
+            const webrtcData = [12.5, 12.6, 12, 11.8, 12.4, 12.5, 12.6, 12.8, 12.7, 12.6, 12.5, 12.6, 12.7];
+            
+            // Time points - shortened for clarity
+            const timePoints = ["15:00", "18:00", "21:00", "00:00", "03:00", "06:00", "09:00", "12:00"];
+            
+            // Chart dimensions
+            const chartWidth = canvas.width;
+            const chartHeight = canvas.height;
+            const padding = { top: 20, right: 20, bottom: 30, left: 40 };
+            
+            // Draw grid lines
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 1;
+            
+            // Y-axis grid lines
+            const yValues = [0, 5, 10, 15, 20, 25];
+            const yScale = (chartHeight - padding.top - padding.bottom) / 25;
+            
+            yValues.forEach(value => {
+                const y = chartHeight - padding.bottom - (value * yScale);
+                
+                ctx.beginPath();
+                ctx.moveTo(padding.left, y);
+                ctx.lineTo(chartWidth - padding.right, y);
+                ctx.stroke();
+                
+                // Y-axis labels
+                ctx.fillStyle = '#666';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(value, padding.left - 5, y);
+            });
+            
+            // X-axis labels
+            const xScale = (chartWidth - padding.left - padding.right) / (timePoints.length - 1);
+            
+            timePoints.forEach((time, i) => {
+                const x = padding.left + i * xScale;
+                
+                // X-axis gridlines
+                ctx.beginPath();
+                ctx.moveTo(x, padding.top);
+                ctx.lineTo(x, chartHeight - padding.bottom);
+                ctx.stroke();
+                
+                // X-axis labels
+                ctx.fillStyle = '#666';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.fillText(time, x, chartHeight - padding.bottom + 5);
+            });
+            
+            // Scales for data
+            const dataxScale = (chartWidth - padding.left - padding.right) / (botrtcData.length - 1);
+            
+            // Draw BOTRTC FPS line
+            ctx.beginPath();
+            ctx.strokeStyle = '#a05000'; // brown color for BOTRTC
+            ctx.lineWidth = 2;
+            
+            for (let i = 0; i < botrtcData.length; i++) {
+                const x = padding.left + i * dataxScale;
+                const y = chartHeight - padding.bottom - (botrtcData[i] * yScale);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+                
+                // Add data point
+                ctx.fillStyle = '#a05000';
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.stroke();
+            
+            // Draw WEBRTC FPS line
+            ctx.beginPath();
+            ctx.strokeStyle = '#0065a0'; // blue color for WEBRTC
+            ctx.lineWidth = 2;
+            
+            for (let i = 0; i < webrtcData.length; i++) {
+                const x = padding.left + i * dataxScale;
+                const y = chartHeight - padding.bottom - (webrtcData[i] * yScale);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+                
+                // Add data point
+                ctx.fillStyle = '#0065a0';
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.stroke();
+        }
+        
+        function drawDelayChart() {
+            const canvas = document.getElementById('delayChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Data based on the screenshot
+            const botrtcData = [850, 840, 860, 870, 900, 920, 900, 880, 830, 820, 810, 830, 820];
+            const webrtcData = [1200, 1210, 1190, 1210, 1290, 1300, 1280, 1230, 1120, 1130, 1150, 1180, 1200];
+            
+            // Time points
+            const timePoints = ["15:00", "18:00", "21:00", "00:00", "03:00", "06:00", "09:00", "12:00"];
+            
+            // Chart dimensions
+            const chartWidth = canvas.width;
+            const chartHeight = canvas.height;
+            const padding = { top: 20, right: 20, bottom: 30, left: 40 };
+            
+            // Draw grid lines
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 1;
+            
+            // Y-axis grid lines
+            const yValues = [0, 200, 400, 600, 800, 1000, 1200, 1400];
+            const yMax = 1400;
+            const yScale = (chartHeight - padding.top - padding.bottom) / yMax;
+            
+            yValues.forEach(value => {
+                const y = chartHeight - padding.bottom - (value * yScale);
+                
+                ctx.beginPath();
+                ctx.moveTo(padding.left, y);
+                ctx.lineTo(chartWidth - padding.right, y);
+                ctx.stroke();
+                
+                // Y-axis labels
+                ctx.fillStyle = '#666';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(value, padding.left - 5, y);
+            });
+            
+            // X-axis labels
+            const xScale = (chartWidth - padding.left - padding.right) / (timePoints.length - 1);
+            
+            timePoints.forEach((time, i) => {
+                const x = padding.left + i * xScale;
+                
+                // X-axis gridlines
+                ctx.beginPath();
+                ctx.moveTo(x, padding.top);
+                ctx.lineTo(x, chartHeight - padding.bottom);
+                ctx.stroke();
+                
+                // X-axis labels
+                ctx.fillStyle = '#666';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.fillText(time, x, chartHeight - padding.bottom + 5);
+            });
+            
+            // Scales for data
+            const dataxScale = (chartWidth - padding.left - padding.right) / (botrtcData.length - 1);
+            
+            // Draw WebRTC delay line (on top)
+            ctx.beginPath();
+            ctx.strokeStyle = '#e91e63'; // pink for WebRTC
+            ctx.lineWidth = 2;
+            
+            for (let i = 0; i < webrtcData.length; i++) {
+                const x = padding.left + i * dataxScale;
+                const y = chartHeight - padding.bottom - (webrtcData[i] * yScale);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+                
+                // Add data point
+                ctx.fillStyle = '#e91e63';
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.stroke();
+            
+            // Draw BOTRTC delay line (on bottom)
+            ctx.beginPath();
+            ctx.strokeStyle = '#673ab7'; // purple for BOTRTC
+            ctx.lineWidth = 2;
+            
+            for (let i = 0; i < botrtcData.length; i++) {
+                const x = padding.left + i * dataxScale;
+                const y = chartHeight - padding.bottom - (botrtcData[i] * yScale);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+                
+                // Add data point
+                ctx.fillStyle = '#673ab7';
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.stroke();
+        }
+        
+        function drawCallRingingChart() {
+            const canvas = document.getElementById('callRingingChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Data based on the screenshot - BOTRTC_AE_AE shows lower values around 1.8-2.0s
+            const botrtcData = [1.85, 1.90, 1.95, 1.90, 1.75, 1.70, 1.50, 1.60, 1.95, 1.90, 1.85, 1.80, 1.85];
+            
+            // Data based on the screenshot - WebRTC_AE_AE shows higher values around 3.6-3.8s
+            const webrtcData = [3.65, 3.70, 3.65, 3.60, 3.80, 3.85, 3.90, 3.85, 3.70, 3.65, 3.60, 3.65, 3.70];
+            
+            // We also have the regular WebRTC & BOTRTC lines from the screenshot (non AE_AE)
+            const webrtcRegularData = [3.90, 3.93, 3.85, 3.95, 4.0, 3.95, 3.85, 3.80, 3.75, 3.70, 3.75, 3.80, 3.75];
+            const botrtcRegularData = [2.10, 2.15, 2.20, 2.15, 2.05, 2.0, 1.90, 1.95, 2.20, 2.15, 2.10, 2.15, 2.10];
+            
+            // Time points
+            const timePoints = ["15:00", "18:00", "21:00", "00:00", "03:00", "06:00", "09:00", "12:00"];
+            
+            // Chart dimensions
+            const chartWidth = canvas.width;
+            const chartHeight = canvas.height;
+            const padding = { top: 20, right: 20, bottom: 30, left: 40 };
+            
+            // Draw grid lines
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 1;
+            
+            // Y-axis grid lines - based on the screenshot showing 0 to 4+ seconds
+            const yValues = [0, 1, 2, 3, 4];
+            const yMax = 4.5;
+            const yScale = (chartHeight - padding.top - padding.bottom) / yMax;
+            
+            yValues.forEach(value => {
+                const y = chartHeight - padding.bottom - (value * yScale);
+                
+                ctx.beginPath();
+                ctx.moveTo(padding.left, y);
+                ctx.lineTo(chartWidth - padding.right, y);
+                ctx.stroke();
+                
+                // Y-axis labels
+                ctx.fillStyle = '#666';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(value, padding.left - 5, y);
+            });
+            
+            // X-axis labels
+            const xScale = (chartWidth - padding.left - padding.right) / (timePoints.length - 1);
+            
+            timePoints.forEach((time, i) => {
+                const x = padding.left + i * xScale;
+                
+                // X-axis gridlines
+                ctx.beginPath();
+                ctx.moveTo(x, padding.top);
+                ctx.lineTo(x, chartHeight - padding.bottom);
+                ctx.stroke();
+                
+                // X-axis labels
+                ctx.fillStyle = '#666';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.fillText(time, x, chartHeight - padding.bottom + 5);
+            });
+            
+            // Scales for data
+            const dataxScale = (chartWidth - padding.left - padding.right) / (botrtcData.length - 1);
+            
+            // Draw WebRTC regular line
+            ctx.beginPath();
+            ctx.strokeStyle = '#2f7d32'; // green for WebRTC
+            ctx.lineWidth = 2;
+            
+            for (let i = 0; i < webrtcRegularData.length; i++) {
+                const x = padding.left + i * dataxScale;
+                const y = chartHeight - padding.bottom - (webrtcRegularData[i] * yScale);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+                
+                // Add data point
+                ctx.fillStyle = '#2f7d32';
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.stroke();
+            
+            // Draw WebRTC_AE_AE line
+            ctx.beginPath();
+            ctx.strokeStyle = '#4f8edb'; // blue for WebRTC_AE_AE
+            ctx.lineWidth = 2;
+            
+            for (let i = 0; i < webrtcData.length; i++) {
+                const x = padding.left + i * dataxScale;
+                const y = chartHeight - padding.bottom - (webrtcData[i] * yScale);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+                
+                // Add data point
+                ctx.fillStyle = '#4f8edb';
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.stroke();
+            
+            // Draw BOTRTC regular line
+            ctx.beginPath();
+            ctx.strokeStyle = '#f0a732'; // yellow for BOTRTC
+            ctx.lineWidth = 2;
+            
+            for (let i = 0; i < botrtcRegularData.length; i++) {
+                const x = padding.left + i * dataxScale;
+                const y = chartHeight - padding.bottom - (botrtcRegularData[i] * yScale);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+                
+                // Add data point
+                ctx.fillStyle = '#f0a732';
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.stroke();
+            
+            // Draw BOTRTC_AE_AE line
+            ctx.beginPath();
+            ctx.strokeStyle = '#9c27b0'; // purple for BOTRTC_AE_AE
+            ctx.lineWidth = 2;
+            
+            for (let i = 0; i < botrtcData.length; i++) {
+                const x = padding.left + i * dataxScale;
+                const y = chartHeight - padding.bottom - (botrtcData[i] * yScale);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+                
+                // Add data point
+                ctx.fillStyle = '#9c27b0';
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.stroke();
+        }
+        
+        function drawDonutChart() {
+            const canvas = document.getElementById('donutChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Audio quality scores data
+            const data = [
+                { value: 45, color: '#2e7d32', label: '5' }, // 5分 - 深绿色，最多
+                { value: 18, color: '#4caf50', label: '4' }, // 4分 - 浅绿色
+                { value: 25, color: '#8bc34a', label: '3' }, // 3分 - 更浅绿色
+                { value: 7,  color: '#c62828', label: '2' }, // 2分 - 深红色，较少
+                { value: 5,  color: '#d32f2f', label: '1' }  // 1分 - 红色，最少
+            ];
+            
+            // Draw donut chart
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const innerRadius = 60;
+            const outerRadius = 100;
+            
+            let total = data.reduce((sum, item) => sum + item.value, 0);
+            let startAngle = 0;
+            
+            for (let item of data) {
+                let sliceAngle = 2 * Math.PI * item.value / total;
+                
+                // Draw slice
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, outerRadius, startAngle, startAngle + sliceAngle);
+                ctx.arc(centerX, centerY, innerRadius, startAngle + sliceAngle, startAngle, true);
+                ctx.closePath();
+                
+                ctx.fillStyle = item.color;
+                ctx.fill();
+                
+                // Calculate label position (middle of the slice)
+                let midAngle = startAngle + sliceAngle / 2;
+                let labelRadius = (innerRadius + outerRadius) / 2;
+                let labelX = centerX + Math.cos(midAngle) * labelRadius;
+                let labelY = centerY + Math.sin(midAngle) * labelRadius;
+                
+                // Add score label if slice is big enough
+                if (item.value > 8) {
+                    ctx.fillStyle = '#fff';
+                    ctx.font = 'bold 16px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(item.label, labelX, labelY);
+                }
+                
+                startAngle += sliceAngle;
+            }
+            
+            // Add inner circle for donut hole (white)
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, innerRadius - 1, 0, 2 * Math.PI);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+        }
+        
+        function drawIssuesChart() {
+            const canvas = document.getElementById('issuesChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Chart dimensions
+            const chartWidth = canvas.width;
+            const chartHeight = canvas.height;
+            const padding = { top: 20, right: 20, bottom: 50, left: 60 };
+            const barWidth = 60;
+            const barSpacing = 30;
+            
+            // Data
+            const issuesData = [
+                { label: "呼出不响铃", value: 25, color: "#ff9800" },
+                { label: "老SDK连接失败", value: 11, color: "#f44336" },
+                { label: "新SDK连接失败", value: 7, color: "#e91e63" }
+            ];
+            
+            // Y axis
+            const maxValue = 30;
+            const yScale = (chartHeight - padding.top - padding.bottom) / maxValue;
+            
+            // Draw y-axis
+            ctx.beginPath();
+            ctx.moveTo(padding.left, padding.top);
+            ctx.lineTo(padding.left, chartHeight - padding.bottom);
+            ctx.strokeStyle = '#666';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            
+            // Draw y-axis labels and grid lines
+            for (let i = 0; i <= maxValue; i += 5) {
+                const y = chartHeight - padding.bottom - (i * yScale);
+                
+                // Grid line
+                ctx.beginPath();
+                ctx.moveTo(padding.left, y);
+                ctx.lineTo(chartWidth - padding.right, y);
+                ctx.strokeStyle = '#e0e0e0';
+                ctx.stroke();
+                
+                // Label
+                ctx.fillStyle = '#666';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(i + '%', padding.left - 5, y);
+            }
+            
+            // Draw x-axis
+            ctx.beginPath();
+            ctx.moveTo(padding.left, chartHeight - padding.bottom);
+            ctx.lineTo(chartWidth - padding.right, chartHeight - padding.bottom);
+            ctx.strokeStyle = '#666';
+            ctx.stroke();
+            
+            // Draw bars
+            issuesData.forEach((item, index) => {
+                const x = padding.left + 40 + (index * (barWidth + barSpacing));
+                const barHeight = item.value * yScale;
+                const y = chartHeight - padding.bottom - barHeight;
+                
+                // Draw bar
+                ctx.fillStyle = item.color;
+                ctx.fillRect(x, y, barWidth, barHeight);
+                
+                // Draw value on top of bar
+                ctx.fillStyle = '#333';
+                ctx.font = 'bold 12px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(item.value + '%', x + barWidth/2, y - 5);
+                
+                // Draw label below bar
+                ctx.fillStyle = '#333';
+                ctx.font = '11px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.fillText(item.label, x + barWidth/2, chartHeight - padding.bottom + 10);
+            });
+        }
+    </script>
+</body>
+</html> 
