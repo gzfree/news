@@ -1,4 +1,4 @@
-const { testConnection } = require('./config/database');
+const { testConnection } = require('../config/database');
 
 async function runTest() {
     console.log('正在测试数据库连接...');

@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoEngage Integration - PRD</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 28px;
+            border-bottom: 2px solid #3366FF;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        h2 {
+            font-size: 22px;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 8px;
+            margin-top: 25px;
+        }
+        h3 {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        ul, ol {
+            padding-left: 25px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #3366FF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .emoji {
+            margin-right: 8px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .highlight {
+            background-color: #f0f7ff;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #3366FF;
+            margin: 15px 0;
+        }
+        .caption {
+            font-style: italic;
+            color: #666;
+            font-size: 14px;
+        }
+        strong {
+            color: #111;
+        }
+        .use-case-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .use-case-table th {
+            background-color: #3366FF;
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        .use-case-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .use-case-table tr:last-child td {
+            border-bottom: none;
+        }
+        .use-case-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .use-case-table tr:nth-child(odd) {
+            background-color: white;
+        }
+        .use-case-icon {
+            font-size: 24px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        /* Language switcher styles */
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+        .language-btn {
+            background-color: #3366FF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        .language-btn:hover {
+            background-color: #2952cc;
+        }
+        /* Header container for positioning */
+        .header-container {
+            position: relative;
+            width: 100%;
+        }
+        /* Hide Chinese content by default */
+        .lang-zh {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <h1><span class="emoji">📱</span> <span class="lang-en">MoEngage Integration - PRD</span><span class="lang-zh">MoEngage 集成 - 产品需求文档</span></h1>
+        <div class="language-switcher">
+            <button class="language-btn" id="langToggle">中文</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">🌟</span> <span class="lang-en">Overview</span><span class="lang-zh">概述</span></h2>
+        <p class="lang-en">
+            MoEngage Integration is a comprehensive engagement platform implementation project designed to enhance user engagement and push notification capabilities for BOTIM. The integration will focus specifically on UAE users, adhering to contract limitations of 12 million Monthly Active Users. MoEngage will be used for user engagement, push notifications, and personalized content delivery, providing a robust system for tracking events, sending notifications, delivering custom cards, and triggering API calls.
+        </p>
+        <p class="lang-zh">
+            MoEngage 集成是一个全面的用户参与平台实施项目，旨在增强 BOTIM 的用户参与度和推送通知功能。该集成将专门针对阿联酋用户，遵守 1200 万月活跃用户的合同限制。MoEngage 将用于用户参与、推送通知和个性化内容交付，提供强大的系统来跟踪事件、发送通知、交付自定义卡片和触发 API 调用。
+        </p>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">🚀</span> <span class="lang-en">Problem</span><span class="lang-zh">问题</span></h2>
+        <p class="lang-en">
+            Currently, BOTIM lacks a sophisticated engagement platform to effectively communicate with users through push notifications and personalized content. Additionally, the platform needs a way to optimize costs by targeting specific geographical regions while providing enhanced engagement features. Without this integration, BOTIM is limited in its ability to engage users with timely and relevant communications, track user interactions, and deliver personalized content experiences.
+        </p>
+        <p class="lang-zh">
+            目前，BOTIM 缺乏一个复杂的参与平台，无法通过推送通知和个性化内容与用户进行有效沟通。此外，该平台需要一种方法来优化成本，即针对特定地理区域进行定位，同时提供增强的参与功能。没有这种集成，BOTIM 在及时、相关的通信方面与用户互动的能力有限，无法跟踪用户互动，也无法提供个性化的内容体验。
+        </p>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">🎯</span> <span class="lang-en">Objectives</span><span class="lang-zh">目标</span></h2>
+        <ul class="lang-en">
+            <li><strong>Targeted User Engagement</strong> – Implement a system that only initializes the MoEngage SDK for UAE users (with phone numbers starting with "971" or UAE IP addresses) to optimize costs and meet contract limitations.</li>
+            <li><strong>Enhanced Push Notifications</strong> – Enable BOTIM to send rich push notifications to users through MoEngage's delivery system.</li>
+            <li><strong>Personalized Content Delivery</strong> – Implement a custom card delivery system that sends data to be rendered by the client application for a personalized experience.</li>
+            <li><strong>API Integration</strong> – Establish a workflow where MoEngage can trigger BOTIM Open API calls to perform specific actions, particularly for VIP/member-related communications.</li>
+        </ul>
+        <ul class="lang-zh">
+            <li><strong>定向用户参与</strong> – 实施一个系统，仅为阿联酋用户（电话号码以"971"开头或阿联酋 IP 地址）初始化 MoEngage SDK，以优化成本并满足合同限制。</li>
+            <li><strong>增强推送通知</strong> – 使 BOTIM 能够通过 MoEngage 的传送系统向用户发送丰富的推送通知。</li>
+            <li><strong>个性化内容交付</strong> – 实施自定义卡片交付系统，发送数据由客户端应用程序渲染，以提供个性化体验。</li>
+            <li><strong>API 集成</strong> – 建立一个工作流程，使 MoEngage 可以触发 BOTIM Open API 调用以执行特定操作，特别是针对 VIP/会员相关的通信。</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">🚧</span> <span class="lang-en">Constraints</span><span class="lang-zh">限制条件</span></h2>
+        <ul class="lang-en">
+            <li><strong>MAU Limitations</strong> – The current MoEngage contract limits usage to 12 million Monthly Active Users.</li>
+            <li><strong>Geographic Targeting</strong> – SDK must only be initialized for UAE region users to optimize costs and comply with contract limitations.</li>
+            <li><strong>Security Requirements</strong> – All communications between systems must be encrypted with API keys and tokens securely stored.</li>
+            <li><strong>Performance Impact</strong> – SDK initialization should not significantly impact app startup time, and event tracking should be non-blocking.</li>
+        </ul>
+        <ul class="lang-zh">
+            <li><strong>MAU 限制</strong> – 当前 MoEngage 合同将使用限制为 1200 万月活跃用户。</li>
+            <li><strong>地理定位</strong> – SDK 必须仅为阿联酋地区用户初始化，以优化成本并遵守合同限制。</li>
+            <li><strong>安全要求</strong> – 系统之间的所有通信必须加密，API 密钥和令牌必须安全存储。</li>
+            <li><strong>性能影响</strong> – SDK 初始化不应显著影响应用启动时间，事件跟踪应该是非阻塞的。</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">💁</span> <span class="lang-en">Target Users</span><span class="lang-zh">目标用户</span></h2>
+        
+        <table class="use-case-table lang-en">
+            <thead>
+                <tr>
+                    <th>User Type</th>
+                    <th>Characteristics</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="use-case-icon">🇦🇪</span><strong>UAE Users</strong></td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>Phone numbers starting with "971" (UAE country code)</li>
+                            <li>IP addresses from the UAE region</li>
+                            <li>Primary targets for all MoEngage SDK functionality</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">👑</span><strong>VIP/Premium Members</strong></td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>Will receive special communications through the BOTIM Open API</li>
+                            <li>Target audience for exclusive content and membership notifications</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">👤</span><strong>Regular BOTIM Users</strong></td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>Will receive general push notifications and content cards</li>
+                            <li>User events and behaviors will be tracked for improved engagement</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="use-case-table lang-zh">
+            <thead>
+                <tr>
+                    <th>用户类型</th>
+                    <th>特征</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="use-case-icon">🇦🇪</span><strong>阿联酋用户</strong></td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>电话号码以"971"开头（阿联酋国家代码）</li>
+                            <li>来自阿联酋地区的IP地址</li>
+                            <li>所有MoEngage SDK功能的主要目标群体</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">👑</span><strong>VIP/高级会员</strong></td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>将通过BOTIM Open API接收特殊通信</li>
+                            <li>独家内容和会员通知的目标受众</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">👤</span><strong>普通BOTIM用户</strong></td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>将接收常规推送通知和内容卡片</li>
+                            <li>用户事件和行为将被跟踪以改善参与度</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">🧳</span> <span class="lang-en">Use Cases</span><span class="lang-zh">使用场景</span></h2>
+        
+        <table class="use-case-table lang-en">
+            <thead>
+                <tr>
+                    <th>Use Case</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="use-case-icon">📊</span><strong>Direct Event Tracking</strong></td>
+                    <td>
+                        <p><strong>Given:</strong> User performs an action in the app</p>
+                        <p><strong>When:</strong> The action is recognized as a trackable event</p>
+                        <p><strong>Then:</strong> The event is sent to MoEngage with relevant properties</p>
+                        <p>The application will track user events and activities directly through MoEngage, including user interactions, behavior, and profile attributes.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🔔</span><strong>Push Notification via BOTIM</strong></td>
+                    <td>
+                        <p><strong>Given:</strong> A notification needs to be sent to a user</p>
+                        <p><strong>When:</strong> MoEngage sends a push notification to BOTIM servers</p>
+                        <p><strong>Then:</strong> BOTIM forwards the notification to the end user</p>
+                        <p>MoEngage will send push notifications to users through BOTIM's delivery system, supporting different notification types and targeting specific user segments.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🎴</span><strong>Custom Card Delivery</strong></td>
+                    <td>
+                        <p><strong>Given:</strong> Personalized content needs to be delivered to a user</p>
+                        <p><strong>When:</strong> MoEngage sends custom card data</p>
+                        <p><strong>Then:</strong> The client app renders the card according to its type and metadata</p>
+                        <p>MoEngage will send custom card data to users, which will be rendered by the client application according to standard JSON schema and various card types.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🔄</span><strong>BOTIM Open API Integration</strong></td>
+                    <td>
+                        <p><strong>Given:</strong> A specific action needs to be triggered for a user</p>
+                        <p><strong>When:</strong> MoEngage campaign triggers an API call to BOTIM Open API</p>
+                        <p><strong>Then:</strong> The API performs the requested action</p>
+                        <p>Initial implementation will focus on VIP/member-related communications, with a flexible architecture for adding more API endpoints in the future.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="use-case-table lang-zh">
+            <thead>
+                <tr>
+                    <th>使用场景</th>
+                    <th>描述</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="use-case-icon">📊</span><strong>直接事件跟踪</strong></td>
+                    <td>
+                        <p><strong>前提：</strong>用户在应用中执行操作</p>
+                        <p><strong>当：</strong>该操作被识别为可跟踪事件</p>
+                        <p><strong>则：</strong>事件及其相关属性被发送至MoEngage</p>
+                        <p>应用程序将通过MoEngage直接跟踪用户事件和活动，包括用户交互、行为和个人资料属性。</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🔔</span><strong>通过BOTIM发送推送通知</strong></td>
+                    <td>
+                        <p><strong>前提：</strong>需要向用户发送通知</p>
+                        <p><strong>当：</strong>MoEngage向BOTIM服务器发送推送通知</p>
+                        <p><strong>则：</strong>BOTIM将通知转发给最终用户</p>
+                        <p>MoEngage将通过BOTIM的传送系统向用户发送推送通知，支持不同的通知类型并针对特定用户群体。</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🎴</span><strong>自定义卡片交付</strong></td>
+                    <td>
+                        <p><strong>前提：</strong>需要向用户提供个性化内容</p>
+                        <p><strong>当：</strong>MoEngage发送自定义卡片数据</p>
+                        <p><strong>则：</strong>客户端应用根据卡片类型和元数据渲染卡片</p>
+                        <p>MoEngage将向用户发送自定义卡片数据，由客户端应用程序根据标准JSON架构和各种卡片类型进行渲染。</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🔄</span><strong>BOTIM开放API集成</strong></td>
+                    <td>
+                        <p><strong>前提：</strong>需要为用户触发特定操作</p>
+                        <p><strong>当：</strong>MoEngage活动触发对BOTIM开放API的调用</p>
+                        <p><strong>则：</strong>API执行请求的操作</p>
+                        <p>初始实施将专注于VIP/会员相关通信，具有灵活的架构以便将来添加更多API端点。</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">🔧</span> <span class="lang-en">Technical Implementation</span><span class="lang-zh">技术实施</span></h2>
+
+        <h3 class="lang-en"><span class="emoji">🔄</span> SDK Integration</h3>
+        <h3 class="lang-zh"><span class="emoji">🔄</span> SDK集成</h3>
+        <div class="highlight lang-en">
+            <ul>
+                <li>MoEngage SDK must be conditionally initialized based on user criteria (UAE region)</li>
+                <li>SDK initialization should happen early in the app lifecycle</li>
+                <li>SDK configuration must be environment-specific (dev, staging, production)</li>
+                <li>Implementation should ensure minimal impact on app startup time</li>
+            </ul>
+        </div>
+        <div class="highlight lang-zh">
+            <ul>
+                <li>MoEngage SDK必须根据用户条件（阿联酋地区）有条件地初始化</li>
+                <li>SDK初始化应在应用程序生命周期早期进行</li>
+                <li>SDK配置必须是环境特定的（开发、预发布、生产）</li>
+                <li>实施应确保对应用启动时间的影响最小</li>
+            </ul>
+        </div>
+
+        <h3 class="lang-en"><span class="emoji">👤</span> User Identification</h3>
+        <h3 class="lang-zh"><span class="emoji">👤</span> 用户识别</h3>
+        <div class="highlight lang-en">
+            <ul>
+                <li>Users must be uniquely identified in MoEngage</li>
+                <li>User identifiers should be consistent across app reinstalls</li>
+                <li>Support for anonymous to known user transitions</li>
+                <li>User attributes should be mapped to MoEngage user profile</li>
+            </ul>
+        </div>
+        <div class="highlight lang-zh">
+            <ul>
+                <li>用户在MoEngage中必须被唯一标识</li>
+                <li>用户标识符在应用重新安装后应保持一致</li>
+                <li>支持从匿名到已知用户的转换</li>
+                <li>用户属性应映射到MoEngage用户档案</li>
+            </ul>
+        </div>
+
+        <h3 class="lang-en"><span class="emoji">🔒</span> Security Considerations</h3>
+        <h3 class="lang-zh"><span class="emoji">🔒</span> 安全考虑</h3>
+        <div class="highlight lang-en">
+            <ul>
+                <li>All communications between systems must be encrypted</li>
+                <li>API keys and authentication tokens must be securely stored</li>
+                <li>Personal user data must be handled according to privacy regulations</li>
+                <li>Authentication between MoEngage and BOTIM API must be secure</li>
+            </ul>
+        </div>
+        <div class="highlight lang-zh">
+            <ul>
+                <li>系统之间的所有通信必须加密</li>
+                <li>API密钥和认证令牌必须安全存储</li>
+                <li>个人用户数据必须根据隐私法规处理</li>
+                <li>MoEngage和BOTIM API之间的认证必须安全</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">📋</span> <span class="lang-en">Implementation Phases</span><span class="lang-zh">实施阶段</span></h2>
+        
+        <table class="use-case-table lang-en">
+            <thead>
+                <tr>
+                    <th>Phase</th>
+                    <th>Description</th>
+                    <th>Deliverables</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Phase 1</strong></td>
+                    <td>Basic SDK Integration and UAE Targeting</td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>SDK integration with UAE user filtering</li>
+                            <li>Basic event tracking implementation</li>
+                            <li>User attribute mapping</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Phase 2</strong></td>
+                    <td>Push Notification via BOTIM</td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>MoEngage to BOTIM push notification flow</li>
+                            <li>Notification targeting capabilities</li>
+                            <li>Notification analytics</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Phase 3</strong></td>
+                    <td>Custom Card Implementation</td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>Card data structure definition</li>
+                            <li>Client-side rendering implementation</li>
+                            <li>Card targeting and personalization</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Phase 4</strong></td>
+                    <td>BOTIM Open API Integration</td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>API call flow implementation</li>
+                            <li>VIP/member communication functionality</li>
+                            <li>Testing and validation of end-to-end process</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="use-case-table lang-zh">
+            <thead>
+                <tr>
+                    <th>阶段</th>
+                    <th>描述</th>
+                    <th>交付物</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>第1阶段</strong></td>
+                    <td>基础SDK集成和阿联酋用户定位</td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>带有阿联酋用户筛选的SDK集成</li>
+                            <li>基本事件跟踪实施</li>
+                            <li>用户属性映射</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>第2阶段</strong></td>
+                    <td>通过BOTIM发送推送通知</td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>MoEngage到BOTIM的推送通知流程</li>
+                            <li>通知定位功能</li>
+                            <li>通知分析</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>第3阶段</strong></td>
+                    <td>自定义卡片实施</td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>卡片数据结构定义</li>
+                            <li>客户端渲染实施</li>
+                            <li>卡片定位和个性化</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>第4阶段</strong></td>
+                    <td>BOTIM开放API集成</td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>API调用流程实施</li>
+                            <li>VIP/会员通信功能</li>
+                            <li>端到端流程的测试和验证</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">🧪</span> <span class="lang-en">Testing Requirements</span><span class="lang-zh">测试要求</span></h2>
+        
+        <h3 class="lang-en"><span class="emoji">🎯</span> UAE User Targeting Testing</h3>
+        <h3 class="lang-zh"><span class="emoji">🎯</span> 阿联酋用户定位测试</h3>
+        <ul class="lang-en">
+            <li>Test SDK initialization with UAE and non-UAE phone numbers</li>
+            <li>Test SDK initialization with UAE and non-UAE IP addresses</li>
+            <li>Verify that non-UAE users do not contribute to MAU count</li>
+        </ul>
+        <ul class="lang-zh">
+            <li>使用阿联酋和非阿联酋电话号码测试SDK初始化</li>
+            <li>使用阿联酋和非阿联酋IP地址测试SDK初始化</li>
+            <li>验证非阿联酋用户不计入MAU统计</li>
+        </ul>
+        
+        <h3 class="lang-en"><span class="emoji">🔄</span> Functional Testing</h3>
+        <h3 class="lang-zh"><span class="emoji">🔄</span> 功能测试</h3>
+        <ul class="lang-en">
+            <li>Verify all event tracking scenarios</li>
+            <li>Test push notification delivery flow</li>
+            <li>Validate custom card rendering in various device conditions</li>
+            <li>Test BOTIM Open API integration with various parameters</li>
+        </ul>
+        <ul class="lang-zh">
+            <li>验证所有事件跟踪场景</li>
+            <li>测试推送通知传递流程</li>
+            <li>在各种设备条件下验证自定义卡片渲染</li>
+            <li>使用各种参数测试BOTIM开放API集成</li>
+        </ul>
+        
+        <h3 class="lang-en"><span class="emoji">⚡</span> Performance Testing</h3>
+        <h3 class="lang-zh"><span class="emoji">⚡</span> 性能测试</h3>
+        <ul class="lang-en">
+            <li>Measure impact of SDK on app startup time</li>
+            <li>Test notification delivery times under various network conditions</li>
+            <li>Assess card rendering performance on low-end devices</li>
+        </ul>
+        <ul class="lang-zh">
+            <li>测量SDK对应用启动时间的影响</li>
+            <li>在各种网络条件下测试通知传递时间</li>
+            <li>评估在低端设备上的卡片渲染性能</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">📊</span> <span class="lang-en">Success Metrics</span><span class="lang-zh">成功指标</span></h2>
+        
+        <table class="use-case-table lang-en">
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Target</th>
+                    <th>Measurement Method</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>SDK Integration Rate</strong></td>
+                    <td>≥ 95% of UAE users</td>
+                    <td>Compare UAE user count vs. MoEngage initialized users</td>
+                </tr>
+                <tr>
+                    <td><strong>Push Notification Delivery Rate</strong></td>
+                    <td>≥ 90%</td>
+                    <td>MoEngage analytics dashboard</td>
+                </tr>
+                <tr>
+                    <td><strong>Push Notification Open Rate</strong></td>
+                    <td>≥ 15%</td>
+                    <td>MoEngage analytics dashboard</td>
+                </tr>
+                <tr>
+                    <td><strong>Custom Card Render Success</strong></td>
+                    <td>≥ 98%</td>
+                    <td>Client-side tracking of render success/failure</td>
+                </tr>
+                <tr>
+                    <td><strong>BOTIM API Call Success Rate</strong></td>
+                    <td>≥ 99%</td>
+                    <td>API call success logs</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="use-case-table lang-zh">
+            <thead>
+                <tr>
+                    <th>指标</th>
+                    <th>目标</th>
+                    <th>测量方法</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>SDK集成率</strong></td>
+                    <td>≥ 95%的阿联酋用户</td>
+                    <td>比较阿联酋用户数量与MoEngage初始化用户</td>
+                </tr>
+                <tr>
+                    <td><strong>推送通知交付率</strong></td>
+                    <td>≥ 90%</td>
+                    <td>MoEngage分析仪表板</td>
+                </tr>
+                <tr>
+                    <td><strong>推送通知打开率</strong></td>
+                    <td>≥ 15%</td>
+                    <td>MoEngage分析仪表板</td>
+                </tr>
+                <tr>
+                    <td><strong>自定义卡片渲染成功率</strong></td>
+                    <td>≥ 98%</td>
+                    <td>客户端跟踪渲染成功/失败</td>
+                </tr>
+                <tr>
+                    <td><strong>BOTIM API调用成功率</strong></td>
+                    <td>≥ 99%</td>
+                    <td>API调用成功日志</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section highlight">
+        <h2><span class="emoji">📝</span> <span class="lang-en">Glossary</span><span class="lang-zh">术语表</span></h2>
+        <table class="use-case-table lang-en">
+            <thead>
+                <tr>
+                    <th>Term</th>
+                    <th>Definition</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>MAU</strong></td>
+                    <td>Monthly Active Users. The number of unique users who interact with the app in a 30-day period.</td>
+                </tr>
+                <tr>
+                    <td><strong>MoEngage</strong></td>
+                    <td>A customer engagement platform that helps companies engage their customers across channels.</td>
+                </tr>
+                <tr>
+                    <td><strong>BOTIM</strong></td>
+                    <td>Our application platform that will integrate with MoEngage.</td>
+                </tr>
+                <tr>
+                    <td><strong>Custom Card</strong></td>
+                    <td>Structured content that is sent to users and rendered by the client application according to specified templates.</td>
+                </tr>
+                <tr>
+                    <td><strong>Open API</strong></td>
+                    <td>A publicly available application programming interface that provides access to software applications or web services.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="use-case-table lang-zh">
+            <thead>
+                <tr>
+                    <th>术语</th>
+                    <th>定义</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>MAU</strong></td>
+                    <td>月活跃用户。在30天内与应用交互的唯一用户数量。</td>
+                </tr>
+                <tr>
+                    <td><strong>MoEngage</strong></td>
+                    <td>一个客户参与平台，帮助公司通过各种渠道与客户互动。</td>
+                </tr>
+                <tr>
+                    <td><strong>BOTIM</strong></td>
+                    <td>我们的应用平台，将与MoEngage集成。</td>
+                </tr>
+                <tr>
+                    <td><strong>自定义卡片</strong></td>
+                    <td>发送给用户并由客户端应用程序根据指定模板渲染的结构化内容。</td>
+                </tr>
+                <tr>
+                    <td><strong>开放API</strong></td>
+                    <td>公开可用的应用程序编程接口，提供对软件应用或网络服务的访问。</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer style="margin-top: 50px; border-top: 1px solid #ddd; padding-top: 20px; color: #777; font-size: 0.9em;">
+        <p class="lang-en">Document Version: 1.0</p>
+        <p class="lang-zh">文档版本: 1.0</p>
+        <p class="lang-en">Last Updated: <script>document.write(new Date().toLocaleDateString())</script></p>
+        <p class="lang-zh">最后更新: <script>document.write(new Date().toLocaleDateString())</script></p>
+    </footer>
+
+    <script>
+        // Language toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const langToggle = document.getElementById('langToggle');
+            const enElements = document.querySelectorAll('.lang-en');
+            const zhElements = document.querySelectorAll('.lang-zh');
+            let currentLang = 'en'; // Default language is English
+            
+            langToggle.addEventListener('click', function() {
+                if (currentLang === 'en') {
+                    // Switch to Chinese
+                    enElements.forEach(el => el.style.display = 'none');
+                    zhElements.forEach(el => el.style.display = 'inline-block');
+                    langToggle.textContent = 'English';
+                    currentLang = 'zh';
+                } else {
+                    // Switch to English
+                    zhElements.forEach(el => el.style.display = 'none');
+                    enElements.forEach(el => el.style.display = 'inline-block');
+                    langToggle.textContent = '中文';
+                    currentLang = 'en';
+                }
+            });
+            
+            // Initialize display
+            zhElements.forEach(el => el.style.display = 'none');
+            enElements.forEach(el => el.style.display = 'inline-block');
+        });
+    </script>
+</body>
+</html> 
