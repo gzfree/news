@@ -125,6 +125,179 @@
         .lang-zh {
             display: none;
         }
+        /* Timeline styles */
+        .timeline-wrapper {
+            margin: 40px 0;
+            padding: 20px 0;
+            overflow-x: visible;
+            position: relative;
+            width: 100%;
+        }
+        .timeline-container {
+            margin: 100px 0 180px; /* 增加上下边距，确保有足够空间显示标签 */
+            position: relative;
+            width: 100%;
+            min-height: 250px;
+        }
+        .timeline-bar {
+            height: 8px;
+            background-color: #e0e0e0;
+            position: relative;
+            margin: 0 80px; /* 增加左右边距 */
+            border-radius: 4px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            min-width: 1000px; /* 确保时间轴足够长 */
+        }
+        .timeline-progress {
+            position: absolute;
+            height: 100%;
+            background-color: #3366FF;
+            width: 0;
+            border-radius: 4px;
+            transition: width 1.5s ease-in-out;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .milestone {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background-color: white;
+            border: 4px solid #3366FF;
+            border-radius: 50%;
+            top: -14px;
+            transform: translateX(-50%);
+            cursor: pointer;
+            z-index: 2;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .milestone:hover {
+            transform: translateX(-50%) scale(1.2);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        .milestone-current {
+            background-color: #3366FF;
+        }
+        .milestone-past {
+            background-color: #3366FF;
+        }
+        .milestone-future {
+            background-color: white;
+        }
+        .milestone-label {
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #3366FF;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 3;
+        }
+        /* 偶数里程碑将描述放在下方，奇数里程碑放在上方，避免重叠 */
+        .milestone:nth-child(odd) .milestone-description {
+            top: 35px;
+        }
+        .milestone:nth-child(even) .milestone-description {
+            bottom: 80px; /* 增加下方空间 */
+            top: auto;
+        }
+        .milestone-description {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f0f7ff;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            border-left: 4px solid #3366FF;
+            width: max-content;
+            max-width: 180px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+        .milestone:hover .milestone-description {
+            transform: translateX(-50%) translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .timeline-month-labels {
+            position: relative;
+            margin: 20px 80px; /* 保持与时间轴同样的边距 */
+            display: flex;
+            justify-content: space-between;
+            min-width: 1000px; /* 保持与时间轴同样的宽度 */
+        }
+        .timeline-month {
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+        /* 整个可滚动区域的CSS调整 */
+        @media (max-width: 1100px) {
+            .timeline-container {
+                margin-bottom: 200px;
+                overflow-x: auto;
+                padding-bottom: 40px;
+                -webkit-overflow-scrolling: touch; /* 提高iOS滚动体验 */
+            }
+            .timeline-wrapper {
+                overflow-x: auto;
+                padding: 20px 0 40px;
+                margin-left: -20px;
+                margin-right: -20px;
+                width: calc(100% + 40px);
+            }
+            /* 添加水平内边距避免边缘裁剪 */
+            .timeline-wrapper:before,
+            .timeline-wrapper:after {
+                content: "";
+                display: block;
+                width: 20px;
+                height: 1px;
+                position: absolute;
+                top: 0;
+            }
+            .timeline-wrapper:before {
+                left: 0;
+            }
+            .timeline-wrapper:after {
+                right: 0;
+            }
+            .timeline-bar {
+                min-width: 1000px; /* 确保在小屏幕上有足够空间 */
+            }
+            .timeline-month-labels {
+                min-width: 1000px;
+            }
+            .milestone-description {
+                width: 160px;
+                max-width: 160px;
+                font-size: 13px;
+                padding: 8px 12px;
+            }
+        }
+        @media (max-width: 480px) {
+            .timeline-container {
+                margin-bottom: 220px;
+            }
+            .milestone-description {
+                width: 140px;
+                max-width: 140px;
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+            .milestone-label {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -542,6 +715,175 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">📅</span> <span class="lang-en">Timeline</span><span class="lang-zh">时间线</span></h2>
+        
+        <table class="use-case-table lang-en">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Milestone</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>April 10</strong></td>
+                    <td>MoEngage SDK Integration Begins</td>
+                    <td>Start of SDK integration process with UAE user targeting</td>
+                </tr>
+                <tr>
+                    <td><strong>April 20</strong></td>
+                    <td>International Remittance Events (Pending)</td>
+                    <td>Begin tracking events related to international money transfer functionality - <strong style="color: #ff6600;">Implementation date pending confirmation</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>May 15</strong></td>
+                    <td>All Scenarios Completion</td>
+                    <td>
+                        All user flow scenarios must be implemented and validated by mid May, including:
+                        <ul style="margin-top: 8px; padding-left: 20px;">
+                            <li>User identification and SDK initialization based on UAE criteria</li>
+                            <li>Basic event tracking for key user interactions</li>
+                            <li>Push notification delivery from MoEngage to BOTIM users</li>
+                            <li>Custom card rendering in the client application</li>
+                            <li>Initial BOTIM Open API integration for VIP/member communications</li>
+                            <li>End-to-end testing of all implemented flows</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>June 30</strong></td>
+                    <td>Full Event Implementation</td>
+                    <td>Complete integration of all remaining events across all application features</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="use-case-table lang-zh">
+            <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>里程碑</th>
+                    <th>描述</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>4月10日</strong></td>
+                    <td>开始接入MoEngage SDK</td>
+                    <td>开始SDK集成过程，包括阿联酋用户定位</td>
+                </tr>
+                <tr>
+                    <td><strong>4月20日</strong></td>
+                    <td>国际汇款事件（待定）</td>
+                    <td>开始跟踪与国际汇款功能相关的事件 - <strong style="color: #ff6600;">实施日期待确认</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>5月15日</strong></td>
+                    <td>所有场景流程完成</td>
+                    <td>
+                        所有用户流程场景必须在五月中旬前实施并验证，包括：
+                        <ul style="margin-top: 8px; padding-left: 20px;">
+                            <li>基于阿联酋条件的用户识别和SDK初始化</li>
+                            <li>关键用户交互的基本事件跟踪</li>
+                            <li>从MoEngage到BOTIM用户的推送通知传递</li>
+                            <li>客户端应用程序中的自定义卡片渲染</li>
+                            <li>用于VIP/会员通信的初步BOTIM开放API集成</li>
+                            <li>所有已实施流程的端到端测试</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>6月30日</strong></td>
+                    <td>所有事件实施完成</td>
+                    <td>完成所有应用功能中剩余事件的集成</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 class="lang-en" style="margin-top:40px;">Visual Timeline</h3>
+        <h3 class="lang-zh" style="margin-top:40px;">可视化时间线</h3>
+
+        <div class="timeline-wrapper lang-en">
+            <div class="timeline-container">
+                <div class="timeline-bar">
+                    <div class="timeline-progress" id="timelineProgress-en"></div>
+                    <div class="milestone milestone-past" style="left: 10%">
+                        <div class="milestone-label">Planning</div>
+                        <div class="milestone-description">Project planning phase completed</div>
+                    </div>
+                    <div class="milestone milestone-current" style="left: 30%">
+                        <div class="milestone-label">Apr 10</div>
+                        <div class="milestone-description">MoEngage SDK Integration Begins</div>
+                    </div>
+                    <div class="milestone milestone-future" style="left: 50%; border-color: #ff6600; border-style: dashed;">
+                        <div class="milestone-label" style="background-color: #ff6600;">Apr 20 (Pending)</div>
+                        <div class="milestone-description">International Remittance Events - Implementation date pending confirmation</div>
+                    </div>
+                    <div class="milestone milestone-future" style="left: 70%">
+                        <div class="milestone-label">May 15</div>
+                        <div class="milestone-description">All core scenarios validated including UAE targeting, push notifications, custom cards and API integration</div>
+                    </div>
+                    <div class="milestone milestone-future" style="left: 90%">
+                        <div class="milestone-label">Jun 30</div>
+                        <div class="milestone-description">Full Event Implementation</div>
+                    </div>
+                </div>
+                <div class="timeline-month-labels">
+                    <span class="timeline-month">Planning</span>
+                    <span class="timeline-month">April</span>
+                    <span class="timeline-month">May</span>
+                    <span class="timeline-month">June</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-wrapper lang-zh">
+            <div class="timeline-container">
+                <div class="timeline-bar">
+                    <div class="timeline-progress" id="timelineProgress-zh"></div>
+                    <div class="milestone milestone-past" style="left: 10%">
+                        <div class="milestone-label">规划</div>
+                        <div class="milestone-description">项目规划阶段已完成</div>
+                    </div>
+                    <div class="milestone milestone-current" style="left: 30%">
+                        <div class="milestone-label">4月10日</div>
+                        <div class="milestone-description">开始接入MoEngage SDK</div>
+                    </div>
+                    <div class="milestone milestone-future" style="left: 50%; border-color: #ff6600; border-style: dashed;">
+                        <div class="milestone-label" style="background-color: #ff6600;">4月20日（待定）</div>
+                        <div class="milestone-description">国际汇款事件 - 实施日期待确认</div>
+                    </div>
+                    <div class="milestone milestone-future" style="left: 70%">
+                        <div class="milestone-label">5月15日</div>
+                        <div class="milestone-description">所有核心场景验证完成，包括阿联酋用户定位、推送通知、自定义卡片和API集成</div>
+                    </div>
+                    <div class="milestone milestone-future" style="left: 90%">
+                        <div class="milestone-label">6月30日</div>
+                        <div class="milestone-description">所有事件实施完成</div>
+                    </div>
+                </div>
+                <div class="timeline-month-labels">
+                    <span class="timeline-month">规划</span>
+                    <span class="timeline-month">四月</span>
+                    <span class="timeline-month">五月</span>
+                    <span class="timeline-month">六月</span>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Animate timeline progress after the page loads
+            document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(function() {
+                    document.getElementById('timelineProgress-en').style.width = '30%';
+                    document.getElementById('timelineProgress-zh').style.width = '30%';
+                }, 500);
+            });
+        </script>
     </div>
 
     <div class="section">
