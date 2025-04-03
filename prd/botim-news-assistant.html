@@ -654,6 +654,279 @@
                 </tr>
             </tbody>
         </table>
+        
+        <h3 class="lang-en">News Detail Page Use Cases</h3>
+        <h3 class="lang-zh">新闻详情页面用例</h3>
+        
+        <table class="use-case-table lang-en">
+            <thead>
+                <tr>
+                    <th>Given (Precondition)</th>
+                    <th>When (User Action)</th>
+                    <th>Then (Expected Result)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="3"><strong>Use Case 1: Expanding Full Article</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>User has opened a news article detail page</li>
+                            <li>Only partial content is initially displayed</li>
+                            <li>"Show full article" button is visible</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>User taps on "Show full article" button</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>System expands the article content to show the full text</li>
+                            <li>The "Show full article" button disappears</li>
+                            <li>All article content including images and embedded links becomes visible</li>
+                            <li>Reading time indicator updates to reflect the full article length</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>Use Case 2: Using AI to Answer Questions</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>User is reading a news article</li>
+                            <li>"Ask DeepSeek AI" prompt is displayed at the bottom of the article</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>User types a question related to the article in the AI prompt field</li>
+                            <li>User taps "Send" button</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>System displays a loading indicator while processing</li>
+                            <li>AI generates and displays a response based on the article content</li>
+                            <li>The answer appears in a conversational format under the question</li>
+                            <li>User can continue asking follow-up questions in the same thread</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>Use Case 3: Clicking on Related Questions</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>User has scrolled to the "You might also want to know" section</li>
+                            <li>Several AI-generated question suggestions are displayed</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>User taps on one of the suggested questions</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>The selected question is automatically added to the AI prompt field</li>
+                            <li>System immediately processes the question</li>
+                            <li>AI generates and displays an answer to the selected question</li>
+                            <li>New related questions may appear based on the current context</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>Use Case 4: Liking/Disliking News Content</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>User is viewing a news article</li>
+                            <li>Like and dislike buttons are displayed with their current counts</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>User taps on the like or dislike button</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>Button changes appearance to indicate active state</li>
+                            <li>Animation effect plays (heart pulse for like, thumbs down for dislike)</li>
+                            <li>Counter increases by one</li>
+                            <li>If opposite reaction was previously selected, it's deselected and its count decreases</li>
+                            <li>User's preference is saved and persists across sessions</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>Use Case 5: Sharing News Content</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>User is reading a news article</li>
+                            <li>Share button is visible in the interaction area</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>User taps on the share button</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>System displays a sharing options panel with multiple platforms</li>
+                            <li>Options include social media platforms (WhatsApp, Facebook, Twitter), messaging apps, email, and "Copy Link"</li>
+                            <li>When user selects a platform, the article link with preview is prepared for sharing</li>
+                            <li>Sharing analytics are recorded to track most popular sharing methods</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <table class="use-case-table lang-zh">
+            <thead>
+                <tr>
+                    <th>Given (前提条件)</th>
+                    <th>When (用户行为)</th>
+                    <th>Then (预期结果)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="3"><strong>用例1：展开完整文章</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>用户已打开新闻文章详情页</li>
+                            <li>初始只显示部分内容</li>
+                            <li>"显示完整文章"按钮可见</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>用户点击"显示完整文章"按钮</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>系统展开文章内容以显示全文</li>
+                            <li>"显示完整文章"按钮消失</li>
+                            <li>所有文章内容（包括图片和嵌入链接）变为可见</li>
+                            <li>阅读时间指示器更新以反映完整文章长度</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>用例2：使用AI回答问题</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>用户正在阅读新闻文章</li>
+                            <li>文章底部显示"询问DeepSeek AI"提示</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>用户在AI提示字段中输入与文章相关的问题</li>
+                            <li>用户点击"发送"按钮</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>系统在处理过程中显示加载指示器</li>
+                            <li>AI根据文章内容生成并显示回答</li>
+                            <li>回答以对话格式显示在问题下方</li>
+                            <li>用户可以在同一会话中继续提出后续问题</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>用例3：点击相关问题</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>用户已滚动到"你可能还想知道"部分</li>
+                            <li>显示了几个AI生成的问题建议</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>用户点击其中一个建议问题</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>所选问题自动添加到AI提示字段</li>
+                            <li>系统立即处理该问题</li>
+                            <li>AI生成并显示对所选问题的回答</li>
+                            <li>基于当前上下文可能会出现新的相关问题</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>用例4：点赞/点踩新闻内容</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>用户正在查看新闻文章</li>
+                            <li>显示点赞和点踩按钮及其当前计数</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>用户点击点赞或点踩按钮</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>按钮外观变化以指示激活状态</li>
+                            <li>播放动画效果（点赞为心跳脉冲，点踩为拇指向下）</li>
+                            <li>计数器增加一</li>
+                            <li>如果之前选择了相反的反应，则取消选择并减少其计数</li>
+                            <li>用户偏好被保存并在会话之间保持</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>用例5：分享新闻内容</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>用户正在阅读新闻文章</li>
+                            <li>互动区域中可见分享按钮</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>用户点击分享按钮</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>系统显示包含多个平台的分享选项面板</li>
+                            <li>选项包括社交媒体平台（WhatsApp、Facebook、Twitter）、消息应用、电子邮件和"复制链接"</li>
+                            <li>当用户选择平台时，带预览的文章链接被准备用于分享</li>
+                            <li>记录分享分析以跟踪最受欢迎的分享方式</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <div class="section highlight">
