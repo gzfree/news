@@ -397,6 +397,265 @@
         </ul>
     </div>
 
+    <div class="section">
+        <h2><span class="emoji">🔬</span> <span class="lang-en">Detailed User Journey (GWT Format)</span><span class="lang-zh">详细用户旅程 (GWT格式)</span></h2>
+        
+        <h3 class="lang-en">News List Page Use Cases</h3>
+        <h3 class="lang-zh">新闻列表页面用例</h3>
+        
+        <table class="use-case-table lang-en">
+            <thead>
+                <tr>
+                    <th>Given (Precondition)</th>
+                    <th>When (User Action)</th>
+                    <th>Then (Expected Result)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="3"><strong>Use Case 1: Browsing News List</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>User has opened the news application</li>
+                            <li>System has loaded today's news data</li>
+                            <li>"Recommend" category tab is selected by default</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>User views the news list page</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>System displays a page titled "Today's News"</li>
+                            <li>Category tabs appear at the top of the page, including Abu Dhabi, Recommend (highlighted), Technology, etc.</li>
+                            <li>The main content area displays multiple news cards with images, titles, source info, view counts, reading indicators, tags, and summary content</li>
+                            <li>The list includes promotional advertisement cards marked as "Ad"</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>Use Case 2: Filtering News by Category</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>User has opened the news list page</li>
+                            <li>Multiple category tabs are displayed</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>User clicks on a specific category tab (e.g., "Technology")</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>System updates the tab status, highlighting the selected tab</li>
+                            <li>System reorders and refreshes the news list, displaying news related to the selected category</li>
+                            <li>Each news item shows updated view counts and real-time reading numbers</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>Use Case 3: Viewing News Details</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>User is browsing the news list</li>
+                            <li>List displays multiple news cards with titles, sources, view counts, etc.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>User clicks on a news card</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>System navigates to the news details page</li>
+                            <li>Details page displays complete title, source info, tags, view count, content with "Show full article" button, interaction area, related questions, and AI prompt</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>Use Case 4: Interacting with News Content</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>User has entered the news details page</li>
+                            <li>Interaction area is displayed at the bottom of the article</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>User clicks on like/dislike/share buttons</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>For like: Button highlights with animation, count increases, dislike cancels if previously selected</li>
+                            <li>For dislike: Button highlights with animation, count increases, like cancels if previously selected</li>
+                            <li>For share: System displays sharing options panel with various platforms</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>Use Case 5: Searching for News Content</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>User is on the news list page</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>User clicks on the search icon in the top right corner</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>System redirects to the search page</li>
+                            <li>Search input field is provided for users to enter search keywords</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <table class="use-case-table lang-zh">
+            <thead>
+                <tr>
+                    <th>Given (前提条件)</th>
+                    <th>When (用户行为)</th>
+                    <th>Then (预期结果)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="3"><strong>用例1：浏览新闻列表</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>用户已打开新闻应用</li>
+                            <li>系统已加载今日新闻数据</li>
+                            <li>默认选中"推荐"分类标签</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>用户查看新闻列表页面</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>系统显示标题为"Today's News"的页面</li>
+                            <li>页面顶部显示类别选项卡，包括Abu Dhabi、Recommend(高亮显示)、Technology等分类</li>
+                            <li>页面主体区域显示多个新闻卡片，包含图片、标题、来源、阅读量、正在阅读指示器、标签和摘要内容</li>
+                            <li>列表中包含推广广告卡片，标记为"Ad"</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>用例2：筛选新闻类别</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>用户已打开新闻列表页面</li>
+                            <li>页面显示多个类别选项卡</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>用户点击特定类别选项卡（如"Technology"）</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>系统更新选项卡状态，被点击的选项卡高亮显示</li>
+                            <li>系统重新排序和刷新新闻列表，显示与所选类别相关的新闻</li>
+                            <li>每条新闻条目显示更新后的阅读量和实时阅读人数</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>用例3：查看新闻详情</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>用户正在浏览新闻列表</li>
+                            <li>列表中显示多条新闻卡片，每条包含标题、来源、阅读量等信息</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>用户点击某条新闻卡片</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>系统导航到新闻详情页面</li>
+                            <li>详情页面显示完整标题、来源信息、标签、阅读量、带"Show full article"按钮的内容、互动区域、相关问题和AI提示</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>用例4：与新闻内容互动</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>用户已进入新闻详情页面</li>
+                            <li>页面底部显示互动功能区</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>用户点击点赞/点踩/分享按钮</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>点赞：按钮高亮并播放动画，计数增加，如已点踩则取消点踩状态</li>
+                            <li>点踩：按钮高亮并播放动画，计数增加，如已点赞则取消点赞状态</li>
+                            <li>分享：系统弹出分享选项面板，显示各种分享平台</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>用例5：搜索新闻内容</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>用户位于新闻列表页面</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>用户点击页面右上角的搜索图标</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>系统跳转到搜索页面</li>
+                            <li>提供搜索输入框供用户输入搜索关键词</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
     <div class="section highlight">
         <h2><span class="emoji">🔍</span> <span class="lang-en">Demo</span><span class="lang-zh">演示</span></h2>
         <p class="lang-en">Check out our interactive prototype:</p>
