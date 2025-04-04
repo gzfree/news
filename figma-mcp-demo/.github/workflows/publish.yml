@@ -1,0 +1,92 @@
+name: Publish Design System Components
+
+on:
+  # 手动触发
+  workflow_dispatch:
+    inputs:
+      version_bump:
+        description: '版本更新类型'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+  
+  # 计划触发 (每周一发布)
+  schedule:
+    - cron: '0 9 * * 1'
+  
+  # 当Figma webhook触发特定事件时
+  repository_dispatch:
+    types: [figma-update]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: 设置Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          registry-url: ${{ secrets.NPM_REGISTRY || 'https://registry.npmjs.org/' }}
+      
+      - name: 安装依赖
+        run: npm ci
+      
+      - name: 更新版本类型
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          echo "VERSION_BUMP=${{ github.event.inputs.version_bump }}" >> $GITHUB_ENV
+      
+      - name: 发布组件
+        run: node publish.js
+        env:
+          FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_ACCESS_TOKEN }}
+          FIGMA_FILE_ID: ${{ secrets.FIGMA_FILE_ID }}
+          FIGMA_NODE_IDS: ${{ secrets.FIGMA_NODE_IDS }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          OUTPUT_FORMAT: ${{ secrets.OUTPUT_FORMAT || 'react' }}
+          PUBLISH_TARGET: ${{ secrets.PUBLISH_TARGET || 'npm' }}
+          NPM_REGISTRY: ${{ secrets.NPM_REGISTRY }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          NOTIFICATION_EMAIL: ${{ secrets.NOTIFICATION_EMAIL }}
+      
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v3
+        with:
+          name: design-system-components
+          path: ./src/components
+          retention-days: 7
+      
+      - name: 创建发布说明
+        if: github.event_name == 'workflow_dispatch' && env.PUBLISH_TARGET == 'github'
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "## 设计系统组件 v$VERSION" > RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
+          echo "自动从Figma设计系统生成的组件库更新。" >> RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
+          echo "### 更新内容" >> RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
+          echo "- 组件样式和属性更新" >> RELEASE_NOTES.md
+          echo "- 从Figma同步最新设计变更" >> RELEASE_NOTES.md
+      
+      - name: 创建GitHub Release
+        if: github.event_name == 'workflow_dispatch' && env.PUBLISH_TARGET == 'github'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ env.VERSION }}
+          name: 设计系统组件 v${{ env.VERSION }}
+          body_path: RELEASE_NOTES.md
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 

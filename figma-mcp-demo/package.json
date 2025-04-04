@@ -1,0 +1,54 @@
+{
+  "name": "figma-mcp-demo",
+  "version": "1.0.0",
+  "description": "Figma Managed Component Publishing (MCP) 演示项目",
+  "main": "publish.js",
+  "scripts": {
+    "start": "node publish.js",
+    "publish:components": "node publish.js",
+    "lint": "eslint .",
+    "test": "jest",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/figma-mcp-demo.git"
+  },
+  "keywords": [
+    "figma",
+    "design-system",
+    "component-library",
+    "mcp",
+    "automation"
+  ],
+  "author": "Your Organization",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/your-org/figma-mcp-demo/issues"
+  },
+  "homepage": "https://github.com/your-org/figma-mcp-demo#readme",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "dotenv": "^16.0.3",
+    "figma-api-kit": "^3.0.1",
+    "figma-transformer": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "eslint": "^8.32.0",
+    "eslint-config-prettier": "^8.6.0",
+    "husky": "^8.0.3",
+    "jest": "^29.3.1",
+    "lint-staged": "^13.1.0",
+    "prettier": "^2.8.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
+  }
+} 

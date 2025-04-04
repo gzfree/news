@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototype Screenshots</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            color: #333;
+        }
+        .screenshots-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .screenshot {
+            width: 320px;
+            height: 640px;
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .screenshot-header {
+            height: 60px;
+            background-color: #3366FF;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .screenshot-content {
+            padding: 15px;
+            height: calc(100% - 90px);
+            overflow: auto;
+        }
+        .search-box {
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .search-box i {
+            color: #999;
+            margin-right: 10px;
+        }
+        .search-placeholder {
+            color: #999;
+        }
+        .category-tabs {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 15px;
+        }
+        .category-tab {
+            white-space: nowrap;
+            padding: 6px 12px;
+            border-radius: 15px;
+            background-color: #f0f0f0;
+            color: #666;
+            font-size: 14px;
+        }
+        .category-tab.active {
+            background-color: #3366FF;
+            color: white;
+        }
+        .news-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #eee;
+        }
+        .news-card img {
+            width: 100%;
+            height: 120px;
+            background-color: #eee;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            object-fit: cover;
+        }
+        .news-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .news-info {
+            display: flex;
+            font-size: 12px;
+            color: #888;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        .news-readers {
+            display: flex;
+            font-size: 12px;
+            color: #888;
+            gap: 15px;
+            margin-bottom: 8px;
+        }
+        .reading-now {
+            color: #3366FF;
+            display: flex;
+            align-items: center;
+        }
+        .pulse {
+            width: 8px;
+            height: 8px;
+            background-color: #3366FF;
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(51, 102, 255, 0.7);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 5px rgba(51, 102, 255, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(51, 102, 255, 0);
+            }
+        }
+        .tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .tag {
+            background-color: #f0f0f0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #666;
+        }
+        .news-summary {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
+        }
+        .notifications {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #eee;
+        }
+        .notification-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .notification-time {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+        .notification-content {
+            font-size: 14px;
+            color: #444;
+        }
+        .call-ended {
+            font-size: 20px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .call-duration {
+            text-align: center;
+            font-size: 16px;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .download-button {
+            padding: 10px 0;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+            border-radius: 5px;
+            background-color: #3366FF;
+        }
+    </style>
+</head>
+<body>
+    <h1>Prototype Screenshots</h1>
+    <div class="screenshots-container">
+        <!-- 搜索前推荐 (Pre-Search Recommendations) -->
+        <div class="screenshot" id="search-pre">
+            <div class="screenshot-header">Search</div>
+            <div class="screenshot-content">
+                <div class="search-box">
+                    <i>🔍</i>
+                    <span class="search-placeholder">Search for news...</span>
+                </div>
+                
+                <div class="section-title">Popular News</div>
+                <div class="news-card">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Crect width='100' height='60' fill='%23cccccc'/%3E%3Ctext x='50' y='30' font-family='Arial' font-size='12' text-anchor='middle' alignment-baseline='middle' fill='%23ffffff'%3ENews Image%3C/text%3E%3C/svg%3E">
+                    <div class="news-title">UAE announces new initiatives to boost economic growth</div>
+                    <div class="news-info">
+                        <span>Gulf News</span>
+                        <span>2 hours ago</span>
+                    </div>
+                    <div class="news-readers">
+                        <span>👁️ 3.2K</span>
+                        <div class="reading-now">
+                            <span class="pulse"></span>
+                            <span>142 reading now</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Crect width='100' height='60' fill='%23cccccc'/%3E%3Ctext x='50' y='30' font-family='Arial' font-size='12' text-anchor='middle' alignment-baseline='middle' fill='%23ffffff'%3ENews Image%3C/text%3E%3C/svg%3E">
+                    <div class="news-title">New tech center opens in Abu Dhabi</div>
+                    <div class="news-info">
+                        <span>Tech Today</span>
+                        <span>5 hours ago</span>
+                    </div>
+                    <div class="news-readers">
+                        <span>👁️ 2.8K</span>
+                        <div class="reading-now">
+                            <span class="pulse"></span>
+                            <span>98 reading now</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 搜索后推荐 (Post-Search Recommendations) -->
+        <div class="screenshot" id="search-post">
+            <div class="screenshot-header">Search Results</div>
+            <div class="screenshot-content">
+                <div class="search-box">
+                    <i>🔍</i>
+                    <span>Dubai technology</span>
+                </div>
+                
+                <div class="section-title">Top Results</div>
+                <div class="news-card">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Crect width='100' height='60' fill='%23cccccc'/%3E%3Ctext x='50' y='30' font-family='Arial' font-size='12' text-anchor='middle' alignment-baseline='middle' fill='%23ffffff'%3ENews Image%3C/text%3E%3C/svg%3E">
+                    <div class="news-title">Dubai launches new tech innovation hub</div>
+                    <div class="news-info">
+                        <span>Dubai News</span>
+                        <span>1 day ago</span>
+                    </div>
+                    <div class="news-readers">
+                        <span>👁️ 4.7K</span>
+                        <div class="reading-now">
+                            <span class="pulse"></span>
+                            <span>186 reading now</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-title">Related News</div>
+                <div class="news-card">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Crect width='100' height='60' fill='%23cccccc'/%3E%3Ctext x='50' y='30' font-family='Arial' font-size='12' text-anchor='middle' alignment-baseline='middle' fill='%23ffffff'%3ENews Image%3C/text%3E%3C/svg%3E">
+                    <div class="news-title">UAE tech investment reaches record levels</div>
+                    <div class="news-info">
+                        <span>Business News</span>
+                        <span>3 days ago</span>
+                    </div>
+                    <div class="news-readers">
+                        <span>👁️ 2.9K</span>
+                        <div class="reading-now">
+                            <span class="pulse"></span>
+                            <span>73 reading now</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 通话结束页面推荐 (Call-End Page Recommendations) -->
+        <div class="screenshot" id="end-call">
+            <div class="screenshot-header">Call Ended</div>
+            <div class="screenshot-content">
+                <div class="call-ended">Call Ended</div>
+                <div class="call-duration">Duration: 15:24</div>
+                
+                <div class="section-title">News For You</div>
+                <div class="news-card">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Crect width='100' height='60' fill='%23cccccc'/%3E%3Ctext x='50' y='30' font-family='Arial' font-size='12' text-anchor='middle' alignment-baseline='middle' fill='%23ffffff'%3ENews Image%3C/text%3E%3C/svg%3E">
+                    <div class="news-title">Latest updates on global tech trends</div>
+                    <div class="news-info">
+                        <span>Tech Daily</span>
+                        <span>2 hours ago</span>
+                    </div>
+                    <div class="news-readers">
+                        <span>👁️ 5.1K</span>
+                        <div class="reading-now">
+                            <span class="pulse"></span>
+                            <span>234 reading now</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Crect width='100' height='60' fill='%23cccccc'/%3E%3Ctext x='50' y='30' font-family='Arial' font-size='12' text-anchor='middle' alignment-baseline='middle' fill='%23ffffff'%3ENews Image%3C/text%3E%3C/svg%3E">
+                    <div class="news-title">Local weather forecast updates</div>
+                    <div class="news-info">
+                        <span>Weather News</span>
+                        <span>1 hour ago</span>
+                    </div>
+                    <div class="news-readers">
+                        <span>👁️ 3.4K</span>
+                        <div class="reading-now">
+                            <span class="pulse"></span>
+                            <span>128 reading now</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 无限滚动新闻源 (Infinite Scroll News Feed) -->
+        <div class="screenshot" id="news">
+            <div class="screenshot-header">Today's News</div>
+            <div class="screenshot-content">
+                <div class="category-tabs">
+                    <div class="category-tab">Abu Dhabi</div>
+                    <div class="category-tab active">Recommend</div>
+                    <div class="category-tab">Technology</div>
+                    <div class="category-tab">Business</div>
+                    <div class="category-tab">Sports</div>
+                </div>
+                
+                <div class="news-card">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Crect width='100' height='60' fill='%23cccccc'/%3E%3Ctext x='50' y='30' font-family='Arial' font-size='12' text-anchor='middle' alignment-baseline='middle' fill='%23ffffff'%3ENews Image%3C/text%3E%3C/svg%3E">
+                    <div class="news-title">AI revolution transforming industries worldwide</div>
+                    <div class="news-info">
+                        <span>Tech Insider</span>
+                        <span>3 hours ago</span>
+                    </div>
+                    <div class="news-readers">
+                        <span>👁️ 4.2K</span>
+                        <div class="reading-now">
+                            <span class="pulse"></span>
+                            <span>164 reading now</span>
+                        </div>
+                    </div>
+                    <div class="tags">
+                        <div class="tag">#Technology</div>
+                        <div class="tag">#Trending</div>
+                    </div>
+                    <div class="news-summary">
+                        Artificial intelligence continues to transform industries globally, with new applications emerging daily...
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Crect width='100' height='60' fill='%23cccccc'/%3E%3Ctext x='50' y='30' font-family='Arial' font-size='12' text-anchor='middle' alignment-baseline='middle' fill='%23ffffff'%3ENews Image%3C/text%3E%3C/svg%3E">
+                    <div class="news-title">UAE space program announces new mission</div>
+                    <div class="news-info">
+                        <span>Space News</span>
+                        <span>5 hours ago</span>
+                    </div>
+                    <div class="news-readers">
+                        <span>👁️ 3.8K</span>
+                        <div class="reading-now">
+                            <span class="pulse"></span>
+                            <span>142 reading now</span>
+                        </div>
+                    </div>
+                    <div class="tags">
+                        <div class="tag">#Space</div>
+                        <div class="tag">#UAE</div>
+                    </div>
+                    <div class="news-summary">
+                        The UAE space program has announced plans for a new mission to explore Mars...
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 每日新闻推送 (Daily News Push) -->
+        <div class="screenshot" id="news-push">
+            <div class="screenshot-header">Notifications</div>
+            <div class="screenshot-content">
+                <div class="notifications">
+                    <div class="notification-title">Today's Top News</div>
+                    <div class="notification-time">12:00 PM</div>
+                    <div class="notification-content">
+                        Your daily summary of the most important news is ready. Tap to read about global tech trends, local weather updates, and more.
+                    </div>
+                </div>
+                
+                <div class="section-title">Today's Summary</div>
+                <div class="news-card">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Crect width='100' height='60' fill='%23cccccc'/%3E%3Ctext x='50' y='30' font-family='Arial' font-size='12' text-anchor='middle' alignment-baseline='middle' fill='%23ffffff'%3ENews Image%3C/text%3E%3C/svg%3E">
+                    <div class="news-title">5 major headlines from the past 24 hours</div>
+                    <div class="news-info">
+                        <span>Daily Digest</span>
+                        <span>Just now</span>
+                    </div>
+                    <div class="news-readers">
+                        <span>👁️ 1.9K</span>
+                        <div class="reading-now">
+                            <span class="pulse"></span>
+                            <span>324 reading now</span>
+                        </div>
+                    </div>
+                    <div class="tags">
+                        <div class="tag">#DailyUpdate</div>
+                        <div class="tag">#Trending</div>
+                    </div>
+                </div>
+                
+                <a href="#" class="download-button">Download Full Report</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 图片导出功能可以通过截图实现
+        document.querySelectorAll('.screenshot').forEach(screenshot => {
+            console.log(`Screenshot ID: ${screenshot.id}`);
+        });
+    </script>
+</body>
+</html> 

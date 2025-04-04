@@ -145,6 +145,49 @@
             margin-right: 10px;
             vertical-align: middle;
         }
+        
+        /* 原型预览图片样式 */
+        .prototype-image {
+            width: 100%;
+            max-width: 200px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            transition: transform 0.3s ease;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            display: block;
+            margin: 5px 0;
+        }
+        .prototype-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+        }
+        /* 原型链接样式 */
+        .prototype-link {
+            display: inline-block;
+            color: #3366FF;
+            margin-top: 8px;
+            font-size: 13px;
+            text-decoration: none;
+        }
+        .prototype-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* iframe样式 */
+        .prototype-iframe {
+            width: 200px;
+            height: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin: 5px 0;
+        }
+        .prototype-iframe:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+        }
     </style>
 </head>
 <body>
@@ -299,35 +342,40 @@
                         Recommending popular news articles to users on the search page.
                     </td>
                     <td>
-                        <a href="../prototype/search.html" target="_blank" style="color: #3366FF;">View</a>
+                        <iframe src="../prototype/screenshots/index.html#search-pre" class="prototype-iframe" scrolling="no" frameborder="0"></iframe>
+                        <a href="../prototype/search.html" target="_blank" class="prototype-link">View Demo</a>
                     </td>
                 </tr>
                 <tr>
                     <td><span class="use-case-icon">🔍</span><strong>Post-Search Recommendations</strong></td>
                     <td>After a user searches for news, AI suggests additional related trending articles.</td>
                     <td>
-                        <a href="../prototype/search.html" target="_blank" style="color: #3366FF;">View</a>
+                        <iframe src="../prototype/screenshots/index.html#search-post" class="prototype-iframe" scrolling="no" frameborder="0"></iframe>
+                        <a href="../prototype/search.html" target="_blank" class="prototype-link">View Demo</a>
                     </td>
                 </tr>
                 <tr>
                     <td><span class="use-case-icon">📞</span><strong>Call-End Page Recommendations</strong></td>
                     <td>The end-call page directly displays personalized news content to users immediately after a call ends, with no additional interaction required, helping to improve user retention.</td>
                     <td>
-                        <a href="../prototype/end-call.html" target="_blank" style="color: #3366FF;">View</a>
+                        <iframe src="../prototype/screenshots/index.html#end-call" class="prototype-iframe" scrolling="no" frameborder="0"></iframe>
+                        <a href="../prototype/end-call.html" target="_blank" class="prototype-link">View Demo</a>
                     </td>
                 </tr>
                 <tr>
                     <td><span class="use-case-icon">♾️</span><strong>Infinite Scroll News Feed</strong></td>
                     <td>Users can browse an AI-curated news feed and subscribe to different content categories, with each category displayed as a tab (default: "For You").</td>
                     <td>
-                        <a href="../prototype/news.html" target="_blank" style="color: #3366FF;">View</a>
+                        <iframe src="../prototype/screenshots/index.html#news" class="prototype-iframe" scrolling="no" frameborder="0"></iframe>
+                        <a href="../prototype/news.html" target="_blank" class="prototype-link">View Demo</a>
                     </td>
                 </tr>
                 <tr>
                     <td><span class="use-case-icon">🕛</span><strong>Daily News Push</strong></td>
                     <td>Every day at a fixed time (12:00 PM), users receive a push notification with a curated summary of the most important news from the past 24 hours, personalized according to their interests and location.</td>
                     <td>
-                        <a href="../prototype/news.html" target="_blank" style="color: #3366FF;">View</a>
+                        <iframe src="../prototype/screenshots/index.html#news-push" class="prototype-iframe" scrolling="no" frameborder="0"></iframe>
+                        <a href="../prototype/news.html" target="_blank" class="prototype-link">View Demo</a>
                     </td>
                 </tr>
             </tbody>
@@ -348,35 +396,40 @@
                         在search页面推荐给用户一些热门新闻。
                     </td>
                     <td>
-                        <a href="../prototype/search.html" target="_blank" style="color: #3366FF;">查看</a>
+                        <iframe src="../prototype/screenshots/index.html#search-pre" class="prototype-iframe" scrolling="no" frameborder="0"></iframe>
+                        <a href="../prototype/search.html" target="_blank" class="prototype-link">查看演示</a>
                     </td>
                 </tr>
                 <tr>
                     <td><span class="use-case-icon">🔍</span><strong>搜索后推荐</strong></td>
                     <td>用户搜索新闻后，AI 推荐额外相关的热门文章。</td>
                     <td>
-                        <a href="../prototype/search.html" target="_blank" style="color: #3366FF;">查看</a>
+                        <iframe src="../prototype/screenshots/index.html#search-post" class="prototype-iframe" scrolling="no" frameborder="0"></iframe>
+                        <a href="../prototype/search.html" target="_blank" class="prototype-link">查看演示</a>
                     </td>
                 </tr>
                 <tr>
                     <td><span class="use-case-icon">📞</span><strong>通话结束页面推荐</strong></td>
                     <td>通话结束页面在打开后直接展示个性化的新闻内容，用户无需额外操作即可看到推荐新闻，有助于提高用户留存率。</td>
                     <td>
-                        <a href="../prototype/end-call.html" target="_blank" style="color: #3366FF;">查看</a>
+                        <iframe src="../prototype/screenshots/index.html#end-call" class="prototype-iframe" scrolling="no" frameborder="0"></iframe>
+                        <a href="../prototype/end-call.html" target="_blank" class="prototype-link">查看演示</a>
                     </td>
                 </tr>
                 <tr>
                     <td><span class="use-case-icon">♾️</span><strong>无限滚动新闻源</strong></td>
                     <td>用户可浏览 AI 策划的新闻源并订阅不同内容类别，每个类别显示为一个标签页（默认："为你推荐"）。</td>
                     <td>
-                        <a href="../prototype/news.html" target="_blank" style="color: #3366FF;">查看</a>
+                        <iframe src="../prototype/screenshots/index.html#news" class="prototype-iframe" scrolling="no" frameborder="0"></iframe>
+                        <a href="../prototype/news.html" target="_blank" class="prototype-link">查看演示</a>
                     </td>
                 </tr>
                 <tr>
                     <td><span class="use-case-icon">🕛</span><strong>每日新闻推送</strong></td>
                     <td>每天固定时间（中午12点）向用户推送通知，内容为过去24小时内最重要新闻的精选摘要，根据用户兴趣和地理位置进行个性化定制。</td>
                     <td>
-                        <a href="../prototype/news.html" target="_blank" style="color: #3366FF;">查看</a>
+                        <iframe src="../prototype/screenshots/index.html#news-push" class="prototype-iframe" scrolling="no" frameborder="0"></iframe>
+                        <a href="../prototype/news.html" target="_blank" class="prototype-link">查看演示</a>
                     </td>
                 </tr>
             </tbody>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通话内容总结</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --info: #4895ef;
+            --warning: #f72585;
+            --danger: #ff4d6d;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gray-light: #f1f3f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f9fafb;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: var(--gray);
+            font-size: 1.25rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .call-summary {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .call-summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .call-info {
+            display: flex;
+            gap: 20px;
+        }
+
+        .call-info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray);
+        }
+
+        .call-info-item i {
+            color: var(--primary);
+        }
+
+        .call-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: var(--gray-light);
+            color: var(--gray);
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .summary-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .summary-block {
+            background-color: var(--gray-light);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .summary-block h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .summary-block h3 button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .summary-block h3 button:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .summary-block ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .summary-block li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .summary-block li::before {
+            content: "•";
+            color: var(--primary);
+            position: absolute;
+            left: 0;
+        }
+
+        .action-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .action-checkbox {
+            margin-top: 3px;
+        }
+
+        .action-content {
+            flex: 1;
+        }
+
+        .action-date {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+
+        [contenteditable="true"] {
+            border: 1px solid transparent;
+            padding: 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        [contenteditable="true"]:focus {
+            border-color: var(--primary);
+            outline: none;
+            background-color: white;
+        }
+
+        .add-item-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .add-item-btn:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .add-item-btn i {
+            margin-right: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>通话内容总结</h1>
+            <div class="subtitle">记录和总结通话内容，追踪行动项目</div>
+        </header>
+
+        <div class="call-summary">
+            <div class="call-summary-header">
+                <div class="call-info">
+                    <div class="call-info-item">
+                        <i class="fas fa-phone"></i>
+                        <span>通话时间：<input type="datetime-local" id="call-time" value="2024-03-21T14:30"></span>
+                    </div>
+                    <div class="call-info-item">
+                        <i class="fas fa-clock"></i>
+                        <span>时长：<input type="number" id="call-duration" value="45" min="1"> 分钟</span>
+                    </div>
+                    <div class="call-info-item">
+                        <i class="fas fa-users"></i>
+                        <span>参与者：<input type="text" id="participants" value="3人"></span>
+                    </div>
+                </div>
+                <div class="call-actions">
+                    <button class="btn btn-secondary" onclick="editSummary()">
+                        <i class="fas fa-edit"></i> 编辑
+                    </button>
+                    <button class="btn btn-primary" onclick="saveSummary()">
+                        <i class="fas fa-save"></i> 保存
+                    </button>
+                </div>
+            </div>
+            <div class="summary-content">
+                <div class="summary-block">
+                    <h3>通话摘要</h3>
+                    <div id="summary-text" contenteditable="true">
+                        本次通话主要讨论了项目进度和下一步计划。团队完成了第一阶段的功能开发，包括用户界面优化和性能提升。讨论了几个关键的技术挑战，并制定了解决方案。
+                    </div>
+                </div>
+                <div class="summary-block">
+                    <h3>关键点
+                        <button onclick="addKeyPoint()">
+                            <i class="fas fa-plus"></i> 添加
+                        </button>
+                    </h3>
+                    <ul id="key-points">
+                        <li contenteditable="true">第一阶段功能开发完成</li>
+                        <li contenteditable="true">用户界面优化完成</li>
+                        <li contenteditable="true">性能提升显著</li>
+                        <li contenteditable="true">发现并解决了几个技术挑战</li>
+                    </ul>
+                </div>
+                <div class="summary-block">
+                    <h3>行动项目
+                        <button onclick="addActionItem()">
+                            <i class="fas fa-plus"></i> 添加
+                        </button>
+                    </h3>
+                    <ul id="action-items">
+                        <li class="action-item">
+                            <input type="checkbox" class="action-checkbox">
+                            <div class="action-content">
+                                <div contenteditable="true">完成第二阶段功能开发</div>
+                                <div class="action-date">截止日期：<input type="date" value="2024-03-28"></div>
+                            </div>
+                        </li>
+                        <li class="action-item">
+                            <input type="checkbox" class="action-checkbox">
+                            <div class="action-content">
+                                <div contenteditable="true">进行用户测试</div>
+                                <div class="action-date">截止日期：<input type="date" value="2024-03-25"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="summary-block">
+                    <h3>后续跟进
+                        <button onclick="addFollowUp()">
+                            <i class="fas fa-plus"></i> 添加
+                        </button>
+                    </h3>
+                    <ul id="follow-up">
+                        <li contenteditable="true">安排下周进度会议</li>
+                        <li contenteditable="true">准备测试报告</li>
+                        <li contenteditable="true">更新项目文档</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 编辑功能
+        function editSummary() {
+            const summaryText = document.getElementById('summary-text');
+            summaryText.style.border = '1px solid var(--primary)';
+            summaryText.style.padding = '10px';
+            summaryText.style.borderRadius = '4px';
+            summaryText.focus();
+        }
+
+        // 保存功能
+        function saveSummary() {
+            const summaryText = document.getElementById('summary-text');
+            summaryText.style.border = 'none';
+            summaryText.style.padding = '0';
+            // 这里可以添加保存到后端的逻辑
+            alert('保存成功！');
+        }
+
+        // 添加新的行动项目
+        function addActionItem() {
+            const actionItems = document.getElementById('action-items');
+            const newItem = document.createElement('li');
+            newItem.className = 'action-item';
+            newItem.innerHTML = `
+                <input type="checkbox" class="action-checkbox">
+                <div class="action-content">
+                    <div contenteditable="true">新行动项目</div>
+                    <div class="action-date">截止日期：<input type="date"></div>
+                </div>
+            `;
+            actionItems.appendChild(newItem);
+        }
+
+        // 添加新的关键点
+        function addKeyPoint() {
+            const keyPoints = document.getElementById('key-points');
+            const newPoint = document.createElement('li');
+            newPoint.contentEditable = true;
+            newPoint.textContent = '新关键点';
+            keyPoints.appendChild(newPoint);
+        }
+
+        // 添加新的后续跟进事项
+        function addFollowUp() {
+            const followUp = document.getElementById('follow-up');
+            const newItem = document.createElement('li');
+            newItem.contentEditable = true;
+            newItem.textContent = '新跟进事项';
+            followUp.appendChild(newItem);
+        }
+
+        // 自动保存功能
+        let autoSaveTimeout;
+        function setupAutoSave() {
+            const editableElements = document.querySelectorAll('[contenteditable="true"]');
+            editableElements.forEach(element => {
+                element.addEventListener('input', () => {
+                    clearTimeout(autoSaveTimeout);
+                    autoSaveTimeout = setTimeout(() => {
+                        saveSummary();
+                    }, 2000);
+                });
+            });
+        }
+
+        // 页面加载完成后设置自动保存
+        document.addEventListener('DOMContentLoaded', setupAutoSave);
+    </script>
+</body>
+</html> 

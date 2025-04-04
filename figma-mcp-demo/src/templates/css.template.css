@@ -1,0 +1,40 @@
+/**
+ * {{COMPONENT_NAME}} 样式
+ * 从Figma设计系统自动生成
+ * 生成时间: {{GENERATION_DATE}}
+ */
+
+.{{COMPONENT_NAME}} {
+  {{#CSS_PROPS}}
+  {{CSS_NAME}}: {{CSS_VALUE}};
+  {{/CSS_PROPS}}
+}
+
+{{#VARIANTS}}
+/* {{VARIANT_NAME}} 变体 */
+.{{COMPONENT_NAME}}--{{VARIANT_NAME}} {
+  {{#VARIANT_CSS_PROPS}}
+  {{CSS_NAME}}: {{CSS_VALUE}};
+  {{/VARIANT_CSS_PROPS}}
+}
+{{/VARIANTS}}
+
+{{#STATES}}
+/* {{STATE_NAME}} 状态 */
+.{{COMPONENT_NAME}}--{{STATE_NAME}} {
+  {{#STATE_CSS_PROPS}}
+  {{CSS_NAME}}: {{CSS_VALUE}};
+  {{/STATE_CSS_PROPS}}
+}
+{{/STATES}}
+
+{{#BREAKPOINTS}}
+/* {{BREAKPOINT_NAME}} 响应式断点 */
+@media ({{BREAKPOINT_CONDITION}}) {
+  .{{COMPONENT_NAME}} {
+    {{#BREAKPOINT_CSS_PROPS}}
+    {{CSS_NAME}}: {{CSS_VALUE}};
+    {{/BREAKPOINT_CSS_PROPS}}
+  }
+}
+{{/BREAKPOINTS}} 
