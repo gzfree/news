@@ -202,10 +202,69 @@
             font-weight: bold;
             color: #0066cc;
         }
+        
+        /* Image modal/lightbox styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            z-index: 1001;
+        }
+        
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .preview-image {
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        
+        .preview-image:hover {
+            opacity: 0.8;
+        }
     </style>
 </head>
 <body>
     <button id="langToggle" class="lang-switch">中文</button>
+    
+    <!-- Image Modal/Lightbox -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
     
     <div id="content-en" class="content-en">
         <h1>Video Call Enhancement Features</h1>
@@ -421,22 +480,13 @@
                     <th width="25%">Interactive Prototype</th>
                 </tr>
                 <tr>
-                    <td><strong>Background Blur</strong></td>
+                    <td><strong>Background Blur & Replacement</strong></td>
                     <td>
                         <strong>Given</strong>: The user is in a video call (pre-call or in-call)<br>
-                        <strong>When</strong>: The user clicks the "Background" button and selects "Blur"<br>
-                        <strong>Then</strong>: The user's background is blurred while keeping them in focus, with adjustable intensity.
+                        <strong>When</strong>: The user clicks the "Background" button and selects "Blur" or a preset image<br>
+                        <strong>Then</strong>: The user's background is either blurred with adjustable intensity or replaced with the selected preset in real-time.
                     </td>
-                    <td><a href="../prototype/video-filters.html" target="_blank">Try it now</a></td>
-                </tr>
-                <tr>
-                    <td><strong>Background Replacement</strong></td>
-                    <td>
-                        <strong>Given</strong>: The user has access to background blur<br>
-                        <strong>When</strong>: The user clicks the "Background" button and selects a preset image<br>
-                        <strong>Then</strong>: The user's background is replaced with the selected preset in real-time.
-                    </td>
-                    <td><a href="../prototype/video-filters.html" target="_blank">Try it now</a></td>
+                    <td><a href="../prototype/video-filters.html" target="_blank">Try it now</a><br><img src="../assets/images/voip-bacground.png" alt="Background feature" class="preview-image" style="width: 100%; margin-top: 10px;" title="Click to view larger image" onclick="openModal('../assets/images/voip-bacground.png')"></td>
                 </tr>
                 <tr>
                     <td><strong>Basic Beauty Filters</strong></td>
@@ -445,7 +495,7 @@
                         <strong>When</strong>: The user selects the "Beauty" filter<br>
                         <strong>Then</strong>: Basic skin smoothing and lighting enhancement are applied with adjustable intensity.
                     </td>
-                    <td><a href="../prototype/video-filters.html" target="_blank">Try it now</a></td>
+                    <td><a href="../prototype/video-filters.html" target="_blank">Try it now</a><br><img src="../assets/images/voip-beauty.png" alt="Beauty Filters" class="preview-image" style="width: 100%; margin-top: 10px;" title="Click to view larger image" onclick="openModal('../assets/images/voip-beauty.png')"></td>
                 </tr>
                 <tr>
                     <td><strong>Visual Filters</strong></td>
@@ -454,7 +504,7 @@
                         <strong>When</strong>: The user selects "Visual Filters"<br>
                         <strong>Then</strong>: The user can apply artistic filters (B&W, sepia, vintage, etc.) to their entire video.
                     </td>
-                    <td><a href="../prototype/video-filters.html" target="_blank">Try it now</a></td>
+                    <td><a href="../prototype/video-filters.html" target="_blank">Try it now</a><br><img src="../assets/images/voip-filters.png" alt="Visual Filters" class="preview-image" style="width: 100%; margin-top: 10px;" title="Click to view larger image" onclick="openModal('../assets/images/voip-filters.png')"></td>
                 </tr>
                 <tr>
                     <td><strong>AR Effects</strong></td>
@@ -472,7 +522,16 @@
                         <strong>When</strong>: The user selects "Emoji Avatar" and chooses a character<br>
                         <strong>Then</strong>: The user's video feed is replaced with an animated avatar that mimics their facial expressions.
                     </td>
-                    <td><a href="../prototype/video-filters.html" target="_blank">Try it now</a></td>
+                    <td><a href="../prototype/video-filters.html" target="_blank">Try it now</a><br><img src="../assets/images/voip-emoji.png" alt="Emoji Avatar" class="preview-image" style="width: 100%; margin-top: 10px;" title="Click to view larger image" onclick="openModal('../assets/images/voip-emoji.png')"></td>
+                </tr>
+                <tr>
+                    <td><strong>Gift Giving</strong></td>
+                    <td>
+                        <strong>Given</strong>: The user is in a video call<br>
+                        <strong>When</strong>: The user clicks the "Send Gift" button<br>
+                        <strong>Then</strong>: Random gift animations (like fireworks) appear as an overlay to both parties for approximately 5 seconds.
+                    </td>
+                    <td><a href="../prototype/voip.html" target="_blank">Try it now</a><br><img src="../assets/images/voip-gift.png" alt="Gift Giving" class="preview-image" style="width: 100%; margin-top: 10px;" title="Click to view larger image" onclick="openModal('../assets/images/voip-gift.png')"></td>
                 </tr>
             </table>
         </div>
@@ -518,19 +577,19 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><strong>Gift Giving</strong></td>
-                    <td>
-                        <strong>Given</strong>: The user is in a video call<br>
-                        <strong>When</strong>: The user clicks the "Send Gift" button<br>
-                        <strong>Then</strong>: Random gift animations (like fireworks) appear as an overlay to both parties for approximately 5 seconds.
-                    </td>
-                </tr>
-                <tr>
                     <td><strong>Premium Gifts</strong> <span style="background-color: #ffe8d6; color: #d35400; padding: 2px 5px; border-radius: 3px; font-size: 0.8em;">Premium</span></td>
                     <td>
                         <strong>Given</strong>: The user has a premium subscription<br>
                         <strong>When</strong>: The user accesses the gift selection menu<br>
                         <strong>Then</strong>: The user can access special high-quality gift animations with 3D effects, personalized messages, sound effects, and seasonal/holiday-themed gifts.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Interactive Games</strong> <span style="background-color: #ffe8d6; color: #d35400; padding: 2px 5px; border-radius: 3px; font-size: 0.8em;">Premium</span></td>
+                    <td>
+                        <strong>Given</strong>: The user has a premium subscription<br>
+                        <strong>When</strong>: The user selects "Games" from the call menu<br>
+                        <strong>Then</strong>: The user can invite the other party to play simple interactive games during the call, such as tic-tac-toe, drawing challenges, and word games, creating a shared fun experience.
                     </td>
                 </tr>
             </table>
@@ -544,6 +603,144 @@
             <li><span class="feature-out">❌</span> Face swap functionality due to potential privacy and ethical concerns.</li>
             <li><span class="feature-out">❌</span> Premium features for non-VoIP calls (premium features are exclusive to VoIP).</li>
         </ul>
+        
+        <h2><span class="emoji">💲</span> Pricing</h2>
+        <table class="feature-table">
+            <thead>
+                <tr>
+                    <th width="15%">Function Group</th>
+                    <th width="25%">Feature</th>
+                    <th width="8%">Number</th>
+                    <th width="12%">Price (USD)</th>
+                    <th width="28%">Note</th>
+                    <th width="12%">Price (USD)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="4">Beauty Effects</td>
+                    <td>Buffing</td>
+                    <td>1</td>
+                    <td rowspan="4">$40,000</td>
+                    <td rowspan="4">Included in Lite Package</td>
+                    <td rowspan="4">$40,000</td>
+                </tr>
+                <tr>
+                    <td>Toning</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Sharpening</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Clarity</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Filter</td>
+                    <td>Select 10 filters from the test resources</td>
+                    <td>10</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Virtual Background</td>
+                    <td>Virtual Background</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td rowspan="11">Avatar Drives</td>
+                    <td>Aviod bloopers 1</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td rowspan="11">Add-on feature Avatar drives: Detect face landmarks and expressions, nice and eyeball motions, Give Avatar to minor facial movements.<br>Provide 11 pre-built avatar characters.</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td>Aviod bloopers 2</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td>Boy Avatar</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td>Girl Avatar</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td>Rainbow piggy</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td>Pink poop</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td>Cutie piggy</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td>Cat-ear girl</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td>Pug</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td>Pigeon coos</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td>Shining ice-cream</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Total price</td>
+                    <td>$143,400</td>
+                    <td></td>
+                    <td>$143,400</td>
+                </tr>
+                <tr>
+                    <td colspan="3">One year discount</td>
+                    <td>30% off</td>
+                    <td></td>
+                    <td>$100,380</td>
+                </tr>
+                <tr>
+                    <td colspan="3">3 years discount</td>
+                    <td>45% off</td>
+                    <td></td>
+                    <td>$78,610</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <div id="content-zh" class="content-zh">
@@ -760,22 +957,13 @@
                     <th width="25%">交互原型</th>
                 </tr>
                 <tr>
-                    <td><strong>背景模糊</strong></td>
+                    <td><strong>背景模糊与替换</strong></td>
                     <td>
                         <strong>前提</strong>：用户正在进行视频通话（通话前或通话中）<br>
-                        <strong>当</strong>：用户点击"背景"按钮并选择"模糊"<br>
-                        <strong>然后</strong>：用户的背景被模糊处理，同时保持用户清晰，可调整模糊强度。
+                        <strong>当</strong>：用户点击"背景"按钮并选择"模糊"或预设图像<br>
+                        <strong>然后</strong>：用户的背景被模糊处理（强度可调）或实时替换为所选预设图像。
                     </td>
-                    <td><a href="../prototype/video-filters.html" target="_blank">立即体验</a></td>
-                </tr>
-                <tr>
-                    <td><strong>背景替换</strong></td>
-                    <td>
-                        <strong>前提</strong>：用户已有背景模糊功能的访问权<br>
-                        <strong>当</strong>：用户点击"背景"按钮并选择预设图像<br>
-                        <strong>然后</strong>：用户的背景实时替换为所选预设图像。
-                    </td>
-                    <td><a href="../prototype/video-filters.html" target="_blank">立即体验</a></td>
+                    <td><a href="../prototype/video-filters.html" target="_blank">立即体验</a><br><img src="../assets/images/voip-bacground.png" alt="背景功能" class="preview-image" style="width: 100%; margin-top: 10px;" title="点击查看大图" onclick="openModal('../assets/images/voip-bacground.png')"></td>
                 </tr>
                 <tr>
                     <td><strong>基础美颜</strong></td>
@@ -784,7 +972,7 @@
                         <strong>当</strong>：用户选择"美颜"滤镜<br>
                         <strong>然后</strong>：基础的肌肤平滑和光线增强效果应用于视频，强度可调。
                     </td>
-                    <td><a href="../prototype/video-filters.html" target="_blank">立即体验</a></td>
+                    <td><a href="../prototype/video-filters.html" target="_blank">立即体验</a><br><img src="../assets/images/voip-beauty.png" alt="美颜功能" class="preview-image" style="width: 100%; margin-top: 10px;" title="点击查看大图" onclick="openModal('../assets/images/voip-beauty.png')"></td>
                 </tr>
                 <tr>
                     <td><strong>视觉滤镜</strong></td>
@@ -793,7 +981,7 @@
                         <strong>当</strong>：用户选择"视觉滤镜"<br>
                         <strong>然后</strong>：用户可以对整个视频应用艺术滤镜（黑白、褐色、复古等）。
                     </td>
-                    <td><a href="../prototype/video-filters.html" target="_blank">立即体验</a></td>
+                    <td><a href="../prototype/video-filters.html" target="_blank">立即体验</a><br><img src="../assets/images/voip-filters.png" alt="滤镜功能" class="preview-image" style="width: 100%; margin-top: 10px;" title="点击查看大图" onclick="openModal('../assets/images/voip-filters.png')"></td>
                 </tr>
                 <tr>
                     <td><strong>AR效果</strong></td>
@@ -811,7 +999,16 @@
                         <strong>当</strong>：用户选择"表情头像"并选择一个角色<br>
                         <strong>然后</strong>：用户的视频被替换为模仿其面部表情的动画头像。
                     </td>
-                    <td><a href="../prototype/video-filters.html" target="_blank">立即体验</a></td>
+                    <td><a href="../prototype/video-filters.html" target="_blank">立即体验</a><br><img src="../assets/images/voip-emoji.png" alt="表情头像功能" class="preview-image" style="width: 100%; margin-top: 10px;" title="点击查看大图" onclick="openModal('../assets/images/voip-emoji.png')"></td>
+                </tr>
+                <tr>
+                    <td><strong>赠送礼物</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户正在进行视频通话<br>
+                        <strong>当</strong>：用户点击"赠送礼物"按钮<br>
+                        <strong>然后</strong>：随机的礼物动画（如烟花）作为叠加效果显示给双方，持续约5秒钟。
+                    </td>
+                    <td><a href="../prototype/voip.html" target="_blank">立即体验</a><br><img src="../assets/images/voip-gift.png" alt="赠送礼物功能" class="preview-image" style="width: 100%; margin-top: 10px;" title="点击查看大图" onclick="openModal('../assets/images/voip-gift.png')"></td>
                 </tr>
             </table>
         </div>
@@ -857,19 +1054,19 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><strong>赠送礼物</strong></td>
-                    <td>
-                        <strong>前提</strong>：用户正在进行视频通话<br>
-                        <strong>当</strong>：用户点击"赠送礼物"按钮<br>
-                        <strong>然后</strong>：随机的礼物动画（如烟花）作为叠加效果显示给双方，持续约5秒钟。
-                    </td>
-                </tr>
-                <tr>
                     <td><strong>高级礼物</strong> <span style="background-color: #ffe8d6; color: #d35400; padding: 2px 5px; border-radius: 3px; font-size: 0.8em;">付费</span></td>
                     <td>
                         <strong>前提</strong>：用户拥有付费订阅<br>
                         <strong>当</strong>：用户访问礼物选择菜单<br>
                         <strong>然后</strong>：用户可以使用特殊的高质量礼物动画，包括3D效果、个性化消息、音效和季节/节日主题礼物。
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>互动游戏</strong> <span style="background-color: #ffe8d6; color: #d35400; padding: 2px 5px; border-radius: 3px; font-size: 0.8em;">付费</span></td>
+                    <td>
+                        <strong>前提</strong>：用户拥有付费订阅<br>
+                        <strong>当</strong>：用户从通话菜单中选择"游戏"<br>
+                        <strong>然后</strong>：用户可以邀请对方在通话过程中玩简单的互动游戏，如井字棋、绘画挑战和文字游戏，创造共同的娱乐体验。
                     </td>
                 </tr>
             </table>
@@ -883,6 +1080,144 @@
             <li><span class="feature-out">❌</span> 换头功能，由于潜在的隐私和伦理问题。</li>
             <li><span class="feature-out">❌</span> 非VoIP通话的付费功能（付费功能为VoIP专属）。</li>
         </ul>
+        
+        <h2><span class="emoji">💲</span> 价格</h2>
+        <table class="feature-table">
+            <thead>
+                <tr>
+                    <th width="15%">功能组</th>
+                    <th width="25%">功能</th>
+                    <th width="8%">数量</th>
+                    <th width="12%">价格（美元）</th>
+                    <th width="28%">备注</th>
+                    <th width="12%">价格（美元）</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="4">美颜效果</td>
+                    <td>磨皮</td>
+                    <td>1</td>
+                    <td rowspan="4">$40,000</td>
+                    <td rowspan="4">包含在精简版套餐中</td>
+                    <td rowspan="4">$40,000</td>
+                </tr>
+                <tr>
+                    <td>美白</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>锐化</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>清晰度</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>滤镜</td>
+                    <td>从测试资源中选择10个滤镜</td>
+                    <td>10</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>虚拟背景</td>
+                    <td>虚拟背景</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td rowspan="11">头像驱动</td>
+                    <td>避免失误 1</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td rowspan="11">附加功能头像驱动：检测面部特征点和表情，精准眼球运动，赋予头像细微面部动作。<br>提供11个预制头像角色。</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td>避免失误 2</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td>男孩头像</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td>女孩头像</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td>彩虹小猪</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td>粉色便便</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td>可爱小猪</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td>猫耳少女</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td>哈巴狗</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td>鸽子</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td>闪亮冰淇淋</td>
+                    <td>1</td>
+                    <td>$9,400</td>
+                    <td>$9,400</td>
+                </tr>
+                <tr>
+                    <td colspan="3">总价</td>
+                    <td>$143,400</td>
+                    <td></td>
+                    <td>$143,400</td>
+                </tr>
+                <tr>
+                    <td colspan="3">一年折扣</td>
+                    <td>30% 优惠</td>
+                    <td></td>
+                    <td>$100,380</td>
+                </tr>
+                <tr>
+                    <td colspan="3">三年折扣</td>
+                    <td>45% 优惠</td>
+                    <td></td>
+                    <td>$78,610</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <script>
@@ -898,17 +1233,50 @@
                     // Switch to Chinese
                     contentEn.style.display = 'none';
                     contentZh.style.display = 'block';
-                    langToggle.textContent = 'English';
+                    langToggle.textContent = '中文';
                     isEnglish = false;
                 } else {
                     // Switch to English
                     contentEn.style.display = 'block';
                     contentZh.style.display = 'none';
-                    langToggle.textContent = '中文';
+                    langToggle.textContent = 'English';
                     isEnglish = true;
                 }
             });
+            
+            // Image Modal Functionality
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const closeBtn = document.querySelector('.close-modal');
+            
+            // Close modal when clicking the 'x'
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            // Close modal when clicking outside the image
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // Close modal when pressing Escape key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && modal.style.display === 'block') {
+                    modal.style.display = 'none';
+                }
+            });
         });
+        
+        // Function to open modal with the clicked image
+        function openModal(imgSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            
+            modal.style.display = 'block';
+            modalImg.src = imgSrc;
+        }
     </script>
 </body>
 </html> 

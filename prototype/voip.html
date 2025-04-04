@@ -508,6 +508,237 @@
         }
         
         setInterval(updateNoiseWaveform, 100);
+
+        // Gift button functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const giftButton = document.getElementById('giftButton');
+            const effectContainer = document.getElementById('effectContainer');
+            
+            // Effects emoji array
+            const effects = [
+                '❤️', '🎉', '🎊', '✨', '💖', '💕', '💫', '⭐', '🌟', '🔥', 
+                '💝', '💯', '💐', '🌹', '🌈', '🥂', '🎁', '👏', '🙌', '🍾'
+            ];
+            
+            // Colors for effects
+            const colors = [
+                '#FF3B30', '#FF9500', '#FFCC00', '#4CD964', '#5AC8FA', 
+                '#007AFF', '#5856D6', '#FF2D55', '#AF52DE', '#FF6B83'
+            ];
+            
+            giftButton.addEventListener('click', function() {
+                // Create multiple effects when clicked
+                createGiftEffects(15);
+                
+                // Animate the button when clicked
+                this.classList.add('clicked');
+                setTimeout(() => {
+                    this.classList.remove('clicked');
+                }, 300);
+            });
+            
+            function createGiftEffects(count) {
+                for (let i = 0; i < count; i++) {
+                    // Create effect with random delay
+                    setTimeout(() => {
+                        createSingleEffect();
+                    }, i * 100);
+                }
+            }
+            
+            function createSingleEffect() {
+                // Create a new effect element
+                const effect = document.createElement('div');
+                effect.className = 'gift-effect';
+                
+                // Random effect type
+                const effectType = effects[Math.floor(Math.random() * effects.length)];
+                effect.textContent = effectType;
+                
+                // Get the call container dimensions
+                const callContainer = document.querySelector('.call-container');
+                const containerRect = callContainer.getBoundingClientRect();
+                
+                // Random position (within the call container)
+                const posX = 50 + Math.random() * (containerRect.width - 100);
+                const posY = 100 + Math.random() * (containerRect.height - 300);
+                
+                // Random rotation and speed
+                const rotation = Math.random() * 360;
+                const duration = 3 + Math.random() * 2; // 3-5 seconds
+                
+                // Random size
+                const size = 30 + Math.random() * 30;
+                
+                // Set properties
+                effect.style.left = `${posX}px`;
+                effect.style.top = `${posY}px`;
+                effect.style.transform = `rotate(${rotation}deg)`;
+                effect.style.fontSize = `${size}px`;
+                effect.style.animationDuration = `${duration}s`;
+                
+                // Add to container
+                effectContainer.appendChild(effect);
+                
+                // Remove after animation completes
+                setTimeout(() => {
+                    if (effect.parentNode === effectContainer) {
+                        effectContainer.removeChild(effect);
+                    }
+                }, duration * 1000);
+            }
+
+            // Tic-tac-toe game functionality
+            const gamesButton = document.getElementById('games-button');
+            const gamePanel = document.getElementById('gamePanel');
+            const closeGamePanel = document.getElementById('closeGamePanel');
+            const gameBoard = document.getElementById('gameBoard');
+            const gameStatus = document.getElementById('gameStatus');
+            const resetGameBtn = document.getElementById('resetGame');
+            const inviteFriendBtn = document.getElementById('inviteFriend');
+            const cells = document.querySelectorAll('.cell');
+            
+            let currentPlayer = 'X';
+            let gameState = ['', '', '', '', '', '', '', '', ''];
+            let gameActive = true;
+            
+            const winningConditions = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+                [0, 4, 8], [2, 4, 6]             // diagonals
+            ];
+            
+            // Open game panel when clicking the games button
+            gamesButton.addEventListener('click', function() {
+                gamePanel.classList.remove('hidden');
+                this.classList.add('active');
+                this.style.backgroundColor = 'var(--success)';
+                resetGame();
+            });
+            
+            // Close panel when clicking close button
+            closeGamePanel.addEventListener('click', function() {
+                gamePanel.classList.add('hidden');
+                gamesButton.classList.remove('active');
+                gamesButton.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+            });
+            
+            // Add click event to all cells
+            cells.forEach(cell => {
+                cell.addEventListener('click', () => handleCellClick(cell));
+            });
+            
+            // Reset game button event
+            resetGameBtn.addEventListener('click', resetGame);
+            
+            // Invite friend button event (just a placeholder)
+            inviteFriendBtn.addEventListener('click', function() {
+                gameStatus.textContent = 'Invitation sent to your friend!';
+                setTimeout(() => {
+                    if (gameActive) {
+                        gameStatus.textContent = `${currentPlayer}'s turn`;
+                    }
+                }, 2000);
+            });
+            
+            // Handle cell click
+            function handleCellClick(cell) {
+                const cellIndex = parseInt(cell.getAttribute('data-index'));
+                
+                // Check if cell is already filled or game is over
+                if (gameState[cellIndex] !== '' || !gameActive) {
+                    return;
+                }
+                
+                // Update cell, game state and check result
+                updateCell(cell, cellIndex);
+                checkResult();
+                
+                // AI play (simulate opponent) - only if game still active
+                if (gameActive) {
+                    setTimeout(computerPlay, 800);
+                }
+            }
+            
+            // Update cell appearance and game state
+            function updateCell(cell, index) {
+                gameState[index] = currentPlayer;
+                cell.textContent = currentPlayer;
+                cell.classList.add(currentPlayer.toLowerCase());
+            }
+            
+            // Check if someone won or it's a draw
+            function checkResult() {
+                let roundWon = false;
+                
+                // Check all winning conditions
+                for (let i = 0; i < winningConditions.length; i++) {
+                    const [a, b, c] = winningConditions[i];
+                    const condition = gameState[a] === gameState[b] && 
+                                      gameState[b] === gameState[c] && 
+                                      gameState[a] !== '';
+                    
+                    if (condition) {
+                        roundWon = true;
+                        break;
+                    }
+                }
+                
+                // Handle win
+                if (roundWon) {
+                    gameStatus.textContent = `${currentPlayer} wins!`;
+                    gameActive = false;
+                    return;
+                }
+                
+                // Handle draw
+                if (!gameState.includes('')) {
+                    gameStatus.textContent = 'Game ended in a draw!';
+                    gameActive = false;
+                    return;
+                }
+                
+                // Game continues - switch player
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                gameStatus.textContent = `${currentPlayer}'s turn`;
+            }
+            
+            // Simple AI for computer play
+            function computerPlay() {
+                if (!gameActive) return;
+                
+                // Find empty cells
+                const emptyCells = gameState.reduce((acc, val, index) => {
+                    if (val === '') acc.push(index);
+                    return acc;
+                }, []);
+                
+                if (emptyCells.length > 0) {
+                    // Pick a random empty cell
+                    const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+                    const cell = document.querySelector(`.cell[data-index="${randomIndex}"]`);
+                    
+                    // Update cell, game state and check result
+                    updateCell(cell, randomIndex);
+                    checkResult();
+                }
+            }
+            
+            // Reset game to initial state
+            function resetGame() {
+                gameState = ['', '', '', '', '', '', '', '', ''];
+                gameActive = true;
+                currentPlayer = 'X';
+                
+                gameStatus.textContent = 'Your turn (X)';
+                
+                cells.forEach(cell => {
+                    cell.textContent = '';
+                    cell.classList.remove('x');
+                    cell.classList.remove('o');
+                });
+            }
+        });
     </script>
     <style>
         :root {
@@ -1336,6 +1567,88 @@
             animation: audioWave 1s ease-in-out infinite;
         }
 
+        /* Gift button and effects */
+        .gift-button {
+            position: absolute;
+            bottom: 110px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: rgba(255, 64, 129, 0.9);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 100;
+            animation: pulse-pink 2s infinite;
+        }
+
+        .gift-button:hover {
+            transform: scale(1.1);
+        }
+        
+        .gift-button.clicked {
+            transform: scale(0.9);
+            background-color: rgba(255, 20, 100, 1);
+        }
+        
+        .gift-button i {
+            font-size: 24px;
+            color: white;
+        }
+        
+        @keyframes pulse-pink {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 64, 129, 0.5);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 64, 129, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 64, 129, 0);
+            }
+        }
+        
+        .effect-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 50;
+        }
+        
+        .gift-effect {
+            position: absolute;
+            font-size: 40px;
+            opacity: 0;
+            z-index: 51;
+            pointer-events: none;
+            animation: float-effect 5s ease-out forwards;
+        }
+        
+        @keyframes float-effect {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-200px) rotate(360deg) scale(1.5);
+                opacity: 0;
+            }
+        }
+
         @keyframes noiseWave {
             0%, 100% { height: 5px; }
             50% { height: 15px; }
@@ -1346,6 +1659,124 @@
             25% { height: 30px; }
             50% { height: 20px; }
             75% { height: 25px; }
+        }
+
+        /* Game panel styles */
+        .game-panel {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(20, 20, 30, 0.95);
+            border-radius: 20px 20px 0 0;
+            padding: 20px;
+            z-index: 20;
+            box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .game-panel.hidden {
+            transform: translateY(100%);
+        }
+
+        .game-panel h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .game-panel h3 i {
+            color: #ff64c8;
+        }
+
+        .tic-tac-toe {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .game-status {
+            font-size: 18px;
+            font-weight: 500;
+            color: white;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .cell {
+            background-color: rgba(255, 255, 255, 0.1);
+            aspect-ratio: 1/1;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .cell:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .cell.x {
+            color: #ff64c8;
+        }
+
+        .cell.o {
+            color: #4cc9f0;
+        }
+
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .game-btn {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .game-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .game-btn.primary {
+            background-color: #ff64c8;
+        }
+
+        .game-btn.primary:hover {
+            background-color: #ff4cb6;
         }
     </style>
 </head>
@@ -1391,6 +1822,10 @@
                 <div class="side-menu-item secondary" onclick="window.location.href='video-filters.html'">
                     <i class="fas fa-video"></i>
                     <div class="item-tooltip">Video Filters</div>
+                </div>
+                <div class="side-menu-item secondary" id="games-button">
+                    <i class="fas fa-gamepad"></i>
+                    <div class="item-tooltip">Games</div>
                 </div>
             </div>
 
@@ -1512,6 +1947,44 @@
                 <div class="clean-audio-bar"></div>
                 <div class="clean-audio-bar"></div>
                 <div class="clean-audio-bar"></div>
+            </div>
+            
+            <!-- Gift button -->
+            <div class="gift-button" id="giftButton">
+                <i class="fas fa-gift"></i>
+            </div>
+            
+            <!-- Effect container for special effects -->
+            <div class="effect-container" id="effectContainer"></div>
+
+            <!-- Game panel -->
+            <div class="game-panel hidden" id="gamePanel">
+                <button class="modal-close" id="closeGamePanel">
+                    <i class="fas fa-times"></i>
+                </button>
+                
+                <h3><i class="fas fa-gamepad"></i> Interactive Games</h3>
+                
+                <div class="tic-tac-toe">
+                    <div class="game-status" id="gameStatus">Your turn (X)</div>
+                    
+                    <div class="game-board" id="gameBoard">
+                        <div class="cell" data-index="0"></div>
+                        <div class="cell" data-index="1"></div>
+                        <div class="cell" data-index="2"></div>
+                        <div class="cell" data-index="3"></div>
+                        <div class="cell" data-index="4"></div>
+                        <div class="cell" data-index="5"></div>
+                        <div class="cell" data-index="6"></div>
+                        <div class="cell" data-index="7"></div>
+                        <div class="cell" data-index="8"></div>
+                    </div>
+                    
+                    <div class="game-controls">
+                        <button class="game-btn primary" id="resetGame">Reset Game</button>
+                        <button class="game-btn" id="inviteFriend">Invite Friend</button>
+                    </div>
+                </div>
             </div>
         </div>
 
