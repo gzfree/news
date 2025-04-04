@@ -1,320 +1,333 @@
-/* 全局变量 */
+/* Common CSS for all prototype pages */
 :root {
-  --primary: #3366FF;
-  --secondary: #6C757D;
-  --success: #28A745;
-  --info: #17A2B8; 
-  --warning: #FFC107;
-  --danger: #DC3545;
-  --gray: #6C757D;
-  --gray-light: #F8F9FA;
-  --background: #E1EEFA;
-  --container-bg: #FFF;
-  --text-color: #333;
-  --app-width: 414px;
-  --app-height: 950px;
-  --app-border-radius: 40px;
-  --app-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --app-width: 430px;
+    --app-height: 930px;
+    --app-border-radius: 40px;
+    --app-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --container-bg: #FFF;
+    --text-color: #333;
+    --background: #f5f5f7;
+    --primary: #0084FF;
+    --gray: #8E8E93;
 }
 
-/* 全局重置 */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* 设置移动端基础布局 */
-html, body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: fixed;
-  touch-action: manipulation;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  background-color: var(--background);
-  color: var(--text-color);
-  line-height: 1.5;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    background-color: var(--background);
+    color: var(--text-color);
+    padding: 20px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
-/* 应用容器使用固定宽高 */
+/* Phone frame container */
 .app-container {
-  width: var(--app-width);
-  height: var(--app-height);
-  max-width: 100%;
-  margin: 0 auto;
-  background-color: var(--container-bg);
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--app-border-radius);
-  box-shadow: var(--app-shadow);
+    width: var(--app-width);
+    height: var(--app-height);
+    margin: 0 auto;
+    background-color: var(--container-bg);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border-radius: var(--app-border-radius);
+    overflow: hidden;
+    box-shadow: var(--app-shadow);
 }
 
-/* 统一状态栏样式 */
-.status-bar {
-  height: 44px;
-  padding: 0 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-color);
-  background: var(--container-bg);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
-}
-
-.status-time {
-  flex: 1;
-}
-
-.status-icons {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-}
-
-.status-icon {
-  width: 16px;
-  height: 16px;
-}
-
-/* 内容区域 */
 .content-area {
-  flex: 1;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-  padding: 8px 16px;
-  width: 100%;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
 }
 
 .content-area::-webkit-scrollbar {
-  display: none;
+    display: none; /* Chrome, Safari and Opera */
 }
 
-/* 底部导航调整为移动设备标准 */
+/* Status bar */
+.status-bar {
+    height: 44px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.status-time {
+    flex: 1;
+}
+
+.status-icons {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.status-icon {
+    font-size: 14px;
+}
+
+/* Common app elements */
+.header {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #000;
+}
+
+.search-bar {
+    margin: 0 16px;
+    background: #F2F2F7;
+    border-radius: 18px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    color: #8E8E93;
+    margin-bottom: 16px;
+}
+
+.search-icon {
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background-color: #0066FF;
+    border-radius: 50%;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.search-text {
+    color: #8E8E93;
+    font-size: 16px;
+}
+
+/* Bottom navigation */
 .bottom-nav {
-  height: 58px;
-  padding: 0;
-  background: var(--container-bg);
-  border-top: 1px solid rgba(0,0,0,0.1);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  position: sticky;
-  bottom: 0;
-  width: 100%;
-  z-index: 100;
-  border-radius: 0 0 var(--app-border-radius) var(--app-border-radius);
+    height: 83px;
+    background: #fff;
+    display: flex;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-bottom: 30px;
+    width: 100%;
 }
 
 .nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  gap: 4px;
-  color: var(--gray);
-  flex: 1;
-  padding: 6px 0;
-}
-
-.nav-item.active {
-  color: var(--primary);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #8E8E93;
+    font-size: 10px;
+    padding-top: 8px;
 }
 
 .nav-icon {
-  font-size: 24px;
+    font-size: 22px;
+    margin-bottom: 4px;
 }
 
-.nav-label {
-  font-size: 12px;
+.nav-item.active {
+    color: #0084FF;
 }
 
-/* 改进触摸目标大小，确保按钮有足够大小 */
-button, 
-.btn,
-[role="button"],
-.chat-action,
-.nav-item {
-  min-height: 44px;
-  min-width: 44px;
+/* Floating action button */
+.floating-action {
+    position: absolute;
+    bottom: 100px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    background: #0066FF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 36px;
+    font-weight: 300;
+    box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+    cursor: pointer;
 }
 
-/* 表格和列表项 */
-.chat-item {
-  padding: 12px 0;
-  min-height: 60px;
+/* Global navigation for development */
+.global-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #333;
+    height: 40px;
+    display: flex;
+    z-index: 9999;
 }
-
-/* 改进Touch UI元素大小 */
-input[type="text"],
-input[type="search"],
-.search-bar,
-.search-input {
-  height: 44px;
-  font-size: 16px; /* 防止iOS缩小字体 */
-}
-
-/* Toast 样式 */
-.toast {
-  position: fixed;
-  bottom: 80px; /* 确保在底部导航上方 */
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 12px 20px;
-  border-radius: 20px;
-  font-size: 14px;
-  z-index: 1000;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s, visibility 0.3s;
-  width: auto;
-  max-width: 90%;
-  text-align: center;
-}
-
-.toast.show {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* 移动优化的响应式媒体查询 */
-@media (max-width: 414px) {
-  body {
-    font-size: 14px;
-  }
-  
-  .app-container {
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
-  }
-  
-  .chat-title {
-    font-size: 15px;
-  }
-  
-  .chat-subtitle {
-    font-size: 13px;
-  }
-}
-
-/* 确保安全区域 - 支持iPhone X及以上刘海屏 */
-@supports (padding: max(0px)) {
-  .bottom-nav {
-    padding-bottom: max(0px, env(safe-area-inset-bottom));
-    height: calc(58px + env(safe-area-inset-bottom));
-  }
-  
-  .status-bar {
-    padding-top: max(0px, env(safe-area-inset-top));
-    height: calc(44px + env(safe-area-inset-top));
-  }
-}
-
 
 .global-nav-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  color: var(--text-color);
-  text-decoration: none;
-  margin: 0 2px;
-  border-radius: 15px;
-  font-weight: bold;
-  font-size: 14px;
-  position: relative;
-}
-
-.global-nav-item.active {
-  background-color: var(--primary-color);
-  color: white;
+    color: white;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-weight: bold;
+    position: relative;
 }
 
 .global-nav-item:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+    background: #444;
 }
 
-.global-nav-item.active:hover {
-  background-color: var(--primary-color);
+.global-nav-item.active {
+    background: #555;
 }
 
 .nav-arrow {
-  font-size: 8px;
-  margin-left: 2px;
+    margin-left: 5px;
+    font-size: 10px;
 }
 
 .submenu {
-  position: absolute;
-  right: 0;
-  top: 100%;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 180px;
-  padding: 8px 0;
-  display: none;
-  flex-direction: column;
-  z-index: 1001;
-  margin-top: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 40px;
+    left: 0;
+    background: #444;
+    width: 180px;
+    display: none;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
 
 .global-nav-item:hover .submenu {
-  display: flex;
+    display: block;
 }
 
 .submenu-item {
-  padding: 8px 16px;
-  color: var(--text-color);
-  text-decoration: none;
-  font-size: 14px;
-  text-align: left;
-  font-weight: normal;
+    display: block;
+    padding: 10px 15px;
+    color: white;
+    text-decoration: none;
 }
 
 .submenu-item:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+    background: #555;
 }
 
-/* 在窄屏幕上调整导航栏样式 */
-@media (max-width: 768px) {
-  .global-nav {
-    top: 10px;
-    right: 10px;
-    padding: 3px;
-  }
-  
-  .global-nav-item {
-    padding: 5px 8px;
-    font-size: 11px;
-    margin: 0 1px;
-  }
-  
-  .submenu-item {
-    padding: 5px 10px;
-    font-size: 11px;
-  }
+/* Common components */
+.news-card {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 0 16px 16px;
+    background: white;
+}
+
+.section-header-with-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+}
+
+.section-action {
+    font-size: 14px;
+    color: #0084FF;
+    font-weight: 500;
+}
+
+/* Lists and cards */
+.avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 28px;
+    overflow: hidden;
+    margin-right: 12px;
+    background-color: #E5E5EA;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Common button styles */
+.button {
+    background: #0084FF;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.button:active {
+    transform: scale(0.98);
+}
+
+.button-secondary {
+    background: #F2F2F7;
+    color: #333;
+}
+
+/* Common badge styles */
+.badge {
+    background-color: #FF3B30;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 10px;
+    padding: 2px 8px;
+    min-width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* iOS-specific adjustments */
+@supports (padding-top: env(safe-area-inset-top)) {
+    .status-bar {
+        padding-top: env(safe-area-inset-top);
+        height: calc(44px + env(safe-area-inset-top));
+    }
+    
+    .bottom-nav {
+        padding-bottom: max(30px, env(safe-area-inset-bottom));
+        height: calc(83px + env(safe-area-inset-bottom));
+    }
 }

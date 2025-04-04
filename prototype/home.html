@@ -18,6 +18,11 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
+            width: 430px;
+            height: 930px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
         }
 
         .status-bar {
@@ -84,114 +89,290 @@
             margin-right: 8px;
         }
 
-        .tabs {
-            display: flex;
-            background: #fff;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .tab {
-            flex: 1;
-            padding: 12px 0;
-            text-align: center;
-            font-size: 15px;
-            color: #666;
-            position: relative;
-        }
-
-        .tab.active {
-            color: #0084FF;
-            font-weight: 600;
-        }
-
-        .tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            height: 3px;
-            background: #0084FF;
-            border-radius: 1.5px;
-        }
-
-        .contact-list, .call-list {
+        .main-content {
             flex: 1;
             overflow-y: auto;
         }
-
-        .section-header {
-            padding: 12px 16px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #8E8E93;
+        
+        /* New section header with view all */
+        .section-header-with-action {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
             background: #F8F8F8;
         }
-
-        .contact-item, .call-item {
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        .section-action {
+            font-size: 14px;
+            color: #0084FF;
+            font-weight: 500;
+        }
+        
+        /* Contacts row */
+        .contacts-row {
             display: flex;
-            align-items: center;
-            padding: 12px 16px;
+            padding: 16px;
+            overflow-x: auto;
             background: #fff;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            gap: 20px;
         }
-
-        .avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 25px;
+        
+        .contact-circle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 60px;
+        }
+        
+        .contact-circle .avatar {
+            width: 60px;
+            height: 60px;
+            margin-right: 0;
+            margin-bottom: 8px;
+            position: relative;
+            border-radius: 30px;
             overflow: hidden;
-            margin-right: 12px;
             background: #E5E5EA;
         }
-
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: red;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .contact-circle .name {
+            font-size: 12px;
+            text-align: center;
+            color: #333;
+            max-width: 60px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
         .avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
-        .contact-info, .call-info {
-            flex: 1;
+        
+        /* News cards */
+        .news-section {
+            background: #f8f8f8;
+            padding-bottom: 16px;
         }
-
-        .contact-name, .caller-name {
+        
+        .news-card {
+            margin: 0 16px 16px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .news-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+        
+        .news-content {
+            padding: 12px;
+        }
+        
+        .news-title {
             font-size: 16px;
-            font-weight: 500;
-            margin-bottom: 4px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.3;
         }
-
-        .contact-status, .call-time {
-            font-size: 14px;
+        
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
             color: #8E8E93;
         }
 
-        .contact-action, .call-action {
+        /* Small thumbnail style news cards */
+        .news-card-small {
+            margin: 0 16px 12px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             display: flex;
-            gap: 16px;
+            height: 80px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .action-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 20px;
-            background: #F2F2F7;
+        .news-card-small:active {
+            transform: scale(0.98);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+
+        .news-thumbnail {
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+            object-fit: cover;
+        }
+
+        .news-small-content {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+        }
+
+        .news-small-title {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-small-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            font-size: 12px;
+            color: #8E8E93;
+        }
+
+        .news-source {
             display: flex;
             align-items: center;
+            gap: 4px;
+        }
+
+        .news-source-img {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        /* VIP banner */
+        .vip-banner {
+            background: #000;
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin: 16px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .vip-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .vip-text {
+            font-weight: 700;
+            font-size: 13px;
+            background: white;
+            color: black;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+        
+        .vip-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .vip-subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 16px;
+        }
+        
+        .vip-button {
+            background: #0084FF;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 24px;
+            font-weight: 600;
+            font-size: 14px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .vip-profiles {
+            display: flex;
+            margin: 12px 0;
+        }
+        
+        .vip-profile {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid white;
+            margin-right: -10px;
+            background: #ccc;
+            overflow: hidden;
+        }
+        
+        .vip-profile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .vip-more {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: white;
+            color: black;
+            display: flex;
             justify-content: center;
-            color: #0084FF;
-            font-size: 18px;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 4px;
         }
-
-        .tab-content {
-            flex: 1;
-            display: none;
-            overflow-y: auto;
-        }
-
-        .tab-content.active {
-            display: block;
+        
+        .vip-background {
+            position: absolute;
+            right: -50px;
+            top: -20px;
+            font-size: 120px;
+            opacity: 0.2;
+            font-weight: 900;
+            transform: rotate(15deg);
         }
 
         .bottom-nav {
@@ -251,197 +432,311 @@
         </div>
     </div>
 
-    <!-- 标签栏 -->
-    <div class="tabs">
-        <div class="tab active" id="contacts-tab">联系人</div>
-        <div class="tab" id="calls-tab">通话</div>
-    </div>
-
-    <!-- 联系人列表 -->
-    <div class="tab-content active" id="contacts-content">
-        <div class="section-header">收藏联系人</div>
-        <div class="contact-item">
-            <div class="avatar">
-                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Contact">
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Contact Circles Row -->
+        <div class="contacts-row">
+            <div class="contact-circle">
+                <div class="avatar">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Gabriel">
+                    <span class="notification-badge">1</span>
+                </div>
+                <div class="name">Gabriel</div>
             </div>
-            <div class="contact-info">
-                <div class="contact-name">王小红</div>
-                <div class="contact-status">在线</div>
+            <div class="contact-circle">
+                <div class="avatar">
+                    <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="Bro">
+                    <span class="notification-badge">4</span>
+                </div>
+                <div class="name">Bro🚗</div>
             </div>
-            <div class="contact-action">
-                <div class="action-icon">📞</div>
-                <div class="action-icon">📹</div>
+            <div class="contact-circle">
+                <div class="avatar" style="background-color: #E6B530; display: flex; justify-content: center; align-items: center;">
+                    <span style="color: white; font-size: 24px;">🔊</span>
+                </div>
+                <div class="name">Lottery</div>
             </div>
-        </div>
-
-        <div class="section-header">所有联系人</div>
-        <div class="contact-item">
-            <div class="avatar">
-                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Contact">
+            <div class="contact-circle">
+                <div class="avatar">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Mum">
+                </div>
+                <div class="name">Mum</div>
             </div>
-            <div class="contact-info">
-                <div class="contact-name">李小明</div>
-                <div class="contact-status">在线</div>
-            </div>
-            <div class="contact-action">
-                <div class="action-icon">📞</div>
-                <div class="action-icon">📹</div>
-            </div>
-        </div>
-        <div class="contact-item">
-            <div class="avatar">
-                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Contact">
-            </div>
-            <div class="contact-info">
-                <div class="contact-name">张小芳</div>
-                <div class="contact-status">3小时前在线</div>
-            </div>
-            <div class="contact-action">
-                <div class="action-icon">📞</div>
-                <div class="action-icon">📹</div>
+            <div class="contact-circle">
+                <div class="avatar" style="background-color: #f1f1f1; display: flex; justify-content: center; align-items: center;">
+                    <span style="font-size: 24px;">+</span>
+                </div>
+                <div class="name">Add</div>
             </div>
         </div>
-        <div class="contact-item">
-            <div class="avatar">
-                <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="Contact">
+        
+        <!-- Call List (Hidden by default) -->
+        <div id="call-list" style="display:none; background: white; margin-top: 10px;">
+            <div style="padding: 15px; font-size: 18px; font-weight: 600; border-bottom: 1px solid #f0f0f0;">
+                Recent Calls
             </div>
-            <div class="contact-info">
-                <div class="contact-name">赵小刚</div>
-                <div class="contact-status">1天前在线</div>
+            
+            <div style="display: flex; padding: 15px; border-bottom: 1px solid #f0f0f0; align-items: center;">
+                <div style="width: 50px; height: 50px; border-radius: 25px; overflow: hidden; margin-right: 15px;">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Gabriel" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div style="flex: 1;">
+                    <div style="font-weight: 500; margin-bottom: 5px;">Gabriel</div>
+                    <div style="color: #666; font-size: 14px;">Today, 14:25</div>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <div style="width: 40px; height: 40px; border-radius: 20px; background: #f2f2f7; display: flex; align-items: center; justify-content: center;" onclick="window.location.href='voip.html'">
+                        📞
+                    </div>
+                    <div style="width: 40px; height: 40px; border-radius: 20px; background: #f2f2f7; display: flex; align-items: center; justify-content: center;" onclick="window.location.href='voip.html'">
+                        📹
+                    </div>
+                </div>
             </div>
-            <div class="contact-action">
-                <div class="action-icon">📞</div>
-                <div class="action-icon">📹</div>
+            
+            <div style="display: flex; padding: 15px; border-bottom: 1px solid #f0f0f0; align-items: center;">
+                <div style="width: 50px; height: 50px; border-radius: 25px; overflow: hidden; margin-right: 15px;">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Mum" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div style="flex: 1;">
+                    <div style="font-weight: 500; margin-bottom: 5px;">Mum</div>
+                    <div style="color: #666; font-size: 14px;">Yesterday, 19:12</div>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <div style="width: 40px; height: 40px; border-radius: 20px; background: #f2f2f7; display: flex; align-items: center; justify-content: center;" onclick="window.location.href='voip.html'">
+                        📞
+                    </div>
+                    <div style="width: 40px; height: 40px; border-radius: 20px; background: #f2f2f7; display: flex; align-items: center; justify-content: center;" onclick="window.location.href='voip.html'">
+                        📹
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="contact-item">
-            <div class="avatar">
-                <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="Contact">
-            </div>
-            <div class="contact-info">
-                <div class="contact-name">刘小婷</div>
-                <div class="contact-status">2天前在线</div>
-            </div>
-            <div class="contact-action">
-                <div class="action-icon">📞</div>
-                <div class="action-icon">📹</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 通话列表 -->
-    <div class="tab-content" id="calls-content">
-        <div class="section-header">最近通话</div>
-        <div class="call-item">
-            <div class="avatar">
-                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Caller">
-            </div>
-            <div class="call-info">
-                <div class="caller-name">李小明</div>
-                <div class="call-time">今天, 14:32</div>
-            </div>
-            <div class="call-action">
-                <div class="action-icon">📞</div>
-                <div class="action-icon">📹</div>
-            </div>
-        </div>
-        <div class="call-item">
-            <div class="avatar">
-                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Caller">
-            </div>
-            <div class="call-info">
-                <div class="caller-name">王小红</div>
-                <div class="call-time">今天, 10:15</div>
-            </div>
-            <div class="call-action">
-                <div class="action-icon">📞</div>
-                <div class="action-icon">📹</div>
-            </div>
-        </div>
-        <div class="call-item">
-            <div class="avatar">
-                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Caller">
-            </div>
-            <div class="call-info">
-                <div class="caller-name">张小芳</div>
-                <div class="call-time">昨天, 19:24</div>
-            </div>
-            <div class="call-action">
-                <div class="action-icon">📞</div>
-                <div class="action-icon">📹</div>
+            
+            <div style="display: flex; padding: 15px; border-bottom: 1px solid #f0f0f0; align-items: center;">
+                <div style="width: 50px; height: 50px; border-radius: 25px; overflow: hidden; margin-right: 15px;">
+                    <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="Bro" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div style="flex: 1;">
+                    <div style="font-weight: 500; margin-bottom: 5px;">Bro🚗</div>
+                    <div style="color: #666; font-size: 14px;">2 days ago</div>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <div style="width: 40px; height: 40px; border-radius: 20px; background: #f2f2f7; display: flex; align-items: center; justify-content: center;" onclick="window.location.href='voip.html'">
+                        📞
+                    </div>
+                    <div style="width: 40px; height: 40px; border-radius: 20px; background: #f2f2f7; display: flex; align-items: center; justify-content: center;" onclick="window.location.href='voip.html'">
+                        📹
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="call-item">
-            <div class="avatar">
-                <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="Caller">
+        
+        <!-- VIP Banner -->
+        <div class="vip-banner">
+            <div class="vip-logo">
+                <span>Botim</span>
+                <span class="vip-text">VIP</span>
             </div>
-            <div class="call-info">
-                <div class="caller-name">赵小刚</div>
-                <div class="call-time">昨天, 16:08</div>
+            <div class="vip-title">No Ads, Free Calls, Discounts</div>
+            <div class="vip-subtitle">Join Ahmed & 3 more friends now!</div>
+            
+            <div class="vip-profiles">
+                <div class="vip-profile">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile">
+                </div>
+                <div class="vip-profile">
+                    <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="Profile">
+                </div>
+                <div class="vip-profile">
+                    <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="Profile">
+                </div>
+                <div class="vip-profile">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Profile">
+                </div>
+                <div class="vip-profile">
+                    <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Profile">
+                </div>
+                <div class="vip-profile">
+                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Profile">
+                </div>
+                <div class="vip-profile">
+                    <img src="https://randomuser.me/api/portraits/women/77.jpg" alt="Profile">
+                </div>
+                <div class="vip-more">
+                    +2
+                </div>
             </div>
-            <div class="call-action">
-                <div class="action-icon">📞</div>
-                <div class="action-icon">📹</div>
+            
+            <button class="vip-button">Upgrade to VIP</button>
+            
+            <div class="vip-background">VIP</div>
+        </div>
+        
+        <!-- News Section -->
+        <div class="news-section">
+            <div class="section-header-with-action">
+                <div class="section-title">News</div>
+                <div class="section-action">View all</div>
+            </div>
+            
+            <div class="news-card-small">
+                <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620" alt="Business News" class="news-thumbnail">
+                <div class="news-small-content">
+                    <div class="news-small-title">UAE announces new economic initiatives to boost growth</div>
+                    <div class="news-small-meta">
+                        <div class="news-source">
+                            <img src="https://logo.clearbit.com/khaleejtimes.com" alt="KT" class="news-source-img">
+                            <span>Khaleej Times</span>
+                        </div>
+                        <div>2h ago</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="news-card-small">
+                <img src="https://images.unsplash.com/photo-1511447333015-45b65e60f6d5" alt="Tech News" class="news-thumbnail">
+                <div class="news-small-content">
+                    <div class="news-small-title">5G rollout accelerates across Middle East, transforming connectivity</div>
+                    <div class="news-small-meta">
+                        <div class="news-source">
+                            <img src="https://logo.clearbit.com/gulfnews.com" alt="GN" class="news-source-img">
+                            <span>Gulf News</span>
+                        </div>
+                        <div>4h ago</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="news-card-small">
+                <img src="https://images.unsplash.com/photo-1434626881859-194d67b2b86f" alt="Sports News" class="news-thumbnail">
+                <div class="news-small-content">
+                    <div class="news-small-title">UAE team qualifies for Asian Cup semifinals after dramatic win</div>
+                    <div class="news-small-meta">
+                        <div class="news-source">
+                            <img src="https://logo.clearbit.com/sport360.com" alt="S360" class="news-source-img">
+                            <span>Sport360</span>
+                        </div>
+                        <div>6h ago</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="news-card-small">
+                <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5" alt="Business Profile" class="news-thumbnail">
+                <div class="news-small-content">
+                    <div class="news-small-title">Top entrepreneurs to watch in 2024: Innovation leaders</div>
+                    <div class="news-small-meta">
+                        <div class="news-source">
+                            <img src="https://logo.clearbit.com/arabianbusiness.com" alt="AB" class="news-source-img">
+                            <span>Arabian Business</span>
+                        </div>
+                        <div>Yesterday</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="news-card-small">
+                <img src="https://images.unsplash.com/photo-1526948128573-703ee1aeb6fa" alt="Tech Update" class="news-thumbnail">
+                <div class="news-small-content">
+                    <div class="news-small-title">AI adoption in financial services sees 200% growth in region</div>
+                    <div class="news-small-meta">
+                        <div class="news-source">
+                            <img src="https://logo.clearbit.com/thenationalnews.com" alt="TNN" class="news-source-img">
+                            <span>The National</span>
+                        </div>
+                        <div>Yesterday</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- 底部导航 -->
     <div class="bottom-nav">
-        <div class="nav-item active">
-            <div class="nav-icon">📞</div>
-            <div>Call</div>
+        <div class="nav-item active" id="nav-home">
+            <div class="nav-icon">🏠</div>
+            <div>Home</div>
         </div>
-        <div class="nav-item">
+        <div class="nav-item" id="nav-calls" onclick="window.location.href='calls.html'">
+            <div class="nav-icon">📞</div>
+            <div>Calls</div>
+        </div>
+        <div class="nav-item" id="nav-chats">
             <div class="nav-icon">💬</div>
-            <div>消息</div>
+            <div>Chats</div>
+        </div>
+        <div class="nav-item" id="nav-all">
+            <div class="nav-icon">⊞</div>
+            <div>All</div>
         </div>
     </div>
 
     <script>
-        // 标签切换功能
-        const contactsTab = document.getElementById('contacts-tab');
-        const callsTab = document.getElementById('calls-tab');
-        const contactsContent = document.getElementById('contacts-content');
-        const callsContent = document.getElementById('calls-content');
-
-        contactsTab.addEventListener('click', function() {
-            contactsTab.classList.add('active');
-            callsTab.classList.remove('active');
-            contactsContent.classList.add('active');
-            callsContent.classList.remove('active');
-        });
-
-        callsTab.addEventListener('click', function() {
-            callsTab.classList.add('active');
-            contactsTab.classList.remove('active');
-            callsContent.classList.add('active');
-            contactsContent.classList.remove('active');
-        });
-
         // 搜索栏点击跳转
         document.querySelector('.search-input').addEventListener('click', function() {
             window.location.href = 'search.html';
         });
-
-        // 视频通话按钮点击跳转
-        const videoCallButtons = document.querySelectorAll('.action-icon:nth-child(2)');
-        videoCallButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                window.location.href = 'voip.html';
+        
+        // News card click handler (old style cards)
+        const newsCards = document.querySelectorAll('.news-card');
+        newsCards.forEach(card => {
+            card.addEventListener('click', function() {
+                window.location.href = 'news-detail.html';
             });
         });
-
-        // 通话列表项点击跳转到视频通话页面
-        const callItems = document.querySelectorAll('.call-item');
-        callItems.forEach(item => {
-            item.addEventListener('click', function() {
-                window.location.href = 'voip.html';
+        
+        // News card small click handler
+        const smallNewsCards = document.querySelectorAll('.news-card-small');
+        smallNewsCards.forEach(card => {
+            card.addEventListener('click', function() {
+                window.location.href = 'news-detail.html';
             });
+        });
+        
+        // View all news link
+        const viewAllLink = document.querySelector('.section-action');
+        viewAllLink.addEventListener('click', function() {
+            window.location.href = 'news.html';
+        });
+        
+        // Bottom navigation tabs
+        document.getElementById('nav-calls').addEventListener('click', function() {
+            document.getElementById('call-list').style.display = document.getElementById('call-list').style.display === 'none' ? 'block' : 'none';
+            
+            // Toggle active class
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Hide VIP banner and news section when call list is shown
+            if (document.getElementById('call-list').style.display === 'block') {
+                document.querySelector('.vip-banner').style.display = 'none';
+                document.querySelector('.news-section').style.display = 'none';
+            }
+        });
+        
+        // Update home button to restore default view
+        document.getElementById('nav-home').addEventListener('click', function() {
+            // Show VIP banner and news section
+            document.querySelector('.vip-banner').style.display = 'flex';
+            document.querySelector('.news-section').style.display = 'block';
+            
+            // Hide call list
+            document.getElementById('call-list').style.display = 'none';
+            
+            // Set active class
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            this.classList.add('active');
+        });
+        
+        document.getElementById('nav-chats').addEventListener('click', function() {
+            window.location.href = 'chats.html';
+        });
+        
+        document.getElementById('nav-all').addEventListener('click', function() {
+            window.location.href = 'all.html';
         });
     </script>
-    
-    <!-- 设备切换器 -->
-    <script src="assets/device-switcher.js"></script>
 </body>
 </html> 

@@ -542,10 +542,14 @@
 
         .call-container {
             position: relative;
-            height: 100vh;
-            width: 100%;
+            width: var(--app-width, 430px);
+            height: var(--app-height, 930px);
             display: flex;
             flex-direction: column;
+            background-color: #000;
+            overflow: hidden;
+            border-radius: var(--app-border-radius, 40px);
+            box-shadow: var(--app-shadow, 0 10px 25px rgba(0, 0, 0, 0.1));
         }
 
         /* Status bar styles */
