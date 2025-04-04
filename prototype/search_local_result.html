@@ -16,31 +16,34 @@
         }
 
         body {
-            background-color: #f8f9fa;
-            color: #333;
-            line-height: 1.5;
-            min-height: 100vh;
+            background-color: #f5f5f5;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
         }
 
         .app-container {
-            width: 414px;
-            height: 950px;
-            margin: 0 auto;
+            width: 430px;
+            height: 930px;
             background-color: #FFF;
             border-radius: 40px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
-        @media (max-width: 414px) {
+        @media (max-width: 450px) {
+            body {
+                padding: 0;
+            }
             .app-container {
                 width: 100%;
-                height: 100%;
+                height: 100vh;
                 border-radius: 0;
                 box-shadow: none;
             }
@@ -366,114 +369,123 @@
         .flag {
             margin: 0 4px;
         }
+
+        /* Content wrapper */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            position: relative;
+        }
     </style>
 </head>
 <body>
     <div class="app-container">
         <div class="status-bar">
-            <div class="status-time">10:20</div>
+            <div class="status-time">11:33</div>
             <div class="status-icons">
-                <div class="status-icon">•••</div>
-                <div class="status-icon">📶</div>
-                <div class="status-icon">🔋</div>
+                <span>•••</span>
+                <span>📶</span>
+                <span>🔋</span>
             </div>
         </div>
 
-        <!-- 顶部导航栏 -->
-        <div class="top-nav">
-            <div class="back-btn">←</div>
-            <div class="search-bar">
-                <span class="search-icon">🔍</span>
-                <input type="text" class="search-input" placeholder="Search" value="a">
-            </div>
-            <a href="#" class="cancel-btn">Cancel</a>
-        </div>
-
-        <!-- 内容区域 -->
-        <div class="content-area">
-            <!-- AI建议部分 -->
-            <div class="section-header">
-                <div>AI Suggestions</div>
+        <div class="content">
+            <!-- 顶部导航栏 -->
+            <div class="top-nav">
+                <div class="back-btn">←</div>
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="Search" value="a">
+                </div>
+                <a href="#" class="cancel-btn">Cancel</a>
             </div>
 
-            <!-- 国际转账建议 -->
-            <div class="suggestion-item transfer">
-                <div class="suggestion-icon">💱</div>
-                <div class="suggestion-content">
-                    <div class="suggestion-title">International Transfer</div>
-                    <div class="suggestion-desc">You're so close to sending money home..</div>
-                    <div class="currency-conversion">
-                        <span class="flag">🇦🇪</span>
-                        <span>1</span>
-                        <span>≈</span>
-                        <span>1.98</span>
-                        <span class="flag">🇨🇳</span>
+            <!-- 内容区域 -->
+            <div class="content-area">
+                <!-- AI建议部分 -->
+                <div class="section-header">
+                    <div>AI Suggestions</div>
+                </div>
+
+                <!-- 国际转账建议 -->
+                <div class="suggestion-item transfer">
+                    <div class="suggestion-icon">💱</div>
+                    <div class="suggestion-content">
+                        <div class="suggestion-title">International Transfer</div>
+                        <div class="suggestion-desc">You're so close to sending money home..</div>
+                        <div class="currency-conversion">
+                            <span class="flag">🇦🇪</span>
+                            <span>1</span>
+                            <span>≈</span>
+                            <span>1.98</span>
+                            <span class="flag">🇨🇳</span>
+                        </div>
                     </div>
+                    <div class="chevron">›</div>
                 </div>
-                <div class="chevron">›</div>
-            </div>
 
-            <!-- 多币种卡建议 -->
-            <div class="suggestion-item card">
-                <div class="suggestion-icon">💳</div>
-                <div class="suggestion-content">
-                    <div class="suggestion-title">Multi Currency Card</div>
-                    <div class="suggestion-desc">Default description</div>
+                <!-- 多币种卡建议 -->
+                <div class="suggestion-item card">
+                    <div class="suggestion-icon">💳</div>
+                    <div class="suggestion-content">
+                        <div class="suggestion-title">Multi Currency Card</div>
+                        <div class="suggestion-desc">Default description</div>
+                    </div>
+                    <div class="hot-tag">HOT</div>
+                    <div class="chevron">›</div>
                 </div>
-                <div class="hot-tag">HOT</div>
-                <div class="chevron">›</div>
-            </div>
 
-            <!-- 在线结果 -->
-            <div class="online-results">
-                <div class="search-circle">Q</div>
-                <div>Online results for "a"</div>
-            </div>
+                <!-- 在线结果 -->
+                <div class="online-results">
+                    <div class="search-circle">Q</div>
+                    <div>Online results for "a"</div>
+                </div>
 
-            <!-- Ask Botim AI -->
-            <div class="ask-botim">
-                <div>Ask Botim AI</div>
-            </div>
+                <!-- Ask Botim AI -->
+                <div class="ask-botim">
+                    <div>Ask Botim AI</div>
+                </div>
 
-            <!-- Botim AI建议 -->
-            <div class="botim-suggestion">
-                <div class="blue-dot"></div>
-                <div class="search-suggestion-text">Ramadan Timing 2025</div>
-            </div>
+                <!-- Botim AI建议 -->
+                <div class="botim-suggestion">
+                    <div class="blue-dot"></div>
+                    <div class="search-suggestion-text">Ramadan Timing 2025</div>
+                </div>
 
-            <div class="botim-suggestion">
-                <div class="blue-dot"></div>
-                <div class="search-suggestion-text">When does Ramadan Starts 2025?</div>
-            </div>
+                <div class="botim-suggestion">
+                    <div class="blue-dot"></div>
+                    <div class="search-suggestion-text">When does Ramadan Starts 2025?</div>
+                </div>
 
-            <div class="botim-suggestion">
-                <div class="blue-dot"></div>
-                <div class="search-suggestion-text">What is Ramadan?</div>
-            </div>
+                <div class="botim-suggestion">
+                    <div class="blue-dot"></div>
+                    <div class="search-suggestion-text">What is Ramadan?</div>
+                </div>
 
-            <!-- 搜索建议 -->
-            <div class="suggestions-title">
-                <div>Suggestions</div>
-            </div>
+                <!-- 搜索建议 -->
+                <div class="suggestions-title">
+                    <div>Suggestions</div>
+                </div>
 
-            <div class="search-suggestion">
-                <div class="search-icon">🔍</div>
-                <div class="search-suggestion-text">Aladdin</div>
-            </div>
+                <div class="search-suggestion">
+                    <div class="search-icon">🔍</div>
+                    <div class="search-suggestion-text">Aladdin</div>
+                </div>
 
-            <div class="search-suggestion">
-                <div class="search-icon">🔍</div>
-                <div class="search-suggestion-text">Adjustable</div>
-            </div>
+                <div class="search-suggestion">
+                    <div class="search-icon">🔍</div>
+                    <div class="search-suggestion-text">Adjustable</div>
+                </div>
 
-            <div class="search-suggestion">
-                <div class="search-icon">🔍</div>
-                <div class="search-suggestion-text">Alcohol free</div>
-            </div>
+                <div class="search-suggestion">
+                    <div class="search-icon">🔍</div>
+                    <div class="search-suggestion-text">Alcohol free</div>
+                </div>
 
-            <div class="search-suggestion">
-                <div class="search-icon">🔍</div>
-                <div class="search-suggestion-text">Automatic incline</div>
+                <div class="search-suggestion">
+                    <div class="search-icon">🔍</div>
+                    <div class="search-suggestion-text">Automatic incline</div>
+                </div>
             </div>
         </div>
     </div>

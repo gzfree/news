@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Botim - All</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #F8F8F8;
+            color: #333;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            width: 430px;
+            height: 930px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-bar {
+            height: 44px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .status-time {
+            flex: 1;
+            text-align: center;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+        }
+
+        .header {
+            padding: 16px;
+            background: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0D6EFD;
+        }
+
+        .profile-img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .profile-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .promo-banner {
+            margin: 16px;
+            background: #0D6EFD;
+            border-radius: 16px;
+            padding: 16px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .promo-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .promo-code {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .code-label {
+            font-size: 16px;
+            margin-right: 8px;
+        }
+
+        .code-value {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .promo-expiry {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .redeem-btn {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            color: #0D6EFD;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 24px;
+            border: none;
+            font-size: 16px;
+        }
+
+        .dots-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #DDD;
+        }
+
+        .dot.active {
+            width: 16px;
+            border-radius: 4px;
+            background: #333;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0 16px 16px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .section-action {
+            color: #0D6EFD;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            padding: 0 16px;
+        }
+
+        .service-card {
+            background: #F2F3F7;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 1;
+        }
+
+        .service-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .service-name {
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .balance-card {
+            background: #F2F3F7;
+            border-radius: 16px;
+            padding: 16px;
+            margin: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .balance-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .balance-icon {
+            width: 36px;
+            height: 36px;
+            background: #0D6EFD;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .balance-label {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .balance-value {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .balance-hide {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .search-bar {
+            margin: 16px;
+            background: #F2F3F7;
+            border-radius: 28px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            color: #8E8E93;
+        }
+
+        .ai-icon {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0D6EFD;
+            color: white;
+            border-radius: 50%;
+            margin-right: 12px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .search-text {
+            flex: 1;
+            color: #999;
+            font-size: 16px;
+        }
+
+        .voice-icon {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 20px;
+        }
+
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .bottom-nav {
+            height: 83px;
+            background: #fff;
+            display: flex;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            padding-bottom: 30px;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #8E8E93;
+            font-size: 10px;
+            padding-top: 8px;
+        }
+
+        .nav-item.active {
+            color: #0D6EFD;
+        }
+
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+
+        .nav-badge {
+            position: absolute;
+            top: 0;
+            right: 16px;
+            width: 6px;
+            height: 6px;
+            background: #FF3B30;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-bar">
+        <div class="status-time">9:41</div>
+        <div class="status-icons">
+            <span>📶</span>
+            <span>📡</span>
+            <span>🔋</span>
+        </div>
+    </div>
+
+    <div class="header">
+        <div class="logo">botim</div>
+        <div class="profile-img">
+            <img src="https://randomuser.me/api/portraits/women/67.jpg" alt="Profile">
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="promo-banner">
+            <div class="promo-title">Extra 10% OFF Everything</div>
+            <div class="promo-code">
+                <div class="code-label">Use Code:</div>
+                <div class="code-value">Botim</div>
+            </div>
+            <div class="promo-expiry">Offer expires : February 20, 2024</div>
+            <button class="redeem-btn">Redeem</button>
+        </div>
+
+        <div class="dots-indicator">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+
+        <div class="section-header">
+            <div class="section-title">Featured</div>
+            <div class="section-action">Customize</div>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🌍</div>
+                <div class="service-name">International Transfer</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🎮</div>
+                <div class="service-name">The UAE Lottery</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💰</div>
+                <div class="service-name">Botim Money</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💳</div>
+                <div class="service-name">Prepaid Card</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💡</div>
+                <div class="service-name">Bills & Recharges</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">⋯</div>
+                <div class="service-name">More</div>
+            </div>
+        </div>
+
+        <div class="balance-card">
+            <div class="balance-info">
+                <div class="balance-icon">💳</div>
+                <div class="balance-label">Balance</div>
+            </div>
+            <div class="balance-value">AED 148</div>
+            <div class="balance-hide">⊘</div>
+        </div>
+
+        <div class="search-bar">
+            <div class="ai-icon">AI</div>
+            <div class="search-text">Ask me anything or search</div>
+            <div class="voice-icon">🎤</div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item" id="nav-home" onclick="window.location.href='home.html'">
+            <div class="nav-icon">🏠</div>
+            <div>Home</div>
+        </div>
+        <div class="nav-item" id="nav-calls" onclick="window.location.href='calls.html'">
+            <div class="nav-icon">📞</div>
+            <div>Calls</div>
+        </div>
+        <div class="nav-item" id="nav-chats" onclick="window.location.href='chats.html'">
+            <div class="nav-icon">💬</div>
+            <div>Chats</div>
+        </div>
+        <div class="nav-item active" id="nav-all">
+            <div class="nav-icon">⊞</div>
+            <div>All</div>
+        </div>
+    </div>
+
+    <script>
+        // Service card click handler
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const serviceName = this.querySelector('.service-name').textContent;
+                if (serviceName === 'International Transfer') {
+                    window.location.href = 'transfer.html';
+                } else if (serviceName === 'The UAE Lottery') {
+                    window.location.href = 'lottery.html';
+                } else if (serviceName === 'Botim Money') {
+                    window.location.href = 'money.html';
+                } else if (serviceName === 'Prepaid Card') {
+                    window.location.href = 'card.html';
+                } else if (serviceName === 'Bills & Recharges') {
+                    window.location.href = 'bills.html';
+                } else if (serviceName === 'More') {
+                    window.location.href = 'services.html';
+                }
+            });
+        });
+
+        // Search bar click handler
+        document.querySelector('.search-bar').addEventListener('click', function() {
+            window.location.href = 'search.html';
+        });
+
+        // Redeem button click handler
+        document.querySelector('.redeem-btn').addEventListener('click', function() {
+            alert('Promotion code applied successfully!');
+        });
+    </script>
+</body>
+</html> 

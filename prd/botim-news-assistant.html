@@ -183,10 +183,49 @@
             box-shadow: 0 3px 8px rgba(0,0,0,0.1);
             overflow: hidden;
             margin: 5px 0;
+            cursor: pointer;
         }
         .prototype-iframe:hover {
             transform: scale(1.05);
             box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Modal/Lightbox styles */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            margin: auto;
+            display: block;
+            animation: zoom 0.3s ease;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        @keyframes zoom {
+            from {transform: scale(0.1)}
+            to {transform: scale(1)}
         }
     </style>
 </head>
@@ -196,6 +235,12 @@
         <div class="language-switcher">
             <button class="language-btn" id="langToggle">中文</button>
         </div>
+    </div>
+
+    <!-- Image Modal/Lightbox -->
+    <div id="imageModal" class="image-modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modalImage">
     </div>
 
     <div class="section">
@@ -342,15 +387,7 @@
                         Recommending popular news articles to users on the search page.
                     </td>
                     <td>
-                        <iframe src="../prototype/screenshots/index.html#search-pre" class="prototype-iframe" scrolling="no" frameborder="0"></iframe>
-                        <a href="../prototype/search.html" target="_blank" class="prototype-link">View Demo</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td><span class="use-case-icon">🔍</span><strong>Post-Search Recommendations</strong></td>
-                    <td>After a user searches for news, AI suggests additional related trending articles.</td>
-                    <td>
-                        <iframe src="../prototype/screenshots/index.html#search-post" class="prototype-iframe" scrolling="no" frameborder="0"></iframe>
+                        <img src="../assets/images/searchnews.png" alt="搜索前推荐" class="prototype-iframe">
                         <a href="../prototype/search.html" target="_blank" class="prototype-link">View Demo</a>
                     </td>
                 </tr>
@@ -358,24 +395,23 @@
                     <td><span class="use-case-icon">📞</span><strong>Call-End Page Recommendations</strong></td>
                     <td>The end-call page directly displays personalized news content to users immediately after a call ends, with no additional interaction required, helping to improve user retention.</td>
                     <td>
-                        <iframe src="../prototype/screenshots/index.html#end-call" class="prototype-iframe" scrolling="no" frameborder="0"></iframe>
+                        <img src="../assets/images/endcallnews.png" alt="Call-End Page Recommendations" class="prototype-iframe">
                         <a href="../prototype/end-call.html" target="_blank" class="prototype-link">View Demo</a>
                     </td>
                 </tr>
                 <tr>
-                    <td><span class="use-case-icon">♾️</span><strong>Infinite Scroll News Feed</strong></td>
-                    <td>Users can browse an AI-curated news feed and subscribe to different content categories, with each category displayed as a tab (default: "For You").</td>
+                    <td><span class="use-case-icon">🏠</span><strong>Home Page News Entry</strong></td>
+                    <td>A dedicated news section appears on the Botim 4.0 home page, providing localized content based on user region (UAE-specific vs. international) with personalized news cards and a "View all" link to the full news feed.</td>
                     <td>
-                        <iframe src="../prototype/screenshots/index.html#news" class="prototype-iframe" scrolling="no" frameborder="0"></iframe>
-                        <a href="../prototype/news.html" target="_blank" class="prototype-link">View Demo</a>
+                        <img src="../assets/images/homenews.png" alt="Home Page News Entry" class="prototype-iframe">
+                        <a href="../prototype/home.html" target="_blank" class="prototype-link">View Demo</a>
                     </td>
                 </tr>
                 <tr>
                     <td><span class="use-case-icon">🕛</span><strong>Daily News Push</strong></td>
                     <td>Every day at a fixed time (12:00 PM), users receive a push notification with a curated summary of the most important news from the past 24 hours, personalized according to their interests and location.</td>
                     <td>
-                        <iframe src="../prototype/screenshots/index.html#news-push" class="prototype-iframe" scrolling="no" frameborder="0"></iframe>
-                        <a href="../prototype/news.html" target="_blank" class="prototype-link">View Demo</a>
+                        
                     </td>
                 </tr>
             </tbody>
@@ -396,15 +432,7 @@
                         在search页面推荐给用户一些热门新闻。
                     </td>
                     <td>
-                        <iframe src="../prototype/screenshots/index.html#search-pre" class="prototype-iframe" scrolling="no" frameborder="0"></iframe>
-                        <a href="../prototype/search.html" target="_blank" class="prototype-link">查看演示</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td><span class="use-case-icon">🔍</span><strong>搜索后推荐</strong></td>
-                    <td>用户搜索新闻后，AI 推荐额外相关的热门文章。</td>
-                    <td>
-                        <iframe src="../prototype/screenshots/index.html#search-post" class="prototype-iframe" scrolling="no" frameborder="0"></iframe>
+                        <img src="../assets/images/searchnews.png" alt="搜索前推荐" class="prototype-iframe">
                         <a href="../prototype/search.html" target="_blank" class="prototype-link">查看演示</a>
                     </td>
                 </tr>
@@ -412,24 +440,23 @@
                     <td><span class="use-case-icon">📞</span><strong>通话结束页面推荐</strong></td>
                     <td>通话结束页面在打开后直接展示个性化的新闻内容，用户无需额外操作即可看到推荐新闻，有助于提高用户留存率。</td>
                     <td>
-                        <iframe src="../prototype/screenshots/index.html#end-call" class="prototype-iframe" scrolling="no" frameborder="0"></iframe>
+                        <img src="../assets/images/endcallnews.png" alt="Call-End Page Recommendations" class="prototype-iframe">
                         <a href="../prototype/end-call.html" target="_blank" class="prototype-link">查看演示</a>
                     </td>
                 </tr>
                 <tr>
-                    <td><span class="use-case-icon">♾️</span><strong>无限滚动新闻源</strong></td>
-                    <td>用户可浏览 AI 策划的新闻源并订阅不同内容类别，每个类别显示为一个标签页（默认："为你推荐"）。</td>
+                    <td><span class="use-case-icon">🏠</span><strong>主页新闻入口</strong></td>
+                    <td>在Botim 4.0主页面上显示专门的新闻版块，根据用户所在地区提供本地化内容（阿联酋特定内容与国际内容），展示个性化新闻卡片，并提供"查看全部"链接跳转到完整新闻源。</td>
                     <td>
-                        <iframe src="../prototype/screenshots/index.html#news" class="prototype-iframe" scrolling="no" frameborder="0"></iframe>
-                        <a href="../prototype/news.html" target="_blank" class="prototype-link">查看演示</a>
+                        <img src="../assets/images/homenews.png" alt="Home Page News Entry" class="prototype-iframe">
+                        <a href="../prototype/home.html" target="_blank" class="prototype-link">查看演示</a>
                     </td>
                 </tr>
                 <tr>
                     <td><span class="use-case-icon">🕛</span><strong>每日新闻推送</strong></td>
                     <td>每天固定时间（中午12点）向用户推送通知，内容为过去24小时内最重要新闻的精选摘要，根据用户兴趣和地理位置进行个性化定制。</td>
                     <td>
-                        <iframe src="../prototype/screenshots/index.html#news-push" class="prototype-iframe" scrolling="no" frameborder="0"></iframe>
-                        <a href="../prototype/news.html" target="_blank" class="prototype-link">查看演示</a>
+                        
                     </td>
                 </tr>
             </tbody>
@@ -1016,6 +1043,30 @@
             // Initialize display
             zhElements.forEach(el => el.style.display = 'none');
             enElements.forEach(el => el.style.display = 'inline-block');
+
+            // Modal functionality for images
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const closeModal = document.querySelector('.close-modal');
+            const prototypeImages = document.querySelectorAll('.prototype-iframe');
+
+            prototypeImages.forEach(img => {
+                img.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    modal.style.display = 'flex';
+                    modalImg.src = this.src;
+                });
+            });
+
+            closeModal.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
         });
     </script>
 </body>

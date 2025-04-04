@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Calls</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #FFFFFF;
+            color: #333;
+            width: 430px;
+            height: 930px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-bar {
+            height: 44px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .status-time {
+            flex: 1;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .header {
+            padding: 16px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #000;
+        }
+
+        .search-bar {
+            margin: 0 16px;
+            background: #F2F2F7;
+            border-radius: 18px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            color: #8E8E93;
+            margin-bottom: 16px;
+            width: calc(100% - 32px);
+        }
+
+        .search-icon {
+            margin-right: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background-color: #0066FF;
+            border-radius: 50%;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .search-text {
+            color: #8E8E93;
+            font-size: 16px;
+        }
+
+        .tabs {
+            display: flex;
+            padding: 0 16px;
+            margin-bottom: 16px;
+            gap: 8px;
+        }
+
+        .tab {
+            background-color: #F2F2F7;
+            border-radius: 16px;
+            padding: 8px 16px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .tab.active {
+            background-color: #0066FF;
+            color: white;
+        }
+
+        .call-list {
+            padding: 0 16px;
+            width: calc(100% - 32px);
+        }
+
+        .call-item {
+            display: flex;
+            padding: 12px 0;
+            align-items: center;
+            border-bottom: none;
+        }
+
+        .avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 28px;
+            overflow: hidden;
+            margin-right: 12px;
+            background-color: #E5E5EA;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .call-info {
+            flex: 1;
+        }
+
+        .call-name {
+            font-size: 17px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .vip-badge {
+            background-color: black;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .video-indicator {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #007AFF;
+            color: white;
+            font-size: 11px;
+            padding: 1px 4px;
+            border-radius: 3px;
+            position: relative;
+            width: 20px;
+            height: 16px;
+        }
+        
+        .video-icon {
+            width: 12px;
+            height: 12px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .video-icon:before {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M23 7l-7 5 7 5V7z'%3E%3C/path%3E%3Crect x='1' y='5' width='15' height='14' rx='2' ry='2'%3E%3C/rect%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .call-time {
+            font-size: 15px;
+            color: #8E8E93;
+        }
+
+        .call-action {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: #F2F2F7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #333;
+        }
+        
+        .call-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: #F2F2F7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .phone-icon {
+            width: 18px;
+            height: 18px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .phone-icon:before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        /* Updated bottom nav styles */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: calc(100% - 32px);
+            max-width: 398px; /* 430px - 32px */
+            height: 60px;
+            background: #fff;
+            display: flex;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #8E8E93;
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+            opacity: 0.7;
+        }
+
+        .nav-item.active {
+            color: #0084FF;
+        }
+        
+        .nav-item.active .nav-icon {
+            opacity: 1;
+        }
+
+        /* Updated floating action button */
+        .floating-action {
+            position: fixed;
+            bottom: 76px;
+            right: calc((100% - 398px) / 2 + 16px);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #0084FF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 2px 8px rgba(0, 132, 255, 0.4);
+            cursor: pointer;
+            z-index: 1000;
+        }
+        
+        @media (max-width: 430px) {
+            .floating-action {
+                right: 16px;
+            }
+        }
+        
+        /* Ensure proper spacing between call items */
+        .call-item + .call-item {
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div class="status-time">9:41</div>
+        <div class="status-icons">
+            <div>📶</div>
+            <div>📡</div>
+            <div>🔋</div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>Calls</h1>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <div class="search-icon">AI</div>
+        <div class="search-text">Ask me anything or search</div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <div class="tab active">All</div>
+        <div class="tab">Missed</div>
+        <div class="tab">Group calls</div>
+    </div>
+
+    <!-- Call List -->
+    <div class="call-list">
+        <!-- Call Item 1 -->
+        <div class="call-item">
+            <div class="avatar">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Albert Flores">
+            </div>
+            <div class="call-info">
+                <div class="call-name">
+                    Albert Flores
+                    <div class="video-indicator">
+                        <span class="video-icon"></span>
+                    </div>
+                    <div class="vip-badge">VIP</div>
+                </div>
+                <div class="call-time">Just now</div>
+            </div>
+            <button class="call-button">
+                <span class="phone-icon"></span>
+            </button>
+        </div>
+
+        <!-- Call Item 2 -->
+        <div class="call-item">
+            <div class="avatar">
+                <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="Jacob Jones">
+            </div>
+            <div class="call-info">
+                <div class="call-name">
+                    Jacob Jones (2)
+                    <div class="video-indicator">
+                        <span class="video-icon"></span>
+                    </div>
+                </div>
+                <div class="call-time">25 mins ago</div>
+            </div>
+            <button class="call-button">
+                <span class="phone-icon"></span>
+            </button>
+        </div>
+
+        <!-- Call Item 3 -->
+        <div class="call-item">
+            <div class="avatar">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Jane Cooper">
+            </div>
+            <div class="call-info">
+                <div class="call-name">
+                    Jane Cooper
+                    <div class="vip-badge">VIP</div>
+                </div>
+                <div class="call-time">11:30 AM</div>
+            </div>
+            <button class="call-button">
+                <span class="phone-icon"></span>
+            </button>
+        </div>
+
+        <!-- Call Item 4 -->
+        <div class="call-item">
+            <div class="avatar">
+                <img src="https://randomuser.me/api/portraits/men/33.jpg" alt="Albert Flores">
+            </div>
+            <div class="call-info">
+                <div class="call-name">Albert Flores</div>
+                <div class="call-time">Yesterday</div>
+            </div>
+            <button class="call-button">
+                <span class="phone-icon"></span>
+            </button>
+        </div>
+
+        <!-- Call Item 5 -->
+        <div class="call-item">
+            <div class="avatar">
+                <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Ralph Edwards">
+            </div>
+            <div class="call-info">
+                <div class="call-name">
+                    Ralph Edwards
+                    <div class="video-indicator">
+                        <span class="video-icon"></span>
+                    </div>
+                </div>
+                <div class="call-time">Friday</div>
+            </div>
+            <button class="call-button">
+                <span class="phone-icon"></span>
+            </button>
+        </div>
+
+        <!-- Call Item 6 -->
+        <div class="call-item">
+            <div class="avatar">
+                <img src="https://randomuser.me/api/portraits/women/56.jpg" alt="Bessie Cooper">
+            </div>
+            <div class="call-info">
+                <div class="call-name">
+                    Bessie Cooper
+                    <div class="vip-badge">VIP</div>
+                </div>
+                <div class="call-time">1 Oct</div>
+            </div>
+            <button class="call-button">
+                <span class="phone-icon"></span>
+            </button>
+        </div>
+
+        <!-- Call Item 7 -->
+        <div class="call-item">
+            <div class="avatar">
+                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Arlene McCoy">
+            </div>
+            <div class="call-info">
+                <div class="call-name">
+                    Arlene McCoy
+                    <div class="video-indicator">
+                        <span class="video-icon"></span>
+                    </div>
+                    <div class="vip-badge">VIP</div>
+                </div>
+                <div class="call-time">1 Sep 2024</div>
+            </div>
+            <button class="call-button">
+                <span class="phone-icon"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div class="floating-action">
+        <i class="fas fa-plus"></i>
+    </div>
+
+    <!-- Bottom Nav -->
+    <div class="bottom-nav">
+        <a href="home.html" class="nav-item" id="nav-home">
+            <div class="nav-icon">🏠</div>
+            <div>Home</div>
+        </a>
+        <a href="#" class="nav-item active" id="nav-calls">
+            <div class="nav-icon">📞</div>
+            <div>Calls</div>
+        </a>
+        <a href="chats.html" class="nav-item" id="nav-chats">
+            <div class="nav-icon">💬</div>
+            <div>Chats</div>
+        </a>
+        <a href="all.html" class="nav-item" id="nav-all">
+            <div class="nav-icon">⊞</div>
+            <div>All</div>
+        </a>
+    </div>
+</body>
+</html> 
