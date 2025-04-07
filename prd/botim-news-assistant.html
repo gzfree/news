@@ -175,8 +175,8 @@
         
         /* iframe样式 */
         .prototype-iframe {
-            width: 200px;
-            height: 300px;
+            width: 180px;
+            height: auto;
             border: 1px solid #ccc;
             border-radius: 5px;
             transition: transform 0.3s ease;
@@ -184,6 +184,8 @@
             overflow: hidden;
             margin: 5px 0;
             cursor: pointer;
+            object-fit: contain;
+            max-height: 350px;
         }
         .prototype-iframe:hover {
             transform: scale(1.05);
@@ -210,6 +212,9 @@
             margin: auto;
             display: block;
             animation: zoom 0.3s ease;
+            object-fit: contain;
+            width: auto;
+            height: auto;
         }
 
         .close-modal {
@@ -249,7 +254,7 @@
             Botim News Assistant is an AI-driven news service designed to provide high-quality news content to Botim users. This feature allows users to receive personalized news recommendations and perform AI-powered searches for relevant content. Its core goal is to enrich the Botim ecosystem, enhance user retention, and generate revenue through advertisements. The news assistant recommends trending content based on users' geographical location, language, and other profile attributes. News is sourced from GPT's web search and formatted to include a title, subtitle, details, AI-generated related questions, and hashtags.
         </p>
         <p class="lang-zh">
-            Botim 新闻助手是一项人工智能驱动的新闻服务，旨在为 Botim 用户提供高质量的新闻内容。该功能允许用户接收个性化的新闻推荐，并执行人工智能搜索以获取相关内容。其核心目标是丰富 Botim 生态系统，提高用户留存率，并通过广告获取收入。新闻助手根据用户的地理位置、语言和其他个人资料属性推荐热门内容。新闻内容来源于 GPT 的网络搜索，并格式化为包含标题、副标题、详细信息、AI生成的相关问题和主题标签。
+            Botim 新闻助手是一项人工智能驱动的新闻服务，旨在为 Botim 用户提供高质量的新闻内容。该功能允许用户接收个性化的新闻推荐，并执行人工智能搜索以获取相关内容。其核心目标是丰富 Botim 生态系统，提高用户留存率，并通过广告获取收入。新闻助手根据用户的地理位置、语言和其他个人资料属性推荐热门内容。新闻内容来源于 GPT 的网络搜索，并格式化为包含标题、副标题、详细信息、AI生成的相关问题和主题标签。我们想做的不只是新闻，内容服务的本质是：用户各个场景的延伸信息，能吸引注意力，创造价值，提高粘性。
         </p>
     </div>
 
@@ -266,14 +271,18 @@
     <div class="section">
         <h2><span class="emoji">🎯</span> <span class="lang-en">Objectives</span><span class="lang-zh">目标</span></h2>
         <ul class="lang-en">
-            <li><strong>Enhance Botim Ecosystem</strong> – As a SuperApp, Botim currently lacks a content service, and this feature helps bridge that gap.</li>
-            <li><strong>Increase User Engagement</strong> – By offering news recommendations and AI-powered search, users will stay within Botim even after completing calls or chats, improving retention and session duration.</li>
-            <li><strong>Enable Advertisement Monetization</strong> – Leveraging precise ad placements to drive revenue and offset AI operational costs.</li>
+            <li><strong>Build Content Ecosystem</strong> – Add content features to Botim's tools and services to create a lightweight content system.</li>
+            <li><strong>Keep Users Engaged</strong> – Show personalized content after calls, payments, and other actions to increase usage time and app opens.</li>
+            <li><strong>Enhance Financial Features</strong> – Add relevant content (exchange rates, policy updates) to financial tools to improve value and conversion.</li>
+            <li><strong>Generate Revenue</strong> – Create native content spaces for targeted ads by region, language, and interests.</li>
+            <li><strong>Reduce Costs with AI</strong> – Use AI to generate and organize content automatically, lowering maintenance costs.</li>
         </ul>
         <ul class="lang-zh">
-            <li><strong>增强 Botim 生态系统</strong> – 作为一个超级应用程序，Botim 当前缺乏内容服务，此功能有助于弥补这一差距。</li>
-            <li><strong>提高用户参与度</strong> – 通过提供新闻推荐和人工智能搜索，用户在完成通话或聊天后仍将留在 Botim 中，提高留存率和会话时长。</li>
-            <li><strong>实现广告变现</strong> – 利用精准广告投放来产生收入并抵消人工智能运营成本。</li>
+            <li><strong>增强 Botim 内容生态</strong> – 在"工具 + 服务"的产品结构上，引入内容能力，建立 Botim 的轻内容生态系统。</li>
+            <li><strong>提高用户留存率与会话时长</strong> – 通过在高频功能结束后（如通话、汇款、缴费等）展示个性化内容，让用户有理由继续停留，提升留存与打开频次。</li>
+            <li><strong>强化金融功能</strong> – 在金融工具中嵌入相关内容（汇率、政策更新），提高价值感和转化率。</li>
+            <li><strong>创造收入来源</strong> – 打造原生内容位，支持按地域、语言和兴趣精准投放广告。</li>
+            <li><strong>AI降低成本</strong> – 利用人工智能自动生成和组织内容，减少维护成本。</li>
         </ul>
     </div>
 
@@ -283,11 +292,13 @@
             <li><strong>Engineering Resources</strong> – Requires AI search optimization to ensure precise and performant content recommendations.</li>
             <li><strong>Privacy Compliance</strong> – Must adhere to privacy regulations when utilizing users' geographical and language data.</li>
             <li><strong>Server Bandwidth Costs</strong> – Since content is cached, an efficient caching strategy is necessary to minimize bandwidth consumption.</li>
+            <li><strong>Xinwen API Call Costs</strong> – API usage is billed based on the number of requests, requiring careful monitoring and optimization to control operational expenses.</li>
         </ul>
         <ul class="lang-zh">
             <li><strong>工程资源</strong> – 需要人工智能搜索优化，以确保精准高效的内容推荐。</li>
             <li><strong>隐私合规</strong> – 在使用用户的地理位置和语言数据时，必须遵守隐私法规。</li>
             <li><strong>服务器带宽成本</strong> – 由于内容被缓存，因此需要高效的缓存策略来最小化带宽消耗。</li>
+            <li><strong>新闻API调用费用</strong> – API使用基于请求数量计费，需要谨慎监控和优化以控制运营支出。</li>
         </ul>
     </div>
 
@@ -306,25 +317,43 @@
                     <td><span class="use-case-icon">👥</span><strong>All Botim Users</strong></td>
                     <td>
                         <ul style="margin: 0; padding-left: 20px;">
-                            <li>Users can be segmented by country, city, and language for more precise news recommendations.</li>
-                            <li>Require valuable information after completing calls or chats to extend their time within Botim.</li>
+                            <li>All users who use Botim for calls, chat, payments, and other operations. Can be personalized based on country, city, and language.</li>
+                            <li>Need content retention points after using features.</li>
                         </ul>
                     </td>
                 </tr>
                 <tr>
-                    <td><span class="use-case-icon">🔄</span><strong>Frequent Users</strong></td>
+                    <td><span class="use-case-icon">🔄</span><strong>Frequent Active Users</strong></td>
                     <td>
                         <ul style="margin: 0; padding-left: 20px;">
-                            <li>Regularly use Botim for communication and are interested in consuming news within the app.</li>
-                            <li>Follow real-time news updates and expect personalized recommendations aligned with their interests.</li>
+                            <li>High daily usage frequency (calls, remittances, AI Chat, etc.), with clear interest in news, exchange rates, and holiday content.</li>
+                            <li>Suitable for personalized cards and daily summaries.</li>
                         </ul>
                     </td>
                 </tr>
                 <tr>
-                    <td><span class="use-case-icon">🆕</span><strong>New Users</strong></td>
+                    <td><span class="use-case-icon">🧧</span><strong>Financial Service Users</strong></td>
                     <td>
                         <ul style="margin: 0; padding-left: 20px;">
-                            <li>First-time users of Botim, where the news service serves as an attractive feature to improve long-term retention.</li>
+                            <li>Primarily use remittance, bill payment, wallet and other financial features. High interest in exchange rate trends, holiday bank policy changes, and fee optimization content.</li>
+                            <li>Suitable for embedded recommendations within feature pages.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🆕</span><strong>New Users / First-time Users</strong></td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>Users new to Botim, unfamiliar with the product ecosystem. News module serves as auxiliary content to increase curiosity and awareness, helping to form usage habits.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🌍</span><strong>Multilingual Users</strong></td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>Using Botim in non-English speaking countries (such as UAE, Pakistan, India), prefer to receive news and trending content in local languages.</li>
+                            <li>Suitable for language adaptation and localized recommendations.</li>
                         </ul>
                     </td>
                 </tr>
@@ -343,25 +372,43 @@
                     <td><span class="use-case-icon">👥</span><strong>所有 Botim 用户</strong></td>
                     <td>
                         <ul style="margin: 0; padding-left: 20px;">
-                            <li>可以按国家、城市和语言对用户进行细分，以获得更精准的新闻推荐。</li>
-                            <li>需要在完成通话或聊天后获取有价值的信息，以延长他们在 Botim 中的停留时间。</li>
+                            <li>所有使用 Botim 进行通话、聊天、支付等操作的用户。可基于国家、城市和语言进行个性化内容推荐。</li>
+                            <li>需要在使用功能之后有内容留存点。</li>
                         </ul>
                     </td>
                 </tr>
                 <tr>
-                    <td><span class="use-case-icon">🔄</span><strong>频繁用户</strong></td>
+                    <td><span class="use-case-icon">🔄</span><strong>高频活跃用户</strong></td>
                     <td>
                         <ul style="margin: 0; padding-left: 20px;">
-                            <li>经常使用 Botim 进行通讯，并有兴趣在应用内消费新闻。</li>
-                            <li>关注实时新闻更新，期望获得与其兴趣相符的个性化推荐。</li>
+                            <li>日常使用频率高（如通话、汇款、AI Chat 等），对新闻、汇率、节日内容有明显兴趣。</li>
+                            <li>适合推送个性化卡片和每日摘要。</li>
                         </ul>
                     </td>
                 </tr>
                 <tr>
-                    <td><span class="use-case-icon">🆕</span><strong>新用户</strong></td>
+                    <td><span class="use-case-icon">🧧</span><strong>金融服务用户</strong></td>
                     <td>
                         <ul style="margin: 0; padding-left: 20px;">
-                            <li>Botim 的首次使用者，新闻服务作为一个吸引人的功能，有助于提高长期留存率。</li>
+                            <li>主要使用汇款、缴费、钱包等功能。对汇率趋势、节日银行政策变动、费用优化内容关注度高。</li>
+                            <li>适合在功能页内嵌入推荐。</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🆕</span><strong>新用户 / 首次使用者</strong></td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>刚进入 Botim 的用户，对产品生态不熟，新闻模块作为辅助内容增加好奇与认知，帮助形成使用习惯。</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🌍</span><strong>多语言用户</strong></td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>在非英语语系国家（如阿联酋、巴基斯坦、印度）使用 Botim，偏好接收本地语言的新闻与热点内容。</li>
+                            <li>适合语言适配与本地化推荐。</li>
                         </ul>
                     </td>
                 </tr>
@@ -1013,7 +1060,329 @@
         <h2><span class="emoji">🔍</span> <span class="lang-en">Demo</span><span class="lang-zh">演示</span></h2>
         <p class="lang-en">Check out our interactive prototype:</p>
         <p class="lang-zh">查看我们的交互式原型:</p>
-        <a href="https://news-kappa-henna.vercel.app/news.html" class="demo-link"><span class="lang-en">View Demo</span><span class="lang-zh">查看演示</span></a>
+        <a href="../prototype/news-list.html" class="demo-link"><span class="lang-en">View Demo</span><span class="lang-zh">查看演示</span></a>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">💰</span> <span class="lang-en">API Pricing Tiers</span><span class="lang-zh">API定价层级</span></h2>
+        
+        <p class="lang-en">
+            The Xinwen News API is priced according to usage volume, with different tiers to accommodate various needs from development to enterprise levels.
+        </p>
+        <p class="lang-zh">
+            
+        </p>
+        
+        <style>
+            .pricing-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                border-radius: 8px;
+                overflow: hidden;
+                font-size: 14px;
+            }
+            .pricing-table th {
+                background-color: #3366FF;
+                color: white;
+                padding: 12px 15px;
+                text-align: left;
+            }
+            .pricing-table td {
+                padding: 12px 15px;
+                border-bottom: 1px solid #eaeaea;
+            }
+            .pricing-table tr:last-child td {
+                border-bottom: none;
+            }
+            .pricing-table tr:nth-child(even) {
+                background-color: #f8f9fa;
+            }
+            .pricing-table tr:nth-child(odd) {
+                background-color: white;
+            }
+            .price {
+                font-size: 24px;
+                font-weight: bold;
+                color: #333;
+            }
+            .price-unit {
+                font-size: 14px;
+                color: #666;
+            }
+            .plan-name {
+                font-weight: bold;
+                color: #3366FF;
+                font-size: 18px;
+            }
+            .toggle-container {
+                text-align: center;
+                margin: 20px 0;
+            }
+            .toggle-switch {
+                position: relative;
+                display: inline-block;
+                width: 60px;
+                height: 34px;
+                margin: 0 10px;
+            }
+            .toggle-switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+            .toggle-slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                transition: .4s;
+                border-radius: 34px;
+            }
+            .toggle-slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                transition: .4s;
+                border-radius: 50%;
+            }
+            input:checked + .toggle-slider {
+                background-color: #3366FF;
+            }
+            input:checked + .toggle-slider:before {
+                transform: translateX(26px);
+            }
+            .toggle-label {
+                display: inline-block;
+                vertical-align: middle;
+                font-weight: bold;
+            }
+            .yearly-discount {
+                background-color: #f0f7ff;
+                color: #3366FF;
+                padding: 2px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+                font-weight: bold;
+                margin-left: 8px;
+            }
+            .feature-list {
+                padding-left: 20px;
+                margin: 5px 0;
+                list-style-type: none;
+            }
+            .feature-list li {
+                margin-bottom: 5px;
+                position: relative;
+            }
+            .feature-list li:before {
+                content: "✓";
+                color: #3366FF;
+                font-weight: bold;
+                position: absolute;
+                left: -15px;
+            }
+            .cta-button {
+                display: inline-block;
+                background-color: #3366FF;
+                color: white;
+                padding: 8px 15px;
+                border-radius: 5px;
+                text-decoration: none;
+                font-weight: bold;
+                text-align: center;
+                width: 100%;
+                box-sizing: border-box;
+                transition: background-color 0.2s;
+            }
+            .cta-button:hover {
+                background-color: #2952cc;
+                text-decoration: none;
+            }
+        </style>
+
+        <div class="toggle-container lang-en">
+            <span class="toggle-label">Monthly</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="billingToggle">
+                <span class="toggle-slider"></span>
+            </label>
+            <span class="toggle-label">Yearly <span class="yearly-discount">20% OFF</span></span>
+        </div>
+
+        <div class="toggle-container lang-zh">
+            
+        </div>
+        
+        <table class="pricing-table lang-en">
+            <thead>
+                <tr>
+                    <th>Plan</th>
+                    <th>Developer</th>
+                    <th>Business</th>
+                    <th>Advanced</th>
+                    <th>Enterprise</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Price</strong></td>
+                    <td>
+                        <div class="price">$0</div>
+                        <div class="price-unit">Free</div>
+                    </td>
+                    <td>
+                        <div class="price" id="businessPrice">$449</div>
+                        <div class="price-unit">per month, billed monthly</div>
+                    </td>
+                    <td>
+                        <div class="price" id="advancedPrice">$1,749</div>
+                        <div class="price-unit">per month, billed monthly</div>
+                    </td>
+                    <td>
+                        <div class="plan-name">Contact us</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Description</strong></td>
+                    <td>For development and testing of all project types.</td>
+                    <td>For production and published commercial projects.</td>
+                    <td>For larger projects that require exceptional resources.</td>
+                    <td>For enterprise projects that require premium data or bespoke solutions.</td>
+                </tr>
+                <tr>
+                    <td><strong>API Requests</strong></td>
+                    <td>100 requests per day</td>
+                    <td>250,000 requests per month included</td>
+                    <td>2,000,000 requests per month included</td>
+                    <td>Unlimited requests</td>
+                </tr>
+                <tr>
+                    <td><strong>Overage</strong></td>
+                    <td>No extra requests available</td>
+                    <td>$0.0018 per extra request</td>
+                    <td>$0.0009 per extra request</td>
+                    <td>Add sources on demand</td>
+                </tr>
+                <tr>
+                    <td><strong>Historical Data</strong></td>
+                    <td>Search articles up to a month old</td>
+                    <td>Search articles up to 5 years old</td>
+                    <td>Search articles up to 5 years old</td>
+                    <td>Article & story clustering</td>
+                </tr>
+                <tr>
+                    <td><strong>Data Freshness</strong></td>
+                    <td>Articles have a 24 hour delay</td>
+                    <td>New articles available in real-time</td>
+                    <td>New articles available in real-time</td>
+                    <td>New articles available in real-time</td>
+                </tr>
+                <tr>
+                    <td><strong>CORS Support</strong></td>
+                    <td>CORS enabled for localhost</td>
+                    <td>CORS enabled for all origins</td>
+                    <td>CORS enabled for all origins</td>
+                    <td>CORS enabled for all origins</td>
+                </tr>
+                <tr>
+                    <td><strong>SLA & Support</strong></td>
+                    <td>No uptime SLA<br>Basic support</td>
+                    <td>No uptime SLA<br>Email support</td>
+                    <td>99.95% uptime SLA<br>Priority email support</td>
+                    <td>Custom SLA & dedicated chat</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <table class="pricing-table lang-zh">
+            <thead>
+                <tr>
+                    <th>方案</th>
+                    <th>开发者版</th>
+                    <th>商业版</th>
+                    <th>高级版</th>
+                    <th>企业版</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>价格</strong></td>
+                    <td>
+                        <div class="price">¥0</div>
+                        <div class="price-unit">免费</div>
+                    </td>
+                    <td>
+                        <div class="price" id="businessPriceZh">¥3,000</div>
+                        <div class="price-unit">每月，按月计费</div>
+                    </td>
+                    <td>
+                        <div class="price" id="advancedPriceZh">¥12,000</div>
+                        <div class="price-unit">每月，按月计费</div>
+                    </td>
+                    <td>
+                        <div class="plan-name">联系我们</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>说明</strong></td>
+                    <td>适用于各种项目类型的开发和测试。</td>
+                    <td>适用于生产和已发布的商业项目。</td>
+                    <td>适用于需要大量资源的较大项目。</td>
+                    <td>适用于需要高级数据或定制解决方案的企业项目。</td>
+                </tr>
+                <tr>
+                    <td><strong>API请求</strong></td>
+                    <td>每天100个请求</td>
+                    <td>每月包含250,000个请求</td>
+                    <td>每月包含2,000,000个请求</td>
+                    <td>无限请求</td>
+                </tr>
+                <tr>
+                    <td><strong>超额使用</strong></td>
+                    <td>不可用额外请求</td>
+                    <td>每额外请求¥0.012</td>
+                    <td>每额外请求¥0.006</td>
+                    <td>按需添加数据源</td>
+                </tr>
+                <tr>
+                    <td><strong>历史数据</strong></td>
+                    <td>搜索最多一个月前的文章</td>
+                    <td>搜索最多5年前的文章</td>
+                    <td>搜索最多5年前的文章</td>
+                    <td>文章和故事聚类</td>
+                </tr>
+                <tr>
+                    <td><strong>数据新鲜度</strong></td>
+                    <td>文章有24小时延迟</td>
+                    <td>实时提供新文章</td>
+                    <td>实时提供新文章</td>
+                    <td>实时提供新文章</td>
+                </tr>
+                <tr>
+                    <td><strong>CORS支持</strong></td>
+                    <td>为localhost启用CORS</td>
+                    <td>为所有来源启用CORS</td>
+                    <td>为所有来源启用CORS</td>
+                    <td>为所有来源启用CORS</td>
+                </tr>
+                <tr>
+                    <td><strong>SLA和支持</strong></td>
+                    <td>无运行时间SLA<br>基础支持</td>
+                    <td>无运行时间SLA<br>电子邮件支持</td>
+                    <td>99.95%运行时间SLA<br>优先电子邮件支持</td>
+                    <td>自定义SLA和专属聊天</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <script>
@@ -1065,6 +1434,72 @@
             modal.addEventListener('click', function(e) {
                 if (e.target === modal) {
                     modal.style.display = 'none';
+                }
+            });
+            
+            // Billing toggle functionality
+            const billingToggle = document.getElementById('billingToggle');
+            const billingToggleZh = document.getElementById('billingToggleZh');
+            const businessPrice = document.getElementById('businessPrice');
+            const advancedPrice = document.getElementById('advancedPrice');
+            const businessPriceZh = document.getElementById('businessPriceZh');
+            const advancedPriceZh = document.getElementById('advancedPriceZh');
+            
+            // Original monthly prices
+            const businessMonthly = 449;
+            const advancedMonthly = 1749;
+            const businessMonthlyZh = 3000;
+            const advancedMonthlyZh = 12000;
+            
+            // Calculate yearly prices (20% discount)
+            const businessYearly = Math.round(businessMonthly * 0.8);
+            const advancedYearly = Math.round(advancedMonthly * 0.8);
+            const businessYearlyZh = Math.round(businessMonthlyZh * 0.8);
+            const advancedYearlyZh = Math.round(advancedMonthlyZh * 0.8);
+            
+            // English toggle
+            billingToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    // Yearly pricing
+                    businessPrice.textContent = '$' + businessYearly;
+                    advancedPrice.textContent = '$' + advancedYearly;
+                    
+                    // Update billing text
+                    const priceUnits = document.querySelectorAll('.pricing-table.lang-en .price-unit');
+                    priceUnits[1].textContent = 'per month, billed annually';
+                    priceUnits[2].textContent = 'per month, billed annually';
+                } else {
+                    // Monthly pricing
+                    businessPrice.textContent = '$' + businessMonthly;
+                    advancedPrice.textContent = '$' + advancedMonthly;
+                    
+                    // Update billing text
+                    const priceUnits = document.querySelectorAll('.pricing-table.lang-en .price-unit');
+                    priceUnits[1].textContent = 'per month, billed monthly';
+                    priceUnits[2].textContent = 'per month, billed monthly';
+                }
+            });
+            
+            // Chinese toggle
+            billingToggleZh.addEventListener('change', function() {
+                if (this.checked) {
+                    // Yearly pricing
+                    businessPriceZh.textContent = '¥' + businessYearlyZh;
+                    advancedPriceZh.textContent = '¥' + advancedYearlyZh;
+                    
+                    // Update billing text
+                    const priceUnits = document.querySelectorAll('.pricing-table.lang-zh .price-unit');
+                    priceUnits[1].textContent = '每月，按年计费';
+                    priceUnits[2].textContent = '每月，按年计费';
+                } else {
+                    // Monthly pricing
+                    businessPriceZh.textContent = '¥' + businessMonthlyZh;
+                    advancedPriceZh.textContent = '¥' + advancedMonthlyZh;
+                    
+                    // Update billing text
+                    const priceUnits = document.querySelectorAll('.pricing-table.lang-zh .price-unit');
+                    priceUnits[1].textContent = '每月，按月计费';
+                    priceUnits[2].textContent = '每月，按月计费';
                 }
             });
         });
