@@ -44,6 +44,7 @@
         }
         .emoji {
             margin-right: 8px;
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
         }
         .section {
             margin-bottom: 30px;
@@ -80,6 +81,7 @@
         .use-case-table td {
             padding: 12px 15px;
             border-bottom: 1px solid #eaeaea;
+            word-break: break-word;
         }
         .use-case-table tr:last-child td {
             border-bottom: none;
@@ -94,6 +96,7 @@
             font-size: 24px;
             margin-right: 10px;
             vertical-align: middle;
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
         }
         /* Language switcher styles */
         .language-switcher {
@@ -116,6 +119,10 @@
         .language-btn:hover {
             background-color: #2952cc;
         }
+        .language-btn:focus {
+            outline: 2px solid #2952cc;
+            outline-offset: 2px;
+        }
         /* Header container for positioning */
         .header-container {
             position: relative;
@@ -129,12 +136,12 @@
         .timeline-wrapper {
             margin: 40px 0;
             padding: 20px 0;
-            overflow-x: visible;
             position: relative;
             width: 100%;
+            overflow-x: auto;
         }
         .timeline-container {
-            margin: 100px 0 180px; /* 增加上下边距，确保有足够空间显示标签 */
+            margin: 100px 0 180px;
             position: relative;
             width: 100%;
             min-height: 250px;
@@ -143,10 +150,11 @@
             height: 8px;
             background-color: #e0e0e0;
             position: relative;
-            margin: 0 80px; /* 增加左右边距 */
+            margin: 0 80px;
             border-radius: 4px;
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-            min-width: 1000px; /* 确保时间轴足够长 */
+            width: calc(100% - 160px);
+            max-width: 1000px;
         }
         .timeline-progress {
             position: absolute;
@@ -199,12 +207,12 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             z-index: 3;
         }
-        /* 偶数里程碑将描述放在下方，奇数里程碑放在上方，避免重叠 */
+        /* 调整里程碑描述位置，避免重叠 */
         .milestone:nth-child(odd) .milestone-description {
             top: 35px;
         }
         .milestone:nth-child(even) .milestone-description {
-            bottom: 80px; /* 增加下方空间 */
+            bottom: 80px;
             top: auto;
         }
         .milestone-description {
@@ -228,10 +236,11 @@
         }
         .timeline-month-labels {
             position: relative;
-            margin: 20px 80px; /* 保持与时间轴同样的边距 */
+            margin: 20px 80px;
             display: flex;
             justify-content: space-between;
-            min-width: 1000px; /* 保持与时间轴同样的宽度 */
+            width: calc(100% - 160px);
+            max-width: 1000px;
         }
         .timeline-month {
             color: #666;
@@ -239,42 +248,16 @@
             text-transform: uppercase;
             font-weight: 500;
         }
-        /* 整个可滚动区域的CSS调整 */
+        /* 响应式调整 */
         @media (max-width: 1100px) {
             .timeline-container {
                 margin-bottom: 200px;
-                overflow-x: auto;
                 padding-bottom: 40px;
-                -webkit-overflow-scrolling: touch; /* 提高iOS滚动体验 */
+                -webkit-overflow-scrolling: touch;
             }
             .timeline-wrapper {
                 overflow-x: auto;
                 padding: 20px 0 40px;
-                margin-left: -20px;
-                margin-right: -20px;
-                width: calc(100% + 40px);
-            }
-            /* 添加水平内边距避免边缘裁剪 */
-            .timeline-wrapper:before,
-            .timeline-wrapper:after {
-                content: "";
-                display: block;
-                width: 20px;
-                height: 1px;
-                position: absolute;
-                top: 0;
-            }
-            .timeline-wrapper:before {
-                left: 0;
-            }
-            .timeline-wrapper:after {
-                right: 0;
-            }
-            .timeline-bar {
-                min-width: 1000px; /* 确保在小屏幕上有足够空间 */
-            }
-            .timeline-month-labels {
-                min-width: 1000px;
             }
             .milestone-description {
                 width: 160px;
@@ -283,28 +266,107 @@
                 padding: 8px 12px;
             }
         }
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 24px;
+                margin-top: 20px;
+                padding-right: 70px; /* 为语言切换按钮留出空间 */
+            }
+            h2 {
+                font-size: 20px;
+            }
+            .language-switcher {
+                top: 15px;
+                right: 15px;
+            }
+            .timeline-bar, 
+            .timeline-month-labels {
+                margin: 0 40px;
+                width: calc(100% - 80px);
+            }
+            .milestone-description {
+                width: 140px;
+                max-width: 140px;
+            }
+        }
         @media (max-width: 480px) {
             .timeline-container {
                 margin-bottom: 220px;
             }
             .milestone-description {
-                width: 140px;
-                max-width: 140px;
+                width: 120px;
+                max-width: 120px;
                 font-size: 12px;
                 padding: 6px 10px;
             }
             .milestone-label {
                 font-size: 12px;
                 padding: 4px 8px;
+                white-space: normal;
+                width: 80px;
+                text-align: center;
+            }
+            .use-case-table th,
+            .use-case-table td {
+                padding: 8px 10px;
             }
         }
+        /* 适应语言切换的样式调整 */
+        .lang-zh {
+            display: none;
+        }
+        .lang-zh.block-level {
+            display: block;
+        }
+        /* 无障碍支持 */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        /* 无JavaScript支持 */
+        .no-js-message {
+            display: none;
+        }
+        .no-js .no-js-message {
+            display: block;
+            padding: 15px;
+            margin: 15px 0;
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            color: #856404;
+        }
     </style>
+    <noscript>
+        <style>
+            .lang-zh {
+                display: block !important;
+            }
+            .language-switcher {
+                display: none;
+            }
+        </style>
+    </noscript>
 </head>
 <body>
+    <div class="no-js-message">
+        <p class="lang-en">Please enable JavaScript for the best experience and to use the language switcher.</p>
+        <p class="lang-zh">请启用JavaScript以获得最佳体验并使用语言切换器。</p>
+    </div>
+    
     <div class="header-container">
         <h1><span class="emoji">📱</span> <span class="lang-en">MoEngage Integration - PRD</span><span class="lang-zh">MoEngage 集成 - 产品需求文档</span></h1>
         <div class="language-switcher">
-            <button class="language-btn" id="langToggle">中文</button>
+            <button class="language-btn" id="langToggle" aria-label="Switch language">中文</button>
         </div>
     </div>
 
@@ -316,6 +378,42 @@
         <p class="lang-zh">
             MoEngage 集成是一个全面的用户参与平台实施项目，旨在增强 BOTIM 的用户参与度和推送通知功能。该集成将专门针对阿联酋用户，遵守 1200 万月活跃用户的合同限制。MoEngage 将用于用户参与、推送通知和个性化内容交付，提供强大的系统来跟踪事件、发送通知、交付自定义卡片和触发 API 调用。
         </p>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">🔄</span> <span class="lang-en">System Architecture</span><span class="lang-zh">系统架构</span></h2>
+        <p class="lang-en">
+            The diagram below illustrates the integration architecture between BOTIM and MoEngage, showing data flows and key component interactions:
+        </p>
+        <p class="lang-zh">
+            下图展示了BOTIM与MoEngage之间的集成架构，显示了数据流和关键组件交互:
+        </p>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <img src="/assets/images/moengage.png" alt="MoEngage System Flow" style="max-width: 100%; height: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px;">
+        </div>
+        
+        <div class="highlight lang-en">
+            <p><strong>Key Interactions:</strong></p>
+            <ul>
+                <li>Botim Service sends events to Amplitude for analytics and user tracking</li>
+                <li>Amplitude processes user data and forwards tracking data to MoEngage</li>
+                <li>MoEngage enables personalized communications through push notifications, SMS, email, and custom cards</li>
+                <li>MoEngage can trigger BOTIM Open API calls and export user cohorts to Botim CRM Admin</li>
+                <li>The system handles promotions and rewards for targeted user engagement</li>
+            </ul>
+        </div>
+        
+        <div class="highlight lang-zh">
+            <p><strong>关键交互:</strong></p>
+            <ul>
+                <li>Botim服务将事件发送到Amplitude进行分析和用户跟踪</li>
+                <li>Amplitude处理用户数据并将跟踪数据转发到MoEngage</li>
+                <li>MoEngage通过推送通知、短信、电子邮件和自定义卡片实现个性化通信</li>
+                <li>MoEngage可以触发BOTIM开放API调用，并将用户群组导出到Botim CRM管理系统</li>
+                <li>系统处理针对性用户参与的促销和奖励</li>
+            </ul>
+        </div>
     </div>
 
     <div class="section">
@@ -876,11 +974,70 @@
         </div>
 
         <script>
-            // Animate timeline progress after the page loads
+            // 检测JavaScript支持
+            document.documentElement.classList.remove('no-js');
+            document.documentElement.classList.add('js');
+            
+            // 语言切换功能
+            document.addEventListener('DOMContentLoaded', function() {
+                const langToggle = document.getElementById('langToggle');
+                const enElements = document.querySelectorAll('.lang-en');
+                const zhElements = document.querySelectorAll('.lang-zh');
+                
+                // 尝试从localStorage获取语言设置
+                let currentLang = localStorage.getItem('moengageLang') || 'en';
+                
+                // 根据存储的语言设置初始化页面
+                updateLanguageDisplay(currentLang);
+                
+                langToggle.addEventListener('click', function() {
+                    currentLang = currentLang === 'en' ? 'zh' : 'en';
+                    
+                    // 保存语言偏好
+                    localStorage.setItem('moengageLang', currentLang);
+                    
+                    updateLanguageDisplay(currentLang);
+                });
+                
+                // 更新语言显示
+                function updateLanguageDisplay(lang) {
+                    if (lang === 'zh') {
+                        // 切换到中文
+                        enElements.forEach(el => el.style.display = 'none');
+                        zhElements.forEach(el => {
+                            if (el.tagName === 'P' || el.tagName === 'DIV' || el.tagName === 'UL' || el.tagName === 'TABLE') {
+                                el.style.display = 'block';
+                            } else {
+                                el.style.display = 'inline-block';
+                            }
+                        });
+                        langToggle.textContent = 'English';
+                    } else {
+                        // 切换到英文
+                        zhElements.forEach(el => el.style.display = 'none');
+                        enElements.forEach(el => {
+                            if (el.tagName === 'P' || el.tagName === 'DIV' || el.tagName === 'UL' || el.tagName === 'TABLE') {
+                                el.style.display = 'block';
+                            } else {
+                                el.style.display = 'inline-block';
+                            }
+                        });
+                        langToggle.textContent = '中文';
+                    }
+                }
+                
+                // 初始显示设置
+                updateLanguageDisplay(currentLang);
+            });
+            
+            // 时间线进度动画
             document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(function() {
-                    document.getElementById('timelineProgress-en').style.width = '30%';
-                    document.getElementById('timelineProgress-zh').style.width = '30%';
+                    const progressEn = document.getElementById('timelineProgress-en');
+                    const progressZh = document.getElementById('timelineProgress-zh');
+                    
+                    if (progressEn) progressEn.style.width = '30%';
+                    if (progressZh) progressZh.style.width = '30%';
                 }, 500);
             });
         </script>
@@ -1077,38 +1234,8 @@
     <footer style="margin-top: 50px; border-top: 1px solid #ddd; padding-top: 20px; color: #777; font-size: 0.9em;">
         <p class="lang-en">Document Version: 1.0</p>
         <p class="lang-zh">文档版本: 1.0</p>
-        <p class="lang-en">Last Updated: <script>document.write(new Date().toLocaleDateString())</script></p>
-        <p class="lang-zh">最后更新: <script>document.write(new Date().toLocaleDateString())</script></p>
+        <p class="lang-en">Last Updated: <span id="lastUpdated">2023-04-03</span></p>
+        <p class="lang-zh">最后更新: <span id="lastUpdatedZh">2023-04-03</span></p>
     </footer>
-
-    <script>
-        // Language toggle functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const langToggle = document.getElementById('langToggle');
-            const enElements = document.querySelectorAll('.lang-en');
-            const zhElements = document.querySelectorAll('.lang-zh');
-            let currentLang = 'en'; // Default language is English
-            
-            langToggle.addEventListener('click', function() {
-                if (currentLang === 'en') {
-                    // Switch to Chinese
-                    enElements.forEach(el => el.style.display = 'none');
-                    zhElements.forEach(el => el.style.display = 'inline-block');
-                    langToggle.textContent = 'English';
-                    currentLang = 'zh';
-                } else {
-                    // Switch to English
-                    zhElements.forEach(el => el.style.display = 'none');
-                    enElements.forEach(el => el.style.display = 'inline-block');
-                    langToggle.textContent = '中文';
-                    currentLang = 'en';
-                }
-            });
-            
-            // Initialize display
-            zhElements.forEach(el => el.style.display = 'none');
-            enElements.forEach(el => el.style.display = 'inline-block');
-        });
-    </script>
 </body>
 </html> 
