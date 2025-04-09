@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Call Enhancement Features</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            position: relative;
+        }
+        @media (min-width: 1400px) {
+            body {
+                max-width: 80%;
+            }
+            .content-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+            .full-width {
+                grid-column: 1 / span 2;
+            }
+        }
+        h1, h2, h3 {
+            color: #2b579a;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        h1 {
+            font-size: 2.2em;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        h2 {
+            font-size: 1.8em;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 5px;
+        }
+        h3 {
+            font-size: 1.4em;
+        }
+        h4 {
+            font-size: 1.1em;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1em 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        strong {
+            font-weight: bold;
+            color: #2b579a;
+        }
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 5px;
+        }
+        .tag {
+            display: inline-block;
+            background-color: #e0f0ff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #0066cc;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .feature-out {
+            color: #cc0000;
+            font-weight: bold;
+        }
+        .scenario {
+            background-color: #f0f7ff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border-left: 4px solid #2b579a;
+        }
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 12px;
+            background-color: #2b579a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .lang-switch:hover {
+            background-color: #1a3a70;
+            text-decoration: none;
+        }
+        .feature-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .feature-header {
+            background-color: #f0f7ff;
+            padding: 10px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .feature-header h3 {
+            margin: 0;
+            color: #0066cc;
+        }
+        .feature-body {
+            padding: 15px;
+        }
+        .feature-description {
+            background-color: #f5f5f5;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        .pros, .cons {
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        .pros {
+            background-color: #f5fff5;
+        }
+        .pros h4 {
+            color: #00aa55;
+            margin-top: 0;
+        }
+        .cons {
+            background-color: #fff5f5;
+        }
+        .cons h4 {
+            color: #aa0055;
+            margin-top: 0;
+        }
+        .implementation {
+            background-color: #f5f8ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+        .implementation h3 {
+            color: #0066cc;
+            margin-top: 0;
+        }
+        .feature-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .feature-table th {
+            background-color: #f0f7ff;
+            padding: 12px;
+            text-align: left;
+            color: #0066cc;
+            font-weight: bold;
+            border: 1px solid #ddd;
+        }
+        .feature-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+        .feature-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .pros-list, .cons-list {
+            padding-left: 20px;
+            margin: 0;
+        }
+        .pros-title {
+            color: #00aa55;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .cons-title {
+            color: #aa0055;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .feature-name {
+            font-weight: bold;
+            color: #0066cc;
+        }
+        
+        /* Image modal/lightbox styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            z-index: 1001;
+        }
+        
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .preview-image {
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        
+        .preview-image:hover {
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 1100px) {
+            .content-grid {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="video_features_one_pager_zh.html" class="lang-switch">中文</a>
+    
+    <!-- Image Modal/Lightbox -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+    
+    <h1>Video Call Enhancement Features</h1>
+    
+    <div class="content-grid">
+        <div class="full-width">
+            <h2><span class="emoji">🪟</span> Overview</h2>
+            <p>As video calling frequency continues to rise, users increasingly demand visual personalization, privacy protection, and interactive entertainment features. Botim's current video calling experience is relatively basic, lacking mainstream features like background replacement, beauty filters, virtual avatars and other personalization options that users need in social, entertainment, and privacy-focused scenarios.</p>
+            <p>This project aims to enhance Botim's VoIP video calls by implementing visual enhancement features that will improve user experience, increase product differentiation, and drive monetization through membership-exclusive visual assets:</p>
+            <ul>
+                <li><strong>Background Replacement</strong>: Users can protect their privacy by blurring or replacing their background during video calls (requires image segmentation SDK).</li>
+                <li><strong>Beauty Filters</strong>: Users can enhance their appearance with skin smoothing, whitening, face slimming and other adjustable effects (requires video SDK).</li>
+                <li><strong>Video Filters</strong>: Users can apply various style filters like cool/warm tones, vintage effects, etc. (requires GPU rendering).</li>
+                <li><strong>Virtual Avatars</strong>: Users can replace their real appearance with virtual characters during calls (requires Avatar SDK).</li>
+                <li><strong>Avatar Accessories</strong>: Users can add fun decorative elements to their appearance (frontend implementation).</li>
+                <li><strong>Premium Visual Benefits</strong>: Certain filters/avatars/accessories available exclusively to members (requires membership system integration).</li>
+            </ul>
+        </div>
+
+        <div>
+            <h2><span class="emoji">🛸</span> Problem</h2>
+            <ul>
+                <li>Users need more engaging features to increase video call duration, directly impacting advertising revenue potential.</li>
+                <li>Current VoIP solutions lack compelling reasons for users to upgrade to premium memberships.</li>
+                <li>User engagement metrics show declining interest in standard video calls without interactive elements.</li>
+                <li>Competitors are introducing similar features, creating market pressure to innovate.</li>
+            </ul>
+        </div>
+
+        <div>
+            <h2><span class="emoji">🎯</span> Objectives</h2>
+            <ul>
+                <li>Improve video call user experience and differentiate Botim from competitors by implementing visual enhancement features.</li>
+                <li>Increase video call usage duration by 10%.</li>
+                <li>Achieve 10% AR feature usage rate among all active users.</li>
+                <li>Achieve ≥50% usage rate of visual features among members in the month following subscription.</li>
+                <li>Increase non-member conversion rate by ≥3% by using trial features as conversion entry points.</li>
+                <li>Prioritize background replacement and beauty features (P0) for initial release, followed by filters and avatars (P1), with accessories and premium benefits in later phases (P2).</li>
+            </ul>
+        </div>
+
+        <div>
+            <h2><span class="emoji">🚧</span> Constraints</h2>
+            <ul>
+                <li>Only available for video calls; voice calls do not support this feature.</li>
+                <li>AI processing must be done on-device for privacy and low latency.</li>
+                <li>Algorithm optimization is required to support low-end devices with minimal performance impact.</li>
+            </ul>
+        </div>
+
+        <div>
+            <h2><span class="emoji">💁</span> Customer Persona</h2>
+            <div>
+                <p><strong>Persona 1: Business Users</strong></p>
+                <p><span class="tag">📌</span> Need: Use professional backgrounds during remote meetings to improve appearance and privacy.</p>
+            </div>
+            <div>
+                <p><strong>Persona 2: Young Social Users</strong></p>
+                <p><span class="tag">📌</span> Need: Enhance video call fun by using Emoji avatars or filters.</p>
+            </div>
+            <div>
+                <p><strong>Persona 3: Migrant Workers</strong></p>
+                <p><span class="tag">📌</span> Need: Enhance emotional connection when video calling family/children, use background replacement to show better working environment, and add fun elements with avatar accessories when communicating with children.</p>
+            </div>
+        </div>
+    </div>
+
+    <h2><span class="emoji">🧳</span> Use Cases</h2>
+    <div class="scenario">
+        <p><span class="tag">📌</span> <strong>Scenario 1</strong>: A user in a home office replaces their background with a "professional office" setting for a video meeting.</p>
+    </div>
+    <div class="scenario">
+        <p><span class="tag">📌</span> <strong>Scenario 2</strong>: A social user applies an Emoji avatar during a video call for a fun interaction.</p>
+    </div>
+    <div class="scenario">
+        <p><span class="tag">📌</span> <strong>Scenario 3</strong>: A migrant worker uses background replacement to change the view of basic dormitory accommodations to a more pleasant environment, and applies cute avatar accessories when video calling their children to enhance engagement and fun.</p>
+    </div>
+
+    <h2><span class="emoji">🔍</span> Feature Analysis</h2>
+    
+    <table class="feature-table">
+        <thead>
+            <tr>
+                <th width="25%">Feature</th>
+                <th width="55%">Description</th>
+                <th width="20%">Priority</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="feature-name">Background Replacement</td>
+                <td>Real-time segmentation technology separating user from background, supporting blur or virtual image replacement. Protects privacy, creates professional appearance, reduces distractions.</td>
+                <td><strong>P0</strong><br>Core Feature</td>
+            </tr>
+            <tr>
+                <td class="feature-name">Beauty Filters</td>
+                <td>Real-time facial enhancement technology with adjustable skin smoothing, whitening, and face slimming effects. Enhances user confidence and compensates for lighting issues.</td>
+                <td><strong>P0</strong><br>Core Feature</td>
+            </tr>
+            <tr>
+                <td class="feature-name">Video Filters</td>
+                <td>Visual style filters for video calls including cool/warm tones, vintage effects. Creates unique visual moods and enhances low-quality video appearance.</td>
+                <td><strong>P1</strong><br>Extended Feature</td>
+            </tr>
+            <tr>
+                <td class="feature-name">Virtual Avatars</td>
+                <td>Digital avatar system replacing user's real appearance with virtual characters mimicking facial expressions in real-time. Provides privacy protection and reduces video call fatigue.</td>
+                <td><strong>P1</strong><br>Extended Feature</td>
+            </tr>
+            <tr>
+                <td class="feature-name">Avatar Accessories</td>
+                <td>Decorative elements added to user video including holiday themes and fun elements. Adds interactive fun elements and creates themed experiences.</td>
+                <td><strong>P2</strong><br>Premium Feature</td>
+            </tr>
+            <tr>
+                <td class="feature-name">Premium Visual Benefits</td>
+                <td>System providing exclusive filters, avatars, and accessories to members. Creates membership value, drives conversion from trials, increases revenue potential.</td>
+                <td><strong>P2</strong><br>Premium Feature</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="content-grid">
+        <div class="full-width">
+            <h2><span class="emoji">🔍</span> Competitor Analysis</h2>
+            <table class="feature-table">
+                <thead>
+                    <tr>
+                        <th width="16%">Feature</th>
+                        <th width="12%">Messenger</th>
+                        <th width="12%">WhatsApp</th>
+                        <th width="12%">Telegram</th>
+                        <th width="12%">Snapchat</th>
+                        <th width="12%">FaceTime</th>
+                        <th width="12%">TikTok</th>
+                        <th width="12%">Botim (Current)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="feature-name">Background Replacement</td>
+                        <td>✅ Virtual backgrounds (Rooms)</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅ Background blur</td>
+                        <td>✅ (Livestreams)</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Virtual Avatars</td>
+                        <td>✅ Avatar mode</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅ Bitmoji</td>
+                        <td>✅ Memoji</td>
+                        <td>✅ 3D Avatar</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Avatar Accessories</td>
+                        <td>✅ Fun filters</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅ Extensive</td>
+                        <td>❌</td>
+                        <td>✅ Dynamic accessories</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Video Filters</td>
+                        <td>✅ Various filters</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅ Advanced</td>
+                        <td>✅ Soft focus</td>
+                        <td>✅ Various styles</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Beauty Filters</td>
+                        <td>✅ (Basic)</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅ Whitening, face slimming</td>
+                        <td>✅ Light beautification</td>
+                        <td>✅ Advanced beautification</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Premium Visual Benefits</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="font-style: italic; margin-top: 10px;">The competitor analysis reveals a significant opportunity for Botim to differentiate by implementing these visual enhancement features. Most messaging apps lack comprehensive video enhancement capabilities, and Botim can gain competitive advantage especially against WhatsApp and Telegram which offer no such features.</p>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="full-width">
+            <h2><span class="emoji">🗺️</span> Feature Roadmap</h2>
+            <div style="background-color: #f0f7ff; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="margin-top: 0; color: #0066cc;">V1.0 - Core Features (P0)</h3>
+                <ul>
+                    <li><strong>Background Replacement</strong> - Background blur and virtual background options (Requires image segmentation SDK)</li>
+                    <li><strong>Beauty Filters</strong> - Skin smoothing, whitening, face slimming with adjustable controls (Requires video SDK)</li>
+                </ul>
+            </div>
+            
+            <div style="background-color: #f0f9f0; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="margin-top: 0; color: #00aa55;">V1.1 - Extended Features (P1)</h3>
+                <ul>
+                    <li><strong>Video Filters</strong> - Multiple style filters like cool/warm tones, vintage effects (Requires GPU rendering)</li>
+                    <li><strong>Virtual Avatars</strong> - Virtual characters to replace real appearance during calls (Requires Avatar SDK)</li>
+                </ul>
+            </div>
+            
+            <div style="background-color: #fff5f0; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="margin-top: 0; color: #e67e22;">V1.2 - Premium Features (P2)</h3>
+                <ul>
+                    <li><strong>Avatar Accessories</strong> - Holiday/fun/decorative elements for avatars (Frontend implementation)</li>
+                    <li><strong>Premium Visual Benefits</strong> - Member-exclusive filters/avatars/accessories (Requires membership system integration)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="full-width">
+            <h2><span class="emoji">📄</span> PRD</h2>
+
+            <h3><span class="emoji">↗️</span> Features In</h3>
+            <p>The following features will be implemented to ensure quality, stability, and to gather user feedback:</p>
+        </div>
+        
+        <div class="full-width">
+            <h4 style="background-color: #eef6ff; padding: 8px 12px; border-radius: 6px; display: inline-block;">All Features</h4>
+            <p style="margin-top: 5px; margin-bottom: 10px; font-style: italic; color: #555;">Note: Features marked with <span style="background-color: #ffe8d6; color: #d35400; padding: 2px 5px; border-radius: 3px; font-size: 0.8em;">Premium</span> require subscription and are exclusive to VoIP users.</p>
+            <table>
+                <tr>
+                    <th width="25%">Feature</th>
+                    <th width="50%">Details</th>
+                    <th width="25%">Interactive Prototype</th>
+                </tr>
+                <tr>
+                    <td><strong>Background Blur & Replacement</strong></td>
+                    <td>
+                        <strong>Given</strong>: The user is in a video call (pre-call or in-call)<br>
+                        <strong>When</strong>: The user clicks the "Background" button and selects "Blur" or a preset image<br>
+                        <strong>Then</strong>: The user's background is either blurred with adjustable intensity or replaced with the selected preset in real-time.
+                    </td>
+                    <td><a href="../prototype/video-filters.html" target="_blank">Try it now</a><br><img src="../assets/images/voip-bacground.png" alt="Background feature" class="preview-image" style="width: 100%; margin-top: 10px;" title="Click to view larger image" onclick="openModal('../assets/images/voip-bacground.png')"></td>
+                </tr>
+                <tr>
+                    <td><strong>Basic Beauty Filters</strong></td>
+                    <td>
+                        <strong>Given</strong>: The user is in a video call (pre-call or in-call)<br>
+                        <strong>When</strong>: The user selects the "Beauty" filter<br>
+                        <strong>Then</strong>: Basic skin smoothing and lighting enhancement are applied with adjustable intensity.
+                    </td>
+                    <td><a href="../prototype/video-filters.html" target="_blank">Try it now</a><br><img src="../assets/images/voip-beauty.png" alt="Beauty Filters" class="preview-image" style="width: 100%; margin-top: 10px;" title="Click to view larger image" onclick="openModal('../assets/images/voip-beauty.png')"></td>
+                </tr>
+                <tr>
+                    <td><strong>Visual Filters</strong></td>
+                    <td>
+                        <strong>Given</strong>: The user has access to the beauty filter<br>
+                        <strong>When</strong>: The user selects "Visual Filters"<br>
+                        <strong>Then</strong>: The user can apply artistic filters (B&W, sepia, vintage, etc.) to their entire video.
+                    </td>
+                    <td><a href="../prototype/video-filters.html" target="_blank">Try it now</a><br><img src="../assets/images/voip-filters.png" alt="Visual Filters" class="preview-image" style="width: 100%; margin-top: 10px;" title="Click to view larger image" onclick="openModal('../assets/images/voip-filters.png')"></td>
+                </tr>
+                <tr>
+                    <td><strong>AR Effects</strong></td>
+                    <td>
+                        <strong>Given</strong>: The user is in a video call<br>
+                        <strong>When</strong>: The user selects the "AR Effects" option<br>
+                        <strong>Then</strong>: The user can apply basic AR effects (hats, glasses, frames) that follow their movements, as well as some simple animated effects.
+                    </td>
+                    <td><a href="../prototype/video-filters.html" target="_blank">Try it now</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Emoji Avatar</strong></td>
+                    <td>
+                        <strong>Given</strong>: The user is in a video call<br>
+                        <strong>When</strong>: The user selects "Emoji Avatar" and chooses a character<br>
+                        <strong>Then</strong>: The user's video feed is replaced with an animated avatar that mimics their facial expressions.
+                    </td>
+                    <td><a href="../prototype/video-filters.html" target="_blank">Try it now</a><br><img src="../assets/images/voip-emoji.png" alt="Emoji Avatar" class="preview-image" style="width: 100%; margin-top: 10px;" title="Click to view larger image" onclick="openModal('../assets/images/voip-emoji.png')"></td>
+                </tr>
+                <tr>
+                    <td><strong>Gift Giving</strong></td>
+                    <td>
+                        <strong>Given</strong>: The user is in a video call<br>
+                        <strong>When</strong>: The user clicks the "Send Gift" button<br>
+                        <strong>Then</strong>: Random gift animations (like fireworks) appear as an overlay to both parties for approximately 5 seconds.
+                    </td>
+                    <td><a href="../prototype/voip.html" target="_blank">Try it now</a><br><img src="../assets/images/voip-gift.png" alt="Gift Giving" class="preview-image" style="width: 100%; margin-top: 10px;" title="Click to view larger image" onclick="openModal('../assets/images/voip-gift.png')"></td>
+                </tr>
+                <tr>
+                    <td><strong>Custom Background Upload</strong></td>
+                    <td>
+                        <strong>Given</strong>: The user has access to preset backgrounds<br>
+                        <strong>When</strong>: The user clicks "Upload Custom Background"<br>
+                        <strong>Then</strong>: The user can upload and use their own images as video backgrounds.
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>Premium Backgrounds</strong> <span style="background-color: #ffe8d6; color: #d35400; padding: 2px 5px; border-radius: 3px; font-size: 0.8em;">Premium</span></td>
+                    <td>
+                        <strong>Given</strong>: The user has a premium subscription<br>
+                        <strong>When</strong>: The user accesses the background library<br>
+                        <strong>Then</strong>: The user can access a collection of high-quality, professionally designed static and animated backgrounds.
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>Premium AR Effects</strong> <span style="background-color: #ffe8d6; color: #d35400; padding: 2px 5px; border-radius: 3px; font-size: 0.8em;">Premium</span></td>
+                    <td>
+                        <strong>Given</strong>: The user has a premium subscription<br>
+                        <strong>When</strong>: The user selects "Premium Effects"<br>
+                        <strong>Then</strong>: The user can access exclusive AR effects with complex animations, interactive elements, scene effects, and special theme packs.
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>Premium Avatars</strong> <span style="background-color: #ffe8d6; color: #d35400; padding: 2px 5px; border-radius: 3px; font-size: 0.8em;">Premium</span></td>
+                    <td>
+                        <strong>Given</strong>: The user has a premium subscription<br>
+                        <strong>When</strong>: The user accesses the avatar selection menu<br>
+                        <strong>Then</strong>: The user can access additional high-quality avatar options, including branded characters, celebrity-style avatars, and fully customizable avatars.
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>Premium Gifts</strong> <span style="background-color: #ffe8d6; color: #d35400; padding: 2px 5px; border-radius: 3px; font-size: 0.8em;">Premium</span></td>
+                    <td>
+                        <strong>Given</strong>: The user has a premium subscription<br>
+                        <strong>When</strong>: The user accesses the gift selection menu<br>
+                        <strong>Then</strong>: The user can access special high-quality gift animations with 3D effects, personalized messages, sound effects, and seasonal/holiday-themed gifts.
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>Interactive Games</strong> <span style="background-color: #ffe8d6; color: #d35400; padding: 2px 5px; border-radius: 3px; font-size: 0.8em;">Premium</span></td>
+                    <td>
+                        <strong>Given</strong>: The user has a premium subscription<br>
+                        <strong>When</strong>: The user selects "Games" from the call menu<br>
+                        <strong>Then</strong>: The user can invite the other party to play simple interactive games during the call, such as tic-tac-toe, drawing challenges, and word games, creating a shared fun experience.
+                    </td>
+                    <td><a href="../prototype/voip.html" target="_blank">Try it now</a><br><img src="../assets/images/voip-game.png" alt="Interactive Games" class="preview-image" style="width: 100%; margin-top: 10px;" title="Click to view larger image" onclick="openModal('../assets/images/voip-game.png')"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div>
+            <h3><span class="emoji">📤</span> Features Out</h3>
+            <ul>
+                <li><span class="feature-out">❌</span> Avatar effects for voice calls.</li>
+                <li><span class="feature-out">❌</span> Cloud-based processing (all effects are processed on-device).</li>
+                <li><span class="feature-out">❌</span> Advanced 3D AR effects (planned for future iterations).</li>
+                <li><span class="feature-out">❌</span> Face swap functionality due to potential privacy and ethical concerns.</li>
+                <li><span class="feature-out">❌</span> Premium features for non-VoIP calls (premium features are exclusive to VoIP).</li>
+            </ul>
+        </div>
+
+        <div class="full-width">
+            <h2><span class="emoji">💲</span> Pricing</h2>
+            <table class="feature-table">
+                <thead>
+                    <tr>
+                        <th width="15%">Function Group</th>
+                        <th width="25%">Feature</th>
+                        <th width="8%">Number</th>
+                        <th width="12%">Price (USD)</th>
+                        <th width="28%">Note</th>
+                        <th width="12%">Price (USD)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="4">Beauty Effects</td>
+                        <td>Buffing</td>
+                        <td>1</td>
+                        <td rowspan="4">$40,000</td>
+                        <td rowspan="4">Included in Lite Package</td>
+                        <td rowspan="4">$40,000</td>
+                    </tr>
+                    <tr>
+                        <td>Toning</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Sharpening</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Clarity</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Filter</td>
+                        <td>Select 10 filters from the test resources</td>
+                        <td>10</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Virtual Background</td>
+                        <td>Virtual Background</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="11">Avatar Drives</td>
+                        <td>Aviod bloopers 1</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td rowspan="11">Add-on feature Avatar drives: Detect face landmarks and expressions, nice and eyeball motions, Give Avatar to minor facial movements.<br>Provide 11 pre-built avatar characters.</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td>Aviod bloopers 2</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td>Boy Avatar</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td>Girl Avatar</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td>Rainbow piggy</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td>Pink poop</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td>Cutie piggy</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td>Cat-ear girl</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td>Pug</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td>Pigeon coos</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td>Shining ice-cream</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">Total price</td>
+                        <td>$143,400</td>
+                        <td></td>
+                        <td>$143,400</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">One year discount</td>
+                        <td>30% off</td>
+                        <td></td>
+                        <td>$100,380</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">3 years discount</td>
+                        <td>45% off</td>
+                        <td></td>
+                        <td>$78,610</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Image modal functionality
+        function openModal(imageSrc) {
+            var modal = document.getElementById("imageModal");
+            var modalImg = document.getElementById("modalImage");
+            modal.style.display = "block";
+            modalImg.src = imageSrc;
+        }
+        
+        var closeModal = document.getElementsByClassName("close-modal")[0];
+        closeModal.onclick = function() {
+            document.getElementById("imageModal").style.display = "none";
+        }
+        
+        window.onclick = function(event) {
+            var modal = document.getElementById("imageModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html> 

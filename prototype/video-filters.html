@@ -811,6 +811,162 @@
             display: flex;
             flex-direction: column;
         }
+
+        /* VIP indicator styles */
+        .vip-indicator {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 4px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            z-index: 52; /* Increased z-index to ensure visibility */
+            pointer-events: none; /* Make sure it doesn't block clicks */
+        }
+        
+        /* Beauty option specific positioning for VIP indicator */
+        .beauty-option .vip-indicator {
+            display: block !important; /* Force display */
+            opacity: 1 !important; /* Force opacity */
+            visibility: visible !important; /* Force visibility */
+        }
+
+        /* VIP popup styles */
+        .vip-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .vip-popup.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .vip-content {
+            background: linear-gradient(145deg, #222, #333);
+            width: 80%;
+            max-width: 350px;
+            border-radius: 20px;
+            padding: 25px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        .vip-popup.active .vip-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .vip-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .vip-description {
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .vip-price {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #FFD700;
+        }
+
+        .vip-button {
+            background: linear-gradient(90deg, #FFD700, #FFA500);
+            color: #111;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .vip-button:active {
+            transform: scale(0.95);
+        }
+
+        .vip-button:hover {
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .vip-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+
+        .vip-close:hover {
+            opacity: 1;
+        }
+
+        .vip-features {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .vip-feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .vip-feature i {
+            color: #FFD700;
+            margin-right: 10px;
+        }
+
+        /* Parent containers positioning */
+        .filter-option, .emoji-option, .effect-option, .beauty-option {
+            position: relative !important;
+        }
+        
+        /* Remove the old vip-indicator class that might be causing issues */
+        .vip-indicator {
+            display: none !important;
+        }
+        
+        /* Force display of all options containers to ensure visibility */
+        .effects-selector, .emoji-selector, .beauty-selector {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
     </style>
 </head>
 <body>
@@ -881,11 +1037,13 @@
                         <div class="filter-option flower-bg" data-filter="flower">
                             <i class="fas fa-sun" style="color: white;"></i>
                         </div>
-                        <div class="filter-option bug-bg" data-filter="bug">
+                        <div class="filter-option bug-bg vip-effect" data-filter="bug">
                             <i class="fas fa-water" style="color: white;"></i>
+                            <span style="position: absolute; top: -5px; right: -5px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; font-size: 10px; font-weight: bold; padding: 2px 4px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); z-index: 999; pointer-events: none;">VIP</span>
                         </div>
-                        <div class="filter-option heart-bg" data-filter="heart">
+                        <div class="filter-option heart-bg vip-effect" data-filter="heart">
                             <i class="fas fa-heart" style="color: white;"></i>
+                            <span style="position: absolute; top: -5px; right: -5px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; font-size: 10px; font-weight: bold; padding: 2px 4px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); z-index: 999; pointer-events: none;">VIP</span>
                         </div>
                     </div>
 
@@ -896,8 +1054,12 @@
                         </div>
                         <div class="emoji-option" data-emoji="😊">😊</div>
                         <div class="emoji-option" data-emoji="🤖">🤖</div>
-                        <div class="emoji-option" data-emoji="👽">👽</div>
-                        <div class="emoji-option" data-emoji="🦊">🦊</div>
+                        <div class="emoji-option vip-effect" data-emoji="👽">👽
+                            <span style="position: absolute; top: -5px; right: -5px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; font-size: 10px; font-weight: bold; padding: 2px 4px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); z-index: 999; pointer-events: none;">VIP</span>
+                        </div>
+                        <div class="emoji-option vip-effect" data-emoji="🦊">🦊
+                            <span style="position: absolute; top: -5px; right: -5px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; font-size: 10px; font-weight: bold; padding: 2px 4px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); z-index: 999; pointer-events: none;">VIP</span>
+                        </div>
                     </div>
 
                     <!-- Filter effects options -->
@@ -911,11 +1073,13 @@
                         <div class="effect-option" data-effect="coolblue">
                             <i class="fas fa-snowflake" style="color: #7ba6de;"></i>
                         </div>
-                        <div class="effect-option" data-effect="warmth">
+                        <div class="effect-option vip-effect" data-effect="warmth">
                             <i class="fas fa-fire" style="color: #ffa500;"></i>
+                            <span style="position: absolute; top: -5px; right: -5px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; font-size: 10px; font-weight: bold; padding: 2px 4px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); z-index: 999; pointer-events: none;">VIP</span>
                         </div>
-                        <div class="effect-option" data-effect="vintage">
+                        <div class="effect-option vip-effect" data-effect="vintage">
                             <i class="fas fa-film" style="color: #a07850;"></i>
+                            <span style="position: absolute; top: -5px; right: -5px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; font-size: 10px; font-weight: bold; padding: 2px 4px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); z-index: 999; pointer-events: none;">VIP</span>
                         </div>
                     </div>
 
@@ -935,21 +1099,25 @@
                         </div>
                         
                         <div class="beauty-options">
-                            <div class="beauty-option active" data-beauty="natural">
+                            <div class="beauty-option active" data-beauty="natural" style="position: relative;">
                                 <i class="fas fa-leaf"></i>
                                 <div class="beauty-option-label">Natural</div>
+                                <span style="position: absolute; top: -5px; right: -5px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; font-size: 10px; font-weight: bold; padding: 2px 4px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); z-index: 999;">VIP</span>
                             </div>
-                            <div class="beauty-option" data-beauty="smooth">
+                            <div class="beauty-option" data-beauty="smooth" style="position: relative;">
                                 <i class="fas fa-tint"></i>
                                 <div class="beauty-option-label">Smooth</div>
+                                <span style="position: absolute; top: -5px; right: -5px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; font-size: 10px; font-weight: bold; padding: 2px 4px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); z-index: 999;">VIP</span>
                             </div>
-                            <div class="beauty-option" data-beauty="bright">
+                            <div class="beauty-option" data-beauty="bright" style="position: relative;">
                                 <i class="fas fa-sun"></i>
                                 <div class="beauty-option-label">Brighten</div>
+                                <span style="position: absolute; top: -5px; right: -5px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; font-size: 10px; font-weight: bold; padding: 2px 4px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); z-index: 999;">VIP</span>
                             </div>
-                            <div class="beauty-option" data-beauty="thin">
+                            <div class="beauty-option" data-beauty="thin" style="position: relative;">
                                 <i class="fas fa-compress"></i>
                                 <div class="beauty-option-label">Slim Face</div>
+                                <span style="position: absolute; top: -5px; right: -5px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; font-size: 10px; font-weight: bold; padding: 2px 4px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); z-index: 999;">VIP</span>
                             </div>
                         </div>
                     </div>
@@ -1025,6 +1193,39 @@
         <div class="home-indicator"></div>
     </div>
 
+    <!-- Add VIP popup at the end of the body before closing the app-container div -->
+    <div class="vip-popup" id="vip-popup">
+        <div class="vip-content">
+            <button class="vip-close" id="vip-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="vip-title">Unlock Premium Filters</div>
+            <div class="vip-description">
+                Upgrade to VIP and get access to all premium filters and effects to make your video calls amazing!
+            </div>
+            <div class="vip-features">
+                <div class="vip-feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>All premium filters</span>
+                </div>
+                <div class="vip-feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Premium backgrounds</span>
+                </div>
+                <div class="vip-feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Exclusive emoji effects</span>
+                </div>
+                <div class="vip-feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Advanced beauty settings</span>
+                </div>
+            </div>
+            <div class="vip-price">$4.99/month</div>
+            <button class="vip-button" id="vip-buy">Subscribe Now</button>
+        </div>
+    </div>
+
     <script>
         // DOM加载完成后的初始化
         document.addEventListener('DOMContentLoaded', function() {
@@ -1098,7 +1299,17 @@
             
             // 添加Emoji点击功能
             emojiOptions.forEach(option => {
-                option.addEventListener('click', function() {
+                const originalClickHandler = option.onclick;
+                option.onclick = null;
+                
+                option.addEventListener('click', function(e) {
+                    // Check if this is a VIP emoji option
+                    if (this.classList.contains('vip-effect')) {
+                        e.stopPropagation();
+                        showVipPopup();
+                        return;
+                    }
+                    
                     // 获取emoji类型
                     const emojiType = this.getAttribute('data-emoji');
                     
@@ -1168,7 +1379,17 @@
             
             // 添加滤镜效果点击功能
             effectOptions.forEach(option => {
-                option.addEventListener('click', function() {
+                const originalClickHandler = option.onclick;
+                option.onclick = null;
+                
+                option.addEventListener('click', function(e) {
+                    // Check if this is a VIP effect option
+                    if (this.classList.contains('vip-effect')) {
+                        e.stopPropagation();
+                        showVipPopup();
+                        return;
+                    }
+                    
                     // 获取效果类型
                     const effectType = this.getAttribute('data-effect');
                     
@@ -1352,7 +1573,17 @@
             
             // 应用背景效果
             filterOptions.forEach(option => {
-                option.addEventListener('click', function() {
+                const originalClickHandler = option.onclick;
+                option.onclick = null;
+                
+                option.addEventListener('click', function(e) {
+                    // Check if this is a VIP background option
+                    if (this.classList.contains('vip-effect')) {
+                        e.stopPropagation();
+                        showVipPopup();
+                        return;
+                    }
+                    
                     // 获取滤镜类型
                     const filterType = this.getAttribute('data-filter');
                     
@@ -1370,28 +1601,16 @@
                         // 保存选择到localStorage
                         localStorage.setItem('selectedFilter', filterType);
                         
-                        // 额外设置菜单状态标志 - 用于同步两个页面的菜单高亮状态
-                        if (filterType !== 'none') {
-                            localStorage.setItem('filterActive', 'true');
-                        } else {
-                            localStorage.setItem('filterActive', 'false');
-                        }
+                        // 应用背景效果
+                        applyBackgroundEffect(filterType);
                     } else {
                         // 切换关闭 - 设置为none
                         localStorage.setItem('selectedFilter', 'none');
-                        localStorage.setItem('filterActive', 'false');
-                        
-                        // 激活none选项
-                        const noneOption = document.querySelector('.filter-option[data-filter="none"]');
-                        if (noneOption) noneOption.classList.add('active');
                         
                         // 应用none背景
                         applyBackgroundEffect('none');
                         return;
                     }
-                    
-                    // 应用背景效果
-                    applyBackgroundEffect(filterType);
                 });
             });
             
@@ -1503,104 +1722,8 @@
                     const savedOption = document.querySelector(`.filter-option[data-filter="${savedFilter}"]`);
                     if (savedOption) {
                         // 在这里直接应用背景效果，而不是触发点击事件
-                        // 移除所有选项的active类
-                        filterOptions.forEach(opt => opt.classList.remove('active'));
-                        
-                        // 为保存的选项添加active类
-                        savedOption.classList.add('active');
-                        
                         // 应用背景效果
                         applyBackgroundEffect(savedFilter);
-                    }
-                }
-                
-                // 加载emoji设置
-                const savedEmoji = localStorage.getItem('selectedEmoji');
-                if (savedEmoji && emojiAvatar) {
-                    const savedEmojiOption = document.querySelector(`.emoji-option[data-emoji="${savedEmoji}"]`);
-                    if (savedEmojiOption) {
-                        // 移除所有emoji选项的active类
-                        document.querySelectorAll('.emoji-option').forEach(opt => opt.classList.remove('active'));
-                        
-                        // 为保存的选项添加active类
-                        savedEmojiOption.classList.add('active');
-                        
-                        // 应用emoji效果
-                        if (savedEmoji !== 'none') {
-                            emojiAvatar.style.display = 'flex';
-                            emojiAvatar.classList.add('visible');
-                            emojiAvatar.textContent = savedEmoji;
-                            if (foregroundPerson) foregroundPerson.style.display = 'none';
-                            localStorage.setItem('emojiActive', 'true');
-                        } else {
-                            emojiAvatar.style.display = 'none';
-                            emojiAvatar.classList.remove('visible');
-                            emojiAvatar.textContent = '';
-                            if (foregroundPerson) {
-                                foregroundPerson.style.display = 'block';
-                                foregroundPerson.style.opacity = '1';
-                            }
-                            localStorage.setItem('emojiActive', 'false');
-                        }
-                    }
-                }
-                
-                // 加载滤镜效果设置
-                const savedEffect = localStorage.getItem('selectedEffect');
-                if (savedEffect) {
-                    const savedEffectOption = document.querySelector(`.effect-option[data-effect="${savedEffect}"]`);
-                    if (savedEffectOption) {
-                        // 移除所有效果选项的active类
-                        document.querySelectorAll('.effect-option').forEach(opt => opt.classList.remove('active'));
-                        
-                        // 为保存的选项添加active类
-                        savedEffectOption.classList.add('active');
-                        currentEffect = savedEffect;
-                        
-                        // 应用滤镜效果
-                        if (savedEffect !== 'none') {
-                            const effect = document.getElementById(`filter-${savedEffect}`);
-                            if (effect) {
-                                effect.classList.add('visible');
-                                
-                                // 设置滤镜强度
-                                const savedOpacity = localStorage.getItem('filterOpacity') || 0.5;
-                                if (intensitySlider) {
-                                    intensitySlider.value = savedOpacity * 100;
-                                    effect.style.opacity = savedOpacity * 1.5;
-                                    
-                                    // 根据不同滤镜类型和强度应用不同混合模式
-                                    if (savedOpacity > 0.7) {
-                                        if (savedEffect === 'sepia') {
-                                            effect.style.mixBlendMode = 'soft-light';
-                                        } else if (savedEffect === 'coolblue') {
-                                            effect.style.mixBlendMode = 'screen';
-                                        } else if (savedEffect === 'warmth') {
-                                            effect.style.mixBlendMode = 'multiply';
-                                        } else if (savedEffect === 'vintage') {
-                                            effect.style.mixBlendMode = 'darken';
-                                        } else if (savedEffect === 'grayscale') {
-                                            effect.style.mixBlendMode = 'luminosity';
-                                        }
-                                    } else {
-                                        effect.style.mixBlendMode = 'overlay';
-                                    }
-                                }
-                                
-                                // 确保效果在所有层之上
-                                effect.style.zIndex = '20';
-                            }
-                            
-                            localStorage.setItem('effectActive', 'true');
-                            if (filterIntensity) filterIntensity.classList.add('visible');
-                        } else {
-                            filterEffects.forEach(effect => {
-                                effect.classList.remove('visible');
-                                effect.style.opacity = '0';
-                            });
-                            localStorage.setItem('effectActive', 'false');
-                            if (filterIntensity) filterIntensity.classList.remove('visible');
-                        }
                     }
                 }
             }
@@ -1732,6 +1855,51 @@
             
             // 初始化更新安全区域
             updateSafeAreas();
+
+            // Initialize VIP popup elements
+            const vipPopup = document.getElementById('vip-popup');
+            const vipClose = document.getElementById('vip-close');
+            const vipBuy = document.getElementById('vip-buy');
+            
+            // Function to show VIP popup
+            function showVipPopup() {
+                if (vipPopup) {
+                    vipPopup.classList.add('active');
+                }
+            }
+            
+            // Function to hide VIP popup
+            function hideVipPopup() {
+                if (vipPopup) {
+                    vipPopup.classList.remove('active');
+                }
+            }
+            
+            // Close button event
+            if (vipClose) {
+                vipClose.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    hideVipPopup();
+                });
+            }
+            
+            // Buy button event
+            if (vipBuy) {
+                vipBuy.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert('Thank you for your interest! VIP subscription processing...');
+                    hideVipPopup();
+                });
+            }
+            
+            // Click outside to close
+            if (vipPopup) {
+                vipPopup.addEventListener('click', function(e) {
+                    if (e.target === vipPopup) {
+                        hideVipPopup();
+                    }
+                });
+            }
         });
 
         // 应用美颜效果

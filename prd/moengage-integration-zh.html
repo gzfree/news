@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="MoEngage 集成产品需求文档 - BOTIM">
+    <title>MoEngage 集成 - 产品需求文档</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 28px;
+            border-bottom: 2px solid #3366FF;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        h2 {
+            font-size: 22px;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 8px;
+            margin-top: 25px;
+        }
+        h3 {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        ul, ol {
+            padding-left: 25px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #3366FF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .emoji {
+            margin-right: 8px;
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .highlight {
+            background-color: #f0f7ff;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #3366FF;
+            margin: 15px 0;
+        }
+        .caption {
+            font-style: italic;
+            color: #666;
+            font-size: 14px;
+        }
+        strong {
+            color: #111;
+        }
+        .use-case-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .use-case-table th {
+            background-color: #3366FF;
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        .use-case-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eaeaea;
+            word-break: break-word;
+        }
+        .use-case-table tr:last-child td {
+            border-bottom: none;
+        }
+        .use-case-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .use-case-table tr:nth-child(odd) {
+            background-color: white;
+        }
+        .use-case-icon {
+            font-size: 24px;
+            margin-right: 10px;
+            vertical-align: middle;
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+        }
+        .header-container {
+            position: relative;
+            width: 100%;
+        }
+        /* Timeline styles */
+        .timeline-wrapper {
+            margin: 40px 0;
+            padding: 20px 0;
+            position: relative;
+            width: 100%;
+            overflow-x: auto;
+        }
+        .timeline-container {
+            margin: 100px 0 180px;
+            position: relative;
+            width: 100%;
+            min-height: 250px;
+        }
+        .timeline-bar {
+            height: 8px;
+            background-color: #e0e0e0;
+            position: relative;
+            margin: 0 80px;
+            border-radius: 4px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            width: calc(100% - 160px);
+            max-width: 1000px;
+        }
+        .timeline-progress {
+            position: absolute;
+            height: 100%;
+            background-color: #3366FF;
+            width: 30%;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .milestone {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background-color: white;
+            border: 4px solid #3366FF;
+            border-radius: 50%;
+            top: -14px;
+            transform: translateX(-50%);
+            cursor: pointer;
+            z-index: 2;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .milestone:hover {
+            transform: translateX(-50%) scale(1.2);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        .milestone-current {
+            background-color: #3366FF;
+        }
+        .milestone-past {
+            background-color: #3366FF;
+        }
+        .milestone-future {
+            background-color: white;
+        }
+        .milestone-label {
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #3366FF;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 3;
+        }
+        .milestone:nth-child(odd) .milestone-description {
+            top: 35px;
+        }
+        .milestone:nth-child(even) .milestone-description {
+            bottom: 80px;
+            top: auto;
+        }
+        .milestone-description {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f0f7ff;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            border-left: 4px solid #3366FF;
+            width: max-content;
+            max-width: 180px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+        .milestone:hover .milestone-description {
+            transform: translateX(-50%) translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .timeline-month-labels {
+            position: relative;
+            margin: 20px 80px;
+            display: flex;
+            justify-content: space-between;
+            width: calc(100% - 160px);
+            max-width: 1000px;
+        }
+        .timeline-month {
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+        /* Responsive adjustments */
+        @media (min-width: 1400px) {
+            body {
+                max-width: 80%;
+            }
+            .content-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+            .timeline-bar, 
+            .timeline-month-labels {
+                width: calc(100% - 160px);
+                max-width: none;
+            }
+            .timeline-container {
+                margin: 100px 0 180px;
+                min-height: 250px;
+                width: 100%;
+            }
+            .use-case-table {
+                width: 100%;
+            }
+        }
+        @media (max-width: 1100px) {
+            .timeline-container {
+                margin-bottom: 200px;
+                padding-bottom: 40px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .timeline-wrapper {
+                overflow-x: auto;
+                padding: 20px 0 40px;
+            }
+            .milestone-description {
+                width: 160px;
+                max-width: 160px;
+                font-size: 13px;
+                padding: 8px 12px;
+            }
+            .content-grid {
+                display: block;
+            }
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 24px;
+                margin-top: 20px;
+            }
+            h2 {
+                font-size: 20px;
+            }
+            .timeline-bar, 
+            .timeline-month-labels {
+                margin: 0 40px;
+                width: calc(100% - 80px);
+            }
+            .milestone-description {
+                width: 140px;
+                max-width: 140px;
+            }
+        }
+        @media (max-width: 480px) {
+            .timeline-container {
+                margin-bottom: 220px;
+            }
+            .milestone-description {
+                width: 120px;
+                max-width: 120px;
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+            .milestone-label {
+                font-size: 12px;
+                padding: 4px 8px;
+                white-space: normal;
+                width: 80px;
+                text-align: center;
+            }
+            .use-case-table th,
+            .use-case-table td {
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <h1><span class="emoji">📱</span> MoEngage 集成 - 产品需求文档</h1>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">🌟</span> 概述</h2>
+        <p>
+            MoEngage 集成是一个全面的用户参与平台实施项目，旨在增强 BOTIM 的用户参与度和推送通知功能。该集成将专门针对阿联酋用户，遵守 1200 万月活跃用户的合同限制。MoEngage 将用于用户参与、推送通知和个性化内容交付，提供强大的系统来跟踪事件、发送通知、交付自定义卡片和触发 API 调用。
+        </p>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">🔄</span> 系统架构</h2>
+        <p>
+            下图展示了BOTIM与MoEngage之间的集成架构，显示了数据流和关键组件交互:
+        </p>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <img src="../assets/images/moengage.png" alt="MoEngage系统流程图" style="max-width: 100%; height: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px;">
+        </div>
+        
+        <div class="highlight">
+            <p><strong>关键交互:</strong></p>
+            <ul>
+                <li>Botim服务将事件发送到Amplitude进行分析和用户跟踪</li>
+                <li>Amplitude处理用户数据并将跟踪数据转发到MoEngage</li>
+                <li>MoEngage通过推送通知、短信、电子邮件和自定义卡片实现个性化通信</li>
+                <li>MoEngage可以触发BOTIM开放API调用，并将用户群组导出到Botim CRM管理系统</li>
+                <li>系统处理针对性用户参与的促销和奖励</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="section">
+            <h2><span class="emoji">🚀</span> 问题</h2>
+            <p>
+                目前，BOTIM 缺乏一个复杂的参与平台，无法通过推送通知和个性化内容与用户进行有效沟通。此外，该平台需要一种方法来优化成本，即针对特定地理区域进行定位，同时提供增强的参与功能。没有这种集成，BOTIM 在及时、相关的通信方面与用户互动的能力有限，无法跟踪用户互动，也无法提供个性化的内容体验。
+            </p>
+        </div>
+
+        <div class="section">
+            <h2><span class="emoji">🎯</span> 目标</h2>
+            <ul>
+                <li><strong>定向用户参与</strong> – 实施一个系统，仅为阿联酋用户（电话号码以"971"开头或阿联酋 IP 地址）初始化 MoEngage SDK，以优化成本并满足合同限制。</li>
+                <li><strong>增强推送通知</strong> – 使 BOTIM 能够通过 MoEngage 的传送系统向用户发送丰富的推送通知。</li>
+                <li><strong>个性化内容交付</strong> – 实施自定义卡片交付系统，发送数据由客户端应用程序渲染，以提供个性化体验。</li>
+                <li><strong>API 集成</strong> – 建立一个工作流程，使 MoEngage 可以触发 BOTIM Open API 调用以执行特定操作，特别是针对 VIP/会员相关的通信。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="section">
+            <h2><span class="emoji">🚧</span> 限制条件</h2>
+            <ul>
+                <li><strong>MAU 限制</strong> – 当前 MoEngage 合同将使用限制为 1200 万月活跃用户。</li>
+                <li><strong>地理定位</strong> – SDK 必须仅为阿联酋地区用户初始化，以优化成本并遵守合同限制。</li>
+                <li><strong>安全要求</strong> – 系统之间的所有通信必须加密，API 密钥和令牌必须安全存储。</li>
+                <li><strong>性能影响</strong> – SDK 初始化不应显著影响应用启动时间，事件跟踪应该是非阻塞的。</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2><span class="emoji">💁</span> 目标用户</h2>
+            
+            <table class="use-case-table">
+                <thead>
+                    <tr>
+                        <th>用户类型</th>
+                        <th>特征</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="use-case-icon">🇦🇪</span><strong>阿联酋用户</strong></td>
+                        <td>
+                            <ul style="margin: 0; padding-left: 20px;">
+                                <li>电话号码以"971"开头（阿联酋国家代码）</li>
+                                <li>来自阿联酋地区的IP地址</li>
+                                <li>所有MoEngage SDK功能的主要目标群体</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="use-case-icon">👑</span><strong>VIP/高级会员</strong></td>
+                        <td>
+                            <ul style="margin: 0; padding-left: 20px;">
+                                <li>将通过BOTIM Open API接收特殊通信</li>
+                                <li>独家内容和会员通知的目标受众</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="use-case-icon">👤</span><strong>普通BOTIM用户</strong></td>
+                        <td>
+                            <ul style="margin: 0; padding-left: 20px;">
+                                <li>将接收常规推送通知和内容卡片</li>
+                                <li>用户事件和行为将被跟踪以改善参与度</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">🧳</span> 使用场景</h2>
+        
+        <p><strong>注意：</strong> 以下所有使用场景均特定针对阿联酋用户，符合地理定位策略和合同限制。</p>
+        
+        <table class="use-case-table">
+            <thead>
+                <tr>
+                    <th>使用场景</th>
+                    <th>描述</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="use-case-icon">📊</span><strong>直接事件跟踪</strong></td>
+                    <td>
+                        <p><strong>前提：</strong>阿联酋用户在应用中执行操作</p>
+                        <p><strong>当：</strong>该操作被识别为可跟踪事件</p>
+                        <p><strong>则：</strong>事件及其相关属性被发送至MoEngage</p>
+                        <p>应用程序将通过MoEngage直接跟踪阿联酋用户事件和活动，包括用户交互、行为和个人资料属性。</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🔔</span><strong>通过BOTIM发送推送通知</strong></td>
+                    <td>
+                        <p><strong>前提：</strong>需要向阿联酋用户发送通知</p>
+                        <p><strong>当：</strong>MoEngage向BOTIM服务器发送推送通知</p>
+                        <p><strong>则：</strong>BOTIM将通知转发给阿联酋最终用户</p>
+                        <p>MoEngage将通过BOTIM的传送系统向阿联酋用户发送推送通知，支持不同的通知类型并针对特定用户群体。</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🎴</span><strong>自定义卡片交付</strong></td>
+                    <td>
+                        <p><strong>前提：</strong>需要向阿联酋用户提供个性化内容</p>
+                        <p><strong>当：</strong>MoEngage发送自定义卡片数据</p>
+                        <p><strong>则：</strong>客户端应用根据卡片类型和元数据渲染卡片</p>
+                        <p>MoEngage将向阿联酋用户发送自定义卡片数据，由客户端应用程序根据标准JSON架构和各种卡片类型进行渲染。</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🔄</span><strong>BOTIM开放API集成</strong></td>
+                    <td>
+                        <p><strong>前提：</strong>需要为阿联酋用户触发特定操作</p>
+                        <p><strong>当：</strong>MoEngage活动触发对BOTIM开放API的调用</p>
+                        <p><strong>则：</strong>API执行请求的操作</p>
+                        <p>初始实施将专注于阿联酋VIP/会员相关通信，具有灵活的架构以便将来添加更多API端点。</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">🔧</span> 技术实施</h2>
+        
+        <div class="content-grid">
+            <div class="highlight">
+                <h3><span class="emoji">🔄</span> SDK集成</h3>
+                <ul>
+                    <li>MoEngage SDK必须根据用户条件（阿联酋地区）有条件地初始化</li>
+                    <li>SDK初始化应在应用程序生命周期早期进行</li>
+                    <li>SDK配置必须是环境特定的（开发、预发布、生产）</li>
+                    <li>实施应确保对应用启动时间的影响最小</li>
+                </ul>
+            </div>
+
+            <div class="highlight">
+                <h3><span class="emoji">👤</span> 用户识别</h3>
+                <ul>
+                    <li>用户在MoEngage中必须被唯一标识</li>
+                    <li>用户标识符在应用重新安装后应保持一致</li>
+                    <li>支持从匿名到已知用户的转换</li>
+                    <li>用户属性应映射到MoEngage用户档案</li>
+                </ul>
+            </div>
+
+            <div class="highlight">
+                <h3><span class="emoji">🔒</span> 安全考虑</h3>
+                <ul>
+                    <li>系统之间的所有通信必须加密</li>
+                    <li>API密钥和认证令牌必须安全存储</li>
+                    <li>个人用户数据必须根据隐私法规处理</li>
+                    <li>MoEngage和BOTIM API之间的认证必须安全</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">📋</span> 实施阶段</h2>
+        
+        <table class="use-case-table">
+            <thead>
+                <tr>
+                    <th>阶段</th>
+                    <th>描述</th>
+                    <th>交付物</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>第1阶段</strong></td>
+                    <td>基础SDK集成和阿联酋用户定位</td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>带有阿联酋用户筛选的SDK集成</li>
+                            <li>基本事件跟踪实施</li>
+                            <li>用户属性映射</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>第2阶段</strong></td>
+                    <td>通过BOTIM发送推送通知</td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>MoEngage到BOTIM的推送通知流程</li>
+                            <li>通知定位功能</li>
+                            <li>通知分析</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>第3阶段</strong></td>
+                    <td>自定义卡片实施</td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>卡片数据结构定义</li>
+                            <li>客户端渲染实施</li>
+                            <li>卡片定位和个性化</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>第4阶段</strong></td>
+                    <td>BOTIM开放API集成</td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>API调用流程实施</li>
+                            <li>VIP/会员通信功能</li>
+                            <li>端到端流程的测试和验证</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">📅</span> 时间线</h2>
+        
+        <table class="use-case-table">
+            <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>里程碑</th>
+                    <th>描述</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>4月10日</strong></td>
+                    <td>开始接入MoEngage SDK</td>
+                    <td>开始SDK集成过程，包括阿联酋用户定位</td>
+                </tr>
+                <tr>
+                    <td><strong>4月14日</strong></td>
+                    <td>国际汇款事件（待定）</td>
+                    <td>开始跟踪与国际汇款功能相关的事件 - <strong style="color: #ff6600;">实施日期待确认</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>5月15日</strong></td>
+                    <td>所有场景流程完成</td>
+                    <td>
+                        所有用户流程场景必须在五月中旬前实施并验证，包括：
+                        <ul style="margin-top: 8px; padding-left: 20px;">
+                            <li>基于阿联酋条件的用户识别和SDK初始化</li>
+                            <li>关键用户交互的基本事件跟踪</li>
+                            <li>从MoEngage到BOTIM用户的推送通知传递</li>
+                            <li>客户端应用程序中的自定义卡片渲染</li>
+                            <li>用于VIP/会员通信的初步BOTIM开放API集成</li>
+                            <li>所有已实施流程的端到端测试</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>6月30日</strong></td>
+                    <td>所有事件实施完成</td>
+                    <td>完成所有应用功能中剩余事件的集成</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top:40px;">可视化时间线</h3>
+
+        <div class="timeline-wrapper">
+            <div class="timeline-container">
+                <div class="timeline-bar">
+                    <div class="timeline-progress"></div>
+                    <div class="milestone milestone-past" style="left: 10%">
+                        <div class="milestone-label">规划</div>
+                        <div class="milestone-description">项目规划阶段已完成</div>
+                    </div>
+                    <div class="milestone milestone-current" style="left: 30%">
+                        <div class="milestone-label">4月10日</div>
+                        <div class="milestone-description">开始接入MoEngage SDK</div>
+                    </div>
+                    <div class="milestone milestone-future" style="left: 50%; border-color: #ff6600; border-style: dashed;">
+                        <div class="milestone-label" style="background-color: #ff6600;">4月14日（待定）</div>
+                        <div class="milestone-description">国际汇款事件 - 实施日期待确认</div>
+                    </div>
+                    <div class="milestone milestone-future" style="left: 70%">
+                        <div class="milestone-label">5月15日</div>
+                        <div class="milestone-description">所有核心场景验证完成，包括阿联酋用户定位、推送通知、自定义卡片和API集成</div>
+                    </div>
+                    <div class="milestone milestone-future" style="left: 90%">
+                        <div class="milestone-label">6月30日</div>
+                        <div class="milestone-description">所有事件实施完成</div>
+                    </div>
+                </div>
+                <div class="timeline-month-labels">
+                    <span class="timeline-month">规划</span>
+                    <span class="timeline-month">四月</span>
+                    <span class="timeline-month">五月</span>
+                    <span class="timeline-month">六月</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="section">
+            <h2><span class="emoji">🧪</span> 测试要求</h2>
+            
+            <h3><span class="emoji">🎯</span> 阿联酋用户定位测试</h3>
+            <ul>
+                <li>使用阿联酋和非阿联酋电话号码测试SDK初始化</li>
+                <li>使用阿联酋和非阿联酋IP地址测试SDK初始化</li>
+                <li>验证非阿联酋用户不计入MAU统计</li>
+            </ul>
+            
+            <h3><span class="emoji">🔄</span> 功能测试</h3>
+            <ul>
+                <li>验证所有事件跟踪场景</li>
+                <li>测试推送通知传递流程</li>
+                <li>在各种设备条件下验证自定义卡片渲染</li>
+                <li>使用各种参数测试BOTIM开放API集成</li>
+            </ul>
+            
+            <h3><span class="emoji">⚡</span> 性能测试</h3>
+            <ul>
+                <li>测量SDK对应用启动时间的影响</li>
+                <li>在各种网络条件下测试通知传递时间</li>
+                <li>评估在低端设备上的卡片渲染性能</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2><span class="emoji">📊</span> 成功指标</h2>
+            
+            <table class="use-case-table">
+                <thead>
+                    <tr>
+                        <th>指标</th>
+                        <th>目标</th>
+                        <th>测量方法</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>SDK集成率</strong></td>
+                        <td>≥ 95%的阿联酋用户</td>
+                        <td>比较阿联酋用户数量与MoEngage初始化用户</td>
+                    </tr>
+                    <tr>
+                        <td><strong>推送通知交付率</strong></td>
+                        <td>≥ 90%</td>
+                        <td>MoEngage分析仪表板</td>
+                    </tr>
+                    <tr>
+                        <td><strong>推送通知打开率</strong></td>
+                        <td>≥ 15%</td>
+                        <td>MoEngage分析仪表板</td>
+                    </tr>
+                    <tr>
+                        <td><strong>自定义卡片渲染成功率</strong></td>
+                        <td>≥ 98%</td>
+                        <td>客户端跟踪渲染成功/失败</td>
+                    </tr>
+                    <tr>
+                        <td><strong>BOTIM API调用成功率</strong></td>
+                        <td>≥ 99%</td>
+                        <td>API调用成功日志</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="section highlight">
+        <h2><span class="emoji">📝</span> 术语表</h2>
+        <table class="use-case-table">
+            <thead>
+                <tr>
+                    <th>术语</th>
+                    <th>定义</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>MAU</strong></td>
+                    <td>月活跃用户。在30天内与应用交互的唯一用户数量。</td>
+                </tr>
+                <tr>
+                    <td><strong>MoEngage</strong></td>
+                    <td>一个客户参与平台，帮助公司通过各种渠道与客户互动。</td>
+                </tr>
+                <tr>
+                    <td><strong>BOTIM</strong></td>
+                    <td>我们的应用平台，将与MoEngage集成。</td>
+                </tr>
+                <tr>
+                    <td><strong>自定义卡片</strong></td>
+                    <td>发送给用户并由客户端应用程序根据指定模板渲染的结构化内容。</td>
+                </tr>
+                <tr>
+                    <td><strong>开放API</strong></td>
+                    <td>公开可用的应用程序编程接口，提供对软件应用或网络服务的访问。</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer style="margin-top: 50px; border-top: 1px solid #ddd; padding-top: 20px; color: #777; font-size: 0.9em;">
+        <p>文档版本: 1.0</p>
+        <p>最后更新: <span>2023-04-03</span></p>
+        <p><a href="moengage-integration-en.html">English Version</a></p>
+    </footer>
+</body>
+</html> 

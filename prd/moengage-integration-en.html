@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="MoEngage Integration Product Requirements Document for BOTIM">
+    <title>MoEngage Integration - PRD</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 28px;
+            border-bottom: 2px solid #3366FF;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        h2 {
+            font-size: 22px;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 8px;
+            margin-top: 25px;
+        }
+        h3 {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        ul, ol {
+            padding-left: 25px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #3366FF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .emoji {
+            margin-right: 8px;
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .highlight {
+            background-color: #f0f7ff;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #3366FF;
+            margin: 15px 0;
+        }
+        .caption {
+            font-style: italic;
+            color: #666;
+            font-size: 14px;
+        }
+        strong {
+            color: #111;
+        }
+        .use-case-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .use-case-table th {
+            background-color: #3366FF;
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        .use-case-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eaeaea;
+            word-break: break-word;
+        }
+        .use-case-table tr:last-child td {
+            border-bottom: none;
+        }
+        .use-case-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .use-case-table tr:nth-child(odd) {
+            background-color: white;
+        }
+        .use-case-icon {
+            font-size: 24px;
+            margin-right: 10px;
+            vertical-align: middle;
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+        }
+        .header-container {
+            position: relative;
+            width: 100%;
+        }
+        /* Timeline styles */
+        .timeline-wrapper {
+            margin: 40px 0;
+            padding: 20px 0;
+            position: relative;
+            width: 100%;
+            overflow-x: auto;
+        }
+        .timeline-container {
+            margin: 100px 0 180px;
+            position: relative;
+            width: 100%;
+            min-height: 250px;
+        }
+        .timeline-bar {
+            height: 8px;
+            background-color: #e0e0e0;
+            position: relative;
+            margin: 0 80px;
+            border-radius: 4px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            width: calc(100% - 160px);
+            max-width: 1000px;
+        }
+        .timeline-progress {
+            position: absolute;
+            height: 100%;
+            background-color: #3366FF;
+            width: 30%;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .milestone {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background-color: white;
+            border: 4px solid #3366FF;
+            border-radius: 50%;
+            top: -14px;
+            transform: translateX(-50%);
+            cursor: pointer;
+            z-index: 2;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .milestone:hover {
+            transform: translateX(-50%) scale(1.2);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        .milestone-current {
+            background-color: #3366FF;
+        }
+        .milestone-past {
+            background-color: #3366FF;
+        }
+        .milestone-future {
+            background-color: white;
+        }
+        .milestone-label {
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #3366FF;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 3;
+        }
+        .milestone:nth-child(odd) .milestone-description {
+            top: 35px;
+        }
+        .milestone:nth-child(even) .milestone-description {
+            bottom: 80px;
+            top: auto;
+        }
+        .milestone-description {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f0f7ff;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            border-left: 4px solid #3366FF;
+            width: max-content;
+            max-width: 180px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+        .milestone:hover .milestone-description {
+            transform: translateX(-50%) translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .timeline-month-labels {
+            position: relative;
+            margin: 20px 80px;
+            display: flex;
+            justify-content: space-between;
+            width: calc(100% - 160px);
+            max-width: 1000px;
+        }
+        .timeline-month {
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+        /* Responsive adjustments */
+        @media (min-width: 1400px) {
+            body {
+                max-width: 80%;
+            }
+            .content-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+            .timeline-bar, 
+            .timeline-month-labels {
+                width: calc(100% - 160px);
+                max-width: none;
+            }
+            .timeline-container {
+                margin: 100px 0 180px;
+                min-height: 250px;
+                width: 100%;
+            }
+            .use-case-table {
+                width: 100%;
+            }
+        }
+        @media (max-width: 1100px) {
+            .timeline-container {
+                margin-bottom: 200px;
+                padding-bottom: 40px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .timeline-wrapper {
+                overflow-x: auto;
+                padding: 20px 0 40px;
+            }
+            .milestone-description {
+                width: 160px;
+                max-width: 160px;
+                font-size: 13px;
+                padding: 8px 12px;
+            }
+            .content-grid {
+                display: block;
+            }
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 24px;
+                margin-top: 20px;
+            }
+            h2 {
+                font-size: 20px;
+            }
+            .timeline-bar, 
+            .timeline-month-labels {
+                margin: 0 40px;
+                width: calc(100% - 80px);
+            }
+            .milestone-description {
+                width: 140px;
+                max-width: 140px;
+            }
+        }
+        @media (max-width: 480px) {
+            .timeline-container {
+                margin-bottom: 220px;
+            }
+            .milestone-description {
+                width: 120px;
+                max-width: 120px;
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+            .milestone-label {
+                font-size: 12px;
+                padding: 4px 8px;
+                white-space: normal;
+                width: 80px;
+                text-align: center;
+            }
+            .use-case-table th,
+            .use-case-table td {
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <h1><span class="emoji">📱</span> MoEngage Integration - PRD</h1>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">🌟</span> Overview</h2>
+        <p>
+            MoEngage Integration is a comprehensive engagement platform implementation project designed to enhance user engagement and push notification capabilities for BOTIM. The integration will focus specifically on UAE users, adhering to contract limitations of 12 million Monthly Active Users. MoEngage will be used for user engagement, push notifications, and personalized content delivery, providing a robust system for tracking events, sending notifications, delivering custom cards, and triggering API calls.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">🔄</span> System Architecture</h2>
+        <p>
+            The diagram below illustrates the integration architecture between BOTIM and MoEngage, showing data flows and key component interactions:
+        </p>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <img src="../assets/images/moengage.png" alt="MoEngage System Flow" style="max-width: 100%; height: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px;">
+        </div>
+        
+        <div class="highlight">
+            <p><strong>Key Interactions:</strong></p>
+            <ul>
+                <li>Botim Service sends events to Amplitude for analytics and user tracking</li>
+                <li>Amplitude processes user data and forwards tracking data to MoEngage</li>
+                <li>MoEngage enables personalized communications through push notifications, SMS, email, and custom cards</li>
+                <li>MoEngage can trigger BOTIM Open API calls and export user cohorts to Botim CRM Admin</li>
+                <li>The system handles promotions and rewards for targeted user engagement</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="section">
+            <h2><span class="emoji">🚀</span> Problem</h2>
+            <p>
+                Currently, BOTIM lacks a sophisticated engagement platform to effectively communicate with users through push notifications and personalized content. Additionally, the platform needs a way to optimize costs by targeting specific geographical regions while providing enhanced engagement features. Without this integration, BOTIM is limited in its ability to engage users with timely and relevant communications, track user interactions, and deliver personalized content experiences.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2><span class="emoji">🎯</span> Objectives</h2>
+            <ul>
+                <li><strong>Targeted User Engagement</strong> – Implement a system that only initializes the MoEngage SDK for UAE users (with phone numbers starting with "971" or UAE IP addresses) to optimize costs and meet contract limitations.</li>
+                <li><strong>Enhanced Push Notifications</strong> – Enable BOTIM to send rich push notifications to users through MoEngage's delivery system.</li>
+                <li><strong>Personalized Content Delivery</strong> – Implement a custom card delivery system that sends data to be rendered by the client application for a personalized experience.</li>
+                <li><strong>API Integration</strong> – Establish a workflow where MoEngage can trigger BOTIM Open API calls to perform specific actions, particularly for VIP/member-related communications.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="section">
+            <h2><span class="emoji">🚧</span> Constraints</h2>
+            <ul>
+                <li><strong>MAU Limitations</strong> – The current MoEngage contract limits usage to 12 million Monthly Active Users.</li>
+                <li><strong>Geographic Targeting</strong> – SDK must only be initialized for UAE region users to optimize costs and comply with contract limitations.</li>
+                <li><strong>Security Requirements</strong> – All communications between systems must be encrypted with API keys and tokens securely stored.</li>
+                <li><strong>Performance Impact</strong> – SDK initialization should not significantly impact app startup time, and event tracking should be non-blocking.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2><span class="emoji">💁</span> Target Users</h2>
+            
+            <table class="use-case-table">
+                <thead>
+                    <tr>
+                        <th>User Type</th>
+                        <th>Characteristics</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="use-case-icon">🇦🇪</span><strong>UAE Users</strong></td>
+                        <td>
+                            <ul style="margin: 0; padding-left: 20px;">
+                                <li>Phone numbers starting with "971" (UAE country code)</li>
+                                <li>IP addresses from the UAE region</li>
+                                <li>Primary targets for all MoEngage SDK functionality</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="use-case-icon">👑</span><strong>VIP/Premium Members</strong></td>
+                        <td>
+                            <ul style="margin: 0; padding-left: 20px;">
+                                <li>Will receive special communications through the BOTIM Open API</li>
+                                <li>Target audience for exclusive content and membership notifications</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="use-case-icon">👤</span><strong>Regular BOTIM Users</strong></td>
+                        <td>
+                            <ul style="margin: 0; padding-left: 20px;">
+                                <li>Will receive general push notifications and content cards</li>
+                                <li>User events and behaviors will be tracked for improved engagement</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2><span class="emoji">🧳</span> Use Cases</h2>
+        
+        <p><strong>Note:</strong> All of the following use cases specifically target UAE users, in line with the geographic targeting strategy and contract limitations.</p>
+        
+        <table class="use-case-table">
+            <thead>
+                <tr>
+                    <th>Use Case</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="use-case-icon">📊</span><strong>Direct Event Tracking</strong></td>
+                    <td>
+                        <p><strong>Given:</strong> UAE user performs an action in the app</p>
+                        <p><strong>When:</strong> The action is recognized as a trackable event</p>
+                        <p><strong>Then:</strong> The event is sent to MoEngage with relevant properties</p>
+                        <p>The application will track UAE user events and activities directly through MoEngage, including user interactions, behavior, and profile attributes.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🔔</span><strong>Push Notification via BOTIM</strong></td>
+                    <td>
+                        <p><strong>Given:</strong> A notification needs to be sent to a UAE user</p>
+                        <p><strong>When:</strong> MoEngage sends a push notification to BOTIM servers</p>
+                        <p><strong>Then:</strong> BOTIM forwards the notification to the UAE end user</p>
+                        <p>MoEngage will send push notifications to UAE users through BOTIM's delivery system, supporting different notification types and targeting specific user segments.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🎴</span><strong>Custom Card Delivery</strong></td>
+                    <td>
+                        <p><strong>Given:</strong> Personalized content needs to be delivered to a UAE user</p>
+                        <p><strong>When:</strong> MoEngage sends custom card data</p>
+                        <p><strong>Then:</strong> The client app renders the card according to its type and metadata</p>
+                        <p>MoEngage will send custom card data to UAE users, which will be rendered by the client application according to standard JSON schema and various card types.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="use-case-icon">🔄</span><strong>BOTIM Open API Integration</strong></td>
+                    <td>
+                        <p><strong>Given:</strong> A specific action needs to be triggered for a UAE user</p>
+                        <p><strong>When:</strong> MoEngage campaign triggers an API call to BOTIM Open API</p>
+                        <p><strong>Then:</strong> The API performs the requested action</p>
+                        <p>Initial implementation will focus on UAE VIP/member-related communications, with a flexible architecture for adding more API endpoints in the future.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">🔧</span> Technical Implementation</h2>
+
+        <div class="content-grid">
+            <div class="highlight">
+                <h3><span class="emoji">🔄</span> SDK Integration</h3>
+                <ul>
+                    <li>MoEngage SDK must be conditionally initialized based on user criteria (UAE region)</li>
+                    <li>SDK initialization should happen early in the app lifecycle</li>
+                    <li>SDK configuration must be environment-specific (dev, staging, production)</li>
+                    <li>Implementation should ensure minimal impact on app startup time</li>
+                </ul>
+            </div>
+
+            <div class="highlight">
+                <h3><span class="emoji">👤</span> User Identification</h3>
+                <ul>
+                    <li>Users must be uniquely identified in MoEngage</li>
+                    <li>User identifiers should be consistent across app reinstalls</li>
+                    <li>Support for anonymous to known user transitions</li>
+                    <li>User attributes should be mapped to MoEngage user profile</li>
+                </ul>
+            </div>
+
+            <div class="highlight">
+                <h3><span class="emoji">🔒</span> Security Considerations</h3>
+                <ul>
+                    <li>All communications between systems must be encrypted</li>
+                    <li>API keys and authentication tokens must be securely stored</li>
+                    <li>Personal user data must be handled according to privacy regulations</li>
+                    <li>Authentication between MoEngage and BOTIM API must be secure</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">📋</span> Implementation Phases</h2>
+        
+        <table class="use-case-table">
+            <thead>
+                <tr>
+                    <th>Phase</th>
+                    <th>Description</th>
+                    <th>Deliverables</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Phase 1</strong></td>
+                    <td>Basic SDK Integration and UAE Targeting</td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>SDK integration with UAE user filtering</li>
+                            <li>Basic event tracking implementation</li>
+                            <li>User attribute mapping</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Phase 2</strong></td>
+                    <td>Push Notification via BOTIM</td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>MoEngage to BOTIM push notification flow</li>
+                            <li>Notification targeting capabilities</li>
+                            <li>Notification analytics</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Phase 3</strong></td>
+                    <td>Custom Card Implementation</td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>Card data structure definition</li>
+                            <li>Client-side rendering implementation</li>
+                            <li>Card targeting and personalization</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Phase 4</strong></td>
+                    <td>BOTIM Open API Integration</td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>API call flow implementation</li>
+                            <li>VIP/member communication functionality</li>
+                            <li>Testing and validation of end-to-end process</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2><span class="emoji">📅</span> Timeline</h2>
+        
+        <table class="use-case-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Milestone</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>April 10</strong></td>
+                    <td>MoEngage SDK Integration Begins</td>
+                    <td>Start of SDK integration process with UAE user targeting</td>
+                </tr>
+                <tr>
+                    <td><strong>April 14</strong></td>
+                    <td>International Remittance Events (Pending)</td>
+                    <td>Begin tracking events related to international money transfer functionality - <strong style="color: #ff6600;">Implementation date pending confirmation</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>May 15</strong></td>
+                    <td>All Scenarios Completion</td>
+                    <td>
+                        All user flow scenarios must be implemented and validated by mid May, including:
+                        <ul style="margin-top: 8px; padding-left: 20px;">
+                            <li>User identification and SDK initialization based on UAE criteria</li>
+                            <li>Basic event tracking for key user interactions</li>
+                            <li>Push notification delivery from MoEngage to BOTIM users</li>
+                            <li>Custom card rendering in the client application</li>
+                            <li>Initial BOTIM Open API integration for VIP/member communications</li>
+                            <li>End-to-end testing of all implemented flows</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>June 30</strong></td>
+                    <td>Full Event Implementation</td>
+                    <td>Complete integration of all remaining events across all application features</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top:40px;">Visual Timeline</h3>
+
+        <div class="timeline-wrapper">
+            <div class="timeline-container">
+                <div class="timeline-bar">
+                    <div class="timeline-progress"></div>
+                    <div class="milestone milestone-past" style="left: 10%">
+                        <div class="milestone-label">Planning</div>
+                        <div class="milestone-description">Project planning phase completed</div>
+                    </div>
+                    <div class="milestone milestone-current" style="left: 30%">
+                        <div class="milestone-label">Apr 10</div>
+                        <div class="milestone-description">MoEngage SDK Integration Begins</div>
+                    </div>
+                    <div class="milestone milestone-future" style="left: 50%; border-color: #ff6600; border-style: dashed;">
+                        <div class="milestone-label" style="background-color: #ff6600;">Apr 14 (Pending)</div>
+                        <div class="milestone-description">International Remittance Events - Implementation date pending confirmation</div>
+                    </div>
+                    <div class="milestone milestone-future" style="left: 70%">
+                        <div class="milestone-label">May 15</div>
+                        <div class="milestone-description">All core scenarios validated including UAE targeting, push notifications, custom cards and API integration</div>
+                    </div>
+                    <div class="milestone milestone-future" style="left: 90%">
+                        <div class="milestone-label">Jun 30</div>
+                        <div class="milestone-description">Full Event Implementation</div>
+                    </div>
+                </div>
+                <div class="timeline-month-labels">
+                    <span class="timeline-month">Planning</span>
+                    <span class="timeline-month">April</span>
+                    <span class="timeline-month">May</span>
+                    <span class="timeline-month">June</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="section">
+            <h2><span class="emoji">🧪</span> Testing Requirements</h2>
+            
+            <h3><span class="emoji">🎯</span> UAE User Targeting Testing</h3>
+            <ul>
+                <li>Test SDK initialization with UAE and non-UAE phone numbers</li>
+                <li>Test SDK initialization with UAE and non-UAE IP addresses</li>
+                <li>Verify that non-UAE users do not contribute to MAU count</li>
+            </ul>
+            
+            <h3><span class="emoji">🔄</span> Functional Testing</h3>
+            <ul>
+                <li>Verify all event tracking scenarios</li>
+                <li>Test push notification delivery flow</li>
+                <li>Validate custom card rendering in various device conditions</li>
+                <li>Test BOTIM Open API integration with various parameters</li>
+            </ul>
+            
+            <h3><span class="emoji">⚡</span> Performance Testing</h3>
+            <ul>
+                <li>Measure impact of SDK on app startup time</li>
+                <li>Test notification delivery times under various network conditions</li>
+                <li>Assess card rendering performance on low-end devices</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2><span class="emoji">📊</span> Success Metrics</h2>
+            
+            <table class="use-case-table">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Target</th>
+                        <th>Measurement Method</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>SDK Integration Rate</strong></td>
+                        <td>≥ 95% of UAE users</td>
+                        <td>Compare UAE user count vs. MoEngage initialized users</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Push Notification Delivery Rate</strong></td>
+                        <td>≥ 90%</td>
+                        <td>MoEngage analytics dashboard</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Push Notification Open Rate</strong></td>
+                        <td>≥ 15%</td>
+                        <td>MoEngage analytics dashboard</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Custom Card Render Success</strong></td>
+                        <td>≥ 98%</td>
+                        <td>Client-side tracking of render success/failure</td>
+                    </tr>
+                    <tr>
+                        <td><strong>BOTIM API Call Success Rate</strong></td>
+                        <td>≥ 99%</td>
+                        <td>API call success logs</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="section highlight">
+        <h2><span class="emoji">📝</span> Glossary</h2>
+        <table class="use-case-table">
+            <thead>
+                <tr>
+                    <th>Term</th>
+                    <th>Definition</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>MAU</strong></td>
+                    <td>Monthly Active Users. The number of unique users who interact with the app in a 30-day period.</td>
+                </tr>
+                <tr>
+                    <td><strong>MoEngage</strong></td>
+                    <td>A customer engagement platform that helps companies engage their customers across channels.</td>
+                </tr>
+                <tr>
+                    <td><strong>BOTIM</strong></td>
+                    <td>Our application platform that will integrate with MoEngage.</td>
+                </tr>
+                <tr>
+                    <td><strong>Custom Card</strong></td>
+                    <td>Structured content that is sent to users and rendered by the client application according to specified templates.</td>
+                </tr>
+                <tr>
+                    <td><strong>Open API</strong></td>
+                    <td>A publicly available application programming interface that provides access to software applications or web services.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer style="margin-top: 50px; border-top: 1px solid #ddd; padding-top: 20px; color: #777; font-size: 0.9em;">
+        <p>Document Version: 1.0</p>
+        <p>Last Updated: <span>2023-04-03</span></p>
+        <p><a href="moengage-integration-zh.html">中文版</a></p>
+    </footer>
+</body>
+</html> 

@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频通话增强功能</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            position: relative;
+        }
+        @media (min-width: 1400px) {
+            body {
+                max-width: 80%;
+            }
+            .content-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+            .full-width {
+                grid-column: 1 / span 2;
+            }
+        }
+        h1, h2, h3 {
+            color: #2b579a;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        h1 {
+            font-size: 2.2em;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        h2 {
+            font-size: 1.8em;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 5px;
+        }
+        h3 {
+            font-size: 1.4em;
+        }
+        h4 {
+            font-size: 1.1em;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1em 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        strong {
+            font-weight: bold;
+            color: #2b579a;
+        }
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 5px;
+        }
+        .tag {
+            display: inline-block;
+            background-color: #e0f0ff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #0066cc;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .feature-out {
+            color: #cc0000;
+            font-weight: bold;
+        }
+        .scenario {
+            background-color: #f0f7ff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border-left: 4px solid #2b579a;
+        }
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 16px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .lang-switch:hover {
+            background-color: #004c99;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+        }
+        .feature-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .feature-header {
+            background-color: #f0f7ff;
+            padding: 10px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .feature-header h3 {
+            margin: 0;
+            color: #0066cc;
+        }
+        .feature-body {
+            padding: 15px;
+        }
+        .feature-description {
+            background-color: #f5f5f5;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        .pros, .cons {
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        .pros {
+            background-color: #f5fff5;
+        }
+        .pros h4 {
+            color: #00aa55;
+            margin-top: 0;
+        }
+        .cons {
+            background-color: #fff5f5;
+        }
+        .cons h4 {
+            color: #aa0055;
+            margin-top: 0;
+        }
+        .implementation {
+            background-color: #f5f8ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+        .implementation h3 {
+            color: #0066cc;
+            margin-top: 0;
+        }
+        .feature-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .feature-table th {
+            background-color: #f0f7ff;
+            padding: 12px;
+            text-align: left;
+            color: #0066cc;
+            font-weight: bold;
+            border: 1px solid #ddd;
+        }
+        .feature-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+        .feature-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .pros-list, .cons-list {
+            padding-left: 20px;
+            margin: 0;
+        }
+        .pros-title {
+            color: #00aa55;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .cons-title {
+            color: #aa0055;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .feature-name {
+            font-weight: bold;
+            color: #0066cc;
+        }
+        
+        /* Image modal/lightbox styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            z-index: 1001;
+        }
+        
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .preview-image {
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        
+        .preview-image:hover {
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 1100px) {
+            .content-grid {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="video_features_one_pager_en.html" class="lang-switch">English Version</a>
+    
+    <!-- Image Modal/Lightbox -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+    
+    <h1>视频通话增强功能</h1>
+    
+    <div class="content-grid">
+        <div class="full-width">
+            <h2><span class="emoji">🪟</span> 概述</h2>
+            <p>随着视频通话使用频率不断上升，用户对通话中的视觉个性化、隐私保护与趣味互动的需求愈发明显。Botim当前视频通话体验偏基础，缺乏如背景替换、美颜、滤镜、虚拟头像等主流功能，难以满足用户在社交、娱乐、隐私等场景中的需求。</p>
+            <p>本项目旨在通过为Botim视频通话引入视觉增强功能，提升用户体验、增强产品差异化，并通过会员专属视觉道具实现变现与用户粘性提升：</p>
+            <ul>
+                <li><strong>背景替换</strong>：用户可以通过模糊或替换背景保护隐私（需要图像分割SDK）。</li>
+                <li><strong>美颜功能</strong>：用户可通过磨皮、美白、瘦脸等效果增强外观，支持调整（需要视频SDK）。</li>
+                <li><strong>视频滤镜</strong>：用户可应用冷暖色调、复古风等多风格滤镜（需要GPU渲染）。</li>
+                <li><strong>虚拟头像</strong>：用户可使用虚拟人物替代真人进行通话（需要Avatar SDK）。</li>
+                <li><strong>头像挂件</strong>：用户可添加节日/趣味/装饰元素（前端实现）。</li>
+                <li><strong>会员视觉权益</strong>：部分滤镜/头像/挂件仅对会员开放（需接入会员体系）。</li>
+            </ul>
+        </div>
+
+        <div>
+            <h2><span class="emoji">🛸</span> 问题</h2>
+            <ul>
+                <li>用户需要更具吸引力的功能来延长视频通话时长，这直接影响潜在广告收益。</li>
+                <li>当前的VoIP解决方案缺乏吸引用户升级为付费会员的有效激励。</li>
+                <li>用户参与度指标显示，没有互动元素的标准视频通话兴趣逐渐下降。</li>
+                <li>竞争对手正在引入类似功能，产生市场创新压力。</li>
+            </ul>
+        </div>
+
+        <div>
+            <h2><span class="emoji">🎯</span> 目标</h2>
+            <ul>
+                <li>通过实施视觉增强功能，提升Botim视频通话用户体验并形成竞争差异化。</li>
+                <li>提升视频通话使用时长10%。</li>
+                <li>所有活跃用户AR功能使用率10%。</li>
+                <li>会员用户次月视觉权益使用率达到≥50%。</li>
+                <li>通过试用道具作为转化入口，使非会员转化率提升≥3%。</li>
+                <li>优先实施背景替换和美颜功能（P0），其次是滤镜和虚拟头像（P1），最后是挂件和会员权益机制（P2）。</li>
+            </ul>
+        </div>
+
+        <div>
+            <h2><span class="emoji">🚧</span> 限制条件</h2>
+            <ul>
+                <li>仅适用于视频通话；语音通话不支持此功能。</li>
+                <li>AI处理必须在设备上完成，以保护隐私并实现低延迟。</li>
+                <li>需要进行算法优化，以支持低端设备并最小化性能影响。</li>
+            </ul>
+        </div>
+
+        <div>
+            <h2><span class="emoji">💁</span> 客户画像</h2>
+            <div>
+                <p><strong>画像1：商务用户</strong></p>
+                <p><span class="tag">📌</span> 需求：在远程会议中使用专业背景，改善外观并保护隐私。</p>
+            </div>
+            <div>
+                <p><strong>画像2：年轻社交用户</strong></p>
+                <p><span class="tag">📌</span> 需求：通过使用表情头像或滤镜增强视频通话的趣味性。</p>
+            </div>
+            <div>
+                <p><strong>画像3：外出务工人员</strong></p>
+                <p><span class="tag">📌</span> 需求：与家人/孩子进行视频通话时增强情感连接，通过背景替换展示更好的工作环境，通过头像挂件增加与孩子沟通的趣味性。</p>
+            </div>
+        </div>
+    </div>
+
+    <h2><span class="emoji">🧳</span> 使用场景</h2>
+    <div class="scenario">
+        <p><span class="tag">📌</span> <strong>场景1</strong>：在家办公的用户将背景替换为"专业办公室"设置，用于视频会议。</p>
+    </div>
+    <div class="scenario">
+        <p><span class="tag">📌</span> <strong>场景2</strong>：社交用户在视频通话中应用表情头像，增加互动乐趣。</p>
+    </div>
+    <div class="scenario">
+        <p><span class="tag">📌</span> <strong>场景3</strong>：外出务工人员使用背景替换功能，将简陋的工地宿舍背景更换为整洁的环境，与家中孩子通话时使用可爱头像挂件，增强互动趣味性。</p>
+    </div>
+
+    <h2><span class="emoji">🔍</span> 功能分析</h2>
+    
+    <table class="feature-table">
+        <thead>
+            <tr>
+                <th width="25%">功能</th>
+                <th width="55%">描述</th>
+                <th width="20%">优先级</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="feature-name">背景替换</td>
+                <td>实时分割技术将用户与背景分离，支持背景模糊处理或完全替换为虚拟图像。保护用户隐私，创造专业外观，减少干扰。</td>
+                <td><strong>P0</strong><br>基础功能</td>
+            </tr>
+            <tr>
+                <td class="feature-name">美颜功能</td>
+                <td>实时美化用户面部的技术，提供磨皮、美白、瘦脸等效果，支持调整强度。提升用户自信，弥补光线不足。</td>
+                <td><strong>P0</strong><br>基础功能</td>
+            </tr>
+            <tr>
+                <td class="feature-name">视频滤镜</td>
+                <td>应用于视频通话的视觉风格滤镜，包括冷暖色调、复古风等多种效果。创造独特视觉氛围，增强低质量视频效果。</td>
+                <td><strong>P1</strong><br>扩展功能</td>
+            </tr>
+            <tr>
+                <td class="feature-name">虚拟头像</td>
+                <td>数字虚拟形象系统，用虚拟人物替代用户真实外观，实时模仿面部表情。隐私保护，减轻视频通话疲劳。</td>
+                <td><strong>P1</strong><br>扩展功能</td>
+            </tr>
+            <tr>
+                <td class="feature-name">头像挂件</td>
+                <td>可添加到用户视频中的装饰元素，包括节日主题和趣味元素。增添互动趣味元素，创造主题体验。</td>
+                <td><strong>P2</strong><br>高级功能</td>
+            </tr>
+            <tr>
+                <td class="feature-name">会员视觉权益</td>
+                <td>为会员提供专属滤镜、头像和挂件的系统，增加订阅价值。创造会员价值，促进试用转化，提高收益潜力。</td>
+                <td><strong>P2</strong><br>高级功能</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="content-grid">
+        <div class="full-width">
+            <h2><span class="emoji">📄</span> 产品需求文档</h2>
+
+            <h3><span class="emoji">↗️</span> 包含功能</h3>
+            <p>以下功能将被实施，以确保质量、稳定性，并收集用户反馈：</p>
+        </div>
+        
+        <div class="full-width">
+            <h4 style="background-color: #eef6ff; padding: 8px 12px; border-radius: 6px; display: inline-block;">所有功能</h4>
+            <p style="margin-top: 5px; margin-bottom: 10px; font-style: italic; color: #555;">注意：标有 <span style="background-color: #ffe8d6; color: #d35400; padding: 2px 5px; border-radius: 3px; font-size: 0.8em;">付费</span> 的功能需要订阅，且仅适用于VoIP用户。</p>
+            <table>
+                <tr>
+                    <th width="15%">功能</th>
+                    <th width="45%">详情</th>
+                    <th width="40%">交互原型</th>
+                </tr>
+                <tr>
+                    <td><strong>背景模糊与替换</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户正在进行视频通话（通话前或通话中）<br>
+                        <strong>当</strong>：用户点击"背景"按钮并选择"模糊"或预设图像<br>
+                        <strong>然后</strong>：用户的背景被模糊处理（强度可调）或实时替换为所选预设图像。
+                    </td>
+                    <td><a href="../prototype/video-filters.html" target="_blank">立即体验</a><br><img src="../assets/images/voip-bacground.png" alt="背景功能" class="preview-image" style="width: 30%; margin-top: 10px;" title="点击查看大图" onclick="openModal('../assets/images/voip-bacground.png')"></td>
+                </tr>
+                <tr>
+                    <td><strong>基础美颜</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户正在进行视频通话（通话前或通话中）<br>
+                        <strong>当</strong>：用户选择"美颜"滤镜<br>
+                        <strong>然后</strong>：基础的肌肤平滑和光线增强效果应用于视频，强度可调。
+                    </td>
+                    <td><a href="../prototype/video-filters.html" target="_blank">立即体验</a><br><img src="../assets/images/voip-beauty.png" alt="美颜功能" class="preview-image" style="width: 30%; margin-top: 10px;" title="点击查看大图" onclick="openModal('../assets/images/voip-beauty.png')"></td>
+                </tr>
+                <tr>
+                    <td><strong>视觉滤镜</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户已经使用了美颜滤镜<br>
+                        <strong>当</strong>：用户选择"视觉滤镜"<br>
+                        <strong>然后</strong>：用户可以对整个视频应用艺术滤镜（黑白、褐色、复古等）。
+                    </td>
+                    <td><a href="../prototype/video-filters.html" target="_blank">立即体验</a><br><img src="../assets/images/voip-filters.png" alt="滤镜功能" class="preview-image" style="width: 30%; margin-top: 10px;" title="点击查看大图" onclick="openModal('../assets/images/voip-filters.png')"></td>
+                </tr>
+                <tr>
+                    <td><strong>AR效果</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户正在进行视频通话<br>
+                        <strong>当</strong>：用户选择"AR效果"选项<br>
+                        <strong>然后</strong>：用户可以应用基础AR效果（帽子、眼镜、边框等）跟随其动作，以及一些简单的动画效果。
+                    </td>
+                    <td><a href="../prototype/video-filters.html" target="_blank">立即体验</a></td>
+                </tr>
+                <tr>
+                    <td><strong>表情头像</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户正在进行视频通话<br>
+                        <strong>当</strong>：用户选择"表情头像"并选择一个角色<br>
+                        <strong>然后</strong>：用户的视频被替换为模仿其面部表情的动画头像。
+                    </td>
+                    <td><a href="../prototype/video-filters.html" target="_blank">立即体验</a><br><img src="../assets/images/voip-emoji.png" alt="表情头像功能" class="preview-image" style="width: 30%; margin-top: 10px;" title="点击查看大图" onclick="openModal('../assets/images/voip-emoji.png')"></td>
+                </tr>
+                <tr>
+                    <td><strong>赠送礼物</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户正在进行视频通话<br>
+                        <strong>当</strong>：用户点击"赠送礼物"按钮<br>
+                        <strong>然后</strong>：随机的礼物动画（如烟花）作为叠加效果显示给双方，持续约5秒钟。
+                    </td>
+                    <td><a href="../prototype/voip.html" target="_blank">立即体验</a><br><img src="../assets/images/voip-gift.png" alt="赠送礼物功能" class="preview-image" style="width: 30%; margin-top: 10px;" title="点击查看大图" onclick="openModal('../assets/images/voip-gift.png')"></td>
+                </tr>
+                <tr>
+                    <td><strong>自定义背景上传</strong></td>
+                    <td>
+                        <strong>前提</strong>：用户已有预设背景的访问权<br>
+                        <strong>当</strong>：用户点击"上传自定义背景"<br>
+                        <strong>然后</strong>：用户可以上传并使用自己的图像作为视频背景。
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>高级背景</strong> <span style="background-color: #ffe8d6; color: #d35400; padding: 2px 5px; border-radius: 3px; font-size: 0.8em;">付费</span></td>
+                    <td>
+                        <strong>前提</strong>：用户拥有付费订阅<br>
+                        <strong>当</strong>：用户访问背景图库<br>
+                        <strong>然后</strong>：用户可以使用高质量、专业设计的静态和动态背景集合。
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>高级AR效果</strong> <span style="background-color: #ffe8d6; color: #d35400; padding: 2px 5px; border-radius: 3px; font-size: 0.8em;">付费</span></td>
+                    <td>
+                        <strong>前提</strong>：用户拥有付费订阅<br>
+                        <strong>当</strong>：用户选择"高级效果"<br>
+                        <strong>然后</strong>：用户可以使用独家AR效果，包含复杂动画、互动元素、场景效果和特别主题包。
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>高级头像</strong> <span style="background-color: #ffe8d6; color: #d35400; padding: 2px 5px; border-radius: 3px; font-size: 0.8em;">付费</span></td>
+                    <td>
+                        <strong>前提</strong>：用户拥有付费订阅<br>
+                        <strong>当</strong>：用户访问头像选择菜单<br>
+                        <strong>然后</strong>：用户可以使用额外的高质量头像选项，包括品牌角色、名人风格头像和完全可定制的头像。
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>高级礼物</strong> <span style="background-color: #ffe8d6; color: #d35400; padding: 2px 5px; border-radius: 3px; font-size: 0.8em;">付费</span></td>
+                    <td>
+                        <strong>前提</strong>：用户拥有付费订阅<br>
+                        <strong>当</strong>：用户访问礼物选择菜单<br>
+                        <strong>然后</strong>：用户可以使用特殊的高质量礼物动画，包括3D效果、个性化消息、音效和季节/节日主题礼物。
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>互动游戏</strong> <span style="background-color: #ffe8d6; color: #d35400; padding: 2px 5px; border-radius: 3px; font-size: 0.8em;">付费</span></td>
+                    <td>
+                        <strong>前提</strong>：用户拥有付费订阅<br>
+                        <strong>当</strong>：用户从通话菜单中选择"游戏"<br>
+                        <strong>然后</strong>：用户可以邀请对方在通话过程中玩简单的互动游戏，如井字棋、绘画挑战和文字游戏，创造共同的娱乐体验。
+                    </td>
+                    <td><a href="../prototype/voip.html" target="_blank">立即体验</a><br><img src="../assets/images/voip-game.png" alt="互动游戏功能" class="preview-image" style="width: 30%; margin-top: 10px;" title="点击查看大图" onclick="openModal('../assets/images/voip-game.png')"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div>
+            <h3><span class="emoji">📤</span> 不包含功能</h3>
+            <ul>
+                <li><span class="feature-out">❌</span> 语音通话的头像效果。</li>
+                <li><span class="feature-out">❌</span> 基于云的处理（所有效果均在设备上处理）。</li>
+                <li><span class="feature-out">❌</span> 高级3D AR效果（计划用于未来迭代）。</li>
+                <li><span class="feature-out">❌</span> 换头功能，由于潜在的隐私和伦理问题。</li>
+                <li><span class="feature-out">❌</span> 非VoIP通话的付费功能（付费功能为VoIP专属）。</li>
+            </ul>
+        </div>
+
+        <div class="full-width">
+            <h2><span class="emoji">💲</span> 价格</h2>
+            <table class="feature-table">
+                <thead>
+                    <tr>
+                        <th width="15%">功能组</th>
+                        <th width="25%">功能</th>
+                        <th width="8%">数量</th>
+                        <th width="12%">价格（美元）</th>
+                        <th width="28%">备注</th>
+                        <th width="12%">价格（美元）</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="4">美颜效果</td>
+                        <td>磨皮</td>
+                        <td>1</td>
+                        <td rowspan="4">$40,000</td>
+                        <td rowspan="4">包含在精简版套餐中</td>
+                        <td rowspan="4">$40,000</td>
+                    </tr>
+                    <tr>
+                        <td>美白</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>锐化</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>清晰度</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>滤镜</td>
+                        <td>从测试资源中选择10个滤镜</td>
+                        <td>10</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>虚拟背景</td>
+                        <td>虚拟背景</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="11">头像驱动</td>
+                        <td>避免失误 1</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td rowspan="11">附加功能头像驱动：检测面部特征点和表情，精准眼球运动，赋予头像细微面部动作。<br>提供11个预制头像角色。</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td>避免失误 2</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td>男孩头像</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td>女孩头像</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td>彩虹小猪</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td>粉色便便</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td>可爱小猪</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td>猫耳少女</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td>哈巴狗</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td>鸽子</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td>闪亮冰淇淋</td>
+                        <td>1</td>
+                        <td>$9,400</td>
+                        <td>$9,400</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">总价</td>
+                        <td>$143,400</td>
+                        <td></td>
+                        <td>$143,400</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">一年折扣</td>
+                        <td>30% 优惠</td>
+                        <td></td>
+                        <td>$100,380</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">三年折扣</td>
+                        <td>45% 优惠</td>
+                        <td></td>
+                        <td>$78,610</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="full-width">
+            <h2><span class="emoji">🔍</span> 竞品分析</h2>
+            <table class="feature-table">
+                <thead>
+                    <tr>
+                        <th width="16%">功能</th>
+                        <th width="12%">Messenger</th>
+                        <th width="12%">WhatsApp</th>
+                        <th width="12%">Telegram</th>
+                        <th width="12%">Snapchat</th>
+                        <th width="12%">FaceTime</th>
+                        <th width="12%">TikTok</th>
+                        <th width="12%">Botim（现状）</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="feature-name">背景替换</td>
+                        <td>✅ 虚拟背景（Rooms）</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅ 背景模糊</td>
+                        <td>✅（直播）</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">虚拟头像</td>
+                        <td>✅ Avatar模式</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅ Bitmoji</td>
+                        <td>✅ Memoji</td>
+                        <td>✅ 3D头像</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">头像挂件</td>
+                        <td>✅ 趣味滤镜</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅ 丰富</td>
+                        <td>❌</td>
+                        <td>✅ 动态挂件</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">视频滤镜</td>
+                        <td>✅ 多样滤镜</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅ 强大</td>
+                        <td>✅ 柔焦</td>
+                        <td>✅ 多样风格</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">美颜功能</td>
+                        <td>✅（基础）</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅ 美白瘦脸</td>
+                        <td>✅ 轻量美颜</td>
+                        <td>✅ 高级美颜</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">会员视觉权益</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="font-style: italic; margin-top: 10px;">竞品分析显示，Botim通过实施这些视觉增强功能有机会形成显著差异化。大多数消息应用缺乏全面的视频增强能力，尤其与WhatsApp和Telegram相比，Botim可以获得竞争优势，因为它们不提供任何此类功能。</p>
+        </div>
+    </div>
+
+    <script>
+        // 图片模态框功能
+        function openModal(imageSrc) {
+            var modal = document.getElementById("imageModal");
+            var modalImg = document.getElementById("modalImage");
+            modal.style.display = "block";
+            modalImg.src = imageSrc;
+        }
+        
+        var closeModal = document.getElementsByClassName("close-modal")[0];
+        closeModal.onclick = function() {
+            document.getElementById("imageModal").style.display = "none";
+        }
+        
+        window.onclick = function(event) {
+            var modal = document.getElementById("imageModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html> 
